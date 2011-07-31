@@ -1,0 +1,31 @@
+## Lines starting with '#' are considered comments.
+## Ignore any file named foo.txt.
+#foo.txt
+## Ignore (generated) html files,
+#*.html
+## except foo.html which is maintained by hand.
+#!foo.html
+## Ignore objects and archives.
+*.[oa]
+cap
+LL.cpp
+LL.h
+Screen.cpp
+Screen.h
+Main.cpp
+Main.h
+Tools.cpp
+Tools.h
+Globals.cpp
+Globals.h
+Event.cpp
+Event.h
+Button.cpp
+Button.h
+Label.cpp
+Label.h
+Poll.cpp
+Poll.h
+v4l_capture.c
+v4l_capture.h
+aispec.ttf
