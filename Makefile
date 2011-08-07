@@ -24,7 +24,7 @@ else
 LDFLAGS+=-ldsp_jpeg
 endif
 
-OBJS+=v4l_capture.o LL.o Screen.o Main.o Tools.o Globals.o Event.o Button.o Poll.o iniParser.o dsp_color.o Dialoge.o
+OBJS+=v4l_capture.o LL.o Screen.o Main.o Tools.o Globals.o Event.o Button.o Poll.o iniParser.o dsp_color.o Label.o Dialoge.o
 #dsp_jpeg.o
 #utils.o color.o
 

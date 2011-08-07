@@ -10,6 +10,7 @@
 //#include <fsgCheckBox.h>
 //#include <fsgLabel.h>
 #include "Screen.h"
+#include "Label.h"
 #include "Globals.h"
 #include "Poll.h"
 #include "Main.h"
@@ -667,6 +668,8 @@ static void theSecondaryEvtHandling(SDL_Event * theEvent)
 }
 
 MainDialog * theMainDialog;
+ArbeitsDialog * theArbeitsDialog;
+PositionDialog * thePositionDialog;
 
 int main(int argc, char *argv[])
 {
@@ -775,9 +778,13 @@ int main(int argc, char *argv[])
   }
   ButtonAreaHeight = sdlheight - 168;
   camCtrl = new CamControl(theGUI,Pixelformat,rgb_mode,ButtonAreaHeight);
-  theMainDialog = new MainDialog(sdlwidth,sdlheight,camwidth,camheight,ButtonAreaHeight);
+  //theMainDialog = new MainDialog(sdlwidth,sdlheight,camwidth,camheight,ButtonAreaHeight);
+  //theArbeitsDialog = new ArbeitsDialog(sdlwidth,sdlheight,camwidth,camheight,ButtonAreaHeight);
+  thePositionDialog = new PositionDialog(sdlwidth/2-506,ButtonAreaHeight,506,100);
 
-  theGUI->activateScreen(theMainDialog);
+  //  theGUI->activateScreen(theMainDialog);
+  //theGUI->activateScreen(theArbeitsDialog);
+  theGUI->activateScreen(thePositionDialog);
 
   theGUI->eventLoop();
 }
