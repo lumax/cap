@@ -28,7 +28,7 @@ namespace EuMax01
   {
 
   public:
-    PositionDialog(short x,short y, unsigned short w,unsigned short h);
+    PositionDialog(char* text,short x,short y, unsigned short w,unsigned short h);
   private:
     Label * Label_A;
     Label * Label_B1;
@@ -48,20 +48,8 @@ namespace EuMax01
     int showRezept(int nummer);
   private:
     //EvtTarget * KeyListener;
-
-    //    Label * Label_IstCam1;
-    //    Label * Label_IstCam1;
-    Label * Label_IstX1;
-    Label * Label_IstX1_Name;
-    Label * Label_SollX1;
-    Label * Label_SollX1_Name;
-
-    //    Label * Label_IstCam2;
-    //    Label * Label_IstCam2;
-    Label * Label_IstX2;
-    Label * Label_IstX2_Name;
-    Label * Label_SollX2;
-    Label * Label_SollX2_Name;
+    PositionDialog * Pos_Cam1;
+    PositionDialog * Pos_Cam2;
    
     Label * Label_RezeptName;
     Label * Label_RezeptNr1;

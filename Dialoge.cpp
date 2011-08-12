@@ -1,4 +1,4 @@
-/*
+g/*
 Bastian Ruppert
 */
 #include <SDL/SDL_ttf.h>
@@ -252,7 +252,11 @@ ___________________________________________
     MInfoF8_x  = MLinks_x + 6*MInfo_w + 6*MInfoSpace_w;
     MInfoF12_x = MLinks_x + 7*MInfo_w + 7*MInfoSpace_w;
 
-    Label_IstX1 = new Label("---",MLinks_x,MIst_y,100,MZeile_h);
+
+    Pos_Cam1 = new PositionDialog("cam1 position",sdlw/2-506,yPos,506,MName_y-yPos);
+    Pos_Cam2 = new PositionDialog("cam2 position",sdlw/2,yPos,506,MName_y-yPos);
+
+    /*    Label_IstX1 = new Label("---",MLinks_x,MIst_y,100,MZeile_h);
     Label_IstX1_Name = new Label("current cam:",MLinks_x,MIst_y,200,MZeile_h);
     Label_SollX1 = new Label("---",MLinks_x,MSoll_y,100,MZeile_h);
     Label_SollX1_Name = new Label("reference cam:",MLinks_x,MSoll_y,200,MZeile_h);
@@ -261,7 +265,8 @@ ___________________________________________
     Label_IstX2_Name = new Label("current cam:",MRechts_x,MIst_y,200,MZeile_h);
     Label_SollX2 = new Label("---",MRechts_x,MSoll_y,100,MZeile_h);
     Label_SollX2_Name = new Label("reference cam:",MRechts_x,MSoll_y,200,MZeile_h);
-    
+    */
+
     Label_RezeptName = new Label("----------------",MLinks_x,MName_y,MName_w,MZeile_h);
     Label_RezeptNr1 = new Label("1",MNameNr1_x,MName_y,MNameNr_w,MZeile_h);
     Label_RezeptNr2 = new Label("2",MNameNr2_x,MName_y,MNameNr_w,MZeile_h);
@@ -281,7 +286,7 @@ ___________________________________________
     Label_InfoF8 = new Label("F8:",MInfoF8_x,MInfo_y,MInfo_w,MZeile_h);
     Label_InfoF12 = new Label("F12:",MInfoF12_x,MInfo_y,MInfo_w,MZeile_h);
     
-    addEvtTarget(Label_IstX1);
+    /*addEvtTarget(Label_IstX1);
     addEvtTarget(Label_IstX1_Name);
     addEvtTarget(Label_SollX1);
     addEvtTarget(Label_SollX1_Name);
@@ -289,8 +294,10 @@ ___________________________________________
     addEvtTarget(Label_IstX2);
     addEvtTarget(Label_IstX2_Name);
     addEvtTarget(Label_SollX2);
-    addEvtTarget(Label_SollX2_Name);
-   
+    addEvtTarget(Label_SollX2_Name);*/
+    addEvtTarget(&Pos_Cam1->EvtTargets);
+    addEvtTarget(&Pos_Cam2->EvtTargets);
+
     addEvtTarget(Label_RezeptName);
     addEvtTarget(Label_RezeptNr1);
     addEvtTarget(Label_RezeptNr2);
@@ -311,10 +318,11 @@ ___________________________________________
     addEvtTarget(Label_InfoF12);
   }
 
-  PositionDialog::PositionDialog(short x,			\
-				short y,			\
-				unsigned short w,		\
-				unsigned short h):Screen()
+  PositionDialog::PositionDialog(char * text,			\
+				 short x,			\
+				 short y,			\
+				 unsigned short w,		\
+				 unsigned short h):Screen()
   {
     /*      
       x/y    
@@ -352,7 +360,7 @@ ___________________________________________
     
     WertBy = Ay + LineH + VSpace;
 
-    Label_A = new Label("Cam Position",Ax,Ay,Aw,LineH);
+    Label_A = new Label(text,Ax,Ay,Aw,LineH);
     Label_B1 = new Label("current",B1x,Ay,Bw,LineH);
     Label_B2 = new Label("difference",B2x,Ay,Bw,LineH);
     Label_B3 = new Label("reference",B3x,Ay,Bw,LineH);
