@@ -1,4 +1,4 @@
-g/*
+/*
 Bastian Ruppert
 */
 #include <SDL/SDL_ttf.h>
@@ -13,6 +13,7 @@ Bastian Ruppert
 #include "Main.h"
 
 #include "v4l_capture.h"
+#include "Rezept.h"
 
 #include "Dialoge.h"
 
@@ -199,6 +200,9 @@ ___________________________________________
     short MInfoSpace_w;
     short MInfoF1_x,MInfoF2_x,MInfoF3_x,MInfoF5_x,MInfoF6_x,MInfoF7_x,MInfoF8_x,MInfoF12_x;
 
+    theRezept = 0;
+    RezeptNummer = 0;
+
     MLinks_x = sdlw/2 - 506;
     MRechts_x = sdlw/2 + 6;
 
@@ -316,6 +320,33 @@ ___________________________________________
     addEvtTarget(Label_InfoF7);
     addEvtTarget(Label_InfoF8);
     addEvtTarget(Label_InfoF12);
+  }
+
+  void ArbeitsDialog::showRezept(Rezept * pRezept,int nummer)
+  {
+    this->theRezept = pRezept;
+    this->showRezept(nummer);
+  }
+
+  void ArbeitsDialog::showRezept(int nummer)
+  {
+    if(theRezept)
+      {
+	RezeptNummer = nummer;
+	sprintf(this->Pos_Cam1->getCamRefBuf(),"%i",theRezept->getCamPosition(0,nummer));
+	Pos_Cam1->Label_WertB3->setText(this->Pos_Cam1->getCamRefBuf());
+	sprintf(this->Pos_Cam2->getCamRefBuf(),"%i",theRezept->getCamPosition(0,nummer));
+	Pos_Cam2->Label_WertB3->setText(this->Pos_Cam2->getCamRefBuf());
+      }
+  }
+
+  char * PositionDialog::getCamRefBuf()
+  {
+    return this->CamRefBuf;
+  }
+  char * PositionDialog::getCrossRefBuf()
+  {
+    return this->CrossRefBuf;
   }
 
   PositionDialog::PositionDialog(char * text,			\

@@ -14,6 +14,7 @@
 #include "Globals.h"
 #include "Poll.h"
 #include "Main.h"
+#include "Rezept.h"
 #include "Dialoge.h"
 
 #include <dsp_jpeg.h>
@@ -670,6 +671,7 @@ static void theSecondaryEvtHandling(SDL_Event * theEvent)
 MainDialog * theMainDialog;
 ArbeitsDialog * theArbeitsDialog;
 PositionDialog * thePositionDialog;
+Rezept theRezept;
 
 int main(int argc, char *argv[])
 {
@@ -782,8 +784,11 @@ int main(int argc, char *argv[])
   theArbeitsDialog = new ArbeitsDialog(sdlwidth,sdlheight,camwidth,camheight,ButtonAreaHeight);
   //thePositionDialog = new PositionDialog(sdlwidth/2-506,ButtonAreaHeight,506,100);
 
+  theRezept = Rezept();
   //  theGUI->activateScreen(theMainDialog);
+  theArbeitsDialog->showRezept(&theRezept,0);  
   theGUI->activateScreen(theArbeitsDialog);
+
   //theGUI->activateScreen(thePositionDialog);
 
   theGUI->eventLoop();

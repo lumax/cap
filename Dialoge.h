@@ -29,6 +29,12 @@ namespace EuMax01
 
   public:
     PositionDialog(char* text,short x,short y, unsigned short w,unsigned short h);
+    char * getCamRefBuf();
+    char * getCrossRefBuf();
+
+    Label * Label_WertB1;
+    Label * Label_WertB2;
+    Label * Label_WertB3;
   private:
     Label * Label_A;
     Label * Label_B1;
@@ -36,21 +42,27 @@ namespace EuMax01
     Label * Label_B3;
 
     //    Label * Label_Cross_Name;
-    Label * Label_WertB1;
-    Label * Label_WertB2;
-    Label * Label_WertB3;
+
+
+    char CamRefBuf[16];
+    char CrossRefBuf[16];
+
   };
 
   class ArbeitsDialog : public Screen
   {
   public:
     ArbeitsDialog(int sdlw,int sdlh, int camw,int camh,int yPos);
-    int showRezept(int nummer);
+    void showRezept(Rezept * pRezept,int nummer);
+    void showRezept(int nummer);
+
   private:
+    Rezept * theRezept;
+    int RezeptNummer;
     //EvtTarget * KeyListener;
     PositionDialog * Pos_Cam1;
     PositionDialog * Pos_Cam2;
-   
+
     Label * Label_RezeptName;
     Label * Label_RezeptNr1;
     Label * Label_RezeptNr2;
