@@ -17,6 +17,7 @@ Bastian Ruppert
 
 #include "Dialoge.h"
 
+#include <stdio.h>
 namespace EuMax01
 {
 
@@ -154,7 +155,50 @@ Bexit = sdlw/2 - Buttonwidth/2
 
   /*  ArbeitsDialog */
 
-  static void keyListener(void * src, SDL_Event * evt);
+  static void ArbeitsDialogKeyListener(void * src, SDL_Event * evt)
+  {
+    ArbeitsDialog* ad = (ArbeitsDialog*)src;//KeyListener
+    SDL_KeyboardEvent * key = (SDL_KeyboardEvent *)&evt->key;
+    char zeichen = 0;
+
+    if( key->type == SDL_KEYUP )
+      {
+	if(key->keysym.sym == SDLK_F1)
+	  {
+	    printf("F1\n");
+	  }
+	else if(key->keysym.sym == SDLK_F2)
+	  {
+	    printf("F2\n");
+	  }
+	else if(key->keysym.sym == SDLK_F3)
+	  {
+	    printf("F3\n");
+	  }
+	else if(key->keysym.sym == SDLK_F4)
+	  {
+	    printf("F4\n");
+	  }
+	else if(key->keysym.sym == SDLK_F5)
+	  {
+	    ad->incRezeptNummer();
+	    ad->showRezept(ad->getRezeptNummer());
+	  }
+	else if(key->keysym.sym == SDLK_F6)
+	  {
+	    ad->decRezeptNummer();
+	    ad->showRezept(ad->getRezeptNummer());
+	  }
+	/*	else
+	  {
+	    zeichen = Tool::getStdASCII_Char(key);
+	  }
+	if(zeichen)
+	  {
+	    tf->addChar(zeichen);
+	    }*/
+      }
+  }
 
   ArbeitsDialog::ArbeitsDialog(int sdlw,	\
 			       int sdlh,	\
@@ -289,6 +333,20 @@ ___________________________________________
     Label_InfoF7 = new Label("F7:",MInfoF7_x,MInfo_y,MInfo_w,MZeile_h);
     Label_InfoF8 = new Label("F8:",MInfoF8_x,MInfo_y,MInfo_w,MZeile_h);
     Label_InfoF12 = new Label("F12:",MInfoF12_x,MInfo_y,MInfo_w,MZeile_h);
+
+    this->pTSource = this; //EvtTarget Quelle setzen, damit der EvtListener die Quell mitteilen kann
+    this->setKeyboardUpEvtHandler(ArbeitsDialogKeyListener);
+    this->addEvtTarget(this);//den Screen Key Listener bei sich selber anmelden!
+
+
+    pLabel_CurrentRezept[0] = Label_RezeptNr1;
+    pLabel_CurrentRezept[1] = Label_RezeptNr2;
+    pLabel_CurrentRezept[2] = Label_RezeptNr3;
+    pLabel_CurrentRezept[3] = Label_RezeptNr4;
+    pLabel_CurrentRezept[4] = Label_RezeptNr5;
+    pLabel_CurrentRezept[5] = Label_RezeptNr6;
+    pLabel_CurrentRezept[6] = Label_RezeptNr7;
+    pLabel_CurrentRezept[7] = Label_RezeptNr8;
     
     /*addEvtTarget(Label_IstX1);
     addEvtTarget(Label_IstX1_Name);
@@ -322,6 +380,25 @@ ___________________________________________
     addEvtTarget(Label_InfoF12);
   }
 
+  void ArbeitsDialog::incRezeptNummer()
+  {
+    this->RezeptNummer++;
+    if(this->RezeptNummer>=Rezept::AnzahlRezepte)
+      this->RezeptNummer = Rezept::AnzahlRezepte-1;
+  }
+
+  void ArbeitsDialog::decRezeptNummer()
+  {
+    this->RezeptNummer--;
+    if(this->RezeptNummer<0)
+      this->RezeptNummer = 0;
+  }
+
+  int ArbeitsDialog::getRezeptNummer()
+  {
+    return this->RezeptNummer;
+  }
+
   void ArbeitsDialog::showRezept(Rezept * pRezept,int nummer)
   {
     this->theRezept = pRezept;
@@ -337,6 +414,11 @@ ___________________________________________
 	Pos_Cam1->Label_WertB3->setText(this->Pos_Cam1->getCamRefBuf());
 	sprintf(this->Pos_Cam2->getCamRefBuf(),"%i",theRezept->getCamPosition(0,nummer));
 	Pos_Cam2->Label_WertB3->setText(this->Pos_Cam2->getCamRefBuf());
+
+	for(int i=0;i<Rezept::AnzahlRezepte;i++)
+	  pLabel_CurrentRezept[i]->setBorder(false);
+
+	pLabel_CurrentRezept[RezeptNummer]->setBorder(true);
       }
   }
 

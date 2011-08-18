@@ -55,6 +55,9 @@ namespace EuMax01
     ArbeitsDialog(int sdlw,int sdlh, int camw,int camh,int yPos);
     void showRezept(Rezept * pRezept,int nummer);
     void showRezept(int nummer);
+    void incRezeptNummer();
+    void decRezeptNummer();
+    int getRezeptNummer();
 
   private:
     Rezept * theRezept;
@@ -72,6 +75,7 @@ namespace EuMax01
     Label * Label_RezeptNr6;
     Label * Label_RezeptNr7;
     Label * Label_RezeptNr8;
+    Label * pLabel_CurrentRezept[8];
     
     Label * Label_InfoF1;
     Label * Label_InfoF2;

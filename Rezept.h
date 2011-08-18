@@ -31,8 +31,8 @@ struct PositionSet
   public:
     Rezept();
     unsigned short getCamPosition(int cam,int rezept);
-  private:
     static const int AnzahlRezepte = 8;
+  private:
     struct PositionSet Rezepte[8];
   };
 
