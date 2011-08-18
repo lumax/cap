@@ -29,21 +29,25 @@ namespace EuMax01
 
   public:
     PositionDialog(char* text,short x,short y, unsigned short w,unsigned short h);
+    char * getCamCurBuf();
+    char * getCamDifBuf();
     char * getCamRefBuf();
     char * getCrossRefBuf();
 
-    Label * Label_WertB1;
-    Label * Label_WertB2;
-    Label * Label_WertB3;
+    Label * Label_WertCur;
+    Label * Label_WertDif;
+    Label * Label_WertRef;
   private:
     Label * Label_A;
-    Label * Label_B1;
-    Label * Label_B2;
-    Label * Label_B3;
+    Label * Label_Cur;
+    Label * Label_Dif;
+    Label * Label_Ref;
 
     //    Label * Label_Cross_Name;
 
 
+    char CamCurBuf[16];
+    char CamDifBuf[16];
     char CamRefBuf[16];
     char CrossRefBuf[16];
 
@@ -58,10 +62,18 @@ namespace EuMax01
     void incRezeptNummer();
     void decRezeptNummer();
     int getRezeptNummer();
+    void setCam1Cur(int val);
+    void setCam2Cur(int val);
 
   private:
     Rezept * theRezept;
     int RezeptNummer;
+    
+    int Cam1Cur;
+    int Cam1Dif;
+    int Cam2Cur;
+    int Cam2Dif;
+
     //EvtTarget * KeyListener;
     PositionDialog * Pos_Cam1;
     PositionDialog * Pos_Cam2;

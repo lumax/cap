@@ -181,12 +181,12 @@ Bexit = sdlw/2 - Buttonwidth/2
 	  }
 	else if(key->keysym.sym == SDLK_F5)
 	  {
-	    ad->incRezeptNummer();
+	    ad->decRezeptNummer();
 	    ad->showRezept(ad->getRezeptNummer());
 	  }
 	else if(key->keysym.sym == SDLK_F6)
 	  {
-	    ad->decRezeptNummer();
+	    ad->incRezeptNummer();
 	    ad->showRezept(ad->getRezeptNummer());
 	  }
 	/*	else
@@ -246,6 +246,10 @@ ___________________________________________
 
     theRezept = 0;
     RezeptNummer = 0;
+    Cam1Cur = 5;
+    Cam1Dif = 5;
+    Cam2Cur = 6;
+    Cam2Dif = 6;
 
     MLinks_x = sdlw/2 - 506;
     MRechts_x = sdlw/2 + 6;
@@ -328,8 +332,8 @@ ___________________________________________
     Label_InfoF1 = new Label("F1: load",MInfoF1_x,MInfo_y,MInfo_w,MZeile_h);
     Label_InfoF2 = new Label("F2: save",MInfoF2_x,MInfo_y,MInfo_w,MZeile_h);
     Label_InfoF3 = new Label("F3: new",MInfoF3_x,MInfo_y,MInfo_w,MZeile_h);
-    Label_InfoF5 = new Label("F5: next step",MInfoF5_x,MInfo_y,MInfo_w,MZeile_h);
-    Label_InfoF6 = new Label("F6: prev stepxxx",MInfoF6_x,MInfo_y,MInfo_w,MZeile_h);
+    Label_InfoF5 = new Label("F5: prev step",MInfoF5_x,MInfo_y,MInfo_w,MZeile_h);
+    Label_InfoF6 = new Label("F6: next step",MInfoF6_x,MInfo_y,MInfo_w,MZeile_h);
     Label_InfoF7 = new Label("F7:",MInfoF7_x,MInfo_y,MInfo_w,MZeile_h);
     Label_InfoF8 = new Label("F8:",MInfoF8_x,MInfo_y,MInfo_w,MZeile_h);
     Label_InfoF12 = new Label("F12:",MInfoF12_x,MInfo_y,MInfo_w,MZeile_h);
@@ -405,15 +409,39 @@ ___________________________________________
     this->showRezept(nummer);
   }
 
+  void ArbeitsDialog::setCam1Cur(int val)
+  {
+    Cam1Cur = val;
+    Cam1Dif = Cam1Cur - this->theRezept->getCamPosition(0,RezeptNummer);
+    sprintf(this->Pos_Cam1->getCamDifBuf(),"%i",Cam1Dif);
+    Pos_Cam1->Label_WertDif->setText(this->Pos_Cam1->getCamDifBuf());
+    sprintf(this->Pos_Cam1->getCamCurBuf(),"%i",Cam1Cur);
+    Pos_Cam1->Label_WertCur->setText(this->Pos_Cam1->getCamCurBuf());
+  }
+
+  void ArbeitsDialog::setCam2Cur(int val)
+  {
+    Cam2Cur = val;
+    Cam2Dif = Cam2Cur - this->theRezept->getCamPosition(1,RezeptNummer);
+    sprintf(this->Pos_Cam2->getCamDifBuf(),"%i",Cam2Dif);
+    Pos_Cam2->Label_WertDif->setText(this->Pos_Cam2->getCamDifBuf());
+    sprintf(this->Pos_Cam2->getCamCurBuf(),"%i",Cam2Cur);
+    Pos_Cam2->Label_WertCur->setText(this->Pos_Cam2->getCamCurBuf());
+  }
+
   void ArbeitsDialog::showRezept(int nummer)
   {
     if(theRezept)
       {
 	RezeptNummer = nummer;
 	sprintf(this->Pos_Cam1->getCamRefBuf(),"%i",theRezept->getCamPosition(0,nummer));
-	Pos_Cam1->Label_WertB3->setText(this->Pos_Cam1->getCamRefBuf());
-	sprintf(this->Pos_Cam2->getCamRefBuf(),"%i",theRezept->getCamPosition(0,nummer));
-	Pos_Cam2->Label_WertB3->setText(this->Pos_Cam2->getCamRefBuf());
+	Pos_Cam1->Label_WertRef->setText(this->Pos_Cam1->getCamRefBuf());
+	sprintf(this->Pos_Cam2->getCamRefBuf(),"%i",theRezept->getCamPosition(1,nummer));
+	Pos_Cam2->Label_WertRef->setText(this->Pos_Cam2->getCamRefBuf());
+
+	//Difference Berechnen
+	this->setCam1Cur(this->Cam1Cur);
+	this->setCam2Cur(this->Cam2Cur);
 
 	for(int i=0;i<Rezept::AnzahlRezepte;i++)
 	  pLabel_CurrentRezept[i]->setBorder(false);
@@ -422,6 +450,14 @@ ___________________________________________
       }
   }
 
+  char * PositionDialog::getCamCurBuf()
+  {
+    return this->CamCurBuf;
+  }
+  char * PositionDialog::getCamDifBuf()
+  {
+    return this->CamDifBuf;
+  }
   char * PositionDialog::getCamRefBuf()
   {
     return this->CamRefBuf;
@@ -474,23 +510,26 @@ ___________________________________________
     WertBy = Ay + LineH + VSpace;
 
     Label_A = new Label(text,Ax,Ay,Aw,LineH);
-    Label_B1 = new Label("current",B1x,Ay,Bw,LineH);
-    Label_B2 = new Label("difference",B2x,Ay,Bw,LineH);
-    Label_B3 = new Label("reference",B3x,Ay,Bw,LineH);
+    Label_Cur = new Label("current",B1x,Ay,Bw,LineH);
+    Label_Dif = new Label("difference",B2x,Ay,Bw,LineH);
+    Label_Ref = new Label("reference",B3x,Ay,Bw,LineH);
 
     //    Label * Label_Cross_Name;
-    Label_WertB1 = new Label("Wert B 1",B1x,WertBy,Bw,LineH);
-    Label_WertB2 = new Label("Wert B 2",B2x,WertBy,Bw,LineH);
-    Label_WertB3 = new Label("Wert B 3",B3x,WertBy,Bw,LineH);
+    CamCurBuf = {'-','-','-'};
+    CamDifBuf = {'-','-','-'};
+    CamRefBuf = {'-','-','-'};
+    Label_WertCur = new Label(CamCurBuf,B1x,WertBy,Bw,LineH);
+    Label_WertDif = new Label(CamDifBuf,B2x,WertBy,Bw,LineH);
+    Label_WertRef = new Label(CamRefBuf,B3x,WertBy,Bw,LineH);
     
     addEvtTarget(Label_A);
-    addEvtTarget(Label_B1);
-    addEvtTarget(Label_B2);
-    addEvtTarget(Label_B3);
+    addEvtTarget(Label_Cur);
+    addEvtTarget(Label_Dif);
+    addEvtTarget(Label_Ref);
 
-    addEvtTarget(Label_WertB1);
-    addEvtTarget(Label_WertB2);
-    addEvtTarget(Label_WertB3);
+    addEvtTarget(Label_WertCur);
+    addEvtTarget(Label_WertDif);
+    addEvtTarget(Label_WertRef);
   };
 
 }
