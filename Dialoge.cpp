@@ -286,6 +286,11 @@ ___________________________________________
 	MZeile_h = 28;
       }
 
+    Area.x = 0;
+    Area.y = yPos;
+    Area.w = sdlw;
+    Area.h = M_y;
+
     MIst_y  = yPos + 1*MSpace_h + 0*MZeile_h;
     MSoll_y = yPos + 2*MSpace_h + 1*MZeile_h;
     MName_y = yPos + 3*MSpace_h + 2*MZeile_h;
@@ -411,12 +416,29 @@ ___________________________________________
   void ArbeitsDialog::showLoadDialog()
   {
     this->EvtTargets.Next = this->theLoadDialog->EvtTargets.Next;
+    Tool::blankSurface(this->theGUI->getMainSurface(),	\
+		       FSG_BACKGROUND,			\
+		       &this->Area);//TODO Rückgabewert
+
+    SDL_UpdateRect(this->theGUI->getMainSurface(),	\
+		   this->Area.x,			\
+		   this->Area.y,			\
+		   this->Area.w,			\
+		   this->Area.h);
     this->show(this->theGUI->getMainSurface());
   }
 
   void ArbeitsDialog::showArbeitsDialog()
   {
     this->EvtTargets.Next = this->ArbeitsDialogEvtTargets.Next;
+    Tool::blankSurface(this->theGUI->getMainSurface(),	\
+		       FSG_BACKGROUND,			\
+		       &this->Area);//TODO Rückgabewert
+    SDL_UpdateRect(this->theGUI->getMainSurface(),	\
+		   this->Area.x,			\
+		   this->Area.y,			\
+		   this->Area.w,			\
+		   this->Area.h);
     this->show(this->theGUI->getMainSurface());
   }
 
