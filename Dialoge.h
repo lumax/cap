@@ -32,24 +32,31 @@ namespace EuMax01
     char * getCamCurBuf();
     char * getCamDifBuf();
     char * getCamRefBuf();
+    char * getCrossCurBuf();
     char * getCrossRefBuf();
 
     Label * Label_WertCur;
     Label * Label_WertDif;
     Label * Label_WertRef;
+
+    Label * Label_CrossCur;
+    Label * Label_CrossRef;
   private:
-    Label * Label_A;
+    Label * Label_CamPos;
     Label * Label_Cur;
     Label * Label_Dif;
     Label * Label_Ref;
 
+    Label * Label_CrossPos;
+
     //    Label * Label_Cross_Name;
 
 
-    char CamCurBuf[16];
-    char CamDifBuf[16];
-    char CamRefBuf[16];
-    char CrossRefBuf[16];
+    char CamCurBuf[64];
+    char CamDifBuf[64];
+    char CamRefBuf[64];
+    char CrossCurBuf[64];
+    char CrossRefBuf[64];
 
   };
 
@@ -64,6 +71,8 @@ namespace EuMax01
     int getRezeptNummer();
     void setCam1Cur(int val);
     void setCam2Cur(int val);
+    void setCross1Ref();
+    void setCross2Ref();
 
   private:
     Rezept * theRezept;
@@ -100,6 +109,20 @@ namespace EuMax01
     
   };
 
+  /*  class LoadDialog : public Screen
+  {
+  public:
+    LoadDialog(int sdlw,int sdlh, int camw,int camh,int yPos);
+
+  private:
+    Label * Label_Laden;
+    Label * Label_Loeschen;
+    Label * Label_Next;
+    Label * Label_Prev;
+
+    
+    
+    };*/
   
 #endif /* __CAPDIALOGE_H__*/
 }//end namespace

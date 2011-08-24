@@ -183,11 +183,25 @@ Bexit = sdlw/2 - Buttonwidth/2
 	  {
 	    ad->decRezeptNummer();
 	    ad->showRezept(ad->getRezeptNummer());
+	    /* int xxx=0;
+	    xxx = cap_cam_getCrossX(0);
+	    cap_cam_setCrossX(0,xxx-10);
+	    ad->setCross1Ref();
+	    xxx = cap_cam_getCrossX(1);
+	    cap_cam_setCrossX(1,xxx-10);
+	    ad->setCross2Ref();*/
 	  }
 	else if(key->keysym.sym == SDLK_F6)
 	  {
 	    ad->incRezeptNummer();
 	    ad->showRezept(ad->getRezeptNummer());
+	    //	    int xx=0;
+	    //xx = cap_cam_getCrossX(0);
+	    //cap_cam_setCrossX(0,xx+10);
+	    ad->setCross1Ref();
+	    //xx = cap_cam_getCrossX(1);
+	    //cap_cam_setCrossX(1,xx+10);
+	    ad->setCross2Ref();
 	  }
 	/*	else
 	  {
@@ -308,6 +322,7 @@ ___________________________________________
     Pos_Cam1 = new PositionDialog("cam1 position",sdlw/2-506,yPos,506,MName_y-yPos);
     Pos_Cam2 = new PositionDialog("cam2 position",sdlw/2,yPos,506,MName_y-yPos);
 
+
     /*    Label_IstX1 = new Label("---",MLinks_x,MIst_y,100,MZeile_h);
     Label_IstX1_Name = new Label("current cam:",MLinks_x,MIst_y,200,MZeile_h);
     Label_SollX1 = new Label("---",MLinks_x,MSoll_y,100,MZeile_h);
@@ -382,6 +397,7 @@ ___________________________________________
     addEvtTarget(Label_InfoF7);
     addEvtTarget(Label_InfoF8);
     addEvtTarget(Label_InfoF12);
+
   }
 
   void ArbeitsDialog::incRezeptNummer()
@@ -450,6 +466,18 @@ ___________________________________________
       }
   }
 
+  void ArbeitsDialog::setCross1Ref()
+  {
+    sprintf(this->Pos_Cam1->getCrossRefBuf(),"%i",cap_cam_getCrossX(0));
+    Pos_Cam1->Label_CrossRef->setText(this->Pos_Cam1->getCrossRefBuf());
+  }
+
+  void ArbeitsDialog::setCross2Ref()
+  {
+    sprintf(this->Pos_Cam2->getCrossRefBuf(),"%i",cap_cam_getCrossX(1));
+    Pos_Cam2->Label_CrossRef->setText(this->Pos_Cam2->getCrossRefBuf());
+  }
+
   char * PositionDialog::getCamCurBuf()
   {
     return this->CamCurBuf;
@@ -465,6 +493,10 @@ ___________________________________________
   char * PositionDialog::getCrossRefBuf()
   {
     return this->CrossRefBuf;
+  }
+  char * PositionDialog::getCrossCurBuf()
+  {
+    return this->CrossCurBuf;
   }
 
   PositionDialog::PositionDialog(char * text,			\
@@ -490,10 +522,16 @@ ___________________________________________
     short Ay;
     unsigned short Aw;
     short B1x,B2x,B3x;
-    short WertBy;
+    short WertBy,Wert2y;
     unsigned short Bw;
     unsigned short HSpace,VSpace;
     unsigned short LineH;
+
+    CamCurBuf = {'-','-','-'};
+    CamDifBuf = {'-','-','-'};
+    CamRefBuf = {'-','-','-'};
+    CrossCurBuf = {'-','-','-'};
+    CrossRefBuf = {'-','-','-'};
 
     HSpace = 3;
     VSpace = 3;
@@ -505,27 +543,32 @@ ___________________________________________
     B2x = x + Aw + 3*HSpace + 1*Bw;
     B3x = x + Aw + 4*HSpace + 2*Bw;
 
-    LineH = (h - 3*VSpace)/2;
+    LineH = (h - 4*VSpace)/3;
     
     WertBy = Ay + LineH + VSpace;
+    Wert2y = WertBy + LineH + VSpace;
 
-    Label_A = new Label(text,Ax,Ay,Aw,LineH);
+    Label_CamPos = new Label(text,Ax,Ay,Aw,LineH);
     Label_Cur = new Label("current",B1x,Ay,Bw,LineH);
     Label_Dif = new Label("difference",B2x,Ay,Bw,LineH);
     Label_Ref = new Label("reference",B3x,Ay,Bw,LineH);
 
-    //    Label * Label_Cross_Name;
-    CamCurBuf = {'-','-','-'};
-    CamDifBuf = {'-','-','-'};
-    CamRefBuf = {'-','-','-'};
+    Label_CrossPos = new Label("crossaire pos",Ax,Wert2y,Aw,LineH);
+    Label_CrossCur = new Label(CrossCurBuf,B1x,Wert2y,Bw,LineH);
+    Label_CrossRef = new Label(CrossRefBuf,B3x,Wert2y,Bw,LineH);
+
     Label_WertCur = new Label(CamCurBuf,B1x,WertBy,Bw,LineH);
     Label_WertDif = new Label(CamDifBuf,B2x,WertBy,Bw,LineH);
     Label_WertRef = new Label(CamRefBuf,B3x,WertBy,Bw,LineH);
     
-    addEvtTarget(Label_A);
+    addEvtTarget(Label_CamPos);
     addEvtTarget(Label_Cur);
     addEvtTarget(Label_Dif);
     addEvtTarget(Label_Ref);
+
+    addEvtTarget(Label_CrossPos);
+    addEvtTarget(Label_CrossCur);
+    addEvtTarget(Label_CrossRef);
 
     addEvtTarget(Label_WertCur);
     addEvtTarget(Label_WertDif);
