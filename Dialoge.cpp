@@ -165,7 +165,8 @@ Bexit = sdlw/2 - Buttonwidth/2
       {
 	if(key->keysym.sym == SDLK_F1)
 	  {
-	    ad->theGUI->activateScreen(ad->getLoadDialog());
+	    //ad->theGUI->activateScreen(ad->getLoadDialog());
+	    ad->showLoadDialog();
 	    printf("F1\n");
 	  }
 	else if(key->keysym.sym == SDLK_F2)
@@ -402,7 +403,21 @@ ___________________________________________
     addEvtTarget(Label_InfoF7);
     addEvtTarget(Label_InfoF8);
     addEvtTarget(Label_InfoF12);
+    
+    this->ArbeitsDialogEvtTargets.Next = this->EvtTargets.Next;//EvtTargets fuer spaeter sichern
 
+  }
+
+  void ArbeitsDialog::showLoadDialog()
+  {
+    this->EvtTargets.Next = this->theLoadDialog->EvtTargets.Next;
+    this->show(this->theGUI->getMainSurface());
+  }
+
+  void ArbeitsDialog::showArbeitsDialog()
+  {
+    this->EvtTargets.Next = this->ArbeitsDialogEvtTargets.Next;
+    this->show(this->theGUI->getMainSurface());
   }
 
   void ArbeitsDialog::incRezeptNummer()
@@ -481,11 +496,6 @@ ___________________________________________
   {
     sprintf(this->Pos_Cam2->getCrossRefBuf(),"%i",cap_cam_getCrossX(1));
     Pos_Cam2->Label_CrossRef->setText(this->Pos_Cam2->getCrossRefBuf());
-  }
-
-  Screen * ArbeitsDialog::getLoadDialog()
-  {
-    return (Screen *)this->theLoadDialog;
   }
 
   void ArbeitsDialog::showRecipe(Rezept * rez)
@@ -600,7 +610,7 @@ ___________________________________________
       {
 	if(key->keysym.sym == SDLK_ESCAPE)
 	  {
-	    ad->Parent->showRecipe(0);
+	    ad->Parent->showArbeitsDialog();
 	  }
 	else if(key->keysym.sym == SDLK_F2)
 	  {

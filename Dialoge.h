@@ -75,15 +75,21 @@ namespace EuMax01
     void setCam2Cur(int val);
     void setCross1Ref();
     void setCross2Ref();
-    Screen * getLoadDialog();
     void showRecipe(Rezept * rez);
 
     GUI * theGUI;
+    
+    void showLoadDialog();
+    void showArbeitsDialog();
 
   private:
     Rezept * theRezept;
     int RezeptNummer;
     
+    EvtTarget ArbeitsDialogEvtTargets;
+    
+    SDL_Rect Area;
+
     int Cam1Cur;
     int Cam1Dif;
     int Cam2Cur;
