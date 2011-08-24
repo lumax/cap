@@ -59,11 +59,13 @@ namespace EuMax01
     char CrossRefBuf[64];
 
   };
+  
+  class LoadDialog;
 
   class ArbeitsDialog : public Screen
   {
   public:
-    ArbeitsDialog(int sdlw,int sdlh, int camw,int camh,int yPos);
+    ArbeitsDialog(GUI * pGUI,int sdlw,int sdlh, int camw,int camh,int yPos);
     void showRezept(Rezept * pRezept,int nummer);
     void showRezept(int nummer);
     void incRezeptNummer();
@@ -73,6 +75,10 @@ namespace EuMax01
     void setCam2Cur(int val);
     void setCross1Ref();
     void setCross2Ref();
+    Screen * getLoadDialog();
+    void showRecipe(Rezept * rez);
+
+    GUI * theGUI;
 
   private:
     Rezept * theRezept;
@@ -82,6 +88,8 @@ namespace EuMax01
     int Cam1Dif;
     int Cam2Cur;
     int Cam2Dif;
+
+    LoadDialog * theLoadDialog;
 
     //EvtTarget * KeyListener;
     PositionDialog * Pos_Cam1;
@@ -108,21 +116,20 @@ namespace EuMax01
     Label * Label_InfoF12;
     
   };
-
-  /*  class LoadDialog : public Screen
+  
+  class LoadDialog : public Screen
   {
   public:
-    LoadDialog(int sdlw,int sdlh, int camw,int camh,int yPos);
+    LoadDialog(int sdlw,int sdlh, int camw,int camh,int yPos,\
+	       ArbeitsDialog * parent);
+
+    ArbeitsDialog * Parent; 
 
   private:
-    Label * Label_Laden;
-    Label * Label_Loeschen;
-    Label * Label_Next;
-    Label * Label_Prev;
-
-    
-    
-    };*/
+    static const int RezepteLen = 64;
+    Label * Label_LadenName;
+    Label * pLabel_Rezepte[LoadDialog::RezepteLen];
+  };
   
 #endif /* __CAPDIALOGE_H__*/
 }//end namespace

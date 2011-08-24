@@ -781,7 +781,12 @@ int main(int argc, char *argv[])
   ButtonAreaHeight = sdlheight - 168;
   camCtrl = new CamControl(theGUI,Pixelformat,rgb_mode,ButtonAreaHeight);
   //theMainDialog = new MainDialog(sdlwidth,sdlheight,camwidth,camheight,ButtonAreaHeight);
-  theArbeitsDialog = new ArbeitsDialog(sdlwidth,sdlheight,camwidth,camheight,ButtonAreaHeight);
+  theArbeitsDialog = new ArbeitsDialog(theGUI,			\
+				       sdlwidth,		\
+				       sdlheight,		\
+				       camwidth,		\
+				       camheight,		\
+				       ButtonAreaHeight);
   //thePositionDialog = new PositionDialog(sdlwidth/2-506,ButtonAreaHeight,506,100);
 
   theRezept = Rezept();

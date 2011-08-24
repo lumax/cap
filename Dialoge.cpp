@@ -165,6 +165,7 @@ Bexit = sdlw/2 - Buttonwidth/2
       {
 	if(key->keysym.sym == SDLK_F1)
 	  {
+	    ad->theGUI->activateScreen(ad->getLoadDialog());
 	    printf("F1\n");
 	  }
 	else if(key->keysym.sym == SDLK_F2)
@@ -214,7 +215,8 @@ Bexit = sdlw/2 - Buttonwidth/2
       }
   }
 
-  ArbeitsDialog::ArbeitsDialog(int sdlw,	\
+  ArbeitsDialog::ArbeitsDialog(GUI * pGUI,	\
+			       int sdlw,	\
 			       int sdlh,	\
 			       int camw,	\
 			       int camh,	\
@@ -264,6 +266,9 @@ ___________________________________________
     Cam1Dif = 5;
     Cam2Cur = 6;
     Cam2Dif = 6;
+
+    this->theGUI = pGUI;
+    theLoadDialog = new LoadDialog(sdlw,sdlh,camw,camh,yPos,this);
 
     MLinks_x = sdlw/2 - 506;
     MRechts_x = sdlw/2 + 6;
@@ -478,6 +483,16 @@ ___________________________________________
     Pos_Cam2->Label_CrossRef->setText(this->Pos_Cam2->getCrossRefBuf());
   }
 
+  Screen * ArbeitsDialog::getLoadDialog()
+  {
+    return (Screen *)this->theLoadDialog;
+  }
+
+  void ArbeitsDialog::showRecipe(Rezept * rez)
+  {
+    theGUI->activateScreen((Screen*)this);
+  }
+
   char * PositionDialog::getCamCurBuf()
   {
     return this->CamCurBuf;
@@ -575,4 +590,73 @@ ___________________________________________
     addEvtTarget(Label_WertRef);
   };
 
+  static void LoadDialogKeyListener(void * src, SDL_Event * evt)
+  {
+    LoadDialog* ad = (LoadDialog*)src;//KeyListener
+    SDL_KeyboardEvent * key = (SDL_KeyboardEvent *)&evt->key;
+    char zeichen = 0;
+
+    if( key->type == SDL_KEYUP )
+      {
+	if(key->keysym.sym == SDLK_ESCAPE)
+	  {
+	    ad->Parent->showRecipe(0);
+	  }
+	else if(key->keysym.sym == SDLK_F2)
+	  {
+	    printf("F2\n");
+	  }
+	else if(key->keysym.sym == SDLK_F3)
+	  {
+	    printf("F3\n");
+	  }
+	else if(key->keysym.sym == SDLK_F4)
+	  {
+	    printf("F4\n");
+	  }
+      }
+  }
+
+  LoadDialog::LoadDialog(int sdlw,		\
+			 int sdlh,		\
+			 int camw,		\
+			 int camh,		\
+			 int yPos,ArbeitsDialog * parent):Screen()
+  {
+    short M_y;
+    short MLinks_x;
+    unsigned short MSpace_h;
+    unsigned short MZeile_h;
+    short MLoadName_y, MLabels_y;
+
+    this->Parent = parent;
+
+    M_y = sdlh - yPos;
+    //[master cec6470] Dialoge: get und set Crossaire
+    if(M_y<=84)
+      {
+	MSpace_h = 2;
+	MZeile_h = 18;
+      }
+    else
+      {
+	MSpace_h = 5;
+	MZeile_h = 28;
+      }
+
+    MLinks_x = sdlw/2 - 506;
+
+    MLoadName_y  = yPos + 1*MSpace_h + 0*MZeile_h;
+
+    Label_LadenName = new Label("LOAD RECIPE",MLinks_x,MLoadName_y,506*2,MZeile_h);
+    
+    addEvtTarget(Label_LadenName);
+
+    this->pTSource = this;//EvtTarget Quelle setzen, damit der EvtListener die Quelle mitteilen kann
+    this->setKeyboardUpEvtHandler(LoadDialogKeyListener);
+    this->addEvtTarget(this);//den Screen Key Listener bei sich selber anmelden!
+
+    //MLabels_y = yPos + 2*MSpace_h + 1*MZeile_h;
+
+  };
 }
