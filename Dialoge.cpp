@@ -659,6 +659,8 @@ ___________________________________________
     short MLinks_x;
     unsigned short MSpace_h;
     unsigned short MZeile_h;
+    unsigned short Rezepte_y;
+    short Rezepte_w;
     short MLoadName_y, MLabels_y;
 
     this->Parent = parent;
@@ -679,8 +681,26 @@ ___________________________________________
     MLinks_x = sdlw/2 - 506;
 
     MLoadName_y  = yPos + 1*MSpace_h + 0*MZeile_h;
+    Rezepte_y = yPos + 2*MSpace_h + 1*MZeile_h;
+    Rezepte_w = 108;
 
     Label_LadenName = new Label("LOAD RECIPE",MLinks_x,MLoadName_y,506*2,MZeile_h);
+    int ii = 0;
+    for(int i=0;i<LoadDialog::RezepteLen;i++)
+      {
+	if(ii>=9)
+	  {
+	    ii=0;
+	    Rezepte_y += 1*MSpace_h + 1*MZeile_h;
+	  }
+	pLabel_Rezepte[i] = new Label("xxxxxxxx",			\
+				      MLinks_x + ii*MSpace_h + ii*Rezepte_w, \
+				      Rezepte_y,			\
+				      Rezepte_w,			\
+				      MZeile_h);
+	ii++;
+	addEvtTarget(pLabel_Rezepte[i]);
+      }
     
     addEvtTarget(Label_LadenName);
 

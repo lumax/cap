@@ -130,9 +130,10 @@ namespace EuMax01
 	       ArbeitsDialog * parent);
 
     ArbeitsDialog * Parent; 
-
+    void setActiveRecipe(int nr);
   private:
-    static const int RezepteLen = 64;
+    int ActRecipe;
+    static const int RezepteLen = 27;
     Label * Label_LadenName;
     Label * pLabel_Rezepte[LoadDialog::RezepteLen];
   };
