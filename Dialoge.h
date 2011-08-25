@@ -122,7 +122,12 @@ namespace EuMax01
     Label * Label_InfoF12;
     
   };
-  
+
+  Class ErrorDialog : public Screen
+  {
+
+  };
+
   class LoadDialog : public Screen
   {
   public:
@@ -131,9 +136,20 @@ namespace EuMax01
 
     ArbeitsDialog * Parent; 
     void setActiveRecipe(int nr);
+    void naviUp();
+    void naviDown();
+    void naviLeft();
+    void naviRight();
+    void naviReturn();
+    void naviPageup();
+    void naviPagedown();
+
   private:
-    int ActRecipe;
+    int ActiveRecipe;
+    int MaxRecipesToDisplay;
     static const int RezepteLen = 27;
+    static const int RezepteProZeile = 9;
+    void addToActiveRecipe(int summand);
     Label * Label_LadenName;
     Label * pLabel_Rezepte[LoadDialog::RezepteLen];
   };

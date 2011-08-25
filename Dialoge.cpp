@@ -634,13 +634,33 @@ ___________________________________________
 	  {
 	    ad->Parent->showArbeitsDialog();
 	  }
-	else if(key->keysym.sym == SDLK_F2)
+	else if(key->keysym.sym == SDLK_UP)
 	  {
-	    printf("F2\n");
+	    ad->naviUp();
 	  }
-	else if(key->keysym.sym == SDLK_F3)
+	else if(key->keysym.sym == SDLK_DOWN)
 	  {
-	    printf("F3\n");
+	    ad->naviDown();
+	  }
+	else if(key->keysym.sym == SDLK_RIGHT)
+	  {
+	    ad->naviRight();
+	  }
+	else if(key->keysym.sym == SDLK_LEFT)
+	  {
+	    ad->naviLeft();
+	  }
+	else if(key->keysym.sym == SDLK_RETURN)
+	  {
+	    ad->naviReturn();
+	  }
+	else if(key->keysym.sym == SDLK_PAGEDOWN)
+	  {
+	    ad->naviPagedown();
+	  }
+	else if(key->keysym.sym == SDLK_PAGEUP)
+	  {
+	    ad->naviPageup();
 	  }
 	else if(key->keysym.sym == SDLK_F4)
 	  {
@@ -664,6 +684,7 @@ ___________________________________________
     short MLoadName_y, MLabels_y;
 
     this->Parent = parent;
+    this->ActiveRecipe = 0;
 
     M_y = sdlh - yPos;
     //[master cec6470] Dialoge: get und set Crossaire
@@ -688,7 +709,7 @@ ___________________________________________
     int ii = 0;
     for(int i=0;i<LoadDialog::RezepteLen;i++)
       {
-	if(ii>=9)
+	if(ii>=LoadDialog::RezepteProZeile)
 	  {
 	    ii=0;
 	    Rezepte_y += 1*MSpace_h + 1*MZeile_h;
@@ -701,7 +722,8 @@ ___________________________________________
 	ii++;
 	addEvtTarget(pLabel_Rezepte[i]);
       }
-    
+    setActiveRecipe(10);
+
     addEvtTarget(Label_LadenName);
 
     this->pTSource = this;//EvtTarget Quelle setzen, damit der EvtListener die Quelle mitteilen kann
@@ -709,6 +731,56 @@ ___________________________________________
     this->addEvtTarget(this);//den Screen Key Listener bei sich selber anmelden!
 
     //MLabels_y = yPos + 2*MSpace_h + 1*MZeile_h;
+  }
 
-  };
+  /* \brief Makiert das aktive Label und desmaskiert den Vorherigen.
+   */ 
+  void LoadDialog::setActiveRecipe(int nr)
+  {
+    pLabel_Rezepte[ActiveRecipe]->setBorder(false);
+    
+    if(nr<0)                     //Begrenzungen
+      nr=0;
+    if(nr>=LoadDialog::RezepteLen)
+      nr=LoadDialog::RezepteLen-1;
+    if(nr>=this->MaxRecipesToDisplay)
+      nr=this->MaxRecipesToDisplay-1;
+    if(nr<0)
+      {
+	this->show(this->Parent->theGUI->getMainSurface());
+	return;
+      }
+
+    ActiveRecipe = nr;
+    pLabel_Rezepte[ActiveRecipe]->setBorder(true);
+    this->show(this->Parent->theGUI->getMainSurface());
+  }
+
+  void LoadDialog::addToActiveRecipe(int summand)
+  {
+    int nr = this->ActiveRecipe;
+    nr += summand;
+    this->setActiveRecipe(nr);
+  }
+
+  void LoadDialog::naviUp(){this->addToActiveRecipe(-LoadDialog::RezepteProZeile);}
+  void LoadDialog::naviDown(){this->addToActiveRecipe(+LoadDialog::RezepteProZeile);} 
+  void LoadDialog::naviLeft(){this->addToActiveRecipe(-1);}
+  void LoadDialog::naviRight(){this->addToActiveRecipe(+1);}
+  void LoadDialog::naviReturn()
+  {
+    printf("naviReturn");
+    this->Parent->showArbeitsDialog();
+  }
+
+  void LoadDialog::naviPageup()
+  {
+    printf("naviPageup");
+  }
+
+  void LoadDialog::naviPagedown()
+  {
+    printf("naviPagedown");
+  }
+
 }
