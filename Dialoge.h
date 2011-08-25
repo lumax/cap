@@ -59,7 +59,8 @@ namespace EuMax01
     char CrossRefBuf[64];
 
   };
-  
+
+  class ErrorDialog;
   class LoadDialog;
 
   class ArbeitsDialog : public Screen
@@ -81,6 +82,7 @@ namespace EuMax01
     
     void showLoadDialog();
     void showArbeitsDialog();
+    void showErrorDialog(char * errorMsg);
 
   private:
     Rezept * theRezept;
@@ -96,6 +98,7 @@ namespace EuMax01
     int Cam2Dif;
 
     LoadDialog * theLoadDialog;
+    ErrorDialog * theErrorDialog;
 
     //EvtTarget * KeyListener;
     PositionDialog * Pos_Cam1;
@@ -123,9 +126,18 @@ namespace EuMax01
     
   };
 
-  Class ErrorDialog : public Screen
+  class ErrorDialog : public Screen
   {
-
+  public:
+    ErrorDialog(int sdlw,int sdlh, int camw,int camh,int yPos,	\
+		ArbeitsDialog * parent);
+    ArbeitsDialog * Parent;
+    void setErrorMsg(char * Message);
+  private:
+    Label * Label_Error;
+    Label * Label_Info;
+    Label * Label_OK;
+    //    Label * Label_Abbruch;
   };
 
   class LoadDialog : public Screen
@@ -134,7 +146,7 @@ namespace EuMax01
     LoadDialog(int sdlw,int sdlh, int camw,int camh,int yPos,\
 	       ArbeitsDialog * parent);
 
-    ArbeitsDialog * Parent; 
+    ArbeitsDialog * Parent;
     void setActiveRecipe(int nr);
     void naviUp();
     void naviDown();

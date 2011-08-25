@@ -270,6 +270,7 @@ ___________________________________________
 
     this->theGUI = pGUI;
     theLoadDialog = new LoadDialog(sdlw,sdlh,camw,camh,yPos,this);
+    theErrorDialog = new ErrorDialog(sdlw,sdlh,camw,camh,yPos,this);
 
     MLinks_x = sdlw/2 - 506;
     MRechts_x = sdlw/2 + 6;
@@ -410,7 +411,6 @@ ___________________________________________
     addEvtTarget(Label_InfoF12);
     
     this->ArbeitsDialogEvtTargets.Next = this->EvtTargets.Next;//EvtTargets fuer spaeter sichern
-
   }
 
   void ArbeitsDialog::showLoadDialog()
@@ -431,6 +431,21 @@ ___________________________________________
   void ArbeitsDialog::showArbeitsDialog()
   {
     this->EvtTargets.Next = this->ArbeitsDialogEvtTargets.Next;
+    Tool::blankSurface(this->theGUI->getMainSurface(),	\
+		       FSG_BACKGROUND,			\
+		       &this->Area);//TODO Rückgabewert
+    SDL_UpdateRect(this->theGUI->getMainSurface(),	\
+		   this->Area.x,			\
+		   this->Area.y,			\
+		   this->Area.w,			\
+		   this->Area.h);
+    this->show(this->theGUI->getMainSurface());
+  }
+
+  void ArbeitsDialog::showErrorDialog(char * msg)
+  {
+    this->theErrorDialog->setErrorMsg(msg);
+    this->EvtTargets.Next = this->theErrorDialog->EvtTargets.Next;
     Tool::blankSurface(this->theGUI->getMainSurface(),	\
 		       FSG_BACKGROUND,			\
 		       &this->Area);//TODO Rückgabewert
@@ -622,6 +637,84 @@ ___________________________________________
     addEvtTarget(Label_WertRef);
   };
 
+  static void ErrorDialogKeyListener(void * src, SDL_Event * evt)
+  {
+    ErrorDialog* ad = (ErrorDialog*)src;//KeyListener
+    SDL_KeyboardEvent * key = (SDL_KeyboardEvent *)&evt->key;
+    char zeichen = 0;
+
+    if( key->type == SDL_KEYUP )
+      {
+	if(key->keysym.sym == SDLK_ESCAPE)
+	  {
+	    ad->Parent->showArbeitsDialog();
+	  }
+	else if(key->keysym.sym == SDLK_RETURN)
+	  {
+	    ad->Parent->showArbeitsDialog();
+	  }
+      }
+  }
+
+  ErrorDialog::ErrorDialog(int sdlw,		\
+			   int sdlh,		\
+			   int camw,		\
+			   int camh,					\
+			   int yPos,ArbeitsDialog * parent):Screen()
+  {
+    short M_y;
+    short MLinks_x;
+    unsigned short MSpace_h;
+    unsigned short MZeile_h;
+    //short MLoadName_y;
+
+    this->Parent = parent;
+
+    M_y = sdlh - yPos;
+
+    if(M_y<=84)
+      {
+	MSpace_h = 2;
+	MZeile_h = 18;
+      }
+    else
+      {
+	MSpace_h = 5;
+	MZeile_h = 28;
+      }
+
+    MLinks_x = sdlw/2 - 506;
+
+    //MLoadName_y  = yPos + 1*MSpace_h + 0*MZeile_h;
+
+    Label_Error = new Label("Error",					\
+			    MLinks_x,					\
+			    yPos + 1*MSpace_h + 0*MZeile_h,		\
+			    506*2,MZeile_h);
+    
+    Label_Info = new Label("----",					\
+			   MLinks_x,					\
+			   yPos + 2*MSpace_h + 1*MZeile_h,		\
+			   506*2,MZeile_h);
+    
+    Label_OK = new Label("OK  (Enter)",					\
+			 MLinks_x,					\
+			 yPos + 4*MSpace_h + 3*MZeile_h,		\
+			 506,MZeile_h);
+    
+    this->pTSource = this;//EvtTarget Quelle setzen
+    this->setKeyboardUpEvtHandler(ErrorDialogKeyListener);
+    this->addEvtTarget(this);//den Screen Key Listener bei sich selber anmelden!
+    this->addEvtTarget(Label_Error);
+    this->addEvtTarget(Label_Info);
+    this->addEvtTarget(Label_OK);
+  }
+
+  void ErrorDialog::setErrorMsg(char * Message)
+  {
+    this->Label_Info->setText(Message);
+  }
+
   static void LoadDialogKeyListener(void * src, SDL_Event * evt)
   {
     LoadDialog* ad = (LoadDialog*)src;//KeyListener
@@ -769,8 +862,7 @@ ___________________________________________
   void LoadDialog::naviRight(){this->addToActiveRecipe(+1);}
   void LoadDialog::naviReturn()
   {
-    printf("naviReturn");
-    this->Parent->showArbeitsDialog();
+    this->Parent->showErrorDialog("Cannot open Save File Directory");
   }
 
   void LoadDialog::naviPageup()
