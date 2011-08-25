@@ -155,12 +155,14 @@ namespace EuMax01
     void naviReturn();
     void naviPageup();
     void naviPagedown();
-
+    int readSaveDirectory(char * dirName,unsigned int page);
   private:
     int ActiveRecipe;
     int MaxRecipesToDisplay;
+    int ActiveSavePage;
     static const int RezepteLen = 27;
     static const int RezepteProZeile = 9;
+    static const int MaxRezeptFileLaenge = 8;
     void addToActiveRecipe(int summand);
     Label * Label_LadenName;
     Label * pLabel_Rezepte[LoadDialog::RezepteLen];

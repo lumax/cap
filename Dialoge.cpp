@@ -1,6 +1,13 @@
 /*
 Bastian Ruppert
 */
+//read directories
+#include <stdio.h>
+#include <sys/types.h>
+#include <dirent.h>
+
+#include <string.h>
+
 #include <SDL/SDL_ttf.h>
 #include "LL.h"
 #include "Event.h"
@@ -415,6 +422,12 @@ ___________________________________________
 
   void ArbeitsDialog::showLoadDialog()
   {
+    if(theLoadDialog->readSaveDirectory("data",0))
+      {
+	showErrorDialog("Error reading save directory");
+	return;
+      }
+
     this->EvtTargets.Next = this->theLoadDialog->EvtTargets.Next;
     Tool::blankSurface(this->theGUI->getMainSurface(),	\
 		       FSG_BACKGROUND,			\
@@ -778,6 +791,8 @@ ___________________________________________
 
     this->Parent = parent;
     this->ActiveRecipe = 0;
+    this->MaxRecipesToDisplay = 0;
+    this->ActiveSavePage = 0;
 
     M_y = sdlh - yPos;
     //[master cec6470] Dialoge: get und set Crossaire
@@ -809,7 +824,7 @@ ___________________________________________
 	    ii=0;
 	    Rezepte_y += 1*MSpace_h + 1*MZeile_h;
 	  }
-	sprintf(DateiNamen[i],"%s",tmpc);
+	sprintf(DateiNamen[i],"%s",tmpc);                   //Text Buffer füllen
 	pLabel_Rezepte[i] = new Label(DateiNamen[i],			\
 				      MLinks_x + ii*MSpace_h + ii*Rezepte_w, \
 				      Rezepte_y,			\
@@ -857,6 +872,66 @@ ___________________________________________
     int nr = this->ActiveRecipe;
     nr += summand;
     this->setActiveRecipe(nr);
+  }
+
+  int LoadDialog::readSaveDirectory(char * dirName,unsigned int page)
+  {
+    DIR *dp;
+    struct dirent *ep;
+    int filecount = 0;
+    int tmpcount = 0;
+    unsigned int fileToShow = 0;
+
+    this->EvtTargets.Next = 0;     //alle FileLabels deaktivieren
+    this->Next = 0;                //alles nach dem Keylistener = 0
+    this->addEvtTarget(this);      //den Screen Key Listener bei sich selber anmelden!
+    this->Label_LadenName->Next = 0; //Laden Label anzeigen
+    this->addEvtTarget(Label_LadenName); 
+
+    dp = opendir (dirName);
+    if (dp == NULL)
+      return -1;
+    
+    while (ep = readdir (dp))
+      {
+	if(strlen(ep->d_name)<=LoadDialog::MaxRezeptFileLaenge)
+	  {
+	    printf("%s\n",ep->d_name);
+	    filecount++;
+	  }
+      }
+    (void) closedir (dp);
+
+    fileToShow = page * LoadDialog::RezepteLen;
+    if(fileToShow<=filecount)
+      {
+	dp = opendir (dirName);
+	if (dp == NULL)
+	  return -1;
+	int tmp = 0;
+	while (ep = readdir (dp))
+	  {
+	    if(strlen(ep->d_name)<=LoadDialog::MaxRezeptFileLaenge)
+	      {
+		tmpcount++;
+		if(tmpcount>=fileToShow)
+		  {
+		    strncpy(DateiNamen[tmp],ep->d_name,LoadDialog::MaxRezeptFileLaenge);
+		    pLabel_Rezepte[tmp]->Next = 0;  // alles hinter diesem Label = 0
+		    this->addEvtTarget(pLabel_Rezepte[tmp]);
+		    tmp++;
+		    MaxRecipesToDisplay = tmp;
+		    if(tmp>=LoadDialog::RezepteLen)
+		      {
+			(void) closedir (dp);//Voll und raus
+			return 0;
+		      }
+		  }
+	      }
+	  }
+	(void) closedir (dp);	
+      }
+    return 0;
   }
 
   void LoadDialog::naviUp(){this->addToActiveRecipe(-LoadDialog::RezepteProZeile);}
