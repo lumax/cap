@@ -164,6 +164,7 @@ namespace EuMax01
     void addToActiveRecipe(int summand);
     Label * Label_LadenName;
     Label * pLabel_Rezepte[LoadDialog::RezepteLen];
+    char DateiNamen[LoadDialog::RezepteLen][16];
   };
   
 #endif /* __CAPDIALOGE_H__*/

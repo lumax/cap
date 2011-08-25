@@ -800,6 +800,8 @@ ___________________________________________
 
     Label_LadenName = new Label("LOAD RECIPE",MLinks_x,MLoadName_y,506*2,MZeile_h);
     int ii = 0;
+    char tmpc[16] = { 'x','X','x','x','x','x','x','x'};
+    tmpc[15]='/0';
     for(int i=0;i<LoadDialog::RezepteLen;i++)
       {
 	if(ii>=LoadDialog::RezepteProZeile)
@@ -807,7 +809,8 @@ ___________________________________________
 	    ii=0;
 	    Rezepte_y += 1*MSpace_h + 1*MZeile_h;
 	  }
-	pLabel_Rezepte[i] = new Label("xxxxxxxx",			\
+	sprintf(DateiNamen[i],"%s",tmpc);
+	pLabel_Rezepte[i] = new Label(DateiNamen[i],			\
 				      MLinks_x + ii*MSpace_h + ii*Rezepte_w, \
 				      Rezepte_y,			\
 				      Rezepte_w,			\
