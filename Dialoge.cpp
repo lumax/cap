@@ -874,13 +874,28 @@ ___________________________________________
     this->setActiveRecipe(nr);
   }
 
+  static int dirFilter(const struct dirent * dir)
+  {
+    if(strlen(dir->d_name)>LoadDialog::MaxRezeptFileLaenge)
+      {
+	return 0;
+      }
+    if(strlen(dir->d_name)==1)
+      {
+	return 0;
+      }
+    if(strlen(dir->d_name)==2)
+      {
+	return 0;
+      }
+    return 1;
+  }
+
   int LoadDialog::readSaveDirectory(char * dirName,unsigned int page)
   {
-    DIR *dp;
-    struct dirent *ep;
-    int filecount = 0;
-    int tmpcount = 0;
-    unsigned int fileToShow = 0;
+    struct dirent **namelist;
+    int n;
+    unsigned int fileToShow;
 
     this->EvtTargets.Next = 0;     //alle FileLabels deaktivieren
     this->Next = 0;                //alles nach dem Keylistener = 0
@@ -888,49 +903,32 @@ ___________________________________________
     this->Label_LadenName->Next = 0; //Laden Label anzeigen
     this->addEvtTarget(Label_LadenName); 
 
-    dp = opendir (dirName);
-    if (dp == NULL)
+    n = scandir(dirName, &namelist, dirFilter, alphasort);
+    printf("%i files found in %s\n",n,dirName);
+    if (n < 0)
       return -1;
-    
-    while (ep = readdir (dp))
-      {
-	if(strlen(ep->d_name)<=LoadDialog::MaxRezeptFileLaenge)
-	  {
-	    printf("%s\n",ep->d_name);
-	    filecount++;
-	  }
-      }
-    (void) closedir (dp);
 
     fileToShow = page * LoadDialog::RezepteLen;
-    if(fileToShow<=filecount)
+    if(fileToShow<=n)
       {
-	dp = opendir (dirName);
-	if (dp == NULL)
-	  return -1;
 	int tmp = 0;
-	while (ep = readdir (dp))
+	for(int i = fileToShow;i<n&&i<LoadDialog::RezepteLen;i++)
 	  {
-	    if(strlen(ep->d_name)<=LoadDialog::MaxRezeptFileLaenge)
-	      {
-		tmpcount++;
-		if(tmpcount>=fileToShow)
-		  {
-		    strncpy(DateiNamen[tmp],ep->d_name,LoadDialog::MaxRezeptFileLaenge);
-		    pLabel_Rezepte[tmp]->Next = 0;  // alles hinter diesem Label = 0
-		    this->addEvtTarget(pLabel_Rezepte[tmp]);
-		    tmp++;
-		    MaxRecipesToDisplay = tmp;
-		    if(tmp>=LoadDialog::RezepteLen)
-		      {
-			(void) closedir (dp);//Voll und raus
-			return 0;
-		      }
-		  }
-	      }
+	    strncpy(DateiNamen[tmp],namelist[i]->d_name,LoadDialog::MaxRezeptFileLaenge);
+	    pLabel_Rezepte[tmp]->Next = 0;  // alles hinter diesem Label = 0
+	    this->addEvtTarget(pLabel_Rezepte[tmp]);
+	    tmp++;
+	    MaxRecipesToDisplay = tmp;
 	  }
-	(void) closedir (dp);	
       }
+
+    while(n--)
+      {
+	printf("%s\n", namelist[n]->d_name);
+
+	free(namelist[n]);
+      }
+    free(namelist);
     return 0;
   }
 
