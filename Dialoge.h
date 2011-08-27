@@ -80,7 +80,7 @@ namespace EuMax01
 
     GUI * theGUI;
     
-    void showLoadDialog();
+    void showLoadDialog(unsigned int page);
     void showArbeitsDialog();
     void showErrorDialog(char * errorMsg);
 
@@ -163,6 +163,7 @@ namespace EuMax01
     int ActiveRecipe;
     int MaxRecipesToDisplay;
     int ActiveSavePage;
+    int MaxSavePages;
     void addToActiveRecipe(int summand);
     Label * Label_LadenName;
     Label * pLabel_Rezepte[LoadDialog::RezepteLen];

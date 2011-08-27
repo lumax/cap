@@ -173,8 +173,7 @@ Bexit = sdlw/2 - Buttonwidth/2
 	if(key->keysym.sym == SDLK_F1)
 	  {
 	    //ad->theGUI->activateScreen(ad->getLoadDialog());
-	    ad->showLoadDialog();
-	    printf("F1\n");
+	    ad->showLoadDialog(0);
 	  }
 	else if(key->keysym.sym == SDLK_F2)
 	  {
@@ -420,9 +419,9 @@ ___________________________________________
     this->ArbeitsDialogEvtTargets.Next = this->EvtTargets.Next;//EvtTargets fuer spaeter sichern
   }
 
-  void ArbeitsDialog::showLoadDialog()
+  void ArbeitsDialog::showLoadDialog(unsigned int page)
   {
-    if(theLoadDialog->readSaveDirectory("data",0))
+    if(theLoadDialog->readSaveDirectory("data",page))
       {
 	showErrorDialog("Error reading save directory");
 	return;
@@ -768,10 +767,6 @@ ___________________________________________
 	  {
 	    ad->naviPageup();
 	  }
-	else if(key->keysym.sym == SDLK_F4)
-	  {
-	    printf("F4\n");
-	  }
       }
   }
 
@@ -793,6 +788,7 @@ ___________________________________________
     this->ActiveRecipe = 0;
     this->MaxRecipesToDisplay = 0;
     this->ActiveSavePage = 0;
+    this->MaxSavePages = 0;
 
     M_y = sdlh - yPos;
     //[master cec6470] Dialoge: get und set Crossaire
@@ -901,34 +897,44 @@ ___________________________________________
     this->Next = 0;                //alles nach dem Keylistener = 0
     this->addEvtTarget(this);      //den Screen Key Listener bei sich selber anmelden!
     this->Label_LadenName->Next = 0; //Laden Label anzeigen
-    this->addEvtTarget(Label_LadenName); 
+    this->addEvtTarget(Label_LadenName);
+    this->ActiveSavePage = page;
 
     n = scandir(dirName, &namelist, dirFilter, alphasort);
-    printf("%i files found in %s\n",n,dirName);
     if (n < 0)
       return -1;
+
+    int ii = n;
+    this->MaxSavePages = 0;
+    while(ii>=LoadDialog::RezepteLen)
+      {
+	this->MaxSavePages++;
+	ii-=LoadDialog::RezepteLen;
+      }
 
     fileToShow = page * LoadDialog::RezepteLen;
     if(fileToShow<=n)
       {
-	int tmp = 0;
-	for(int i = fileToShow;i<n&&i<LoadDialog::RezepteLen;i++)
+	//int tmp = 0;
+	int i = 0;
+	int i2 = 0;
+	for(i=fileToShow,i2=0;i<n&&i2<LoadDialog::RezepteLen;i++,i2++)
 	  {
-	    strncpy(DateiNamen[tmp],namelist[i]->d_name,LoadDialog::MaxRezeptFileLaenge);
-	    pLabel_Rezepte[tmp]->Next = 0;  // alles hinter diesem Label = 0
-	    this->addEvtTarget(pLabel_Rezepte[tmp]);
-	    tmp++;
-	    MaxRecipesToDisplay = tmp;
+	    strncpy(DateiNamen[/*tmp*/i2],namelist[i]->d_name,LoadDialog::MaxRezeptFileLaenge);
+	    pLabel_Rezepte[i2]->setText(DateiNamen[i2]); //neuen Text setzen
+	    pLabel_Rezepte[i2]->Next = 0;  // alles hinter diesem Label = 0
+	    this->addEvtTarget(pLabel_Rezepte[i2]);
+	    //tmp++;
+	    MaxRecipesToDisplay = i2+1;
 	  }
       }
 
     while(n--)
       {
-	printf("%s\n", namelist[n]->d_name);
-
 	free(namelist[n]);
       }
     free(namelist);
+    setActiveRecipe(0);
     return 0;
   }
 
@@ -943,12 +949,14 @@ ___________________________________________
 
   void LoadDialog::naviPageup()
   {
-    printf("naviPageup");
+    if(this->ActiveSavePage>=1)
+      this->Parent->showLoadDialog(this->ActiveSavePage-1);
   }
 
   void LoadDialog::naviPagedown()
   {
-    printf("naviPagedown");
+    if(this->ActiveSavePage<this->MaxSavePages)
+      this->Parent->showLoadDialog(this->ActiveSavePage+1);
   }
 
 }
