@@ -211,6 +211,10 @@ Bexit = sdlw/2 - Buttonwidth/2
 	    //cap_cam_setCrossX(1,xx+10);
 	    ad->setCross2Ref();
 	  }
+	else if(key->keysym.sym == SDLK_F12)
+	  {
+	    exit(0);
+	  }
 	/*	else
 	  {
 	    zeichen = Tool::getStdASCII_Char(key);
