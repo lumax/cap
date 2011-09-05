@@ -189,7 +189,8 @@ namespace EuMax01
     Label * Label_NewName;
     Label * Label_Name;
 
-    
+    Label * Label_Info;
+    char InfoText[256];
     Rezept theRecipe;
     int step;
   };

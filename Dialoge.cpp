@@ -964,10 +964,10 @@ ___________________________________________
     SDL_KeyboardEvent * key = (SDL_KeyboardEvent *)&evt->key;
     char zeichen = 0;
 
-    if(ad->getStep()==0)
+    /*   if(ad->getStep()==0)
       {
 
-	/*	if(key->keysym.sym == SDLK_DELETE)
+		if(key->keysym.sym == SDLK_DELETE)
 	  {
 	    ad->TextField_Name->removeChar();
 	  }
@@ -980,18 +980,28 @@ ___________________________________________
 	  {
 	    printf("zeichen\n");
 	    ad->TextField_Name->addChar(zeichen);
-	    }*/
+	    }
       }
+    */
 
     if( key->type == SDL_KEYUP )
       {
 	if(key->keysym.sym == SDLK_ESCAPE)
 	  {
-	    ad->Parent->showArbeitsDialog();
+	    if(ad->getStep()==0)
+	      {
+		ad->Parent->showArbeitsDialog();
+	      }
+	    ad->decStep();
 	  }
-	else if(key->keysym.sym == SDLK_UP)
+	else if(key->keysym.sym == SDLK_RETURN)
 	  {
-	    //ad->naviUp();
+	    if(ad->getStep()>=8)
+	      {
+		printf("Rezepte fertig! abspeicher!!!\n");
+		ad->Parent->showArbeitsDialog();
+	      }
+	    ad->incStep();
 	  }
       }
   }
@@ -1056,6 +1066,10 @@ ___________________________________________
 
     Label_NewName = new Label("NEW RECIPE",MLinks_x,Zeile1_y,506*2,MZeile_h);
     Label_Name = new Label("Name :",MLinks_x,Zeile2_y,506-MSpace_h,MZeile_h);
+
+    Label_Info = new Label("Return: next step | Esc: Cancel",MLinks_x,Zeile4_y,\
+			   506*2,MZeile_h);
+
     TextField_Name = new TextField(0,LoadDialog::MaxRezeptFileLaenge,	\
 				   MLinks_x+506+MSpace_h,		\
 				   Zeile2_y,506-MSpace_h,		\
@@ -1065,6 +1079,7 @@ ___________________________________________
     addEvtTarget(Label_NewName);
     addEvtTarget(Label_Name);
     addEvtTarget(TextField_Name);
+    addEvtTarget(Label_Info);
 
     this->pTSource = this;//EvtTarget Quelle setzen, damit der EvtListener die Quelle mitteilen kann
     this->setKeyboardUpEvtHandler(NewDialogKeyListener);
@@ -1073,18 +1088,52 @@ ___________________________________________
 
   void NewDialog::incStep()
   {
-    if(this->step<=8)
-      this->step++;
+    if(this->step<8)
+      {
+	this->step++;
+      }
+    if(this->step==8)
+      {
+	snprintf(this->InfoText,256,					\
+		 "Recipe step %i | RETURN : save recipe | ESC : previous step ", \
+		 this->step);
+      }
+    else
+      {
+	snprintf(this->InfoText,256,					\
+		 "Recipe step %i | RETURN: next step | ESC previous step", \
+		 this->step);
+      }
+
     if(this->step!=0)
       TextField_Name->setActive(false);
+  
+  this->Label_Info->setText(this->InfoText);
   }
   
   void NewDialog::decStep()
   {
     if(this->step>0)
-      this->step--;
-    if(this->step==0)
-      this->TextField_Name->setActive(true);
+      {
+	this->step--;	
+      }
+    if(this->step==1)
+      {
+	snprintf(this->InfoText,256,					\
+		 "Recipe step 1 | RETURN: next step | ESC set name");
+      }
+    else if(this->step==0)
+      {
+	snprintf(this->InfoText,256,					\
+		 "Enter savename | RETURN: next step | ESC abort");
+	this->TextField_Name->setActive(true);
+      }
+    else
+      {
+	snprintf(this->InfoText,256,					\
+		 "Recipe step %i | RETURN: next step | ESC previous step",this->step);
+      }
+      this->Label_Info->setText(this->InfoText);
   }
   
   int NewDialog::getStep()
