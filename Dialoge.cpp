@@ -181,7 +181,7 @@ Bexit = sdlw/2 - Buttonwidth/2
 	  }
 	else if(key->keysym.sym == SDLK_F3)
 	  {
-	    printf("F3\n");
+	    ad->showNewDialog();//printf("F3\n");
 	  }
 	else if(key->keysym.sym == SDLK_F4)
 	  {
@@ -281,6 +281,7 @@ ___________________________________________
     this->theGUI = pGUI;
     theLoadDialog = new LoadDialog(sdlw,sdlh,camw,camh,yPos,this);
     theErrorDialog = new ErrorDialog(sdlw,sdlh,camw,camh,yPos,this);
+    theNewDialog = new NewDialog(sdlw,sdlh,camw,camh,yPos,this);
 
     MLinks_x = sdlw/2 - 506;
     MRechts_x = sdlw/2 + 6;
@@ -465,6 +466,21 @@ ___________________________________________
     Tool::blankSurface(this->theGUI->getMainSurface(),	\
 		       FSG_BACKGROUND,			\
 		       &this->Area);//TODO Rückgabewert
+    SDL_UpdateRect(this->theGUI->getMainSurface(),	\
+		   this->Area.x,			\
+		   this->Area.y,			\
+		   this->Area.w,			\
+		   this->Area.h);
+    this->show(this->theGUI->getMainSurface());
+  }
+
+  void ArbeitsDialog::showNewDialog()
+  {
+    this->EvtTargets.Next = this->theNewDialog->EvtTargets.Next;
+    Tool::blankSurface(this->theGUI->getMainSurface(),	\
+		       FSG_BACKGROUND,			\
+		       &this->Area);//TODO Rückgabewert
+
     SDL_UpdateRect(this->theGUI->getMainSurface(),	\
 		   this->Area.x,			\
 		   this->Area.y,			\
@@ -961,6 +977,78 @@ ___________________________________________
   {
     if(this->ActiveSavePage<this->MaxSavePages)
       this->Parent->showLoadDialog(this->ActiveSavePage+1);
+  }
+
+  static void NewDialogKeyListener(void * src, SDL_Event * evt)
+  {
+    NewDialog* ad = (NewDialog*)src;//KeyListener
+    SDL_KeyboardEvent * key = (SDL_KeyboardEvent *)&evt->key;
+    char zeichen = 0;
+
+    if( key->type == SDL_KEYUP )
+      {
+	if(key->keysym.sym == SDLK_ESCAPE)
+	  {
+	    ad->Parent->showArbeitsDialog();
+	  }
+	else if(key->keysym.sym == SDLK_UP)
+	  {
+	    //ad->naviUp();
+	  }
+      }
+  }
+
+  NewDialog::NewDialog(int sdlw,		\
+			 int sdlh,		\
+			 int camw,		\
+			 int camh,		\
+			 int yPos,ArbeitsDialog * parent):Screen()
+  {
+    short M_y;
+    short MLinks_x;
+    unsigned short MSpace_h;
+    unsigned short MZeile_h;
+    //unsigned short Rezepte_y;
+    //short Rezepte_w;
+    short MLoadName_y, MLabels_y;
+
+    this->Parent = parent;
+
+    M_y = sdlh - yPos;
+    //[master cec6470] Dialoge: get und set Crossaire
+    if(M_y<=84)
+      {
+	MSpace_h = 2;
+	MZeile_h = 18;
+      }
+    else
+      {
+	MSpace_h = 5;
+	MZeile_h = 28;
+      }
+
+    MLinks_x = sdlw/2 - 506;
+
+    MLoadName_y  = yPos + 1*MSpace_h + 0*MZeile_h;
+    //Rezepte_y = yPos + 2*MSpace_h + 1*MZeile_h;
+    //Rezepte_w = 108;
+
+    this->theRecipe.Name[0]='\0';
+    for(int i = 0;i<LoadDialog::MaxRezeptFileLaenge;i++)
+      {
+	this->theRecipe.Rezepte[i].cams[0].cam = 0;
+	this->theRecipe.Rezepte[i].cams[1].cam = 0;
+	this->theRecipe.Rezepte[i].cams[0].z_pos = 0;
+	this->theRecipe.Rezepte[i].cams[1].z_pos = 0;
+      }
+
+    Label_NewName = new Label("NEW RECIPE",MLinks_x,MLoadName_y,506*2,MZeile_h);
+
+    addEvtTarget(Label_NewName);
+
+    this->pTSource = this;//EvtTarget Quelle setzen, damit der EvtListener die Quelle mitteilen kann
+    this->setKeyboardUpEvtHandler(NewDialogKeyListener);
+    this->addEvtTarget(this);//den Screen Key Listener bei sich selber anmelden!
   }
 
 }

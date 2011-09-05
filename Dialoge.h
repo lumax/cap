@@ -62,6 +62,7 @@ namespace EuMax01
 
   class ErrorDialog;
   class LoadDialog;
+  class NewDialog;
 
   class ArbeitsDialog : public Screen
   {
@@ -83,6 +84,7 @@ namespace EuMax01
     void showLoadDialog(unsigned int page);
     void showArbeitsDialog();
     void showErrorDialog(char * errorMsg);
+    void showNewDialog();
 
   private:
     Rezept * theRezept;
@@ -99,6 +101,7 @@ namespace EuMax01
 
     LoadDialog * theLoadDialog;
     ErrorDialog * theErrorDialog;
+    NewDialog * theNewDialog;
 
     //EvtTarget * KeyListener;
     PositionDialog * Pos_Cam1;
@@ -168,6 +171,22 @@ namespace EuMax01
     Label * Label_LadenName;
     Label * pLabel_Rezepte[LoadDialog::RezepteLen];
     char DateiNamen[LoadDialog::RezepteLen][16];
+  };
+
+
+  class NewDialog : public Screen
+  {
+  public:
+    NewDialog(int sdlw,int sdlh, int camw,int camh,int yPos,\
+	       ArbeitsDialog * parent);
+    ArbeitsDialog * Parent;
+
+  private:
+    Label * Label_NewName;
+    Label * Label_Name;
+    TextField * TextField_Name;
+    
+    Rezept theRecipe;
   };
   
 #endif /* __CAPDIALOGE_H__*/

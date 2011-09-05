@@ -15,7 +15,7 @@ extern "C" {
 struct Position
 {
   unsigned short cam;
-  unsigned short cross;
+  unsigned short z_pos;
 };
 
 struct PositionSet
@@ -32,8 +32,9 @@ struct PositionSet
     Rezept();
     unsigned short getCamPosition(int cam,int rezept);
     static const int AnzahlRezepte = 8;
-  private:
+    char Name[16];
     struct PositionSet Rezepte[8];
+  private:
   };
 
 #endif /* __REZEPT_H__*/

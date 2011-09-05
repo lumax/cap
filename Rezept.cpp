@@ -31,9 +31,9 @@ static void evtExit(void * src,SDL_Event * evt){
     for(i=0;i<Rezept::AnzahlRezepte;i++)
       {
 	this->Rezepte[i].cams[0].cam = i;
-	this->Rezepte[i].cams[0].cross = i;
+	this->Rezepte[i].cams[0].z_pos = i;
 	this->Rezepte[i].cams[1].cam = i;
-	this->Rezepte[i].cams[1].cross = i;
+	this->Rezepte[i].cams[1].z_pos = i;
       }
   };
 
