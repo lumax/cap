@@ -180,13 +180,18 @@ namespace EuMax01
     NewDialog(int sdlw,int sdlh, int camw,int camh,int yPos,\
 	       ArbeitsDialog * parent);
     ArbeitsDialog * Parent;
+    void incStep();
+    void decStep();
+    int getStep();
+    TextField * TextField_Name;
 
   private:
     Label * Label_NewName;
     Label * Label_Name;
-    TextField * TextField_Name;
+
     
     Rezept theRecipe;
+    int step;
   };
   
 #endif /* __CAPDIALOGE_H__*/

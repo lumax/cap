@@ -964,6 +964,25 @@ ___________________________________________
     SDL_KeyboardEvent * key = (SDL_KeyboardEvent *)&evt->key;
     char zeichen = 0;
 
+    if(ad->getStep()==0)
+      {
+
+	/*	if(key->keysym.sym == SDLK_DELETE)
+	  {
+	    ad->TextField_Name->removeChar();
+	  }
+	else if(key->keysym.sym == SDLK_BACKSPACE)
+	  {
+	    ad->TextField_Name->removeChar();
+	  }
+	zeichen = Tool::getStdASCII_Char(key);
+	if(zeichen)
+	  {
+	    printf("zeichen\n");
+	    ad->TextField_Name->addChar(zeichen);
+	    }*/
+      }
+
     if( key->type == SDL_KEYUP )
       {
 	if(key->keysym.sym == SDLK_ESCAPE)
@@ -989,12 +1008,20 @@ ___________________________________________
     unsigned short MZeile_h;
     //unsigned short Rezepte_y;
     //short Rezepte_w;
-    short MLoadName_y, MLabels_y;
+    short Zeile1_y,Zeile2_y,Zeile3_y,Zeile4_y;
 
     this->Parent = parent;
+    this->step = 0;
+    this->theRecipe.Name[0]='\0';
+    for(int i = 0;i<LoadDialog::MaxRezeptFileLaenge;i++)
+      {
+	this->theRecipe.Rezepte[i].cams[0].cam = 0;
+	this->theRecipe.Rezepte[i].cams[1].cam = 0;
+	this->theRecipe.Rezepte[i].cams[0].z_pos = 0;
+	this->theRecipe.Rezepte[i].cams[1].z_pos = 0;
+      }
 
     M_y = sdlh - yPos;
-    //[master cec6470] Dialoge: get und set Crossaire
     if(M_y<=84)
       {
 	MSpace_h = 2;
@@ -1006,28 +1033,62 @@ ___________________________________________
 	MZeile_h = 28;
       }
 
+    /*if(M_y<=84)
+      {
+	MName_w = 90;     //5*MZeile_h
+	MNameNr_w = 54;   //3*MZeile_h
+	MNameSpace_w = 61;//(1012 - (MName_w+MNameNr_w*8))/8 = 61,25
+      }
+    else
+      {
+	MName_w = 112;     //4*MZeile_h
+	MNameNr_w = 56;    //2*MZeile_h
+	MNameSpace_w = 56; //(1012 - (MName_w+MNameNr_w*8))/8 = 56
+       }*/
+
     MLinks_x = sdlw/2 - 506;
 
-    MLoadName_y  = yPos + 1*MSpace_h + 0*MZeile_h;
-    //Rezepte_y = yPos + 2*MSpace_h + 1*MZeile_h;
+    Zeile1_y = yPos + 1*MSpace_h + 0*MZeile_h;
+    Zeile2_y = yPos + 2*MSpace_h + 1*MZeile_h;
+    Zeile3_y = yPos + 3*MSpace_h + 2*MZeile_h;
+    Zeile4_y = yPos + 4*MSpace_h + 3*MZeile_h;
     //Rezepte_w = 108;
 
-    this->theRecipe.Name[0]='\0';
-    for(int i = 0;i<LoadDialog::MaxRezeptFileLaenge;i++)
-      {
-	this->theRecipe.Rezepte[i].cams[0].cam = 0;
-	this->theRecipe.Rezepte[i].cams[1].cam = 0;
-	this->theRecipe.Rezepte[i].cams[0].z_pos = 0;
-	this->theRecipe.Rezepte[i].cams[1].z_pos = 0;
-      }
-
-    Label_NewName = new Label("NEW RECIPE",MLinks_x,MLoadName_y,506*2,MZeile_h);
+    Label_NewName = new Label("NEW RECIPE",MLinks_x,Zeile1_y,506*2,MZeile_h);
+    Label_Name = new Label("Name :",MLinks_x,Zeile2_y,506-MSpace_h,MZeile_h);
+    TextField_Name = new TextField(0,LoadDialog::MaxRezeptFileLaenge,	\
+				   MLinks_x+506+MSpace_h,		\
+				   Zeile2_y,506-MSpace_h,		\
+				   MZeile_h);
+    TextField_Name->setActive(true);
 
     addEvtTarget(Label_NewName);
+    addEvtTarget(Label_Name);
+    addEvtTarget(TextField_Name);
 
     this->pTSource = this;//EvtTarget Quelle setzen, damit der EvtListener die Quelle mitteilen kann
     this->setKeyboardUpEvtHandler(NewDialogKeyListener);
     this->addEvtTarget(this);//den Screen Key Listener bei sich selber anmelden!
   }
 
+  void NewDialog::incStep()
+  {
+    if(this->step<=8)
+      this->step++;
+    if(this->step!=0)
+      TextField_Name->setActive(false);
+  }
+  
+  void NewDialog::decStep()
+  {
+    if(this->step>0)
+      this->step--;
+    if(this->step==0)
+      this->TextField_Name->setActive(true);
+  }
+  
+  int NewDialog::getStep()
+  {
+    return this->step;
+  }
 }
