@@ -260,7 +260,7 @@ ___________________________________________
     short MRechts_x;
     unsigned short MSpace_h;
     unsigned short MZeile_h;
-    short MIst_y,MSoll_y,MName_y,MInfo_y;
+    short MName_y,MInfo_y;
 
     unsigned short MName_w;
     unsigned short MNameNr_w;
@@ -303,9 +303,7 @@ ___________________________________________
     Area.w = sdlw;
     Area.h = M_y;
 
-    MIst_y  = yPos + 1*MSpace_h + 0*MZeile_h;
-    MSoll_y = yPos + 2*MSpace_h + 1*MZeile_h;
-    MName_y = yPos + 3*MSpace_h + 2*MZeile_h;
+    MName_y = yPos + 2*MSpace_h + 1*MZeile_h;
     MInfo_y = yPos + 4*MSpace_h + 3*MZeile_h;
 
     if(M_y<=84)
@@ -341,31 +339,21 @@ ___________________________________________
     MInfoF8_x  = MLinks_x + 6*MInfo_w + 6*MInfoSpace_w;
     MInfoF12_x = MLinks_x + 7*MInfo_w + 7*MInfoSpace_w;
 
+    Pos_Cam1 = new PositionDialog("cam1 position",sdlw/2-506,MName_y,\
+				  506,1*MSpace_h+2*MZeile_h);
+    Pos_Cam2 = new PositionDialog("cam2 position",sdlw/2,MName_y,\
+				  506,1*MSpace_h+2*MZeile_h);
 
-    Pos_Cam1 = new PositionDialog("cam1 position",sdlw/2-506,yPos,506,MName_y-yPos);
-    Pos_Cam2 = new PositionDialog("cam2 position",sdlw/2,yPos,506,MName_y-yPos);
-
-
-    /*    Label_IstX1 = new Label("---",MLinks_x,MIst_y,100,MZeile_h);
-    Label_IstX1_Name = new Label("current cam:",MLinks_x,MIst_y,200,MZeile_h);
-    Label_SollX1 = new Label("---",MLinks_x,MSoll_y,100,MZeile_h);
-    Label_SollX1_Name = new Label("reference cam:",MLinks_x,MSoll_y,200,MZeile_h);
-
-    Label_IstX2 = new Label("---",MRechts_x,MIst_y,100,MZeile_h);
-    Label_IstX2_Name = new Label("current cam:",MRechts_x,MIst_y,200,MZeile_h);
-    Label_SollX2 = new Label("---",MRechts_x,MSoll_y,100,MZeile_h);
-    Label_SollX2_Name = new Label("reference cam:",MRechts_x,MSoll_y,200,MZeile_h);
-    */
-
-    Label_RezeptName = new Label("----------------",MLinks_x,MName_y,MName_w,MZeile_h);
-    Label_RezeptNr1 = new Label("1",MNameNr1_x,MName_y,MNameNr_w,MZeile_h);
-    Label_RezeptNr2 = new Label("2",MNameNr2_x,MName_y,MNameNr_w,MZeile_h);
-    Label_RezeptNr3 = new Label("3",MNameNr3_x,MName_y,MNameNr_w,MZeile_h);
-    Label_RezeptNr4 = new Label("4",MNameNr4_x,MName_y,MNameNr_w,MZeile_h);
-    Label_RezeptNr5 = new Label("5",MNameNr5_x,MName_y,MNameNr_w,MZeile_h);
-    Label_RezeptNr6 = new Label("6",MNameNr6_x,MName_y,MNameNr_w,MZeile_h);
-    Label_RezeptNr7 = new Label("7",MNameNr7_x,MName_y,MNameNr_w,MZeile_h);
-    Label_RezeptNr8 = new Label("8",MNameNr8_x,MName_y,MNameNr_w,MZeile_h);
+    Label_RezeptName = new Label("----------------",MLinks_x,yPos+MSpace_h,\
+				 MName_w,MZeile_h);
+    Label_RezeptNr1 = new Label("1",MNameNr1_x,yPos+MSpace_h,MNameNr_w,MZeile_h);
+    Label_RezeptNr2 = new Label("2",MNameNr2_x,yPos+MSpace_h,MNameNr_w,MZeile_h);
+    Label_RezeptNr3 = new Label("3",MNameNr3_x,yPos+MSpace_h,MNameNr_w,MZeile_h);
+    Label_RezeptNr4 = new Label("4",MNameNr4_x,yPos+MSpace_h,MNameNr_w,MZeile_h);
+    Label_RezeptNr5 = new Label("5",MNameNr5_x,yPos+MSpace_h,MNameNr_w,MZeile_h);
+    Label_RezeptNr6 = new Label("6",MNameNr6_x,yPos+MSpace_h,MNameNr_w,MZeile_h);
+    Label_RezeptNr7 = new Label("7",MNameNr7_x,yPos+MSpace_h,MNameNr_w,MZeile_h);
+    Label_RezeptNr8 = new Label("8",MNameNr8_x,yPos+MSpace_h,MNameNr_w,MZeile_h);
 
     Label_InfoF1 = new Label("F1: load",MInfoF1_x,MInfo_y,MInfo_w,MZeile_h);
     Label_InfoF2 = new Label("F2: save",MInfoF2_x,MInfo_y,MInfo_w,MZeile_h);
@@ -390,15 +378,6 @@ ___________________________________________
     pLabel_CurrentRezept[6] = Label_RezeptNr7;
     pLabel_CurrentRezept[7] = Label_RezeptNr8;
     
-    /*addEvtTarget(Label_IstX1);
-    addEvtTarget(Label_IstX1_Name);
-    addEvtTarget(Label_SollX1);
-    addEvtTarget(Label_SollX1_Name);
-
-    addEvtTarget(Label_IstX2);
-    addEvtTarget(Label_IstX2_Name);
-    addEvtTarget(Label_SollX2);
-    addEvtTarget(Label_SollX2_Name);*/
     addEvtTarget(&Pos_Cam1->EvtTargets);
     addEvtTarget(&Pos_Cam2->EvtTargets);
 
