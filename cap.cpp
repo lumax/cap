@@ -1,5 +1,6 @@
 //#include <iostream>
 #include <stdio.h>
+#include <termios.h>
 //#include <iostream>
 //#include <stdlib.h>
 #include <SDL/SDL.h>
@@ -16,7 +17,7 @@
 #include "Main.h"
 #include "Rezept.h"
 #include "Dialoge.h"
-
+#include "MBProt.h"
 #include <dsp_jpeg.h>
 #include "v4l_capture.h"
 #include "iniParser.h"
@@ -671,6 +672,7 @@ static void theSecondaryEvtHandling(SDL_Event * theEvent)
 MainDialog * theMainDialog;
 ArbeitsDialog * theArbeitsDialog;
 PositionDialog * thePositionDialog;
+MBProtocol theProtocol;
 Rezept theRezept;
 
 int main(int argc, char *argv[])
@@ -778,16 +780,26 @@ int main(int argc, char *argv[])
     printf("failure GUI::getInstance()\n");
     return -1;
   }
+  
+  theProtocol = MBProtocol();
+  if(theProtocol.initProtocol(theGUI))
+    printf("Uart communication failed\n");
+
   ButtonAreaHeight = sdlheight - 168;
   camCtrl = new CamControl(theGUI,Pixelformat,rgb_mode,ButtonAreaHeight);
   //theMainDialog = new MainDialog(sdlwidth,sdlheight,camwidth,camheight,ButtonAreaHeight);
   theArbeitsDialog = new ArbeitsDialog(theGUI,			\
+				       &theProtocol,		\
 				       sdlwidth,		\
 				       sdlheight,		\
 				       camwidth,		\
 				       camheight,		\
 				       ButtonAreaHeight);
   //thePositionDialog = new PositionDialog(sdlwidth/2-506,ButtonAreaHeight,506,100);
+
+  //  else
+  //  theProtocol.closeProtocol();
+  
 
   theRezept = Rezept();
   //  theGUI->activateScreen(theMainDialog);

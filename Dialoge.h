@@ -63,11 +63,14 @@ namespace EuMax01
   class ErrorDialog;
   class LoadDialog;
   class NewDialog;
+  class MBProtocol;
 
   class ArbeitsDialog : public Screen
   {
   public:
-    ArbeitsDialog(GUI * pGUI,int sdlw,int sdlh, int camw,int camh,int yPos);
+    ArbeitsDialog(GUI * pGUI,MBProtocol * prot,\
+		  int sdlw,int sdlh, int camw,\
+		  int camh,int yPos);
     void showRezept(Rezept * pRezept,int nummer);
     void showRezept(int nummer);
     void incRezeptNummer();
@@ -80,6 +83,7 @@ namespace EuMax01
     void showRecipe(Rezept * rez);
 
     GUI * theGUI;
+    MBProtocol * theProtocol;
     
     void showLoadDialog(unsigned int page);
     void showArbeitsDialog();

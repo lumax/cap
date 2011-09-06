@@ -5,6 +5,7 @@ Bastian Ruppert
 #include <stdio.h>
 #include <sys/types.h>
 #include <dirent.h>
+#include <termios.h>
 
 #include <string.h>
 
@@ -21,6 +22,7 @@ Bastian Ruppert
 
 #include "v4l_capture.h"
 #include "Rezept.h"
+#include "MBProt.h"
 
 #include "Dialoge.h"
 
@@ -177,7 +179,9 @@ Bexit = sdlw/2 - Buttonwidth/2
 	  }
 	else if(key->keysym.sym == SDLK_F2)
 	  {
-	    printf("F2\n");
+	    //printf("F2\n");
+	    printf("ad->theProtocol->getQ1(); returns: %i\n",	\
+		   ad->theProtocol->getQ1());
 	  }
 	else if(key->keysym.sym == SDLK_F3)
 	  {
@@ -227,6 +231,7 @@ Bexit = sdlw/2 - Buttonwidth/2
   }
 
   ArbeitsDialog::ArbeitsDialog(GUI * pGUI,	\
+			       MBProtocol *prot,\
 			       int sdlw,	\
 			       int sdlh,	\
 			       int camw,	\
@@ -279,6 +284,7 @@ ___________________________________________
     Cam2Dif = 6;
 
     this->theGUI = pGUI;
+    this->theProtocol = prot;
     theLoadDialog = new LoadDialog(sdlw,sdlh,camw,camh,yPos,this);
     theErrorDialog = new ErrorDialog(sdlw,sdlh,camw,camh,yPos,this);
     theNewDialog = new NewDialog(sdlw,sdlh,camw,camh,yPos,this);
