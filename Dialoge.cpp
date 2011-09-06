@@ -988,20 +988,22 @@ ___________________________________________
       {
 	if(key->keysym.sym == SDLK_ESCAPE)
 	  {
-	    if(ad->getStep()==0)
-	      {
-		ad->Parent->showArbeitsDialog();
-	      }
-	    ad->decStep();
+	    ad->Parent->showArbeitsDialog();
 	  }
 	else if(key->keysym.sym == SDLK_RETURN)
 	  {
-	    if(ad->getStep()>=8)
-	      {
-		printf("Rezepte fertig! abspeicher!!!\n");
-		ad->Parent->showArbeitsDialog();
-	      }
-	    ad->incStep();
+	    printf("Rezepte fertig! abspeicher!!!\n");
+	    ad->Parent->showArbeitsDialog();
+	  }
+	else if(key->keysym.sym == SDLK_LEFT)
+	  {
+	    if(ad->getStep()>=0)
+	      ad->decStep();
+	  }
+	else if(key->keysym.sym == SDLK_RIGHT)
+	  {
+	    if(ad->getStep()<8)
+	      ad->incStep();
 	  }
       }
   }
@@ -1070,6 +1072,11 @@ ___________________________________________
     Label_Info = new Label("Return: next step | Esc: Cancel",MLinks_x,Zeile4_y,\
 			   506*2,MZeile_h);
 
+    snprintf(this->InfoText,256,				       \
+	     "Recipe Name | RETURN : save recipe | ESC : abort | "	\
+	     "LEFT previous step | RIGHT next step");
+    this->Label_Info->setText(this->InfoText);
+
     TextField_Name = new TextField(0,LoadDialog::MaxRezeptFileLaenge,	\
 				   MLinks_x+506+MSpace_h,		\
 				   Zeile2_y,506-MSpace_h,		\
@@ -1092,18 +1099,10 @@ ___________________________________________
       {
 	this->step++;
       }
-    if(this->step==8)
-      {
-	snprintf(this->InfoText,256,					\
-		 "Recipe step %i | RETURN : save recipe | ESC : previous step ", \
-		 this->step);
-      }
-    else
-      {
-	snprintf(this->InfoText,256,					\
-		 "Recipe step %i | RETURN: next step | ESC previous step", \
-		 this->step);
-      }
+    snprintf(this->InfoText,256,					\
+	     "Recipe step %i | RETURN : save recipe | ESC : abort | "	\
+	     "LEFT previous step | RIGHT next step",			\
+	     this->step);
 
     if(this->step!=0)
       TextField_Name->setActive(false);
@@ -1117,23 +1116,21 @@ ___________________________________________
       {
 	this->step--;	
       }
-    if(this->step==1)
+    if( this->step==0)
       {
-	snprintf(this->InfoText,256,					\
-		 "Recipe step 1 | RETURN: next step | ESC set name");
-      }
-    else if(this->step==0)
-      {
-	snprintf(this->InfoText,256,					\
-		 "Enter savename | RETURN: next step | ESC abort");
 	this->TextField_Name->setActive(true);
+	snprintf(this->InfoText,256,					\
+		 "Recipe Name | RETURN : save recipe | ESC : abort | " \
+		 "LEFT previous step | RIGHT next step");
       }
     else
       {
 	snprintf(this->InfoText,256,					\
-		 "Recipe step %i | RETURN: next step | ESC previous step",this->step);
+		 "Recipe step %i | RETURN : save recipe | ESC : abort | " \
+		 "LEFT previous step | RIGHT next step",		\
+		 this->step);
       }
-      this->Label_Info->setText(this->InfoText);
+    this->Label_Info->setText(this->InfoText);
   }
   
   int NewDialog::getStep()
