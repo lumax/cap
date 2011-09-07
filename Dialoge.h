@@ -64,8 +64,9 @@ namespace EuMax01
   class LoadDialog;
   class NewDialog;
   class MBProtocol;
+  class EuMax01::IMBProtListener;
 
-  class ArbeitsDialog : public Screen
+  class ArbeitsDialog : public Screen,IMBProtListener
   {
   public:
     ArbeitsDialog(GUI * pGUI,MBProtocol * prot,\

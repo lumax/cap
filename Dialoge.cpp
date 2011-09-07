@@ -180,8 +180,8 @@ Bexit = sdlw/2 - Buttonwidth/2
 	else if(key->keysym.sym == SDLK_F2)
 	  {
 	    //printf("F2\n");
-	    printf("ad->theProtocol->getQ1(); returns: %i\n",	\
-		   ad->theProtocol->getQ1());
+	    printf("ad->theProtocol->enableAuto(); returns: %i\n",	\
+		   ad->theProtocol->enableAuto());
 	  }
 	else if(key->keysym.sym == SDLK_F3)
 	  {
@@ -817,7 +817,7 @@ ___________________________________________
     Label_LadenName = new Label("LOAD RECIPE",MLinks_x,MLoadName_y,506*2,MZeile_h);
     int ii = 0;
     char tmpc[16] = { 'x','X','x','x','x','x','x','x'};
-    tmpc[15]='/0';
+    tmpc[15]='\0';
     for(int i=0;i<LoadDialog::RezepteLen;i++)
       {
 	if(ii>=LoadDialog::RezepteProZeile)

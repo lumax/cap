@@ -780,9 +780,13 @@ int main(int argc, char *argv[])
     printf("failure GUI::getInstance()\n");
     return -1;
   }
-  
+ 
+
+  theRezept = Rezept();
+  //  theGUI->activateScreen(theMainDialog);
+  theArbeitsDialog->showRezept(&theRezept,0); 
   theProtocol = MBProtocol();
-  if(theProtocol.initProtocol(theGUI))
+  if(theProtocol.initProtocol(theGUI,theArbeitsDialog))
     printf("Uart communication failed\n");
 
   ButtonAreaHeight = sdlheight - 168;
@@ -800,10 +804,7 @@ int main(int argc, char *argv[])
   //  else
   //  theProtocol.closeProtocol();
   
-
-  theRezept = Rezept();
-  //  theGUI->activateScreen(theMainDialog);
-  theArbeitsDialog->showRezept(&theRezept,0);  
+ 
   theGUI->activateScreen(theArbeitsDialog);
 
   //theGUI->activateScreen(thePositionDialog);

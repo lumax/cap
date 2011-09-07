@@ -15,6 +15,10 @@
 ********************************************************************************
 */
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 // state definition of protocol engine
 enum PRTSTATES {nPRTINIT, nPRTSCANHEADER, nPRTRCVCMD, nPRTRCVLEN, nPRTRCVNO, nPRTRCVDAT, nPRTRCVCRC};
 
@@ -73,3 +77,6 @@ unsigned char  prt_sendmsg_int_ack (unsigned char ucCmd,int iVal);
 unsigned char  prt_sendmsg_uint_ack (unsigned char ucCmd,unsigned int uiVal);
 #endif
 
+#ifdef __cplusplus
+}
+#endif

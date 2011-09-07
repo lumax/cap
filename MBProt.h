@@ -7,9 +7,16 @@ namespace EuMax01
 
 #ifndef __MBPROT_H__
 #define __MBPROT_H__
-  //#include "Poll.h"
+
   class PollReader;
   class PollTimer;
+
+  class IMBProtListener
+  {
+  public:
+    virtual ~IMBProtListener() {}
+    virtual void (Q1_evt)(unsigned short dat) = 0;
+  };
 
   class MBProtocol:IPollTimerListener,IPollReadListener
   {
@@ -18,14 +25,17 @@ namespace EuMax01
     
     virtual void pollReadEvent(PollSource * s);
     virtual void pollTimerExpired(long us);
-    int initProtocol(GUI * pGUI);
+    int initProtocol(GUI * pGUI,IMBProtListener * listener);
+    IMBProtListener * lis;
     void closeProtocol();
     int getQ1();
+    int enableAuto();
   private:
     struct termios termOptions;
     int fd;
     PollTimer * pPollTimer;
     PollReader * pPollIncoming;
+    //void dispatcher(unsigned char ucDat);
   };
   
 #endif /* __MBPROT_H__*/

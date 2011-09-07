@@ -15,14 +15,9 @@
 ********************************************************************************
 */
 
-#include "protconfig.h"
-#include "protocol.h"
+#include "Protconfig.h"
+#include "Protocol.h"
 #include <string.h>
-#ifdef PRTPCMODE
-#include "fw3main.h"
-#else
-#include "main.h"
-#endif
 
 
 volatile unsigned char ucPrtMsgLen;			// len of message frame
@@ -73,14 +68,14 @@ unsigned char ucI;
 
 // functionpointertable of receiver state machine
 
-const(*prtTable[8])(unsigned char) = {	(const (*)(unsigned char))prt_init,		\
-										(const (*)(unsigned char))prt_scan_framestart, 	\
-										(const (*)(unsigned char))prt_rcv_cmd, 			\
-								     	(const (*)(unsigned char))prt_rcv_len, 			\
-										(const (*)(unsigned char))prt_rcv_no, 			\
-										(const (*)(unsigned char))prt_rcv_dat, 			\
-										(const (*)(unsigned char))prt_rcv_crc,			\
-										(const (*)(unsigned char))prt_idle};
+const void (*prtTable[8])(unsigned char) = {	(const void(*)(unsigned char))prt_init,		\
+										(const void(*)(unsigned char))prt_scan_framestart, 	\
+										(const void(*)(unsigned char))prt_rcv_cmd, 			\
+								     	(const void(*)(unsigned char))prt_rcv_len, 			\
+										(const void(*)(unsigned char))prt_rcv_no, 			\
+										(const void(*)(unsigned char))prt_rcv_dat, 			\
+										(const void(*)(unsigned char))prt_rcv_crc,			\
+										(const void(*)(unsigned char))prt_idle};
 
 
 #ifdef PRTPCMODE
@@ -365,6 +360,7 @@ unsigned char * ptrVal;
 	prt_putchar(ucCrc);
 
 }
+#undef ACKMODE
 #ifdef ACKMODE
 unsigned char  prt_sendmsg_uint_ack (unsigned char ucCmd,unsigned int uiVal)
 {
