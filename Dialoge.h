@@ -4,7 +4,7 @@ Bastian Ruppert
 
 namespace EuMax01
 {
-
+  //  #include "pec_cmd.h"
 #ifndef __CAPDIALOGE_H__
 #define __CAPDIALOGE_H__
 
@@ -64,14 +64,22 @@ namespace EuMax01
   class LoadDialog;
   class NewDialog;
   class MBProtocol;
-  class EuMax01::IMBProtListener;
+  //class IMBProtListener;
 
-  class ArbeitsDialog : public Screen,IMBProtListener
+  class IMBProtListener
+  {
+  public:
+    virtual ~IMBProtListener() {}
+    virtual void (Q1_evt)(unsigned short dat) = 0;
+  };
+
+  class ArbeitsDialog : public Screen,virtual public IMBProtListener
   {
   public:
     ArbeitsDialog(GUI * pGUI,MBProtocol * prot,\
 		  int sdlw,int sdlh, int camw,\
 		  int camh,int yPos);
+    ~ArbeitsDialog();
     void showRezept(Rezept * pRezept,int nummer);
     void showRezept(int nummer);
     void incRezeptNummer();
@@ -82,6 +90,8 @@ namespace EuMax01
     void setCross1Ref();
     void setCross2Ref();
     void showRecipe(Rezept * rez);
+
+    void Q1_evt(unsigned short dat);
 
     GUI * theGUI;
     MBProtocol * theProtocol;

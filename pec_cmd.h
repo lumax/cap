@@ -1,6 +1,9 @@
 
 // Kommandofile V1.1 07.09.2011 bru
 
+#ifndef __PEC_CMD_h__
+#define __PEC_CMD_h__
+
 #define nPEC_ASEND_ON	0x20	// Autosend der Daten einschalten
 #define nPEC_ASEND_OFF	0x21	// Autosend der Daten ausschalten
 
@@ -12,7 +15,7 @@
 #define nPEC_GET_Q1		0x34	// Position X1 abfragen int16 0-0xFFFF
 #define nPEC_GET_Q2		0x35	// Position X2 abfragen int16 0-0xFFFF
 #define nPEC_GET_Z1		0x36	// Position Z1 abfragen int16 0-0xFFFF
-#define nPEC_GET_Z2		0x37	// Position Z2 abfragen int16 0-0xFFFF 
+#define nPEC_GET_Z2		0x37	// Position Z2 abfragen int16 0-0xFFFF
 
 #define nPEC_GET_FP1	0x40	// Position F1 abfragen int16 0-0x3FF
 #define nPEC_GET_FP2	0x41	// Position F2 abfragen int16 0-0x3FF
@@ -21,4 +24,4 @@
 #define nPEC_SWVERSION	0x51	// Softwareversion int16
 #define nPEC_HWVERSION	0x52	// Hardwareversion int16
 
-
+#endif

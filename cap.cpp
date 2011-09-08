@@ -17,6 +17,7 @@
 #include "Main.h"
 #include "Rezept.h"
 #include "Dialoge.h"
+#include "pec_cmd.h"
 #include "MBProt.h"
 #include <dsp_jpeg.h>
 #include "v4l_capture.h"
@@ -650,7 +651,7 @@ const char * usage =				\
   "    -fullscreen for Fullscreen\n"\
   "    -m for MJPEG (normally use RAW\n";
 
-static void theSecondaryEvtHandling(SDL_Event * theEvent)
+/*static void theSecondaryEvtHandling(SDL_Event * theEvent)
 {
   switch(theEvent->type)
     {
@@ -667,7 +668,7 @@ static void theSecondaryEvtHandling(SDL_Event * theEvent)
 	printf("eventType %i,\n",theEvent->type);
       }
     }
-}
+    }*/
 
 MainDialog * theMainDialog;
 ArbeitsDialog * theArbeitsDialog;
@@ -782,11 +783,9 @@ int main(int argc, char *argv[])
   }
  
 
-  theRezept = Rezept();
-  //  theGUI->activateScreen(theMainDialog);
-  theArbeitsDialog->showRezept(&theRezept,0); 
+
   theProtocol = MBProtocol();
-  if(theProtocol.initProtocol(theGUI,theArbeitsDialog))
+  if(theProtocol.initProtocol(theGUI))//,theArbeitsDialog))
     printf("Uart communication failed\n");
 
   ButtonAreaHeight = sdlheight - 168;
@@ -803,7 +802,9 @@ int main(int argc, char *argv[])
 
   //  else
   //  theProtocol.closeProtocol();
-  
+  theRezept = Rezept();
+  //  theGUI->activateScreen(theMainDialog);
+  theArbeitsDialog->showRezept(&theRezept,0); 
  
   theGUI->activateScreen(theArbeitsDialog);
 

@@ -22,11 +22,11 @@ Bastian Ruppert
 
 #include "v4l_capture.h"
 #include "Rezept.h"
+#include "pec_cmd.h"
 #include "MBProt.h"
 
 #include "Dialoge.h"
 
-#include <stdio.h>
 namespace EuMax01
 {
 
@@ -168,7 +168,7 @@ Bexit = sdlw/2 - Buttonwidth/2
   {
     ArbeitsDialog* ad = (ArbeitsDialog*)src;//KeyListener
     SDL_KeyboardEvent * key = (SDL_KeyboardEvent *)&evt->key;
-    char zeichen = 0;
+    //char zeichen = 0;
 
     if( key->type == SDL_KEYUP )
       {
@@ -229,14 +229,14 @@ Bexit = sdlw/2 - Buttonwidth/2
 	    }*/
       }
   }
-
+  ArbeitsDialog::~ArbeitsDialog(){}
   ArbeitsDialog::ArbeitsDialog(GUI * pGUI,	\
 			       MBProtocol *prot,\
 			       int sdlw,	\
 			       int sdlh,	\
 			       int camw,	\
 			       int camh,	\
-			       int yPos):Screen()
+			       int yPos)//:Screen()
   {
     /*    this->KeyListener = new EvtTarget();
     if(this->KeyListern)
@@ -555,6 +555,11 @@ ___________________________________________
   void ArbeitsDialog::showRecipe(Rezept * rez)
   {
     theGUI->activateScreen((Screen*)this);
+  }
+
+  void ArbeitsDialog::Q1_evt(unsigned short dat)
+  {
+
   }
 
   char * PositionDialog::getCamCurBuf()

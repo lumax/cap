@@ -36,7 +36,7 @@ namespace EuMax01
   MBProtocol::MBProtocol()
   {
     fd = 0;
-    lis = 0;
+    //lis = 0;
   }
 
   static void MBProt_putchar(unsigned char dat)
@@ -59,8 +59,8 @@ namespace EuMax01
 	  datum <<=8;
 	  datum +=*pucQuelle;
 	  printf("Q1 : %i\n",datum);
-	  if(MBProt_class->lis)
-	    MBProt_class->lis->Q1_evt(datum);
+	  /*	  if(MBProt_class->lis)
+		  MBProt_class->lis->Q1_evt(datum);*/
 	}
       default:
 	{
@@ -69,7 +69,7 @@ namespace EuMax01
       }
   }
 
-  int MBProtocol::initProtocol(GUI * pGUI,IMBProtListener * listener)
+  int MBProtocol::initProtocol(GUI * pGUI)//,IMBProtListener * listener)
   {
       // Open the tty:
     fd = open( "/dev/ttyACM0", O_RDWR );
@@ -102,7 +102,7 @@ namespace EuMax01
 	return -1;
       }
     MBProt_class = this;
-    this->lis = listener;
+    //this->lis = listener;
     PRTDISPATCHER = MBProt_dispatcher;
     PRTPUTCH = MBProt_putchar;
     prtmodule_init();
