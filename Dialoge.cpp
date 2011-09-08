@@ -505,8 +505,11 @@ ___________________________________________
     Cam1Dif = Cam1Cur - this->theRezept->getCamPosition(0,RezeptNummer);
     sprintf(this->Pos_Cam1->getCamDifBuf(),"%i",Cam1Dif);
     Pos_Cam1->Label_WertDif->setText(this->Pos_Cam1->getCamDifBuf());
+    Label::showLabel((void*)Pos_Cam1->Label_WertDif,this->theGUI->getMainSurface());
+
     sprintf(this->Pos_Cam1->getCamCurBuf(),"%i",Cam1Cur);
     Pos_Cam1->Label_WertCur->setText(this->Pos_Cam1->getCamCurBuf());
+    Label::showLabel((void*)Pos_Cam1->Label_WertCur,this->theGUI->getMainSurface());
   }
 
   void ArbeitsDialog::setCam2Cur(int val)
@@ -515,9 +518,34 @@ ___________________________________________
     Cam2Dif = Cam2Cur - this->theRezept->getCamPosition(1,RezeptNummer);
     sprintf(this->Pos_Cam2->getCamDifBuf(),"%i",Cam2Dif);
     Pos_Cam2->Label_WertDif->setText(this->Pos_Cam2->getCamDifBuf());
+    Label::showLabel((void*)Pos_Cam2->Label_WertDif,this->theGUI->getMainSurface());
     sprintf(this->Pos_Cam2->getCamCurBuf(),"%i",Cam2Cur);
     Pos_Cam2->Label_WertCur->setText(this->Pos_Cam2->getCamCurBuf());
+    Label::showLabel((void*)Pos_Cam2->Label_WertCur,this->theGUI->getMainSurface());
   }
+
+  /*  void ArbeitsDialog::setCam1Cur_Cross(int val)
+  {
+    Cam1Cur_Cross = val;
+    Cam1Dif_Cross = Cam1Cur_Cross - this->theRezept->getCrossPosition(0,RezeptNummer);
+    sprintf(this->Pos_Cam1->getCrossDifBuf(),"%i",Cross1Dif);
+    Pos_Cam2->Label_WertDif->setText(this->Pos_Cam2->getCamDifBuf());
+    Label::showLabel((void*)Pos_Cam2->Label_WertDif,this->theGUI->getMainSurface());
+    sprintf(this->Pos_Cam2->getCamCurBuf(),"%i",Cam2Cur);
+    Pos_Cam2->Label_WertCur->setText(this->Pos_Cam2->getCamCurBuf());
+    Label::showLabel((void*)Pos_Cam2->Label_WertCur,this->theGUI->getMainSurface());
+  }
+  void ArbeitsDialog::setCam2Cur_Cross(int val)
+  {
+    Cam2Cur = val;
+    Cam2Dif = Cam2Cur - this->theRezept->getCamPosition(1,RezeptNummer);
+    sprintf(this->Pos_Cam2->getCamDifBuf(),"%i",Cam2Dif);
+    Pos_Cam2->Label_WertDif->setText(this->Pos_Cam2->getCamDifBuf());
+    Label::showLabel((void*)Pos_Cam2->Label_WertDif,this->theGUI->getMainSurface());
+    sprintf(this->Pos_Cam2->getCamCurBuf(),"%i",Cam2Cur);
+    Pos_Cam2->Label_WertCur->setText(this->Pos_Cam2->getCamCurBuf());
+    Label::showLabel((void*)Pos_Cam2->Label_WertCur,this->theGUI->getMainSurface());
+    }*/
 
   void ArbeitsDialog::showRezept(int nummer)
   {
@@ -559,7 +587,36 @@ ___________________________________________
 
   void ArbeitsDialog::Q1_evt(unsigned short dat)
   {
+    setCam1Cur(dat);
+  }
 
+  void ArbeitsDialog::Q2_evt(unsigned short dat)
+  {
+    setCam2Cur(dat);
+  }
+  void ArbeitsDialog::Z1_evt(unsigned short dat)
+  {
+    printf("ArbeitsDialog getZ1:%i\n",dat);   
+  }
+  void ArbeitsDialog::Z2_evt(unsigned short dat)
+  {
+    printf("ArbeitsDialog getZ2:%i\n",dat);
+  }
+  void ArbeitsDialog::FP1_evt(unsigned short dat)
+  {
+    printf("ArbeitsDialog getFP1:%i\n",dat);
+  }
+  void ArbeitsDialog::FP2_evt(unsigned short dat)
+  {
+    printf("ArbeitsDialog getFB2:%i\n",dat);
+  }
+  void ArbeitsDialog::SWVersion_evt(unsigned short dat)
+  {
+    printf("ArbeitsDialog SWVersion:%i\n",dat);
+  }
+  void ArbeitsDialog::HWVersion_evt(unsigned short dat)
+  {
+    printf("ArbeitsDialog HWVersion:%i\n",dat);
   }
 
   char * PositionDialog::getCamCurBuf()

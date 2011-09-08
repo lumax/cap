@@ -785,8 +785,7 @@ int main(int argc, char *argv[])
 
 
   theProtocol = MBProtocol();
-  if(theProtocol.initProtocol(theGUI))//,theArbeitsDialog))
-    printf("Uart communication failed\n");
+
 
   ButtonAreaHeight = sdlheight - 168;
   camCtrl = new CamControl(theGUI,Pixelformat,rgb_mode,ButtonAreaHeight);
@@ -799,6 +798,9 @@ int main(int argc, char *argv[])
 				       camheight,		\
 				       ButtonAreaHeight);
   //thePositionDialog = new PositionDialog(sdlwidth/2-506,ButtonAreaHeight,506,100);
+
+  if(theProtocol.initProtocol(theGUI,theArbeitsDialog))
+    printf("Uart communication failed\n");
 
   //  else
   //  theProtocol.closeProtocol();

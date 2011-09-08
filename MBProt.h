@@ -10,6 +10,7 @@ namespace EuMax01
 
   class PollReader;
   class PollTimer;
+  class IMBProtListener;
 
   class MBProtocol:IPollTimerListener,IPollReadListener
   {
@@ -18,8 +19,8 @@ namespace EuMax01
     
     virtual void pollReadEvent(PollSource * s);
     virtual void pollTimerExpired(long us);
-    int initProtocol(GUI * pGUI);//,IMBProtListener * listener);
-    //IMBProtListener * lis;
+    int initProtocol(GUI * pGUI,IMBProtListener * listener);
+    IMBProtListener * lis;
     void closeProtocol();
     int getQ1();
     int enableAuto();

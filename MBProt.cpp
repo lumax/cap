@@ -36,7 +36,7 @@ namespace EuMax01
   MBProtocol::MBProtocol()
   {
     fd = 0;
-    //lis = 0;
+    lis = 0;
   }
 
   static void MBProt_putchar(unsigned char dat)
@@ -46,30 +46,87 @@ namespace EuMax01
     if(ret!=1)
       perror("MBProt_putchar: error writing data\n");
   }
+  
+  static unsigned short getProtocol_UI16(void)
+  {
+    unsigned short datum;
+    unsigned char * pucQuelle = prt_get_data();
+    datum = *(pucQuelle+1);//MSB
+    datum <<=8;
+    datum +=*pucQuelle;
+    return datum;
+  }
 
   static void MBProt_dispatcher(unsigned char ucDat)
   {
+    static unsigned int counter = 0;
     unsigned short datum = 0;
     switch(ucDat)
       {
       case nPEC_GET_Q1:
 	{
-	  unsigned char * pucQuelle = prt_get_data();
-	  datum = *(pucQuelle+1);//MSB
-	  datum <<=8;
-	  datum +=*pucQuelle;
-	  printf("Q1 : %i\n",datum);
-	  /*	  if(MBProt_class->lis)
-		  MBProt_class->lis->Q1_evt(datum);*/
+	  datum = getProtocol_UI16();
+	  if(MBProt_class->lis)
+	    MBProt_class->lis->Q1_evt(datum);
+	  break;
+	}
+      case nPEC_GET_Q2:
+	{
+	  datum = getProtocol_UI16();
+	  if(MBProt_class->lis)
+	    MBProt_class->lis->Q2_evt(datum);
+	  break;
+	}
+      case nPEC_GET_Z1:
+	{
+	  datum = getProtocol_UI16();
+	  if(MBProt_class->lis)
+	    MBProt_class->lis->Z1_evt(datum);
+	  break;
+	}
+      case nPEC_GET_Z2:
+	{
+	  datum = getProtocol_UI16();
+	  if(MBProt_class->lis)
+	    MBProt_class->lis->Z2_evt(datum);
+	  break;
+	}
+      case nPEC_GET_FP1:
+	{
+	  datum = getProtocol_UI16();
+	  if(MBProt_class->lis)
+	    MBProt_class->lis->FP1_evt(datum);
+	  break;
+	}
+      case nPEC_GET_FP2:
+	{
+	  datum = getProtocol_UI16();
+	  if(MBProt_class->lis)
+	    MBProt_class->lis->FP2_evt(datum);
+	  break;
+	}
+      case nPEC_SWVERSION:
+	{
+	  datum = getProtocol_UI16();
+	  if(MBProt_class->lis)
+	    MBProt_class->lis->SWVersion_evt(datum);
+	  break;
+	}
+      case nPEC_HWVERSION:
+	{
+	  datum = getProtocol_UI16();
+	  if(MBProt_class->lis)
+	    MBProt_class->lis->HWVersion_evt(datum);
+	  break;
 	}
       default:
 	{
-	  //printf("protocoll Message received\n");
+	  counter++;
 	}
       }
   }
 
-  int MBProtocol::initProtocol(GUI * pGUI)//,IMBProtListener * listener)
+  int MBProtocol::initProtocol(GUI * pGUI,IMBProtListener * listener)
   {
       // Open the tty:
     fd = open( "/dev/ttyACM0", O_RDWR );
@@ -91,7 +148,7 @@ namespace EuMax01
     // Now set the term options (set immediately)
     tcsetattr( fd, TCSANOW, &termOptions );
 
-    pPollTimer = new PollTimer(5000,this);
+    pPollTimer = new PollTimer(100,this);
     pPollIncoming = new PollReader(this);
     pGUI->addPollTimer(this->pPollTimer);
     this->pPollIncoming->setReadSource(fd);
@@ -102,10 +159,11 @@ namespace EuMax01
 	return -1;
       }
     MBProt_class = this;
-    //this->lis = listener;
+    this->lis = listener;
     PRTDISPATCHER = MBProt_dispatcher;
     PRTPUTCH = MBProt_putchar;
     prtmodule_init();
+
     return 0;
   }
 
@@ -131,7 +189,19 @@ namespace EuMax01
 
   void MBProtocol::pollTimerExpired(long us)
   {
-    printf("MBProtocoll Timer Expired\n");
+    static int once = 0;
+    if(!once)
+      {
+	once=1;
+	if(enableAuto())
+	  {
+	    printf("Protocoll enableAuto failed\n");
+	  }
+	prt_sendmsg_uint(nPEC_SWVERSION,0x00);
+	prt_sendmsg_uint(nPEC_HWVERSION,0x00);
+      }
+    //printf("MBProtocoll Timer Expired\n");
+    prt_timer();
   }
 
   int MBProtocol::getQ1()

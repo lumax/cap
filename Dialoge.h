@@ -71,6 +71,13 @@ namespace EuMax01
   public:
     virtual ~IMBProtListener() {}
     virtual void (Q1_evt)(unsigned short dat) = 0;
+    virtual void (Q2_evt)(unsigned short dat) = 0;
+    virtual void (Z1_evt)(unsigned short dat) = 0;
+    virtual void (Z2_evt)(unsigned short dat) = 0;
+    virtual void (FP1_evt)(unsigned short dat) = 0;
+    virtual void (FP2_evt)(unsigned short dat) = 0;
+    virtual void (SWVersion_evt)(unsigned short dat) = 0;
+    virtual void (HWVersion_evt)(unsigned short dat) = 0;
   };
 
   class ArbeitsDialog : public Screen,virtual public IMBProtListener
@@ -92,6 +99,13 @@ namespace EuMax01
     void showRecipe(Rezept * rez);
 
     void Q1_evt(unsigned short dat);
+    void Q2_evt(unsigned short dat);
+    void Z1_evt(unsigned short dat);
+    void Z2_evt(unsigned short dat);
+    void FP1_evt(unsigned short dat);
+    void FP2_evt(unsigned short dat);
+    void SWVersion_evt(unsigned short dat);
+    void HWVersion_evt(unsigned short dat);
 
     GUI * theGUI;
     MBProtocol * theProtocol;
@@ -113,6 +127,11 @@ namespace EuMax01
     int Cam1Dif;
     int Cam2Cur;
     int Cam2Dif;
+
+    int Cam1Cur_Cross;
+    int Cam1Dif_Cross;
+    int Cam2Cur_Cross;
+    int Cam2Dif_Cross;
 
     LoadDialog * theLoadDialog;
     ErrorDialog * theErrorDialog;
