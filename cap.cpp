@@ -15,6 +15,7 @@
 #include "Globals.h"
 #include "Poll.h"
 #include "Main.h"
+#include "Tools.h"
 #include "Rezept.h"
 #include "Dialoge.h"
 #include "pec_cmd.h"
@@ -688,6 +689,18 @@ int main(int argc, char *argv[])
   bool rgb_mode = false;
   int ButtonAreaHeight = 0;
   
+  char path[64];
+  char confpath[96];
+
+  if(Tool::getAppPath(argv[0],path,64))
+    {
+      perror("can`t get application path\n");
+    }
+  if(snprintf(confpath,96,"%scap.conf",path)<0)
+    {
+      perror("can`t create config file path\n");
+    }
+
   props.width=0;
   props.height=0;
   props.bpp=0;
@@ -696,27 +709,27 @@ int main(int argc, char *argv[])
   //camwidth = 640;//352;//800;
   //camheight = 480;//288;//600
 
-  if(!iniParser_getParam("cap.conf","sdlwidth",tmp,64))
+  if(!iniParser_getParam(confpath,"sdlwidth",tmp,64))
     {
       sdlwidth = atoi(tmp);
       printf("sdlwidth = %i\n",sdlwidth);
     }
-  if(!iniParser_getParam("cap.conf","sdlheight",tmp,64))
+  if(!iniParser_getParam(confpath,"sdlheight",tmp,64))
     {
       sdlheight = atoi(tmp);
       printf("sdlheigth = %i\n",sdlheight);
     }
-  if(!iniParser_getParam("cap.conf","camwidth",tmp,64))
+  if(!iniParser_getParam(confpath,"camwidth",tmp,64))
     {
       camwidth = atoi(tmp);
       printf("camwidth = %i\n",camwidth);
     }
- if(!iniParser_getParam("cap.conf","camheight",tmp,64))
+ if(!iniParser_getParam(confpath,"camheight",tmp,64))
     {
       camheight = atoi(tmp);
       printf("camheight = %i\n",camheight);
     }
-  if(!iniParser_getParam("cap.conf","pixelformat",tmp,64))
+  if(!iniParser_getParam(confpath,"pixelformat",tmp,64))
     {
       if(!strcmp("mjpeg",tmp))
 	{
@@ -729,7 +742,7 @@ int main(int argc, char *argv[])
 	  printf("pixelformat = NORMAL\n");
 	}	  
     }
-  if(!iniParser_getParam("cap.conf","rgb_mode",tmp,64))
+  if(!iniParser_getParam(confpath,"rgb_mode",tmp,64))
     {
       if(!strcmp("true",tmp))
 	{
