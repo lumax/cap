@@ -550,6 +550,11 @@ ___________________________________________
     Cam2XaxisCur = 6;
     Cam2XaxisDif = 6;
 
+    Cam1ZaxisCur = 0;
+    Cam1ZaxisDif = 0;
+    Cam2ZaxisCur = 0;
+    Cam2ZaxisDif = 0;
+
     this->theGUI = pGUI;
     this->theProtocol = prot;
     theLoadDialog = new LoadDialog(sdlw,sdlh,camw,camh,yPos,this);
@@ -814,6 +819,31 @@ ___________________________________________
     Label::showLabel((void*)Pos_Cam2->LabelXaxisCur,this->theGUI->getMainSurface());
   }
 
+  void ArbeitsDialog::setCam1ZaxisCur(int val)
+  {
+    Cam1ZaxisCur = val;
+    Cam1ZaxisDif = Cam1ZaxisCur - this->theRezept->getCamPosition(0,RezeptNummer);
+    sprintf(this->Pos_Cam1->getZaxisDifBuf(),"%i",Cam1ZaxisDif);
+    Pos_Cam1->LabelZaxisDif->setText(this->Pos_Cam1->getZaxisDifBuf());
+    Label::showLabel((void*)Pos_Cam1->LabelZaxisDif,this->theGUI->getMainSurface());
+
+    sprintf(this->Pos_Cam1->getZaxisCurBuf(),"%i",Cam1ZaxisCur);
+    Pos_Cam1->LabelZaxisCur->setText(this->Pos_Cam1->getZaxisCurBuf());
+    Label::showLabel((void*)Pos_Cam1->LabelZaxisCur,this->theGUI->getMainSurface());
+  }
+
+  void ArbeitsDialog::setCam2ZaxisCur(int val)
+  {
+    Cam2ZaxisCur = val;
+    Cam2ZaxisDif = Cam2ZaxisCur - this->theRezept->getCamPosition(1,RezeptNummer);
+    sprintf(this->Pos_Cam2->getZaxisDifBuf(),"%i",Cam2ZaxisDif);
+    Pos_Cam2->LabelZaxisDif->setText(this->Pos_Cam2->getZaxisDifBuf());
+    Label::showLabel((void*)Pos_Cam2->LabelZaxisDif,this->theGUI->getMainSurface());
+    sprintf(this->Pos_Cam2->getZaxisCurBuf(),"%i",Cam2ZaxisCur);
+    Pos_Cam2->LabelZaxisCur->setText(this->Pos_Cam2->getZaxisCurBuf());
+    Label::showLabel((void*)Pos_Cam2->LabelZaxisCur,this->theGUI->getMainSurface());
+  }
+
   /*  void ArbeitsDialog::setCam1Cur_Cross(int val)
   {
     Cam1Cur_Cross = val;
@@ -850,6 +880,8 @@ ___________________________________________
 	//Difference Berechnen
 	this->setCam1XaxisCur(this->Cam1XaxisCur);
 	this->setCam2XaxisCur(this->Cam2XaxisCur);
+	this->setCam1ZaxisCur(this->Cam1ZaxisCur);
+	this->setCam2ZaxisCur(this->Cam2ZaxisCur);
 
 	for(int i=0;i<Rezept::AnzahlRezepte;i++)
 	  pLabel_CurrentRezept[i]->setBorder(false);
@@ -893,14 +925,14 @@ ___________________________________________
   void ArbeitsDialog::Z1_evt(unsigned short dat)
   {
     if(iActiveDialog==ArbeitsDialog::ArbeitsDialogIsActive)
-      printf("ArbeitsDialog getZ1:%i\n",dat);
+      setCam1ZaxisCur(dat);
     else if(iActiveDialog==ArbeitsDialog::CalDialogIsActive)
       this->theCalDialog->setZ1(dat);  
   }
   void ArbeitsDialog::Z2_evt(unsigned short dat)
   {
     if(iActiveDialog==ArbeitsDialog::ArbeitsDialogIsActive)
-      printf("ArbeitsDialog getZ2:%i\n",dat);
+      setCam2ZaxisCur(dat);
     else if(iActiveDialog==ArbeitsDialog::CalDialogIsActive)
       this->theCalDialog->setZ2(dat);
   }
@@ -931,19 +963,19 @@ ___________________________________________
   }
   char * PositionDialog::getXaxisRefBuf()
   {
-    return this->YaxisRefBuf;
+    return this->XaxisRefBuf;
   }
-  char * PositionDialog::getYaxisCurBuf()
+  char * PositionDialog::getZaxisCurBuf()
   {
-    return this->XaxisCurBuf;
+    return this->ZaxisCurBuf;
   }
-  char * PositionDialog::getYaxisDifBuf()
+  char * PositionDialog::getZaxisDifBuf()
   {
-    return this->YaxisDifBuf;
+    return this->ZaxisDifBuf;
   }
-  char * PositionDialog::getYaxisRefBuf()
+  char * PositionDialog::getZaxisRefBuf()
   {
-    return this->YaxisRefBuf;
+    return this->ZaxisRefBuf;
   }
   char * PositionDialog::getCrossRefBuf()
   {
@@ -987,9 +1019,9 @@ ___________________________________________
 	    XaxisCurBuf[i] = '-';
 	    XaxisDifBuf[i] = '-';
 	    XaxisRefBuf[i] = '-';
-	    YaxisCurBuf[i] = '-';
-	    YaxisDifBuf[i] = '-';
-	    YaxisRefBuf[i] = '-';
+	    ZaxisCurBuf[i] = '-';
+	    ZaxisDifBuf[i] = '-';
+	    ZaxisRefBuf[i] = '-';
 	    CrossCurBuf[i] = '-';
 	    CrossRefBuf[i] = '-';
 	  }
@@ -998,9 +1030,9 @@ ___________________________________________
 	    XaxisCurBuf[i] = '\0';
 	    XaxisDifBuf[i] = '\0';
 	    XaxisRefBuf[i] = '\0';
-	    YaxisCurBuf[i] = '\0';
-	    YaxisDifBuf[i] = '\0';
-	    YaxisRefBuf[i] = '\0';
+	    ZaxisCurBuf[i] = '\0';
+	    ZaxisDifBuf[i] = '\0';
+	    ZaxisRefBuf[i] = '\0';
 	    CrossCurBuf[i] = '\0';
 	    CrossRefBuf[i] = '\0';
 	  }
@@ -1037,10 +1069,10 @@ ___________________________________________
     LabelXaxisCur = new Label(XaxisCurBuf,B2x,Y3,Bw,LineH);
     LabelXaxisDif = new Label(XaxisDifBuf,B2x,Y4,Bw,LineH);
 
-    LabelYaxis = new Label("Y - Axis",B3x,Y1,Bw,LineH);
-    LabelYaxisRef = new Label(YaxisRefBuf,B3x,Y2,Bw,LineH);
-    LabelYaxisCur = new Label(YaxisCurBuf,B3x,Y3,Bw,LineH);
-    LabelYaxisDif = new Label(YaxisDifBuf,B3x,Y4,Bw,LineH);
+    LabelZaxis = new Label("Y - Axis",B3x,Y1,Bw,LineH);
+    LabelZaxisRef = new Label(ZaxisRefBuf,B3x,Y2,Bw,LineH);
+    LabelZaxisCur = new Label(ZaxisCurBuf,B3x,Y3,Bw,LineH);
+    LabelZaxisDif = new Label(ZaxisDifBuf,B3x,Y4,Bw,LineH);
  
     
     addEvtTarget(LabelName);
@@ -1057,10 +1089,10 @@ ___________________________________________
     addEvtTarget(LabelXaxisDif);
     addEvtTarget(LabelXaxisRef);
 
-    addEvtTarget(LabelYaxis);
-    addEvtTarget(LabelYaxisCur);
-    addEvtTarget(LabelYaxisDif);
-    addEvtTarget(LabelYaxisRef);
+    addEvtTarget(LabelZaxis);
+    addEvtTarget(LabelZaxisCur);
+    addEvtTarget(LabelZaxisDif);
+    addEvtTarget(LabelZaxisRef);
   };
 
   static void ErrorDialogKeyListener(void * src, SDL_Event * evt)

@@ -72,9 +72,9 @@ namespace EuMax01
     char * getXaxisCurBuf();
     char * getXaxisDifBuf();
     char * getXaxisRefBuf();
-    char * getYaxisCurBuf();
-    char * getYaxisDifBuf();
-    char * getYaxisRefBuf();
+    char * getZaxisCurBuf();
+    char * getZaxisDifBuf();
+    char * getZaxisRefBuf();
     char * getCrossCurBuf();
     char * getCrossRefBuf();
 
@@ -82,16 +82,16 @@ namespace EuMax01
     Label * LabelXaxisDif;
     Label * LabelXaxisRef;
 
-    Label * LabelYaxisCur;
-    Label * LabelYaxisDif;
-    Label * LabelYaxisRef;
+    Label * LabelZaxisCur;
+    Label * LabelZaxisDif;
+    Label * LabelZaxisRef;
 
     Label * Label_CrossCur;
     Label * Label_CrossRef;
   private:
     Label * LabelName;
     Label * LabelXaxis;
-    Label * LabelYaxis;
+    Label * LabelZaxis;
     Label * LabelNameCur;
     Label * LabelNameDif;
     Label * LabelNameRef;
@@ -102,9 +102,9 @@ namespace EuMax01
     char XaxisCurBuf[64];
     char XaxisDifBuf[64];
     char XaxisRefBuf[64];
-    char YaxisCurBuf[64];
-    char YaxisDifBuf[64];
-    char YaxisRefBuf[64];
+    char ZaxisCurBuf[64];
+    char ZaxisDifBuf[64];
+    char ZaxisRefBuf[64];
     char CrossCurBuf[64];
     char CrossRefBuf[64];
 
@@ -144,6 +144,8 @@ namespace EuMax01
     int getRezeptNummer();
     void setCam1XaxisCur(int val);
     void setCam2XaxisCur(int val);
+    void setCam1ZaxisCur(int val);
+    void setCam2ZaxisCur(int val);
     void setCross1Ref();
     void setCross2Ref();
     void showRecipe(Rezept * rez);
@@ -178,6 +180,11 @@ namespace EuMax01
     int Cam1XaxisDif;
     int Cam2XaxisCur;
     int Cam2XaxisDif;
+
+    int Cam1ZaxisCur;
+    int Cam1ZaxisDif;
+    int Cam2ZaxisCur;
+    int Cam2ZaxisDif;
 
     int Cam1Cur_Cross;
     int Cam1Dif_Cross;
