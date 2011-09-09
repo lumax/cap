@@ -707,6 +707,10 @@ ___________________________________________
 
   void ArbeitsDialog::showArbeitsDialog()
   {
+    prt_sendmsg_uint(nPEC_GET_Q1,0x00);
+    prt_sendmsg_uint(nPEC_GET_Q2,0x00);
+    prt_sendmsg_uint(nPEC_GET_Z1,0x00);
+    prt_sendmsg_uint(nPEC_GET_Z2,0x00);
     this->iActiveDialog = ArbeitsDialog::ArbeitsDialogIsActive;
     this->EvtTargets.Next = this->ArbeitsDialogEvtTargets.Next;
     Tool::blankSurface(this->theGUI->getMainSurface(),	\
