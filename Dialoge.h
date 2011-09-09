@@ -8,6 +8,26 @@ namespace EuMax01
 #ifndef __CAPDIALOGE_H__
 #define __CAPDIALOGE_H__
 
+  class ArbeitsDialog;
+
+  class CalibrationDialog : public Screen
+  {
+  public:
+    CalibrationDialog(int sdlw,int sdlh, int camw,int camh,int yPos,\
+		      ArbeitsDialog * parent);
+    ArbeitsDialog * Parent;
+    void incStep();
+    void decStep();
+    int getStep();
+
+  private:
+    Label * Label_TitleName;
+    Label * Label_Step;
+
+    Label * Label_Menue;
+    char InfoText[256];
+  };
+
   class MainDialog : public Screen
   {
   public:
@@ -114,6 +134,7 @@ namespace EuMax01
     void showArbeitsDialog();
     void showErrorDialog(char * errorMsg);
     void showNewDialog();
+    void showCalibrationDialog();
 
   private:
     Rezept * theRezept;
@@ -133,9 +154,18 @@ namespace EuMax01
     int Cam2Cur_Cross;
     int Cam2Dif_Cross;
 
+    int iActiveDialog;
+    
+    static const int ArbeitsDialogIsActive = 0;
+    static const int LoadDialogIsActive = 1;
+    static const int ErrorDialogIsActive = 2;
+    static const int NewDialogIsActive = 3;
+    static const int CalDialogIsActive = 4;
+
     LoadDialog * theLoadDialog;
     ErrorDialog * theErrorDialog;
     NewDialog * theNewDialog;
+    CalibrationDialog * theCalDialog;
 
     //EvtTarget * KeyListener;
     PositionDialog * Pos_Cam1;

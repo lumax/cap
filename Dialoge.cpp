@@ -22,6 +22,7 @@ Bastian Ruppert
 
 #include "v4l_capture.h"
 #include "Rezept.h"
+#include "Protocol.h"
 #include "pec_cmd.h"
 #include "MBProt.h"
 
@@ -29,6 +30,109 @@ Bastian Ruppert
 
 namespace EuMax01
 {
+
+  static void CalibrateDialogKeyListener(void * src, SDL_Event * evt)
+  {
+    NewDialog* ad = (NewDialog*)src;//KeyListener
+    SDL_KeyboardEvent * key = (SDL_KeyboardEvent *)&evt->key;
+    char zeichen = 0;
+
+    if( key->type == SDL_KEYUP )
+      {
+	if(key->keysym.sym == SDLK_ESCAPE)
+	  {
+	    ad->Parent->showArbeitsDialog();
+	  }
+	else if(key->keysym.sym == SDLK_RETURN)
+	  {
+	    //printf("Rezepte fertig! abspeicher!!!\n");
+	    prt_sendmsg_uint(nPEC_RESET_Q1,0x00);
+	    ad->Parent->showArbeitsDialog();
+	  }
+	else if(key->keysym.sym == SDLK_LEFT)
+	  {
+	    //if(ad->getStep()>=0)
+	    //  ad->decStep();
+	  }
+	else if(key->keysym.sym == SDLK_RIGHT)
+	  {
+	    //if(ad->getStep()<8)
+	    //  ad->incStep();
+	  }
+      }
+  }
+
+  CalibrationDialog::CalibrationDialog(int sdlw,		\
+			 int sdlh,		\
+			 int camw,		\
+			 int camh,		\
+			 int yPos,ArbeitsDialog * parent):Screen()
+  {
+    short M_y;
+    short MLinks_x;
+    unsigned short MSpace_h;
+    unsigned short MZeile_h;
+    //unsigned short Rezepte_y;
+    //short Rezepte_w;
+    short Zeile1_y,Zeile2_y,Zeile3_y,Zeile4_y;
+
+    this->Parent = parent;
+
+    M_y = sdlh - yPos;
+    if(M_y<=84)
+      {
+	MSpace_h = 2;
+	MZeile_h = 18;
+      }
+    else
+      {
+	MSpace_h = 5;
+	MZeile_h = 28;
+      }
+
+    /*if(M_y<=84)
+      {
+	MName_w = 90;     //5*MZeile_h
+	MNameNr_w = 54;   //3*MZeile_h
+	MNameSpace_w = 61;//(1012 - (MName_w+MNameNr_w*8))/8 = 61,25
+      }
+    else
+      {
+	MName_w = 112;     //4*MZeile_h
+	MNameNr_w = 56;    //2*MZeile_h
+	MNameSpace_w = 56; //(1012 - (MName_w+MNameNr_w*8))/8 = 56
+       }*/
+
+    MLinks_x = sdlw/2 - 506;
+
+    Zeile1_y = yPos + 1*MSpace_h + 0*MZeile_h;
+    Zeile2_y = yPos + 2*MSpace_h + 1*MZeile_h;
+    Zeile3_y = yPos + 3*MSpace_h + 2*MZeile_h;
+    Zeile4_y = yPos + 4*MSpace_h + 3*MZeile_h;
+    //Rezepte_w = 108;
+
+    Label_TitleName = new Label("CALIBRATION",MLinks_x,Zeile1_y,506*2,MZeile_h);
+    Label_Step = new Label("CAM1 X-Axis in zero position :",	\
+			   MLinks_x,Zeile2_y,506*2,MZeile_h);
+
+    Label_Menue = new Label("Return: set zero point | Esc: Cancel"\
+			   ,MLinks_x,Zeile4_y,			 \
+			   506*2,MZeile_h);
+
+    snprintf(this->InfoText,256,				       \
+	     "Recipe Name | RETURN : save recipe | ESC : abort | "	\
+	     "LEFT previous step | RIGHT next step");
+    this->Label_Menue->setText(this->InfoText);
+
+
+    addEvtTarget(Label_TitleName);
+    addEvtTarget(Label_Step);
+    addEvtTarget(Label_Menue);
+
+    this->pTSource = this;//EvtTarget Quelle setzen, damit der EvtListener die Quelle mitteilen kann
+    this->setKeyboardUpEvtHandler(CalibrateDialogKeyListener);
+    this->addEvtTarget(this);//den Screen Key Listener bei sich selber anmelden!
+  }
 
 static void evtB1(void * src,SDL_Event * evt){
   cap_cam_addCrossX(0,-10);
@@ -180,8 +284,10 @@ Bexit = sdlw/2 - Buttonwidth/2
 	else if(key->keysym.sym == SDLK_F2)
 	  {
 	    //printf("F2\n");
-	    printf("ad->theProtocol->enableAuto(); returns: %i\n",	\
-		   ad->theProtocol->enableAuto());
+	    //	    printf("ad->theProtocol->enableAuto(); returns: %i\n", \
+	    //   ad->theProtocol->enableAuto());
+	    prt_sendmsg_uint(nPEC_RESET_Q1,0x00);
+	    prt_sendmsg_uint(nPEC_GET_Q1,0x00);
 	  }
 	else if(key->keysym.sym == SDLK_F3)
 	  {
@@ -278,6 +384,7 @@ ___________________________________________
 
     theRezept = 0;
     RezeptNummer = 0;
+    iActiveDialog = 0;
     Cam1Cur = 5;
     Cam1Dif = 5;
     Cam2Cur = 6;
@@ -288,6 +395,7 @@ ___________________________________________
     theLoadDialog = new LoadDialog(sdlw,sdlh,camw,camh,yPos,this);
     theErrorDialog = new ErrorDialog(sdlw,sdlh,camw,camh,yPos,this);
     theNewDialog = new NewDialog(sdlw,sdlh,camw,camh,yPos,this);
+    theCalDialog = new CalibrationDialog(sdlw,sdlh,camw,camh,yPos,this);
 
     MLinks_x = sdlw/2 - 506;
     MRechts_x = sdlw/2 + 6;
@@ -407,10 +515,12 @@ ___________________________________________
     addEvtTarget(Label_InfoF12);
     
     this->ArbeitsDialogEvtTargets.Next = this->EvtTargets.Next;//EvtTargets fuer spaeter sichern
+    this->showCalibrationDialog();
   }
 
   void ArbeitsDialog::showLoadDialog(unsigned int page)
   {
+    this->iActiveDialog = ArbeitsDialog::LoadDialogIsActive;
     if(theLoadDialog->readSaveDirectory("data",page))
       {
 	showErrorDialog("Error reading save directory");
@@ -432,6 +542,7 @@ ___________________________________________
 
   void ArbeitsDialog::showArbeitsDialog()
   {
+    this->iActiveDialog = ArbeitsDialog::ArbeitsDialogIsActive;
     this->EvtTargets.Next = this->ArbeitsDialogEvtTargets.Next;
     Tool::blankSurface(this->theGUI->getMainSurface(),	\
 		       FSG_BACKGROUND,			\
@@ -446,6 +557,7 @@ ___________________________________________
 
   void ArbeitsDialog::showErrorDialog(char * msg)
   {
+    this->iActiveDialog = ArbeitsDialog::ErrorDialogIsActive;
     this->theErrorDialog->setErrorMsg(msg);
     this->EvtTargets.Next = this->theErrorDialog->EvtTargets.Next;
     Tool::blankSurface(this->theGUI->getMainSurface(),	\
@@ -461,7 +573,24 @@ ___________________________________________
 
   void ArbeitsDialog::showNewDialog()
   {
+    this->iActiveDialog = ArbeitsDialog::NewDialogIsActive;
     this->EvtTargets.Next = this->theNewDialog->EvtTargets.Next;
+    Tool::blankSurface(this->theGUI->getMainSurface(),	\
+		       FSG_BACKGROUND,			\
+		       &this->Area);//TODO Rückgabewert
+
+    SDL_UpdateRect(this->theGUI->getMainSurface(),	\
+		   this->Area.x,			\
+		   this->Area.y,			\
+		   this->Area.w,			\
+		   this->Area.h);
+    this->show(this->theGUI->getMainSurface());
+  }
+
+  void ArbeitsDialog::showCalibrationDialog()
+  {
+    this->iActiveDialog = ArbeitsDialog::CalDialogIsActive;
+    this->EvtTargets.Next = this->theCalDialog->EvtTargets.Next;
     Tool::blankSurface(this->theGUI->getMainSurface(),	\
 		       FSG_BACKGROUND,			\
 		       &this->Area);//TODO Rückgabewert
@@ -587,12 +716,14 @@ ___________________________________________
 
   void ArbeitsDialog::Q1_evt(unsigned short dat)
   {
-    setCam1Cur(dat);
+    if(iActiveDialog==ArbeitsDialog::ArbeitsDialogIsActive)
+      setCam1Cur(dat);
   }
 
   void ArbeitsDialog::Q2_evt(unsigned short dat)
   {
-    setCam2Cur(dat);
+    if(iActiveDialog==ArbeitsDialog::ArbeitsDialogIsActive)
+      setCam2Cur(dat);
   }
   void ArbeitsDialog::Z1_evt(unsigned short dat)
   {
