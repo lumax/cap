@@ -108,6 +108,7 @@ namespace EuMax01
     //Rezepte_w = 108;
 
     Label_TitleName = new Label("CALIBRATION",MLinks_x,Zeile1_y,506*2,MZeile_h);
+    Label_TitleName->setFont(Globals::getFontButtonBig());
 
     snprintf(this->StepText,256,\
 	     "Move camera 1 X-Axis in zero position :");
