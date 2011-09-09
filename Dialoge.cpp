@@ -613,9 +613,9 @@ ___________________________________________
     MInfoF8_x  = MLinks_x + 6*MInfo_w + 6*MInfoSpace_w;
     MInfoF12_x = MLinks_x + 7*MInfo_w + 7*MInfoSpace_w;
 
-    Pos_Cam1 = new PositionDialog("cam1 position",sdlw/2-506,MName_y,\
+    Pos_Cam1 = new PositionDialog("CAM 1",sdlw/2-506,MName_y,\
 				  506,1*MSpace_h+3*MZeile_h);
-    Pos_Cam2 = new PositionDialog("cam2 position",sdlw/2,MName_y,\
+    Pos_Cam2 = new PositionDialog("CAM 2",sdlw/2,MName_y,\
 				  506,1*MSpace_h+3*MZeile_h);
 
     Label_RezeptName = new Label("----------------",MLinks_x,yPos+MSpace_h,\
@@ -794,12 +794,12 @@ ___________________________________________
     Cam1Cur = val;
     Cam1Dif = Cam1Cur - this->theRezept->getCamPosition(0,RezeptNummer);
     sprintf(this->Pos_Cam1->getCamDifBuf(),"%i",Cam1Dif);
-    Pos_Cam1->Label_WertDif->setText(this->Pos_Cam1->getCamDifBuf());
-    Label::showLabel((void*)Pos_Cam1->Label_WertDif,this->theGUI->getMainSurface());
+    Pos_Cam1->LabelXaxisDif->setText(this->Pos_Cam1->getCamDifBuf());
+    Label::showLabel((void*)Pos_Cam1->LabelXaxisDif,this->theGUI->getMainSurface());
 
     sprintf(this->Pos_Cam1->getCamCurBuf(),"%i",Cam1Cur);
-    Pos_Cam1->Label_WertCur->setText(this->Pos_Cam1->getCamCurBuf());
-    Label::showLabel((void*)Pos_Cam1->Label_WertCur,this->theGUI->getMainSurface());
+    Pos_Cam1->LabelXaxisCur->setText(this->Pos_Cam1->getCamCurBuf());
+    Label::showLabel((void*)Pos_Cam1->LabelXaxisCur,this->theGUI->getMainSurface());
   }
 
   void ArbeitsDialog::setCam2Cur(int val)
@@ -807,11 +807,11 @@ ___________________________________________
     Cam2Cur = val;
     Cam2Dif = Cam2Cur - this->theRezept->getCamPosition(1,RezeptNummer);
     sprintf(this->Pos_Cam2->getCamDifBuf(),"%i",Cam2Dif);
-    Pos_Cam2->Label_WertDif->setText(this->Pos_Cam2->getCamDifBuf());
-    Label::showLabel((void*)Pos_Cam2->Label_WertDif,this->theGUI->getMainSurface());
+    Pos_Cam2->LabelXaxisDif->setText(this->Pos_Cam2->getCamDifBuf());
+    Label::showLabel((void*)Pos_Cam2->LabelXaxisDif,this->theGUI->getMainSurface());
     sprintf(this->Pos_Cam2->getCamCurBuf(),"%i",Cam2Cur);
-    Pos_Cam2->Label_WertCur->setText(this->Pos_Cam2->getCamCurBuf());
-    Label::showLabel((void*)Pos_Cam2->Label_WertCur,this->theGUI->getMainSurface());
+    Pos_Cam2->LabelXaxisCur->setText(this->Pos_Cam2->getCamCurBuf());
+    Label::showLabel((void*)Pos_Cam2->LabelXaxisCur,this->theGUI->getMainSurface());
   }
 
   /*  void ArbeitsDialog::setCam1Cur_Cross(int val)
@@ -843,9 +843,9 @@ ___________________________________________
       {
 	RezeptNummer = nummer;
 	sprintf(this->Pos_Cam1->getCamRefBuf(),"%i",theRezept->getCamPosition(0,nummer));
-	Pos_Cam1->Label_WertRef->setText(this->Pos_Cam1->getCamRefBuf());
+	Pos_Cam1->LabelXaxisRef->setText(this->Pos_Cam1->getCamRefBuf());
 	sprintf(this->Pos_Cam2->getCamRefBuf(),"%i",theRezept->getCamPosition(1,nummer));
-	Pos_Cam2->Label_WertRef->setText(this->Pos_Cam2->getCamRefBuf());
+	Pos_Cam2->LabelXaxisRef->setText(this->Pos_Cam2->getCamRefBuf());
 
 	//Difference Berechnen
 	this->setCam1Cur(this->Cam1Cur);
@@ -961,9 +961,8 @@ ___________________________________________
 
      */
     
-    short Ax;
-    unsigned short Aw;
-    short B1x,B2x,B3x;
+    //unsigned short Aw;
+    short B1x,B2x,B3x,B4x;
     short Y1,Y2,Y3,Y4;
     unsigned short Bw;
     unsigned short HSpace,VSpace;
@@ -977,13 +976,14 @@ ___________________________________________
 
     HSpace = 3;
     VSpace = 3;
-    Ax  = x+HSpace;
     Y1  = y+VSpace;
-    Aw = w/5 - 1*HSpace;
-    Bw = (w-(Aw+4*HSpace))/3;
-    B1x = x + Aw + 2*HSpace + 0*Bw;
-    B2x = x + Aw + 3*HSpace + 1*Bw;
-    B3x = x + Aw + 4*HSpace + 2*Bw;
+    //Aw = w/5 - 1*HSpace;
+    //Bw = (w-(Aw+4*HSpace))/3;
+    Bw = (w-4*HSpace)/4;
+    B1x = x + 1*HSpace + 0*Bw;
+    B2x = x + 2*HSpace + 1*Bw;
+    B3x = x + 3*HSpace + 2*Bw;
+    B4x = x + 4*HSpace + 3*Bw;
 
     LineH = (h - 4*VSpace)/4;
     
@@ -991,31 +991,35 @@ ___________________________________________
     Y3 = Y2 + LineH + VSpace;
     Y4 = Y3 + LineH + VSpace;
 
-    Label_CamPos = new Label(text,Ax,Y1,Aw,LineH);
-    Label_Cur = new Label("current",B1x,Y1,Bw,LineH);
-    Label_Dif = new Label("difference",B2x,Y1,Bw,LineH);
-    Label_Ref = new Label("reference",B3x,Y1,Bw,LineH);
+    LabelName = new Label(text,B1x,Y1,Bw,LineH);
 
-    Label_CrossPos = new Label("crossaire pos",Ax,Y3,Aw,LineH);
-    Label_CrossCur = new Label(CrossCurBuf,B1x,Y3,Bw,LineH);
-    Label_CrossRef = new Label(CrossRefBuf,B3x,Y3,Bw,LineH);
+    LabelNameRef = new Label("reference",B1x,Y2,Bw,LineH);
+    LabelNameCur = new Label("current",B1x,Y3,Bw,LineH);
+    LabelNameDif = new Label("difference",B1x,Y4,Bw,LineH);
 
-    Label_WertCur = new Label(CamCurBuf,B1x,Y2,Bw,LineH);
-    Label_WertDif = new Label(CamDifBuf,B2x,Y2,Bw,LineH);
-    Label_WertRef = new Label(CamRefBuf,B3x,Y2,Bw,LineH);
+    Label_CrossPos = new Label("Crossair",B4x,Y1,Bw,LineH);
+    Label_CrossCur = new Label(CrossCurBuf,B4x,Y3,Bw,LineH);
+    Label_CrossRef = new Label(CrossRefBuf,B4x,Y2,Bw,LineH);
+
+    LabelXaxis = new Label("X - Axis",B2x,Y1,Bw,LineH);
+    LabelXaxisRef = new Label(CamRefBuf,B2x,Y2,Bw,LineH);
+    LabelXaxisCur = new Label(CamCurBuf,B2x,Y3,Bw,LineH);
+    LabelXaxisDif = new Label(CamDifBuf,B2x,Y4,Bw,LineH);
+ 
     
-    addEvtTarget(Label_CamPos);
-    addEvtTarget(Label_Cur);
-    addEvtTarget(Label_Dif);
-    addEvtTarget(Label_Ref);
+    addEvtTarget(LabelName);
+    addEvtTarget(LabelNameCur);
+    addEvtTarget(LabelNameDif);
+    addEvtTarget(LabelNameRef);
 
     addEvtTarget(Label_CrossPos);
     addEvtTarget(Label_CrossCur);
     addEvtTarget(Label_CrossRef);
 
-    addEvtTarget(Label_WertCur);
-    addEvtTarget(Label_WertDif);
-    addEvtTarget(Label_WertRef);
+    addEvtTarget(LabelXaxis);
+    addEvtTarget(LabelXaxisCur);
+    addEvtTarget(LabelXaxisDif);
+    addEvtTarget(LabelXaxisRef);
   };
 
   static void ErrorDialogKeyListener(void * src, SDL_Event * evt)

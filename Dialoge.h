@@ -75,17 +75,18 @@ namespace EuMax01
     char * getCrossCurBuf();
     char * getCrossRefBuf();
 
-    Label * Label_WertCur;
-    Label * Label_WertDif;
-    Label * Label_WertRef;
+    Label * LabelXaxisCur;
+    Label * LabelXaxisDif;
+    Label * LabelXaxisRef;
 
     Label * Label_CrossCur;
     Label * Label_CrossRef;
   private:
-    Label * Label_CamPos;
-    Label * Label_Cur;
-    Label * Label_Dif;
-    Label * Label_Ref;
+    Label * LabelName;
+    Label * LabelXaxis;
+    Label * LabelNameCur;
+    Label * LabelNameDif;
+    Label * LabelNameRef;
 
     Label * Label_CrossPos;
 
