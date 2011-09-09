@@ -16,16 +16,36 @@ namespace EuMax01
     CalibrationDialog(int sdlw,int sdlh, int camw,int camh,int yPos,\
 		      ArbeitsDialog * parent);
     ArbeitsDialog * Parent;
+    void setQ1(unsigned short dat);
+    void setQ2(unsigned short dat);
+    void setZ1(unsigned short dat);
+    void setZ2(unsigned short dat);
+    void resetStepValue();
     void incStep();
     void decStep();
-    int getStep();
+    void showStep(int theNewStep);
 
   private:
     Label * Label_TitleName;
     Label * Label_Step;
+    char StepText[256];
+
+    Label * Label_ValueName;
+    char ValueName[16];
+
+    Label * Label_Value;
+    char Value[64];
 
     Label * Label_Menue;
     char InfoText[256];
+
+    static const int iQ1 = 0;
+    static const int iQ2 = 1;
+    static const int iZ1 = 2;
+    static const int iZ2 = 3;
+
+    int ActualStep;
+    void setXXData(unsigned short dat,int MyStep);
   };
 
   class MainDialog : public Screen

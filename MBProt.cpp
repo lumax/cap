@@ -199,6 +199,7 @@ namespace EuMax01
 	  }
 	prt_sendmsg_uint(nPEC_SWVERSION,0x00);
 	prt_sendmsg_uint(nPEC_HWVERSION,0x00);
+	prt_sendmsg_uint(nPEC_GET_Q1,0x00);//für den CalDialog
       }
     //printf("MBProtocoll Timer Expired\n");
     prt_timer();

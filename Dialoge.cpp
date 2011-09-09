@@ -33,9 +33,8 @@ namespace EuMax01
 
   static void CalibrateDialogKeyListener(void * src, SDL_Event * evt)
   {
-    NewDialog* ad = (NewDialog*)src;//KeyListener
+    CalibrationDialog* ad = (CalibrationDialog*)src;//KeyListener
     SDL_KeyboardEvent * key = (SDL_KeyboardEvent *)&evt->key;
-    char zeichen = 0;
 
     if( key->type == SDL_KEYUP )
       {
@@ -45,19 +44,15 @@ namespace EuMax01
 	  }
 	else if(key->keysym.sym == SDLK_RETURN)
 	  {
-	    //printf("Rezepte fertig! abspeicher!!!\n");
-	    prt_sendmsg_uint(nPEC_RESET_Q1,0x00);
-	    ad->Parent->showArbeitsDialog();
+	    ad->resetStepValue();
 	  }
 	else if(key->keysym.sym == SDLK_LEFT)
 	  {
-	    //if(ad->getStep()>=0)
-	    //  ad->decStep();
+	    ad->decStep();
 	  }
 	else if(key->keysym.sym == SDLK_RIGHT)
 	  {
-	    //if(ad->getStep()<8)
-	    //  ad->incStep();
+	    ad->incStep();
 	  }
       }
   }
@@ -77,6 +72,7 @@ namespace EuMax01
     short Zeile1_y,Zeile2_y,Zeile3_y,Zeile4_y;
 
     this->Parent = parent;
+    this->ActualStep = CalibrationDialog::iQ1;
 
     M_y = sdlh - yPos;
     if(M_y<=84)
@@ -112,26 +108,198 @@ namespace EuMax01
     //Rezepte_w = 108;
 
     Label_TitleName = new Label("CALIBRATION",MLinks_x,Zeile1_y,506*2,MZeile_h);
-    Label_Step = new Label("CAM1 X-Axis in zero position :",	\
+
+    snprintf(this->StepText,256,\
+	     "Move camera 1 X-Axis in zero position :");
+    Label_Step = new Label(this->StepText,			\
 			   MLinks_x,Zeile2_y,506*2,MZeile_h);
 
-    Label_Menue = new Label("Return: set zero point | Esc: Cancel"\
-			   ,MLinks_x,Zeile4_y,			 \
-			   506*2,MZeile_h);
+    snprintf(this->ValueName,16,"Q1");
+    Label_ValueName = new Label(this->ValueName,			\
+				MLinks_x,Zeile3_y,			\
+				506-MSpace_h,MZeile_h);  
+    
+
+    snprintf(this->Value,64,"---");
+    Label_Value = new Label(Value,					\
+			    MLinks_x+506+MSpace_h,			\
+			    Zeile3_y,506-MSpace_h,			\
+			    MZeile_h);
 
     snprintf(this->InfoText,256,				       \
-	     "Recipe Name | RETURN : save recipe | ESC : abort | "	\
+	     "RETURN : set zero position | "			       \
 	     "LEFT previous step | RIGHT next step");
-    this->Label_Menue->setText(this->InfoText);
-
+    Label_Menue = new Label(this->InfoText,			 \
+			    MLinks_x,Zeile4_y,			 \
+			    506*2,MZeile_h);
 
     addEvtTarget(Label_TitleName);
     addEvtTarget(Label_Step);
+    addEvtTarget(Label_ValueName);
+    addEvtTarget(Label_Value);
     addEvtTarget(Label_Menue);
 
     this->pTSource = this;//EvtTarget Quelle setzen, damit der EvtListener die Quelle mitteilen kann
     this->setKeyboardUpEvtHandler(CalibrateDialogKeyListener);
     this->addEvtTarget(this);//den Screen Key Listener bei sich selber anmelden!
+  }
+
+  void CalibrationDialog::resetStepValue()
+  {
+    switch(this->ActualStep)
+      {
+      case CalibrationDialog::iQ1:
+	{
+	  prt_sendmsg_uint(nPEC_RESET_Q1,0x00);
+	  prt_sendmsg_uint(nPEC_GET_Q1,0x00);
+	  break;
+	}
+      case CalibrationDialog::iQ2:
+	{
+	  prt_sendmsg_uint(nPEC_RESET_Q2,0x00);
+	  prt_sendmsg_uint(nPEC_GET_Q2,0x00);
+	  break;
+	}
+      case CalibrationDialog::iZ1:
+	{
+	  prt_sendmsg_uint(nPEC_RESET_Z1,0x00);
+	  prt_sendmsg_uint(nPEC_GET_Z1,0x00);
+	  break;
+	}
+      case CalibrationDialog::iZ2:
+	{
+	  prt_sendmsg_uint(nPEC_RESET_Z2,0x00);
+	  prt_sendmsg_uint(nPEC_GET_Z2,0x00);
+	  break;
+	}
+      }
+  }
+
+  void CalibrationDialog::incStep()
+  {
+    ActualStep++;
+    if(ActualStep>CalibrationDialog::iZ2)
+      {
+	ActualStep = CalibrationDialog::iQ1;//reset fürs nächste mal
+	this->showStep(this->ActualStep);
+	Parent->showArbeitsDialog();
+      }
+    else
+      {
+	this->showStep(this->ActualStep);
+      }
+  }
+  
+  void CalibrationDialog::decStep()
+  {
+    if(ActualStep>0)
+      {
+	ActualStep--;
+      }
+    this->showStep(this->ActualStep);
+  }
+
+  void CalibrationDialog::showStep(int theStep)
+  {
+    //Wert Anzeige resetten
+    snprintf(this->Value,64,"---");
+    this->Label_Value->setText(this->Value);
+    Label::showLabel((void*)this->Label_Value,			\
+		     this->Parent->theGUI->getMainSurface());
+
+    switch(theStep)
+      {
+      case CalibrationDialog::iQ1:
+	{
+	  this->ActualStep = theStep;
+
+	  snprintf(this->StepText,256,				\
+		   "Move camera 1 X-Axis in zero position :");
+	  this->Label_Step->setText(this->StepText);
+
+	  snprintf(this->ValueName,16,"Q1");
+	  this->Label_ValueName->setText(this->ValueName);
+	  prt_sendmsg_uint(nPEC_GET_Q1,0x00);
+	  break;
+	}
+      case CalibrationDialog::iQ2:
+	{
+	  this->ActualStep = theStep;
+
+	  snprintf(this->StepText,256,				\
+		   "Move camera 2 X-Axis in zero position :");
+	  this->Label_Step->setText(this->StepText);
+
+
+	  snprintf(this->ValueName,16,"Q2");
+	  this->Label_ValueName->setText(this->ValueName);
+	  prt_sendmsg_uint(nPEC_GET_Q2,0x00);
+	  break;
+	}
+      case CalibrationDialog::iZ1:
+	{
+	  this->ActualStep = theStep;
+
+	  snprintf(this->StepText,256,				\
+		   "Move camera 1 Z-Axis in zero position :");
+	  this->Label_Step->setText(this->StepText);
+
+
+	  snprintf(this->ValueName,16,"Z1");
+	  this->Label_ValueName->setText(this->ValueName);
+	  prt_sendmsg_uint(nPEC_GET_Z1,0x00);
+	  break;
+	}
+      case CalibrationDialog::iZ2:
+	{
+	  this->ActualStep = theStep;
+
+	  snprintf(this->StepText,256,				\
+		   "Move camera 2 Z-Axis in zero position :");
+	  this->Label_Step->setText(this->StepText);
+
+
+	  snprintf(this->ValueName,16,"Z2");
+	  this->Label_ValueName->setText(this->ValueName);
+	  prt_sendmsg_uint(nPEC_GET_Z2,0x00);
+	  break;
+	}
+      }
+    Label::showLabel((void*)this->Label_Step,			\
+		     this->Parent->theGUI->getMainSurface());
+    Label::showLabel((void*)this->Label_ValueName,		\
+		     this->Parent->theGUI->getMainSurface());
+  }
+  
+  void CalibrationDialog::setQ1(unsigned short dat)
+  {
+    setXXData(dat,CalibrationDialog::iQ1);  
+  }
+
+  void CalibrationDialog::setQ2(unsigned short dat)
+  {
+    setXXData(dat,CalibrationDialog::iQ2);    
+  }
+
+  void CalibrationDialog::setZ1(unsigned short dat)
+  {
+    setXXData(dat,CalibrationDialog::iZ1);    
+  }
+
+  void CalibrationDialog::setZ2(unsigned short dat)
+  {
+     setXXData(dat,CalibrationDialog::iZ2);   
+  }
+
+  void CalibrationDialog::setXXData(unsigned short dat,int MyStep)
+  {
+    if(MyStep==this->ActualStep)
+      {
+	sprintf(this->Value,"%i",dat);
+	this->Label_Value->setText(this->Value);
+	Label::showLabel((void*)this->Label_Value,		\
+			 this->Parent->theGUI->getMainSurface());
+      }
   }
 
 static void evtB1(void * src,SDL_Event * evt){
@@ -284,7 +452,7 @@ Bexit = sdlw/2 - Buttonwidth/2
 	else if(key->keysym.sym == SDLK_F2)
 	  {
 	    //printf("F2\n");
-	    //	    printf("ad->theProtocol->enableAuto(); returns: %i\n", \
+	    //	    printf("ad->theProtocol->enableAuto(); returns: %i\n", 
 	    //   ad->theProtocol->enableAuto());
 	    prt_sendmsg_uint(nPEC_RESET_Q1,0x00);
 	    prt_sendmsg_uint(nPEC_GET_Q1,0x00);
@@ -320,6 +488,10 @@ Bexit = sdlw/2 - Buttonwidth/2
 	    //xx = cap_cam_getCrossX(1);
 	    //cap_cam_setCrossX(1,xx+10);
 	    ad->setCross2Ref();
+	  }
+	else if(key->keysym.sym == SDLK_F7)
+	  {
+	    ad->showCalibrationDialog();
 	  }
 	else if(key->keysym.sym == SDLK_F12)
 	  {
@@ -474,7 +646,7 @@ ___________________________________________
     Label_InfoF3 = new Label("F3: new",MInfoF3_x,MInfo_y,MInfo_w,MZeile_h);
     Label_InfoF5 = new Label("F5: prev step",MInfoF5_x,MInfo_y,MInfo_w,MZeile_h);
     Label_InfoF6 = new Label("F6: next step",MInfoF6_x,MInfo_y,MInfo_w,MZeile_h);
-    Label_InfoF7 = new Label("F7:",MInfoF7_x,MInfo_y,MInfo_w,MZeile_h);
+    Label_InfoF7 = new Label("F7: calibration",MInfoF7_x,MInfo_y,MInfo_w,MZeile_h);
     Label_InfoF8 = new Label("F8:",MInfoF8_x,MInfo_y,MInfo_w,MZeile_h);
     Label_InfoF12 = new Label("F12:",MInfoF12_x,MInfo_y,MInfo_w,MZeile_h);
 
@@ -601,6 +773,7 @@ ___________________________________________
 		   this->Area.w,			\
 		   this->Area.h);
     this->show(this->theGUI->getMainSurface());
+    //this->theCalDialog->incStep();
   }
 
   void ArbeitsDialog::incRezeptNummer()
@@ -718,20 +891,30 @@ ___________________________________________
   {
     if(iActiveDialog==ArbeitsDialog::ArbeitsDialogIsActive)
       setCam1Cur(dat);
+    else if(iActiveDialog==ArbeitsDialog::CalDialogIsActive)
+      this->theCalDialog->setQ1(dat);
   }
 
   void ArbeitsDialog::Q2_evt(unsigned short dat)
   {
     if(iActiveDialog==ArbeitsDialog::ArbeitsDialogIsActive)
       setCam2Cur(dat);
+    else if(iActiveDialog==ArbeitsDialog::CalDialogIsActive)
+      this->theCalDialog->setQ2(dat);
   }
   void ArbeitsDialog::Z1_evt(unsigned short dat)
   {
-    printf("ArbeitsDialog getZ1:%i\n",dat);   
+    if(iActiveDialog==ArbeitsDialog::ArbeitsDialogIsActive)
+      printf("ArbeitsDialog getZ1:%i\n",dat);
+    else if(iActiveDialog==ArbeitsDialog::CalDialogIsActive)
+      this->theCalDialog->setZ1(dat);  
   }
   void ArbeitsDialog::Z2_evt(unsigned short dat)
   {
-    printf("ArbeitsDialog getZ2:%i\n",dat);
+    if(iActiveDialog==ArbeitsDialog::ArbeitsDialogIsActive)
+      printf("ArbeitsDialog getZ2:%i\n",dat);
+    else if(iActiveDialog==ArbeitsDialog::CalDialogIsActive)
+      this->theCalDialog->setZ2(dat);
   }
   void ArbeitsDialog::FP1_evt(unsigned short dat)
   {
