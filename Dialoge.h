@@ -142,8 +142,8 @@ namespace EuMax01
     void incRezeptNummer();
     void decRezeptNummer();
     int getRezeptNummer();
-    void setCam1Cur(int val);
-    void setCam2Cur(int val);
+    void setCam1XaxisCur(int val);
+    void setCam2XaxisCur(int val);
     void setCross1Ref();
     void setCross2Ref();
     void showRecipe(Rezept * rez);
@@ -174,10 +174,10 @@ namespace EuMax01
     
     SDL_Rect Area;
 
-    int Cam1Cur;
-    int Cam1Dif;
-    int Cam2Cur;
-    int Cam2Dif;
+    int Cam1XaxisCur;
+    int Cam1XaxisDif;
+    int Cam2XaxisCur;
+    int Cam2XaxisDif;
 
     int Cam1Cur_Cross;
     int Cam1Dif_Cross;
