@@ -69,9 +69,12 @@ namespace EuMax01
 
   public:
     PositionDialog(char* text,short x,short y, unsigned short w,unsigned short h);
-    char * getCamCurBuf();
-    char * getCamDifBuf();
-    char * getCamRefBuf();
+    char * getXaxisCurBuf();
+    char * getXaxisDifBuf();
+    char * getXaxisRefBuf();
+    char * getYaxisCurBuf();
+    char * getYaxisDifBuf();
+    char * getYaxisRefBuf();
     char * getCrossCurBuf();
     char * getCrossRefBuf();
 
@@ -79,23 +82,29 @@ namespace EuMax01
     Label * LabelXaxisDif;
     Label * LabelXaxisRef;
 
+    Label * LabelYaxisCur;
+    Label * LabelYaxisDif;
+    Label * LabelYaxisRef;
+
     Label * Label_CrossCur;
     Label * Label_CrossRef;
   private:
     Label * LabelName;
     Label * LabelXaxis;
+    Label * LabelYaxis;
     Label * LabelNameCur;
     Label * LabelNameDif;
     Label * LabelNameRef;
 
     Label * Label_CrossPos;
-
     //    Label * Label_Cross_Name;
 
-
-    char CamCurBuf[64];
-    char CamDifBuf[64];
-    char CamRefBuf[64];
+    char XaxisCurBuf[64];
+    char XaxisDifBuf[64];
+    char XaxisRefBuf[64];
+    char YaxisCurBuf[64];
+    char YaxisDifBuf[64];
+    char YaxisRefBuf[64];
     char CrossCurBuf[64];
     char CrossRefBuf[64];
 
