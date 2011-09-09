@@ -86,19 +86,6 @@ namespace EuMax01
 	MZeile_h = 28;
       }
 
-    /*if(M_y<=84)
-      {
-	MName_w = 90;     //5*MZeile_h
-	MNameNr_w = 54;   //3*MZeile_h
-	MNameSpace_w = 61;//(1012 - (MName_w+MNameNr_w*8))/8 = 61,25
-      }
-    else
-      {
-	MName_w = 112;     //4*MZeile_h
-	MNameNr_w = 56;    //2*MZeile_h
-	MNameSpace_w = 56; //(1012 - (MName_w+MNameNr_w*8))/8 = 56
-       }*/
-
     MLinks_x = sdlw/2 - 506;
 
     Zeile1_y = yPos + 1*MSpace_h + 0*MZeile_h;
@@ -591,7 +578,7 @@ ___________________________________________
     Area.h = M_y;
 
     MName_y = yPos + 2*MSpace_h + 1*MZeile_h;
-    MInfo_y = yPos + 4*MSpace_h + 3*MZeile_h;
+    MInfo_y = yPos + 4*MSpace_h + 4*MZeile_h;
 
     if(M_y<=84)
       {
@@ -627,9 +614,9 @@ ___________________________________________
     MInfoF12_x = MLinks_x + 7*MInfo_w + 7*MInfoSpace_w;
 
     Pos_Cam1 = new PositionDialog("cam1 position",sdlw/2-506,MName_y,\
-				  506,1*MSpace_h+2*MZeile_h);
+				  506,1*MSpace_h+3*MZeile_h);
     Pos_Cam2 = new PositionDialog("cam2 position",sdlw/2,MName_y,\
-				  506,1*MSpace_h+2*MZeile_h);
+				  506,1*MSpace_h+3*MZeile_h);
 
     Label_RezeptName = new Label("----------------",MLinks_x,yPos+MSpace_h,\
 				 MName_w,MZeile_h);
@@ -975,10 +962,9 @@ ___________________________________________
      */
     
     short Ax;
-    short Ay;
     unsigned short Aw;
     short B1x,B2x,B3x;
-    short WertBy,Wert2y;
+    short Y1,Y2,Y3,Y4;
     unsigned short Bw;
     unsigned short HSpace,VSpace;
     unsigned short LineH;
@@ -992,30 +978,31 @@ ___________________________________________
     HSpace = 3;
     VSpace = 3;
     Ax  = x+HSpace;
-    Ay  = y+VSpace;
+    Y1  = y+VSpace;
     Aw = w/5 - 1*HSpace;
     Bw = (w-(Aw+4*HSpace))/3;
     B1x = x + Aw + 2*HSpace + 0*Bw;
     B2x = x + Aw + 3*HSpace + 1*Bw;
     B3x = x + Aw + 4*HSpace + 2*Bw;
 
-    LineH = (h - 4*VSpace)/3;
+    LineH = (h - 4*VSpace)/4;
     
-    WertBy = Ay + LineH + VSpace;
-    Wert2y = WertBy + LineH + VSpace;
+    Y2 = Y1 + LineH + VSpace;
+    Y3 = Y2 + LineH + VSpace;
+    Y4 = Y3 + LineH + VSpace;
 
-    Label_CamPos = new Label(text,Ax,Ay,Aw,LineH);
-    Label_Cur = new Label("current",B1x,Ay,Bw,LineH);
-    Label_Dif = new Label("difference",B2x,Ay,Bw,LineH);
-    Label_Ref = new Label("reference",B3x,Ay,Bw,LineH);
+    Label_CamPos = new Label(text,Ax,Y1,Aw,LineH);
+    Label_Cur = new Label("current",B1x,Y1,Bw,LineH);
+    Label_Dif = new Label("difference",B2x,Y1,Bw,LineH);
+    Label_Ref = new Label("reference",B3x,Y1,Bw,LineH);
 
-    Label_CrossPos = new Label("crossaire pos",Ax,Wert2y,Aw,LineH);
-    Label_CrossCur = new Label(CrossCurBuf,B1x,Wert2y,Bw,LineH);
-    Label_CrossRef = new Label(CrossRefBuf,B3x,Wert2y,Bw,LineH);
+    Label_CrossPos = new Label("crossaire pos",Ax,Y3,Aw,LineH);
+    Label_CrossCur = new Label(CrossCurBuf,B1x,Y3,Bw,LineH);
+    Label_CrossRef = new Label(CrossRefBuf,B3x,Y3,Bw,LineH);
 
-    Label_WertCur = new Label(CamCurBuf,B1x,WertBy,Bw,LineH);
-    Label_WertDif = new Label(CamDifBuf,B2x,WertBy,Bw,LineH);
-    Label_WertRef = new Label(CamRefBuf,B3x,WertBy,Bw,LineH);
+    Label_WertCur = new Label(CamCurBuf,B1x,Y2,Bw,LineH);
+    Label_WertDif = new Label(CamDifBuf,B2x,Y2,Bw,LineH);
+    Label_WertRef = new Label(CamRefBuf,B3x,Y2,Bw,LineH);
     
     addEvtTarget(Label_CamPos);
     addEvtTarget(Label_Cur);
