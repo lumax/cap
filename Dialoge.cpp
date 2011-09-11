@@ -1443,53 +1443,99 @@ ___________________________________________
     if(this->ActiveSavePage<this->MaxSavePages)
       this->Parent->showLoadDialog(this->ActiveSavePage+1);
   }
-
+  
+  static char * NewDialogMainMenuText = "MainMenu :   RETURN : save recipe | ESC : abort | " \
+    "LEFT previous step | RIGHT next step | F12 Crossaire Menu";
+  static char * NewDialogCrossMenuText = "Crossaire Menu: "	\
+    "F1: Cam1 << | F2: Cam1 < | F3: Cam1 > | F4: Cam1 >> | "	\
+    "F5: Cam2 << | F6: Cam2 < | F7: Cam2 > | F8: Cam2 >> | ";
+  
   static void NewDialogKeyListener(void * src, SDL_Event * evt)
   {
     NewDialog* ad = (NewDialog*)src;//KeyListener
     SDL_KeyboardEvent * key = (SDL_KeyboardEvent *)&evt->key;
     char zeichen = 0;
-
-    /*   if(ad->getStep()==0)
+    if(ad->theMenuModus==NewDialog::iMainMenu)
       {
-
-		if(key->keysym.sym == SDLK_DELETE)
+	if( key->type == SDL_KEYUP )
 	  {
-	    ad->TextField_Name->removeChar();
+	    if(key->keysym.sym == SDLK_ESCAPE)
+	      {
+		ad->Parent->showArbeitsDialog();
+	      }
+	    else if(key->keysym.sym == SDLK_RETURN)
+	      {
+		printf("Rezepte fertig! abspeicher!!!\n");
+		ad->Parent->showArbeitsDialog();
+	      }
+	    else if(key->keysym.sym == SDLK_LEFT)
+	      {
+		if(ad->getStep()>=0)
+		  ad->decStep();
+	      }
+	    else if(key->keysym.sym == SDLK_RIGHT)
+	      {
+		if(ad->getStep()<8)
+		  ad->incStep();
+	      }
+	    else if(key->keysym.sym == SDLK_F12)
+	      {
+		ad->theMenuModus=NewDialog::iCrossaireMenu;
+		ad->Label_Menu->setText(NewDialogCrossMenuText);
+		Label::showLabel((void*)ad->Label_Menu,ad->Parent->theGUI->getMainSurface());
+	      }
 	  }
-	else if(key->keysym.sym == SDLK_BACKSPACE)
-	  {
-	    ad->TextField_Name->removeChar();
-	  }
-	zeichen = Tool::getStdASCII_Char(key);
-	if(zeichen)
-	  {
-	    printf("zeichen\n");
-	    ad->TextField_Name->addChar(zeichen);
-	    }
       }
-    */
-
-    if( key->type == SDL_KEYUP )
+    else //CrossaireMenu
       {
-	if(key->keysym.sym == SDLK_ESCAPE)
+	if( key->type == SDL_KEYUP )
 	  {
-	    ad->Parent->showArbeitsDialog();
-	  }
-	else if(key->keysym.sym == SDLK_RETURN)
-	  {
-	    printf("Rezepte fertig! abspeicher!!!\n");
-	    ad->Parent->showArbeitsDialog();
-	  }
-	else if(key->keysym.sym == SDLK_LEFT)
-	  {
-	    if(ad->getStep()>=0)
-	      ad->decStep();
-	  }
-	else if(key->keysym.sym == SDLK_RIGHT)
-	  {
-	    if(ad->getStep()<8)
-	      ad->incStep();
+	    if(key->keysym.sym == SDLK_ESCAPE||key->keysym.sym == SDLK_RETURN)
+	      {
+		ad->theMenuModus=NewDialog::iMainMenu;
+		ad->Label_Menu->setText(NewDialogMainMenuText);
+		Label::showLabel((void*)ad->Label_Menu,ad->Parent->theGUI->getMainSurface());
+	      }
+	    else if(key->keysym.sym == SDLK_F1)
+	      {
+		cap_cam_addCrossX(0,-10);
+		ad->getCam1CrossX();
+	      }
+	    else if(key->keysym.sym == SDLK_F2)
+	      {
+		cap_cam_addCrossX(0,-2);
+		ad->getCam1CrossX();
+	      }
+	    else if(key->keysym.sym == SDLK_F3)
+	      {
+		cap_cam_addCrossX(0,2);
+		ad->getCam1CrossX();
+	      }
+	    else if(key->keysym.sym == SDLK_F4)
+	      {
+		cap_cam_addCrossX(0,10);
+		ad->getCam1CrossX();
+	      }
+	    else if(key->keysym.sym == SDLK_F5)
+	      {
+		cap_cam_addCrossX(1,-10);
+		ad->getCam2CrossX();
+	      }
+	    else if(key->keysym.sym == SDLK_F6)
+	      {
+		cap_cam_addCrossX(1,-2);
+		ad->getCam2CrossX();
+	      }
+	    else if(key->keysym.sym == SDLK_F7)
+	      {
+		cap_cam_addCrossX(1,2);
+		ad->getCam2CrossX();
+	      }
+	    else if(key->keysym.sym == SDLK_F8)
+	      {
+		cap_cam_addCrossX(1,10);
+		ad->getCam2CrossX();
+	      }
 	  }
       }
   }
@@ -1510,6 +1556,7 @@ ___________________________________________
 
     this->Parent = parent;
     this->step = 0;
+    this->theMenuModus = iMainMenu;
     this->theRecipe.Name[0]='\0';
     for(int i = 0;i<LoadDialog::MaxRezeptFileLaenge;i++)
       {
@@ -1562,9 +1609,12 @@ ___________________________________________
     snprintf(this->InfoText,64,"Recipe Name");
     this->Label_Info->setText(this->InfoText);
 
-    Label_Menu = new Label("RETURN : save recipe | ESC : abort | "	\
+    /*    Label_Menu = new Label("RETURN : save recipe | ESC : abort | " \
 			   "LEFT previous step | RIGHT next step",	\
 			   MLinks_x+156,Zeile5_y,1012-156,MZeile_h);
+    */
+    Label_Menu = new Label(NewDialogMainMenuText,			\
+			   MLinks_x+156,Zeile5_y,1012-156,MZeile_h);    
 
     TextField_Name = new TextField(0,LoadDialog::MaxRezeptFileLaenge,	\
 				   MLinks_x+506+2*MSpace_h,		\

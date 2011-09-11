@@ -297,14 +297,19 @@ namespace EuMax01
     Label * LabelWerte[6];
     char pcWerte[6][32];
 
+    Label * Label_Menu;
+
     void getCam1CrossX();
     void getCam2CrossX();
+
+    static const int iMainMenu = 0;
+    static const int iCrossaireMenu = 1;
+    int theMenuModus;
   private:
     //Label * Label_NewName;
     Label * Label_Name;
 
     Label * Label_Info;
-    Label * Label_Menu;
     char InfoText[64];
     Label * LabelXaxisText;
     Label * LabelZaxisText;
