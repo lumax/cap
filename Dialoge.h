@@ -137,6 +137,15 @@ namespace EuMax01
 		  int sdlw,int sdlh, int camw,\
 		  int camh,int yPos);
     ~ArbeitsDialog();
+
+    /*! \brief füllt den einen char Puffer mit data als string
+     *
+     *  \param tar der u füllende Speicher
+     *  \param len Länge des zu füllenden Speichers
+     *  \param data Das Datum welches in den String umgewandelt wird
+     *  \returns den tar Puffer
+     */
+    char * int2string(char * tar,int len,int data);
     void showRezept(Rezept * pRezept,int nummer);
     void showRezept(int nummer);
     void incRezeptNummer();
@@ -173,7 +182,7 @@ namespace EuMax01
     int RezeptNummer;
     
     EvtTarget ArbeitsDialogEvtTargets;
-    
+
     SDL_Rect Area;
 
     int Cam1XaxisCur;
@@ -285,13 +294,23 @@ namespace EuMax01
     void decStep();
     int getStep();
     TextField * TextField_Name;
+    Label * LabelWerte[6];
+    char pcWerte[6][32];
 
+    void getCam1CrossX();
+    void getCam2CrossX();
   private:
-    Label * Label_NewName;
+    //Label * Label_NewName;
     Label * Label_Name;
 
     Label * Label_Info;
-    char InfoText[256];
+    Label * Label_Menu;
+    char InfoText[64];
+    Label * LabelXaxisText;
+    Label * LabelZaxisText;
+    Label * LabelCrossText;
+
+
     Rezept theRecipe;
     int step;
   };

@@ -707,10 +707,6 @@ ___________________________________________
 
   void ArbeitsDialog::showArbeitsDialog()
   {
-    prt_sendmsg_uint(nPEC_GET_Q1,0x00);
-    prt_sendmsg_uint(nPEC_GET_Q2,0x00);
-    prt_sendmsg_uint(nPEC_GET_Z1,0x00);
-    prt_sendmsg_uint(nPEC_GET_Z2,0x00);
     this->iActiveDialog = ArbeitsDialog::ArbeitsDialogIsActive;
     this->EvtTargets.Next = this->ArbeitsDialogEvtTargets.Next;
     Tool::blankSurface(this->theGUI->getMainSurface(),	\
@@ -722,6 +718,10 @@ ___________________________________________
 		   this->Area.w,			\
 		   this->Area.h);
     this->show(this->theGUI->getMainSurface());
+    prt_sendmsg_uint(nPEC_GET_Q1,0x00);
+    prt_sendmsg_uint(nPEC_GET_Q2,0x00);
+    prt_sendmsg_uint(nPEC_GET_Z1,0x00);
+    prt_sendmsg_uint(nPEC_GET_Z2,0x00);
   }
 
   void ArbeitsDialog::showErrorDialog(char * msg)
@@ -754,6 +754,13 @@ ___________________________________________
 		   this->Area.w,			\
 		   this->Area.h);
     this->show(this->theGUI->getMainSurface());
+    	prt_sendmsg_uint(nPEC_GET_Q1,0x00);
+	prt_sendmsg_uint(nPEC_GET_Q2,0x00);
+	prt_sendmsg_uint(nPEC_GET_Z1,0x00);
+	prt_sendmsg_uint(nPEC_GET_Z2,0x00);
+	//prt_sendmsg_uint(nPEC_GET_FP1,0x00);
+	//prt_sendmsg_uint(nPEC_GET_FP2,0x00);
+	this->theNewDialog->decStep();
   }
 
   void ArbeitsDialog::showCalibrationDialog()
@@ -894,6 +901,12 @@ ___________________________________________
       }
   }
 
+  char * ArbeitsDialog::int2string(char * tar,int len,int data)
+  {
+    snprintf(tar,len,"%i",data);
+    return tar;
+  }
+  
   void ArbeitsDialog::setCross1Ref()
   {
     sprintf(this->Pos_Cam1->getCrossRefBuf(),"%i",cap_cam_getCrossX(0));
@@ -917,6 +930,12 @@ ___________________________________________
       setCam1XaxisCur(dat);
     else if(iActiveDialog==ArbeitsDialog::CalDialogIsActive)
       this->theCalDialog->setQ1(dat);
+    else if(iActiveDialog==ArbeitsDialog::NewDialogIsActive)
+      {
+	this->theNewDialog->LabelWerte[0]->setText(int2string(theNewDialog->pcWerte[0],	\
+							      64,(int)dat));
+	Label::showLabel((void*)theNewDialog->LabelWerte[0],this->theGUI->getMainSurface());
+      }
   }
 
   void ArbeitsDialog::Q2_evt(unsigned short dat)
@@ -925,13 +944,25 @@ ___________________________________________
       setCam2XaxisCur(dat);
     else if(iActiveDialog==ArbeitsDialog::CalDialogIsActive)
       this->theCalDialog->setQ2(dat);
+    else if(iActiveDialog==ArbeitsDialog::NewDialogIsActive)
+      {
+	this->theNewDialog->LabelWerte[3]->setText(int2string(theNewDialog->pcWerte[3],	\
+							      64,(int)dat));
+	Label::showLabel((void*)theNewDialog->LabelWerte[3],this->theGUI->getMainSurface());
+      }
   }
   void ArbeitsDialog::Z1_evt(unsigned short dat)
   {
     if(iActiveDialog==ArbeitsDialog::ArbeitsDialogIsActive)
       setCam1ZaxisCur(dat);
     else if(iActiveDialog==ArbeitsDialog::CalDialogIsActive)
-      this->theCalDialog->setZ1(dat);  
+      this->theCalDialog->setZ1(dat);
+    else if(iActiveDialog==ArbeitsDialog::NewDialogIsActive)
+      {
+	this->theNewDialog->LabelWerte[1]->setText(int2string(theNewDialog->pcWerte[1],	\
+							      64,(int)dat));
+	Label::showLabel((void*)theNewDialog->LabelWerte[1],this->theGUI->getMainSurface());
+      }
   }
   void ArbeitsDialog::Z2_evt(unsigned short dat)
   {
@@ -939,6 +970,12 @@ ___________________________________________
       setCam2ZaxisCur(dat);
     else if(iActiveDialog==ArbeitsDialog::CalDialogIsActive)
       this->theCalDialog->setZ2(dat);
+    else if(iActiveDialog==ArbeitsDialog::NewDialogIsActive)
+      {
+	this->theNewDialog->LabelWerte[4]->setText(int2string(theNewDialog->pcWerte[4],	\
+							      64,(int)dat));
+	Label::showLabel((void*)theNewDialog->LabelWerte[4],this->theGUI->getMainSurface());
+      }
   }
   void ArbeitsDialog::FP1_evt(unsigned short dat)
   {
@@ -1103,7 +1140,6 @@ ___________________________________________
   {
     ErrorDialog* ad = (ErrorDialog*)src;//KeyListener
     SDL_KeyboardEvent * key = (SDL_KeyboardEvent *)&evt->key;
-    char zeichen = 0;
 
     if( key->type == SDL_KEYUP )
       {
@@ -1181,7 +1217,6 @@ ___________________________________________
   {
     LoadDialog* ad = (LoadDialog*)src;//KeyListener
     SDL_KeyboardEvent * key = (SDL_KeyboardEvent *)&evt->key;
-    char zeichen = 0;
 
     if( key->type == SDL_KEYUP )
       {
@@ -1471,7 +1506,7 @@ ___________________________________________
     unsigned short MZeile_h;
     //unsigned short Rezepte_y;
     //short Rezepte_w;
-    short Zeile1_y,Zeile2_y,Zeile3_y,Zeile4_y;
+    short Zeile1_y,Zeile2_y,Zeile3_y,Zeile4_y,Zeile5_y;
 
     this->Parent = parent;
     this->step = 0;
@@ -1515,33 +1550,82 @@ ___________________________________________
     Zeile2_y = yPos + 2*MSpace_h + 1*MZeile_h;
     Zeile3_y = yPos + 3*MSpace_h + 2*MZeile_h;
     Zeile4_y = yPos + 4*MSpace_h + 3*MZeile_h;
+    Zeile5_y = yPos + 5*MSpace_h + 4*MZeile_h;
     //Rezepte_w = 108;
 
-    Label_NewName = new Label("NEW RECIPE",MLinks_x,Zeile1_y,506*2,MZeile_h);
-    Label_Name = new Label("Name :",MLinks_x,Zeile2_y,506-MSpace_h,MZeile_h);
+    //Label_NewName = new Label("NEW RECIPE",MLinks_x,Zeile1_y,506*2,MZeile_h);
+    Label_Name = new Label("NEW RECIPE     Name :",MLinks_x,Zeile1_y,506-MSpace_h,MZeile_h);
+    Label_Name->setFont(Globals::getFontButtonBig());
 
-    Label_Info = new Label("Return: next step | Esc: Cancel",MLinks_x,Zeile4_y,\
-			   506*2,MZeile_h);
-
-    snprintf(this->InfoText,256,				       \
-	     "Recipe Name | RETURN : save recipe | ESC : abort | "	\
-	     "LEFT previous step | RIGHT next step");
+    Label_Info = new Label("Recipe Name",MLinks_x,Zeile5_y,150,MZeile_h);
+    Label_Info->setFont(Globals::getFontButtonBig());
+    snprintf(this->InfoText,64,"Recipe Name");
     this->Label_Info->setText(this->InfoText);
 
-    TextField_Name = new TextField(0,LoadDialog::MaxRezeptFileLaenge,	\
-				   MLinks_x+506+MSpace_h,		\
-				   Zeile2_y,506-MSpace_h,		\
-				   MZeile_h);
-    TextField_Name->setActive(true);
+    Label_Menu = new Label("RETURN : save recipe | ESC : abort | "	\
+			   "LEFT previous step | RIGHT next step",	\
+			   MLinks_x+156,Zeile5_y,1012-156,MZeile_h);
 
-    addEvtTarget(Label_NewName);
+    TextField_Name = new TextField(0,LoadDialog::MaxRezeptFileLaenge,	\
+				   MLinks_x+506+2*MSpace_h,		\
+				   Zeile1_y,506-2*MSpace_h,		\
+				   MZeile_h);
+    TextField_Name->setFont(Globals::getFontButtonBig());
+    TextField_Name->setActive(true);
+    short Mitte_w = 50;
+    LabelXaxisText = new Label("X-Axis",506-Mitte_w,Zeile2_y,106,MZeile_h);
+    LabelZaxisText = new Label("Y-Axis",506-Mitte_w,Zeile3_y,106,MZeile_h);
+    LabelCrossText = new Label("Cross",506-Mitte_w,Zeile4_y,106,MZeile_h);
+
+    for(int i =0;i<6;i++)
+      {
+	pcWerte[i][0] = '-';
+	pcWerte[i][1] = '-';
+	pcWerte[i][2] = '-';
+	pcWerte[i][3] = '\0';	
+      }
+
+    LabelWerte[0] = new Label(pcWerte[0],MLinks_x,Zeile2_y,506-Mitte_w-12,MZeile_h);
+    LabelWerte[1] = new Label(pcWerte[1],MLinks_x,Zeile3_y,506-Mitte_w-12,MZeile_h);
+    LabelWerte[2] = new Label(pcWerte[2],MLinks_x,Zeile4_y,506-Mitte_w-12,MZeile_h);
+
+    LabelWerte[3] = new Label(pcWerte[3],506+Mitte_w+12,Zeile2_y,506-Mitte_w-6,MZeile_h);
+    LabelWerte[4] = new Label(pcWerte[4],506+Mitte_w+12,Zeile3_y,506-Mitte_w-6,MZeile_h);
+    LabelWerte[5] = new Label(pcWerte[5],506+Mitte_w+12,Zeile4_y,506-Mitte_w-6,MZeile_h);
+    //    LabelWerte[0]->setText(pcWerte[1]);
+
+    //addEvtTarget(Label_NewName);
     addEvtTarget(Label_Name);
     addEvtTarget(TextField_Name);
     addEvtTarget(Label_Info);
+    addEvtTarget(Label_Menu);
+    addEvtTarget(LabelXaxisText);
+    addEvtTarget(LabelZaxisText);
+    addEvtTarget(LabelCrossText);
+    addEvtTarget(LabelWerte[0]);
+    addEvtTarget(LabelWerte[1]);
+    addEvtTarget(LabelWerte[2]);
+    addEvtTarget(LabelWerte[3]);
+    addEvtTarget(LabelWerte[4]);
+    addEvtTarget(LabelWerte[5]);
 
     this->pTSource = this;//EvtTarget Quelle setzen, damit der EvtListener die Quelle mitteilen kann
     this->setKeyboardUpEvtHandler(NewDialogKeyListener);
     this->addEvtTarget(this);//den Screen Key Listener bei sich selber anmelden!
+  }
+
+  void NewDialog::getCam1CrossX()
+  {
+    LabelWerte[2]->setText(Parent->int2string(pcWerte[2], \
+					      64,cap_cam_getCrossX(0)));
+    Label::showLabel((void*)LabelWerte[2],Parent->theGUI->getMainSurface());
+  }
+
+  void NewDialog::getCam2CrossX()
+  {
+    LabelWerte[5]->setText(Parent->int2string(pcWerte[5], \
+					      64,cap_cam_getCrossX(1)));
+    Label::showLabel((void*)LabelWerte[5],Parent->theGUI->getMainSurface());
   }
 
   void NewDialog::incStep()
@@ -1550,15 +1634,19 @@ ___________________________________________
       {
 	this->step++;
       }
-    snprintf(this->InfoText,256,					\
-	     "Recipe step %i | RETURN : save recipe | ESC : abort | "	\
-	     "LEFT previous step | RIGHT next step",			\
-	     this->step);
+    snprintf(this->InfoText,256, "Recipe step %i",this->step);
 
     if(this->step!=0)
-      TextField_Name->setActive(false);
-  
-  this->Label_Info->setText(this->InfoText);
+      {
+	TextField_Name->setActive(false);
+	for(int i =0;i<6;i++)
+	  {
+	     LabelWerte[i]->setBorder(true);
+	  }
+      }
+    getCam1CrossX();
+    getCam2CrossX();
+    this->Label_Info->setText(this->InfoText);
   }
   
   void NewDialog::decStep()
@@ -1570,17 +1658,19 @@ ___________________________________________
     if( this->step==0)
       {
 	this->TextField_Name->setActive(true);
-	snprintf(this->InfoText,256,					\
-		 "Recipe Name | RETURN : save recipe | ESC : abort | " \
-		 "LEFT previous step | RIGHT next step");
+	snprintf(this->InfoText,256,"Recipe Name");
+	for(int i =0;i<6;i++)
+	  {
+	    LabelWerte[i]->setBorder(true);
+	  }
       }
     else
       {
 	snprintf(this->InfoText,256,					\
-		 "Recipe step %i | RETURN : save recipe | ESC : abort | " \
-		 "LEFT previous step | RIGHT next step",		\
-		 this->step);
+		 "Recipe step %i",this->step);
       }
+    getCam1CrossX();
+    getCam2CrossX();
     this->Label_Info->setText(this->InfoText);
   }
   
