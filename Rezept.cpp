@@ -30,10 +30,18 @@ static void evtExit(void * src,SDL_Event * evt){
     int i;
     for(i=0;i<Rezept::AnzahlRezepte;i++)
       {
-	this->Rezepte[i].cams[0].cam = i;
-	this->Rezepte[i].cams[0].z_pos = i;
-	this->Rezepte[i].cams[1].cam = i;
-	this->Rezepte[i].cams[1].z_pos = i;
+	this->Rezepte[i].cams[0].x_pos = 0;
+	this->Rezepte[i].cams[0].z_pos = 0;
+	this->Rezepte[i].cams[0].x_cross = 0;
+
+	this->Rezepte[i].cams[1].x_pos = 0;
+	this->Rezepte[i].cams[1].z_pos = 0;
+	this->Rezepte[i].cams[1].x_cross = 0;
+      }
+
+    for(i=0;i<16;i++)
+      {
+	this->Name[i] = '\0';
       }
   };
 
@@ -42,7 +50,7 @@ static void evtExit(void * src,SDL_Event * evt){
 
   }
 
-  unsigned short Rezept::getCamPosition(int cam,int rezept)
+  unsigned short Rezept::getXPosition(int cam,int rezept)
   {
     int theCam = 0;
     int pos;
@@ -57,7 +65,7 @@ static void evtExit(void * src,SDL_Event * evt){
     else
       pos = rezept;
     
-    return this->Rezepte[pos].cams[theCam].cam;
+    return this->Rezepte[pos].cams[theCam].x_pos;
   }
 
 }

@@ -808,7 +808,7 @@ ___________________________________________
   void ArbeitsDialog::setCam1XaxisCur(int val)
   {
     Cam1XaxisCur = val;
-    Cam1XaxisDif = Cam1XaxisCur - this->theRezept->getCamPosition(0,RezeptNummer);
+    Cam1XaxisDif = Cam1XaxisCur - this->theRezept->getXPosition(0,RezeptNummer);
     sprintf(this->Pos_Cam1->getXaxisDifBuf(),"%i",Cam1XaxisDif);
     Pos_Cam1->LabelXaxisDif->setText(this->Pos_Cam1->getXaxisDifBuf());
     Label::showLabel((void*)Pos_Cam1->LabelXaxisDif,this->theGUI->getMainSurface());
@@ -821,7 +821,7 @@ ___________________________________________
   void ArbeitsDialog::setCam2XaxisCur(int val)
   {
     Cam2XaxisCur = val;
-    Cam2XaxisDif = Cam2XaxisCur - this->theRezept->getCamPosition(1,RezeptNummer);
+    Cam2XaxisDif = Cam2XaxisCur - this->theRezept->getXPosition(1,RezeptNummer);
     sprintf(this->Pos_Cam2->getXaxisDifBuf(),"%i",Cam2XaxisDif);
     Pos_Cam2->LabelXaxisDif->setText(this->Pos_Cam2->getXaxisDifBuf());
     Label::showLabel((void*)Pos_Cam2->LabelXaxisDif,this->theGUI->getMainSurface());
@@ -833,7 +833,7 @@ ___________________________________________
   void ArbeitsDialog::setCam1ZaxisCur(int val)
   {
     Cam1ZaxisCur = val;
-    Cam1ZaxisDif = Cam1ZaxisCur - this->theRezept->getCamPosition(0,RezeptNummer);
+    Cam1ZaxisDif = Cam1ZaxisCur - this->theRezept->getXPosition(0,RezeptNummer);
     sprintf(this->Pos_Cam1->getZaxisDifBuf(),"%i",Cam1ZaxisDif);
     Pos_Cam1->LabelZaxisDif->setText(this->Pos_Cam1->getZaxisDifBuf());
     Label::showLabel((void*)Pos_Cam1->LabelZaxisDif,this->theGUI->getMainSurface());
@@ -846,7 +846,7 @@ ___________________________________________
   void ArbeitsDialog::setCam2ZaxisCur(int val)
   {
     Cam2ZaxisCur = val;
-    Cam2ZaxisDif = Cam2ZaxisCur - this->theRezept->getCamPosition(1,RezeptNummer);
+    Cam2ZaxisDif = Cam2ZaxisCur - this->theRezept->getXPosition(1,RezeptNummer);
     sprintf(this->Pos_Cam2->getZaxisDifBuf(),"%i",Cam2ZaxisDif);
     Pos_Cam2->LabelZaxisDif->setText(this->Pos_Cam2->getZaxisDifBuf());
     Label::showLabel((void*)Pos_Cam2->LabelZaxisDif,this->theGUI->getMainSurface());
@@ -869,7 +869,7 @@ ___________________________________________
   void ArbeitsDialog::setCam2Cur_Cross(int val)
   {
     Cam2Cur = val;
-    Cam2Dif = Cam2Cur - this->theRezept->getCamPosition(1,RezeptNummer);
+    Cam2Dif = Cam2Cur - this->theRezept->getXPosition(1,RezeptNummer);
     sprintf(this->Pos_Cam2->getXaxisDifBuf(),"%i",Cam2Dif);
     Pos_Cam2->Label_WertDif->setText(this->Pos_Cam2->getXaxisDifBuf());
     Label::showLabel((void*)Pos_Cam2->Label_WertDif,this->theGUI->getMainSurface());
@@ -883,9 +883,9 @@ ___________________________________________
     if(theRezept)
       {
 	RezeptNummer = nummer;
-	sprintf(this->Pos_Cam1->getXaxisRefBuf(),"%i",theRezept->getCamPosition(0,nummer));
+	sprintf(this->Pos_Cam1->getXaxisRefBuf(),"%i",theRezept->getXPosition(0,nummer));
 	Pos_Cam1->LabelXaxisRef->setText(this->Pos_Cam1->getXaxisRefBuf());
-	sprintf(this->Pos_Cam2->getXaxisRefBuf(),"%i",theRezept->getCamPosition(1,nummer));
+	sprintf(this->Pos_Cam2->getXaxisRefBuf(),"%i",theRezept->getXPosition(1,nummer));
 	Pos_Cam2->LabelXaxisRef->setText(this->Pos_Cam2->getXaxisRefBuf());
 
 	//Difference Berechnen
@@ -1560,8 +1560,8 @@ ___________________________________________
     this->theRecipe.Name[0]='\0';
     for(int i = 0;i<LoadDialog::MaxRezeptFileLaenge;i++)
       {
-	this->theRecipe.Rezepte[i].cams[0].cam = 0;
-	this->theRecipe.Rezepte[i].cams[1].cam = 0;
+	this->theRecipe.Rezepte[i].cams[0].x_pos = 0;
+	this->theRecipe.Rezepte[i].cams[1].x_pos = 0;
 	this->theRecipe.Rezepte[i].cams[0].z_pos = 0;
 	this->theRecipe.Rezepte[i].cams[1].z_pos = 0;
       }
