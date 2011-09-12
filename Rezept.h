@@ -34,9 +34,13 @@ struct PositionSet
     ~Rezept();
     unsigned short getXPosition(int cam,int rezept);
     static const int AnzahlRezepte = 8;
-    char Name[16];
+    char Name[9];
     struct PositionSet Rezepte[8];
+    int writeToFile(char * SaveDir);
+    int readFromFile(char * FilePath);
   private:
+    char buf[1024];
+    static const int version = 1000;
   };
 
 #endif /* __REZEPT_H__*/

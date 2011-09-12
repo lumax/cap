@@ -932,6 +932,7 @@ ___________________________________________
       this->theCalDialog->setQ1(dat);
     else if(iActiveDialog==ArbeitsDialog::NewDialogIsActive)
       {
+	this->theRezept->Rezepte[RezeptNummer].cams[0].x_pos;
 	this->theNewDialog->LabelWerte[0]->setText(int2string(theNewDialog->pcWerte[0],	\
 							      64,(int)dat));
 	Label::showLabel((void*)theNewDialog->LabelWerte[0],this->theGUI->getMainSurface());
@@ -946,6 +947,7 @@ ___________________________________________
       this->theCalDialog->setQ2(dat);
     else if(iActiveDialog==ArbeitsDialog::NewDialogIsActive)
       {
+	this->theRezept->Rezepte[RezeptNummer].cams[1].x_pos;
 	this->theNewDialog->LabelWerte[3]->setText(int2string(theNewDialog->pcWerte[3],	\
 							      64,(int)dat));
 	Label::showLabel((void*)theNewDialog->LabelWerte[3],this->theGUI->getMainSurface());
@@ -959,6 +961,7 @@ ___________________________________________
       this->theCalDialog->setZ1(dat);
     else if(iActiveDialog==ArbeitsDialog::NewDialogIsActive)
       {
+	this->theRezept->Rezepte[RezeptNummer].cams[0].z_pos;
 	this->theNewDialog->LabelWerte[1]->setText(int2string(theNewDialog->pcWerte[1],	\
 							      64,(int)dat));
 	Label::showLabel((void*)theNewDialog->LabelWerte[1],this->theGUI->getMainSurface());
@@ -972,6 +975,7 @@ ___________________________________________
       this->theCalDialog->setZ2(dat);
     else if(iActiveDialog==ArbeitsDialog::NewDialogIsActive)
       {
+	this->theRezept->Rezepte[RezeptNummer].cams[1].z_pos;
 	this->theNewDialog->LabelWerte[4]->setText(int2string(theNewDialog->pcWerte[4],	\
 							      64,(int)dat));
 	Label::showLabel((void*)theNewDialog->LabelWerte[4],this->theGUI->getMainSurface());
@@ -1466,7 +1470,12 @@ ___________________________________________
 	    else if(key->keysym.sym == SDLK_RETURN)
 	      {
 		printf("Rezepte fertig! abspeicher!!!\n");
-		ad->Parent->showArbeitsDialog();
+		if(ad->Parent->theRezept->writeToFile("data3/"))
+		  {
+		    ad->Parent->showErrorDialog("Error saving File");
+		  }
+		else
+		  ad->Parent->showArbeitsDialog();
 	      }
 	    else if(key->keysym.sym == SDLK_LEFT)
 	      {
@@ -1666,6 +1675,7 @@ ___________________________________________
 
   void NewDialog::getCam1CrossX()
   {
+    this->Parent->theRezept->Rezepte[Parent->RezeptNummer].cams[0].x_pos = cap_cam_getCrossX(0);
     LabelWerte[2]->setText(Parent->int2string(pcWerte[2], \
 					      64,cap_cam_getCrossX(0)));
     Label::showLabel((void*)LabelWerte[2],Parent->theGUI->getMainSurface());
@@ -1673,6 +1683,7 @@ ___________________________________________
 
   void NewDialog::getCam2CrossX()
   {
+    this->Parent->theRezept->Rezepte[Parent->RezeptNummer].cams[1].x_pos = cap_cam_getCrossX(1);
     LabelWerte[5]->setText(Parent->int2string(pcWerte[5], \
 					      64,cap_cam_getCrossX(1)));
     Label::showLabel((void*)LabelWerte[5],Parent->theGUI->getMainSurface());

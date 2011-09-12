@@ -1,6 +1,11 @@
 /*
 Bastian Ruppert
 */
+#include <stdio.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>
 #include <SDL/SDL_ttf.h>
 #include "LL.h"
 #include "Event.h"
@@ -39,10 +44,11 @@ static void evtExit(void * src,SDL_Event * evt){
 	this->Rezepte[i].cams[1].x_cross = 0;
       }
 
-    for(i=0;i<16;i++)
+    for(i=0;i<9;i++)
       {
 	this->Name[i] = '\0';
       }
+    this->Name[0] = '1';
   };
 
   Rezept::~Rezept()
@@ -67,5 +73,55 @@ static void evtExit(void * src,SDL_Event * evt){
     
     return this->Rezepte[pos].cams[theCam].x_pos;
   }
+  
+  int Rezept::writeToFile(char * SaveDir)
+  {
+    int fd,ret,i;
+    snprintf(this->buf,1024,"%s%s",SaveDir,this->Name);
+    fd = open(buf,O_RDWR | O_CREAT,S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP );
+    if(fd==-1)
+      {
+	perror("Rezept::WriteToFile open failed!\n");
+	return -1;
+      }
+    sprintf(this->buf,"#Rezept File Version: %i\n",this->version);
+    ret = write(fd,buf,strlen(buf));
+    if(ret==-1)
+      goto error_out;
 
+    for(i=0;i<8;i++)
+      {
+	sprintf(this->buf,"r%i_cam1_x_pos = %i\n",i,this->Rezepte[i].cams[0].x_pos);
+	if(write(fd,buf,strlen(buf))==-1)
+	  goto error_out;
+	sprintf(this->buf,"r%i_cam1_z_pos = %i\n",i,this->Rezepte[i].cams[0].z_pos);
+	if(write(fd,buf,strlen(buf))==-1)
+	  goto error_out;
+	sprintf(this->buf,"r%i_cam1_x_cross = %i\n",i,this->Rezepte[i].cams[0].x_cross);
+	if(write(fd,buf,strlen(buf))==-1)
+	  goto error_out;
+
+	sprintf(this->buf,"r%i_cam2_x_pos = %i\n",i,this->Rezepte[i].cams[0].x_pos);
+	if(write(fd,buf,strlen(buf))==-1)
+	  goto error_out;
+	sprintf(this->buf,"r%i_cam2_z_pos = %i\n",i,this->Rezepte[i].cams[1].z_pos);
+	if(write(fd,buf,strlen(buf))==-1)
+	  goto error_out;
+	sprintf(this->buf,"r%i_cam2_x_cross = %i\n",i,this->Rezepte[i].cams[1].x_cross);
+	if(write(fd,buf,strlen(buf))==-1)
+	  goto error_out;	
+      }
+
+    close(fd);
+    return 0;
+  error_out:
+    perror("Rezept::WriteToFile write failed!\n");
+    close(fd);
+    return -1;
+  }
+
+  int Rezept::readFromFile(char * FilePath)
+  {
+    return -1;
+  }
 }

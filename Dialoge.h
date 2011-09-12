@@ -168,6 +168,8 @@ namespace EuMax01
     void SWVersion_evt(unsigned short dat);
     void HWVersion_evt(unsigned short dat);
 
+    int RezeptNummer;
+    Rezept * theRezept;
     GUI * theGUI;
     MBProtocol * theProtocol;
     
@@ -178,8 +180,6 @@ namespace EuMax01
     void showCalibrationDialog();
 
   private:
-    Rezept * theRezept;
-    int RezeptNummer;
     
     EvtTarget ArbeitsDialogEvtTargets;
 
