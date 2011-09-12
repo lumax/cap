@@ -16,6 +16,7 @@ struct Position
 {
   unsigned short cam;
   unsigned short z_pos;
+  unsigned short cross_x;
 };
 
 struct PositionSet
@@ -30,6 +31,7 @@ struct PositionSet
   {
   public:
     Rezept();
+    ~Rezept();
     unsigned short getCamPosition(int cam,int rezept);
     static const int AnzahlRezepte = 8;
     char Name[16];

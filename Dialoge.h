@@ -146,7 +146,7 @@ namespace EuMax01
      *  \returns den tar Puffer
      */
     char * int2string(char * tar,int len,int data);
-    void showRezept(Rezept * pRezept,int nummer);
+    //    void showRezept(Rezept * pRezept,int nummer);
     void showRezept(int nummer);
     void incRezeptNummer();
     void decRezeptNummer();
@@ -157,7 +157,7 @@ namespace EuMax01
     void setCam2ZaxisCur(int val);
     void setCross1Ref();
     void setCross2Ref();
-    void showRecipe(Rezept * rez);
+    //void showRecipe(Rezept * rez);
 
     void Q1_evt(unsigned short dat);
     void Q2_evt(unsigned short dat);

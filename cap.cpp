@@ -815,11 +815,8 @@ int main(int argc, char *argv[])
   if(theProtocol.initProtocol(theGUI,theArbeitsDialog))
     printf("Uart communication failed\n");
 
-  //  else
-  //  theProtocol.closeProtocol();
-  theRezept = Rezept();
-  //  theGUI->activateScreen(theMainDialog);
-  theArbeitsDialog->showRezept(&theRezept,0); 
+  //theRezept = Rezept();
+  //theArbeitsDialog->showRezept(theRezept,0); 
  
   theGUI->activateScreen(theArbeitsDialog);
 

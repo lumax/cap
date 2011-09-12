@@ -542,7 +542,6 @@ ___________________________________________
     short MInfoSpace_w;
     short MInfoF1_x,MInfoF2_x,MInfoF3_x,MInfoF5_x,MInfoF6_x,MInfoF7_x,MInfoF8_x,MInfoF12_x;
 
-    theRezept = 0;
     RezeptNummer = 0;
     iActiveDialog = 0;
     Cam1XaxisCur = 5;
@@ -555,6 +554,7 @@ ___________________________________________
     Cam2ZaxisCur = 0;
     Cam2ZaxisDif = 0;
 
+    this->theRezept = new Rezept();
     this->theGUI = pGUI;
     this->theProtocol = prot;
     theLoadDialog = new LoadDialog(sdlw,sdlh,camw,camh,yPos,this);
@@ -799,11 +799,11 @@ ___________________________________________
     return this->RezeptNummer;
   }
 
-  void ArbeitsDialog::showRezept(Rezept * pRezept,int nummer)
+  /*  void ArbeitsDialog::showRezept(Rezept * pRezept,int nummer)
   {
     this->theRezept = pRezept;
     this->showRezept(nummer);
-  }
+    }*/
 
   void ArbeitsDialog::setCam1XaxisCur(int val)
   {
@@ -919,10 +919,10 @@ ___________________________________________
     Pos_Cam2->Label_CrossRef->setText(this->Pos_Cam2->getCrossRefBuf());
   }
 
-  void ArbeitsDialog::showRecipe(Rezept * rez)
+  /*  void ArbeitsDialog::showRecipe(Rezept * rez)
   {
     theGUI->activateScreen((Screen*)this);
-  }
+    }*/
 
   void ArbeitsDialog::Q1_evt(unsigned short dat)
   {

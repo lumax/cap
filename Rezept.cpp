@@ -37,6 +37,11 @@ static void evtExit(void * src,SDL_Event * evt){
       }
   };
 
+  Rezept::~Rezept()
+  {
+
+  }
+
   unsigned short Rezept::getCamPosition(int cam,int rezept)
   {
     int theCam = 0;
