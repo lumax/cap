@@ -1620,6 +1620,8 @@ ___________________________________________
     */
     Label_Menu = new Label(NewDialogMainMenuText,			\
 			   Spalte1_x+156,Zeile5_y,1012-156,MZeile_h);    
+    Label_Name->setNormalColor(Globals::GlobalUint32Color1);
+    Label_Name->setMarkedColor(Globals::GlobalUint32Color1);
 
     TextField_Name = new TextField(0,LoadDialog::MaxRezeptFileLaenge,	\
 				   Spalte1_x+506+2*MSpace_h,		\
