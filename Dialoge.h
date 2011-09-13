@@ -296,6 +296,16 @@ namespace EuMax01
     TextField * TextField_Name;
     Label * LabelWerte[6];
     char pcWerte[6][32];
+    static const int iPosQ1 = 0;
+    static const int iPosZ1 = 1;
+    static const int iPosFP1 = 2;
+
+    static const int iPosQ2 = 3;
+    static const int iPosZ2 = 4;
+    static const int iPosFP2 = 5;
+    unsigned short usWerte[6];
+
+    void setNewPositionValue(int pos, unsigned short value);
 
     Label * LabelRezept[6];
     char pcRezept[6][64];
