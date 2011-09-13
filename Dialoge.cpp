@@ -1566,14 +1566,14 @@ ___________________________________________
     this->Parent = parent;
     this->step = 0;
     this->theMenuModus = iMainMenu;
-    this->theRecipe.Name[0]='\0';
+    /*    this->theRecipe.Name[0]='\0';
     for(int i = 0;i<LoadDialog::MaxRezeptFileLaenge;i++)
       {
 	this->theRecipe.Rezepte[i].cams[0].x_pos = 0;
 	this->theRecipe.Rezepte[i].cams[1].x_pos = 0;
 	this->theRecipe.Rezepte[i].cams[0].z_pos = 0;
 	this->theRecipe.Rezepte[i].cams[1].z_pos = 0;
-      }
+	}*/
 
     M_y = sdlh - yPos;
     if(M_y<=84)
@@ -1641,16 +1641,51 @@ ___________________________________________
 	pcWerte[i][0] = '-';
 	pcWerte[i][1] = '-';
 	pcWerte[i][2] = '-';
-	pcWerte[i][3] = '\0';	
+	pcWerte[i][3] = '\0';
       }
 
-    LabelWerte[0] = new Label(pcWerte[0],MLinks_x,Zeile2_y,506-Mitte_w-12,MZeile_h);
-    LabelWerte[1] = new Label(pcWerte[1],MLinks_x,Zeile3_y,506-Mitte_w-12,MZeile_h);
-    LabelWerte[2] = new Label(pcWerte[2],MLinks_x,Zeile4_y,506-Mitte_w-12,MZeile_h);
+    LabelWerte[0] = new Label(pcWerte[0],\
+			      MLinks_x,Zeile2_y,(506-Mitte_w-12)/2,MZeile_h);
+    LabelWerte[1] = new Label(pcWerte[1],\
+			      MLinks_x,Zeile3_y,506-Mitte_w-12,MZeile_h);
+    LabelWerte[2] = new Label(pcWerte[2],\
+			      MLinks_x,Zeile4_y,506-Mitte_w-12,MZeile_h);
 
-    LabelWerte[3] = new Label(pcWerte[3],506+Mitte_w+12,Zeile2_y,506-Mitte_w-6,MZeile_h);
-    LabelWerte[4] = new Label(pcWerte[4],506+Mitte_w+12,Zeile3_y,506-Mitte_w-6,MZeile_h);
-    LabelWerte[5] = new Label(pcWerte[5],506+Mitte_w+12,Zeile4_y,506-Mitte_w-6,MZeile_h);
+    LabelWerte[3] = new Label(pcWerte[3],\
+			      506+Mitte_w+12,Zeile2_y,(506-Mitte_w-6)/2,MZeile_h);
+    LabelWerte[4] = new Label(pcWerte[4],\
+			      506+Mitte_w+12,Zeile3_y,506-Mitte_w-6,MZeile_h);
+    LabelWerte[5] = new Label(pcWerte[5],\
+			      506+Mitte_w+12,Zeile4_y,506-Mitte_w-6,MZeile_h);
+
+    snprintf(pcRezept[0],64,"%i",\
+	     Parent->theRezept->Rezepte[Parent->RezeptNummer].cams[0].x_pos);
+    snprintf(pcRezept[1],64,"%i",\
+	     Parent->theRezept->Rezepte[Parent->RezeptNummer].cams[0].z_pos);
+    snprintf(pcRezept[2],64,"%i",\
+	     Parent->theRezept->Rezepte[Parent->RezeptNummer].cams[0].x_cross);
+
+    snprintf(pcRezept[3],64,"%i",\
+	     Parent->theRezept->Rezepte[Parent->RezeptNummer].cams[1].x_pos);
+    snprintf(pcRezept[4],64,"%i",\
+	     Parent->theRezept->Rezepte[Parent->RezeptNummer].cams[1].z_pos);
+    snprintf(pcRezept[5],64,"%i",\
+	     Parent->theRezept->Rezepte[Parent->RezeptNummer].cams[1].x_cross);
+
+    LabelRezept[0] = new Label(pcRezept[0],\
+			       MLinks_x,Zeile2_y,(506-Mitte_w-12)/2,MZeile_h);
+    LabelRezept[1] = new Label(pcRezept[1],\
+			      MLinks_x,Zeile3_y,506-Mitte_w-12,MZeile_h);
+    LabelRezept[2] = new Label(pcRezept[2],\
+			      MLinks_x,Zeile4_y,506-Mitte_w-12,MZeile_h);
+
+    LabelRezept[3] = new Label(pcRezept[3],\
+			       506+Mitte_w+12,Zeile2_y,(506-Mitte_w-6)/2,MZeile_h);
+    LabelRezept[4] = new Label(pcRezept[4],\
+			      506+Mitte_w+12,Zeile3_y,506-Mitte_w-6,MZeile_h);
+    LabelRezept[5] = new Label(pcRezept[5],\
+			      506+Mitte_w+12,Zeile4_y,506-Mitte_w-6,MZeile_h);
+
     //    LabelWerte[0]->setText(pcWerte[1]);
 
     //addEvtTarget(Label_NewName);
@@ -1667,6 +1702,12 @@ ___________________________________________
     addEvtTarget(LabelWerte[3]);
     addEvtTarget(LabelWerte[4]);
     addEvtTarget(LabelWerte[5]);
+    addEvtTarget(LabelRezept[0]);
+    addEvtTarget(LabelRezept[1]);
+    addEvtTarget(LabelRezept[2]);
+    addEvtTarget(LabelRezept[3]);
+    addEvtTarget(LabelRezept[4]);
+    addEvtTarget(LabelRezept[5]);
 
     this->pTSource = this;//EvtTarget Quelle setzen, damit der EvtListener die Quelle mitteilen kann
     this->setKeyboardUpEvtHandler(NewDialogKeyListener);

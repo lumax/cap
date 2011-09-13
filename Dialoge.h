@@ -297,6 +297,9 @@ namespace EuMax01
     Label * LabelWerte[6];
     char pcWerte[6][32];
 
+    Label * LabelRezept[6];
+    char pcRezept[6][64];
+
     Label * Label_Menu;
 
     void getCam1CrossX();
