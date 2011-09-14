@@ -486,7 +486,7 @@ ___________________________________________
     MInfoF8_x  = MLinks_x + 6*MInfo_w + 6*MInfoSpace_w;
     MInfoF12_x = MLinks_x + 7*MInfo_w + 7*MInfoSpace_w;
 
-    thePosDialog = new PosDialog(theRezept->Name,sdlw,sdlh,camw,camh,yPos);
+    thePosDialog = new PosDialog(theRezept->Name,sdlw,sdlh,camw,camh,yPos,this);
 
     /*   Label_RezeptName = new Label("----------------",MLinks_x,yPos+MSpace_h, \
 				 MName_w,MZeile_h);
@@ -670,62 +670,47 @@ ___________________________________________
 
   void ArbeitsDialog::setCam1XaxisCur(int val)
   {
-    /*    Cam1XaxisCur = val;
+    Cam1XaxisCur = val;
     Cam1XaxisDif = Cam1XaxisCur - this->theRezept->getXPosition(0,RezeptNummer);
-    sprintf(this->Pos_Cam1->getXaxisDifBuf(),"%i",Cam1XaxisDif);
-    Pos_Cam1->LabelXaxisDif->setText(this->Pos_Cam1->getXaxisDifBuf());
-    Label::showLabel((void*)Pos_Cam1->LabelXaxisDif,this->theGUI->getMainSurface());
-
-    sprintf(this->Pos_Cam1->getXaxisCurBuf(),"%i",Cam1XaxisCur);
-    Pos_Cam1->LabelXaxisCur->setText(this->Pos_Cam1->getXaxisCurBuf());
-    Label::showLabel((void*)Pos_Cam1->LabelXaxisCur,this->theGUI->getMainSurface());
-    */
-    printf("ArbeitsDialog::setCam1XaxisCur(int val)\n");
+    thePosDialog->showDifferenceCam1(Cam1XaxisDif);
+    
+    sprintf(this->thePosDialog->pcLabelCam1[PosDialog::iCurr],"%i",Cam1XaxisCur);
+    thePosDialog->pLabelCam1[PosDialog::iCurr]->		\
+      setText(thePosDialog->pcLabelCam1[PosDialog::iCurr]);
+    Label::showLabel((void*)thePosDialog->pLabelCam1[PosDialog::iCurr],	\
+		     this->theGUI->getMainSurface());
   }
 
   void ArbeitsDialog::setCam2XaxisCur(int val)
   {
-    /*    Cam2XaxisCur = val;
+    Cam2XaxisCur = val;
     Cam2XaxisDif = Cam2XaxisCur - this->theRezept->getXPosition(1,RezeptNummer);
-    sprintf(this->Pos_Cam2->getXaxisDifBuf(),"%i",Cam2XaxisDif);
-    Pos_Cam2->LabelXaxisDif->setText(this->Pos_Cam2->getXaxisDifBuf());
-    Label::showLabel((void*)Pos_Cam2->LabelXaxisDif,this->theGUI->getMainSurface());
-    sprintf(this->Pos_Cam2->getXaxisCurBuf(),"%i",Cam2XaxisCur);
-    Pos_Cam2->LabelXaxisCur->setText(this->Pos_Cam2->getXaxisCurBuf());
-    Label::showLabel((void*)Pos_Cam2->LabelXaxisCur,this->theGUI->getMainSurface());
-    */
-    printf("ArbeitsDialog::setCam2XaxisCur(int val)\n");
+    thePosDialog->showDifferenceCam2(Cam2XaxisDif);
+    
+    sprintf(this->thePosDialog->pcLabelCam2[PosDialog::iCurr],"%i",Cam2XaxisCur);
+    thePosDialog->pLabelCam2[PosDialog::iCurr]->		\
+      setText(thePosDialog->pcLabelCam2[PosDialog::iCurr]);
+    Label::showLabel((void*)thePosDialog->pLabelCam2[PosDialog::iCurr],	\
+		     this->theGUI->getMainSurface());
   }
 
   void ArbeitsDialog::setCam1ZaxisCur(int val)
   {
-    /*
     Cam1ZaxisCur = val;
-    Cam1ZaxisDif = Cam1ZaxisCur - this->theRezept->getXPosition(0,RezeptNummer);
-    sprintf(this->Pos_Cam1->getZaxisDifBuf(),"%i",Cam1ZaxisDif);
-    Pos_Cam1->LabelZaxisDif->setText(this->Pos_Cam1->getZaxisDifBuf());
-    Label::showLabel((void*)Pos_Cam1->LabelZaxisDif,this->theGUI->getMainSurface());
-
-    sprintf(this->Pos_Cam1->getZaxisCurBuf(),"%i",Cam1ZaxisCur);
-    Pos_Cam1->LabelZaxisCur->setText(this->Pos_Cam1->getZaxisCurBuf());
-    Label::showLabel((void*)Pos_Cam1->LabelZaxisCur,this->theGUI->getMainSurface());
-    */
-    printf("ArbeitsDialog::setCam1ZaxisCur(int val)\n");
+    Cam1ZaxisDif = Cam1ZaxisCur - this->theRezept->getXPosition(1,RezeptNummer);
+    thePosDialog->showDifferenceZ(Cam1ZaxisDif);
+    
+    sprintf(this->thePosDialog->pcLabelZ[PosDialog::iCurr],"%i",Cam1ZaxisCur);
+    thePosDialog->pLabelZ[PosDialog::iCurr]->		\
+      setText(thePosDialog->pcLabelZ[PosDialog::iCurr]);
+    Label::showLabel((void*)thePosDialog->pLabelZ[PosDialog::iCurr],	\
+		     this->theGUI->getMainSurface());
   }
 
   void ArbeitsDialog::setCam2ZaxisCur(int val)
   {
-    /*
-    Cam2ZaxisCur = val;
-    Cam2ZaxisDif = Cam2ZaxisCur - this->theRezept->getXPosition(1,RezeptNummer);
-    sprintf(this->Pos_Cam2->getZaxisDifBuf(),"%i",Cam2ZaxisDif);
-    Pos_Cam2->LabelZaxisDif->setText(this->Pos_Cam2->getZaxisDifBuf());
-    Label::showLabel((void*)Pos_Cam2->LabelZaxisDif,this->theGUI->getMainSurface());
-    sprintf(this->Pos_Cam2->getZaxisCurBuf(),"%i",Cam2ZaxisCur);
-    Pos_Cam2->LabelZaxisCur->setText(this->Pos_Cam2->getZaxisCurBuf());
-    Label::showLabel((void*)Pos_Cam2->LabelZaxisCur,this->theGUI->getMainSurface());
-    */
-    printf("ArbeitsDialog::setCam2ZaxisCur(int val)\n");
+    //nur eine Z-Achse vorhanden
+    //printf("ArbeitsDialog::setCam2ZaxisCur(int val)\n");
   }
 
   void ArbeitsDialog::showRezept(int nummer)
@@ -844,7 +829,8 @@ ___________________________________________
 		       int sdlh,		\
 		       int camw,		\
 		       int camh,		\
-		       int yPos)
+		       int yPos,\
+		       ArbeitsDialog * parent)
   {
     short M_y;
     unsigned short MSpace_h;
@@ -858,6 +844,7 @@ ___________________________________________
     //unsigned short HSpace,VSpace;
     //unsigned short LineH;
     int i;
+    this->Parent = parent;
     for(i=0;i<64;i++)
       {
 	if(i<=3)
@@ -944,6 +931,9 @@ ___________________________________________
     pLabelCam1[PosDialog::iDiff] = new Label(pcLabelCam1[PosDialog::iDiff],B3x,Y2,Bw,MZeile_h);
     pLabelCam2[PosDialog::iDiff] = new Label(pcLabelCam2[PosDialog::iDiff],B3x,Y3,Bw,MZeile_h);
     pLabelZ[PosDialog::iDiff] = new Label(pcLabelZ[PosDialog::iDiff],B3x,Y4,Bw,MZeile_h);
+    //pLabelCam1[PosDialog::iDiff]->setFont(Globals::getFontButtonBig());
+    //pLabelCam2[PosDialog::iDiff]->setFont(Globals::getFontButtonBig());
+    //pLabelZ[PosDialog::iDiff]->setFont(Globals::getFontButtonBig());
 
     pLabelCam1[PosDialog::iCurr] = new Label(pcLabelCam1[PosDialog::iCurr],B4x,Y2,Bw,MZeile_h);
     pLabelCam2[PosDialog::iCurr] = new Label(pcLabelCam2[PosDialog::iCurr],B4x,Y3,Bw,MZeile_h);
@@ -960,6 +950,77 @@ ___________________________________________
 	addEvtTarget(pLabelZ[i]);
       }
   };
+
+  void PosDialog::showDifferenceCam1(int diff)
+  {
+    printDifference(pcLabelCam1[PosDialog::iDiff],diff);    
+    pLabelCam1[PosDialog::iDiff]->setText(pcLabelCam1[PosDialog::iDiff]);
+    Label::showLabel((void*)pLabelCam1[PosDialog::iDiff],	\
+		     Parent->theGUI->getMainSurface());
+  }
+  
+  void PosDialog::showDifferenceCam2(int diff)
+  {
+    printDifference(pcLabelCam2[PosDialog::iDiff],diff);    
+    pLabelCam2[PosDialog::iDiff]->setText(pcLabelCam2[PosDialog::iDiff]);
+    Label::showLabel((void*)pLabelCam2[PosDialog::iDiff],	\
+		     Parent->theGUI->getMainSurface());
+  }
+  
+  void PosDialog::showDifferenceZ(int diff)
+  {
+    printDifference(pcLabelZ[PosDialog::iDiff],diff);    
+    pLabelZ[PosDialog::iDiff]->setText(pcLabelZ[PosDialog::iDiff]);
+    Label::showLabel((void*)pLabelZ[PosDialog::iDiff],	\
+		     Parent->theGUI->getMainSurface());
+  }
+
+  void PosDialog::printDifference(char * target,int diff)
+  {
+    int abs;
+    bool isPlus = true;
+
+    target[PosDialog::DiffLen-1] = '\0';
+    for(int i=0;i<PosDialog::DiffLen-1;i++)
+      {
+	target[i] = PosDialog::DiffLeerzeichen;
+      }
+    target[PosDialog::DiffLen/2] = PosDialog::DiffLine; //Mitte
+    
+    abs = diff;   //Betrag
+    if(abs<0)
+      {
+	abs *= -1;
+	isPlus = false;
+      }
+
+    if(abs>PosDialog::DiffLen/2)//ganz weit draussen
+      {
+	if(isPlus)
+	  {
+	    target[PosDialog::DiffLen-4] = '-';
+	    target[PosDialog::DiffLen-3] = '-';
+	    target[PosDialog::DiffLen-2] = '>';
+	  }
+	else
+	  {
+	    target[2] = '-';
+	    target[1] = '-';
+	    target[0] = '<';	    
+	  }
+      }
+    else//schon nah dran
+      {
+	if(isPlus)
+	  {
+	    target[PosDialog::DiffLen/2+abs] = '|';
+	  } 
+	else
+	  {
+	    target[PosDialog::DiffLen/2-abs] = '|'; 
+	  }
+      }
+  }
 
   static void ErrorDialogKeyListener(void * src, SDL_Event * evt)
   {

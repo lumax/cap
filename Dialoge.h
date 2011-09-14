@@ -52,7 +52,8 @@ namespace EuMax01
   {
 
   public:
-    PosDialog(char* text,int sdlw,int sdlh, int camw,int camh,int yPos);
+    PosDialog(char* text,int sdlw,int sdlh, int camw,int camh,int yPos,\
+	      ArbeitsDialog * parent);
     ~PosDialog();
  
     Label * LabelRecipeName;
@@ -73,9 +74,20 @@ namespace EuMax01
 
     void setRecipe(Rezept * pRec);
     void setStep(unsigned int step);
+    void showDifferenceCam1(int diff);
+    void showDifferenceCam2(int diff);
+    void showDifferenceZ(int diff);
 
   private:
-
+    
+    ArbeitsDialog * Parent;
+    static const char DiffLeerzeichen = ' ';
+    static const char DiffLen = 62;
+    static const char DiffLine = '|';
+    /*! \brief füllt den char buffer mit einer Pegelgrafik
+     *
+     */
+    void printDifference(char target[64],int diff);
   };
 
   class ErrorDialog;
