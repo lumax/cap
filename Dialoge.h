@@ -48,22 +48,6 @@ namespace EuMax01
     void setXXData(unsigned short dat,int MyStep);
   };
 
-  class MainDialog : public Screen
-  {
-  public:
-    MainDialog(int sdlw,int sdlh,int camw,int camh,int yPos);
-  private:
-    Button * B1;
-    Button * B2;
-    Button * B3;
-    Button * B4;
-    Button * B5;
-    Button * B6;
-    Button * B7;
-    Button * B8;
-    Button * Bexit;
-  };
-
   class PositionDialog : public Screen
   {
 

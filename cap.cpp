@@ -671,7 +671,6 @@ const char * usage =				\
     }
     }*/
 
-MainDialog * theMainDialog;
 ArbeitsDialog * theArbeitsDialog;
 PositionDialog * thePositionDialog;
 MBProtocol theProtocol;
