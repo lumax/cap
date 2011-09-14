@@ -196,14 +196,17 @@ namespace EuMax01
     //EvtTarget * KeyListener;
     PosDialog * thePosDialog;
     
-    Label * Label_InfoF1;
+    Label * LabelDialogName;
+    Label * LabelInfo;
+    
+    /*    Label * Label_InfoF1;
     Label * Label_InfoF2;
     Label * Label_InfoF3;
     Label * Label_InfoF5;
     Label * Label_InfoF6;
     Label * Label_InfoF7;
     Label * Label_InfoF8;
-    Label * Label_InfoF12;
+    Label * Label_InfoF12;*/
     
   };
 

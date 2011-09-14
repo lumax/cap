@@ -488,6 +488,14 @@ ___________________________________________
 
     thePosDialog = new PosDialog(theRezept->Name,sdlw,sdlh,camw,camh,yPos,this);
 
+    LabelDialogName = new Label("Recipe",MInfoF1_x,MInfo_y,MInfo_w,MZeile_h);
+    LabelInfo = new Label("F2: save | F3: new | F5 prev step | F6 next step | "\
+			  "F7 calibrate | F12 exit",			\
+			     MInfoF2_x,					\
+			     MInfo_y,					\
+			     MInfo_w*7+6*MInfoSpace_w,			\
+			     MZeile_h);
+
     /*   Label_RezeptName = new Label("----------------",MLinks_x,yPos+MSpace_h, \
 				 MName_w,MZeile_h);
     Label_RezeptNr1 = new Label("1",MNameNr1_x,yPos+MSpace_h,MNameNr_w,MZeile_h);
@@ -499,14 +507,14 @@ ___________________________________________
     Label_RezeptNr7 = new Label("7",MNameNr7_x,yPos+MSpace_h,MNameNr_w,MZeile_h);
     Label_RezeptNr8 = new Label("8",MNameNr8_x,yPos+MSpace_h,MNameNr_w,MZeile_h);*/
 
-       Label_InfoF1 = new Label("F1: load",MInfoF1_x,MInfo_y,MInfo_w,MZeile_h);
+    /*       Label_InfoF1 = new Label("F1: load",MInfoF1_x,MInfo_y,MInfo_w,MZeile_h);
     Label_InfoF2 = new Label("F2: save",MInfoF2_x,MInfo_y,MInfo_w,MZeile_h);
     Label_InfoF3 = new Label("F3: new",MInfoF3_x,MInfo_y,MInfo_w,MZeile_h);
     Label_InfoF5 = new Label("F5: prev step",MInfoF5_x,MInfo_y,MInfo_w,MZeile_h);
     Label_InfoF6 = new Label("F6: next step",MInfoF6_x,MInfo_y,MInfo_w,MZeile_h);
     Label_InfoF7 = new Label("F7: calibration",MInfoF7_x,MInfo_y,MInfo_w,MZeile_h);
     Label_InfoF8 = new Label("F8:",MInfoF8_x,MInfo_y,MInfo_w,MZeile_h);
-    Label_InfoF12 = new Label("F12:",MInfoF12_x,MInfo_y,MInfo_w,MZeile_h);
+    Label_InfoF12 = new Label("F12:",MInfoF12_x,MInfo_y,MInfo_w,MZeile_h);*/
 
     this->pTSource = this; //EvtTarget Quelle setzen, damit der EvtListener die Quell mitteilen kann
     this->setKeyboardUpEvtHandler(ArbeitsDialogKeyListener);
@@ -522,6 +530,8 @@ ___________________________________________
     pLabel_CurrentRezept[7] = Label_RezeptNr8;*/
     
     addEvtTarget(&thePosDialog->EvtTargets);
+    addEvtTarget(LabelDialogName);
+    addEvtTarget(LabelInfo);
 
     /*    addEvtTarget(Label_RezeptName);
     addEvtTarget(Label_RezeptNr1);
@@ -533,14 +543,14 @@ ___________________________________________
     addEvtTarget(Label_RezeptNr7);
     addEvtTarget(Label_RezeptNr8);*/
     
-        addEvtTarget(Label_InfoF1);
+    /*        addEvtTarget(Label_InfoF1);
     addEvtTarget(Label_InfoF2);
     addEvtTarget(Label_InfoF3);
     addEvtTarget(Label_InfoF5);
     addEvtTarget(Label_InfoF6);
     addEvtTarget(Label_InfoF7);
     addEvtTarget(Label_InfoF8);
-    addEvtTarget(Label_InfoF12);
+    addEvtTarget(Label_InfoF12);*/
     
     this->ArbeitsDialogEvtTargets.Next = this->EvtTargets.Next;//EvtTargets fuer spaeter sichern
     this->showCalibrationDialog();
