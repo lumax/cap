@@ -166,7 +166,7 @@ namespace EuMax01
   void CalibrationDialog::incStep()
   {
     ActualStep++;
-    if(ActualStep>CalibrationDialog::iZ2)
+    if(ActualStep>CalibrationDialog::iZ1)
       {
 	ActualStep = CalibrationDialog::iQ1;//reset fürs nächste mal
 	this->showStep(this->ActualStep);
@@ -229,7 +229,7 @@ namespace EuMax01
 	  this->ActualStep = theStep;
 
 	  snprintf(this->StepText,256,				\
-		   "Move camera 1 Z-Axis in zero position :");
+		   "Move Z-Axis in zero position :");
 	  this->Label_Step->setText(this->StepText);
 
 
@@ -807,14 +807,15 @@ ___________________________________________
   }
   void ArbeitsDialog::Z2_evt(unsigned short dat)
   {
-    if(iActiveDialog==ArbeitsDialog::ArbeitsDialogIsActive)
+    //Z2 gibt es nicht
+    /*    if(iActiveDialog==ArbeitsDialog::ArbeitsDialogIsActive)
       setCam2ZaxisCur(dat);
     else if(iActiveDialog==ArbeitsDialog::CalDialogIsActive)
       this->theCalDialog->setZ2(dat);
     else if(iActiveDialog==ArbeitsDialog::NewDialogIsActive)
       {
 	this->theNewDialog->setNewPositionValue(NewDialog::iPosZ2,dat);
-      }
+	}*/
   }
   void ArbeitsDialog::FP1_evt(unsigned short dat)
   {
