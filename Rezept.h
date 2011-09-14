@@ -33,6 +33,7 @@ struct PositionSet
     Rezept();
     ~Rezept();
     unsigned short getXPosition(int cam,int rezept);
+    unsigned short getZPosition(int rezept);
     static const int AnzahlRezepte = 8;
     char Name[9];
     struct PositionSet Rezepte[8];

@@ -73,6 +73,21 @@ static void evtExit(void * src,SDL_Event * evt){
     
     return this->Rezepte[pos].cams[theCam].x_pos;
   }
+
+  unsigned short Rezept::getZPosition(int rezept)
+  {
+    int theCam = 0;
+    int pos;
+
+    if(rezept<0)
+      pos = 0;
+    else if(rezept>=Rezept::AnzahlRezepte)
+      pos = Rezept::AnzahlRezepte-1;
+    else
+      pos = rezept;
+    
+    return this->Rezepte[pos].cams[theCam].z_pos;
+  }
   
   int Rezept::writeToFile(char * SaveDir)
   {

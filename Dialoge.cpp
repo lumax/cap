@@ -496,61 +496,13 @@ ___________________________________________
 			     MInfo_w*7+6*MInfoSpace_w,			\
 			     MZeile_h);
 
-    /*   Label_RezeptName = new Label("----------------",MLinks_x,yPos+MSpace_h, \
-				 MName_w,MZeile_h);
-    Label_RezeptNr1 = new Label("1",MNameNr1_x,yPos+MSpace_h,MNameNr_w,MZeile_h);
-    Label_RezeptNr2 = new Label("2",MNameNr2_x,yPos+MSpace_h,MNameNr_w,MZeile_h);
-    Label_RezeptNr3 = new Label("3",MNameNr3_x,yPos+MSpace_h,MNameNr_w,MZeile_h);
-    Label_RezeptNr4 = new Label("4",MNameNr4_x,yPos+MSpace_h,MNameNr_w,MZeile_h);
-    Label_RezeptNr5 = new Label("5",MNameNr5_x,yPos+MSpace_h,MNameNr_w,MZeile_h);
-    Label_RezeptNr6 = new Label("6",MNameNr6_x,yPos+MSpace_h,MNameNr_w,MZeile_h);
-    Label_RezeptNr7 = new Label("7",MNameNr7_x,yPos+MSpace_h,MNameNr_w,MZeile_h);
-    Label_RezeptNr8 = new Label("8",MNameNr8_x,yPos+MSpace_h,MNameNr_w,MZeile_h);*/
-
-    /*       Label_InfoF1 = new Label("F1: load",MInfoF1_x,MInfo_y,MInfo_w,MZeile_h);
-    Label_InfoF2 = new Label("F2: save",MInfoF2_x,MInfo_y,MInfo_w,MZeile_h);
-    Label_InfoF3 = new Label("F3: new",MInfoF3_x,MInfo_y,MInfo_w,MZeile_h);
-    Label_InfoF5 = new Label("F5: prev step",MInfoF5_x,MInfo_y,MInfo_w,MZeile_h);
-    Label_InfoF6 = new Label("F6: next step",MInfoF6_x,MInfo_y,MInfo_w,MZeile_h);
-    Label_InfoF7 = new Label("F7: calibration",MInfoF7_x,MInfo_y,MInfo_w,MZeile_h);
-    Label_InfoF8 = new Label("F8:",MInfoF8_x,MInfo_y,MInfo_w,MZeile_h);
-    Label_InfoF12 = new Label("F12:",MInfoF12_x,MInfo_y,MInfo_w,MZeile_h);*/
-
     this->pTSource = this; //EvtTarget Quelle setzen, damit der EvtListener die Quell mitteilen kann
     this->setKeyboardUpEvtHandler(ArbeitsDialogKeyListener);
     this->addEvtTarget(this);//den Screen Key Listener bei sich selber anmelden!
-
-    /*    pLabel_CurrentRezept[0] = Label_RezeptNr1;
-    pLabel_CurrentRezept[1] = Label_RezeptNr2;
-    pLabel_CurrentRezept[2] = Label_RezeptNr3;
-    pLabel_CurrentRezept[3] = Label_RezeptNr4;
-    pLabel_CurrentRezept[4] = Label_RezeptNr5;
-    pLabel_CurrentRezept[5] = Label_RezeptNr6;
-    pLabel_CurrentRezept[6] = Label_RezeptNr7;
-    pLabel_CurrentRezept[7] = Label_RezeptNr8;*/
     
     addEvtTarget(&thePosDialog->EvtTargets);
     addEvtTarget(LabelDialogName);
     addEvtTarget(LabelInfo);
-
-    /*    addEvtTarget(Label_RezeptName);
-    addEvtTarget(Label_RezeptNr1);
-    addEvtTarget(Label_RezeptNr2);
-    addEvtTarget(Label_RezeptNr3);
-    addEvtTarget(Label_RezeptNr4);
-    addEvtTarget(Label_RezeptNr5);
-    addEvtTarget(Label_RezeptNr6);
-    addEvtTarget(Label_RezeptNr7);
-    addEvtTarget(Label_RezeptNr8);*/
-    
-    /*        addEvtTarget(Label_InfoF1);
-    addEvtTarget(Label_InfoF2);
-    addEvtTarget(Label_InfoF3);
-    addEvtTarget(Label_InfoF5);
-    addEvtTarget(Label_InfoF6);
-    addEvtTarget(Label_InfoF7);
-    addEvtTarget(Label_InfoF8);
-    addEvtTarget(Label_InfoF12);*/
     
     this->ArbeitsDialogEvtTargets.Next = this->EvtTargets.Next;//EvtTargets fuer spaeter sichern
     this->showCalibrationDialog();
@@ -707,7 +659,7 @@ ___________________________________________
   void ArbeitsDialog::setCam1ZaxisCur(int val)
   {
     Cam1ZaxisCur = val;
-    Cam1ZaxisDif = Cam1ZaxisCur - this->theRezept->getXPosition(1,RezeptNummer);
+    Cam1ZaxisDif = Cam1ZaxisCur - this->theRezept->getZPosition(RezeptNummer);
     thePosDialog->showDifferenceZ(Cam1ZaxisDif);
     
     sprintf(this->thePosDialog->pcLabelZ[PosDialog::iCurr],"%i",Cam1ZaxisCur);
