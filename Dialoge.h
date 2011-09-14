@@ -312,13 +312,13 @@ namespace EuMax01
 
     Label * Label_Menu;
 
-    void getCam1CrossX();
-    void getCam2CrossX();
-
     static const int iMainMenu = 0;
     static const int iCrossaireMenu = 1;
     int theMenuModus;
+    void getCam1CrossX();
+    void getCam2CrossX();
   private:
+    Rezept * pRezept;
     //Label * Label_NewName;
     Label * Label_Name;
 
@@ -328,6 +328,7 @@ namespace EuMax01
     Label * LabelZaxisText;
     Label * LabelCrossText;
 
+    void updateRezeptData();
 
     Rezept theRecipe;
     int step;

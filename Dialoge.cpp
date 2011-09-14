@@ -1556,16 +1556,19 @@ ___________________________________________
     short x_space = 6;
 
     this->Parent = parent;
+    this->pRezept = new Rezept();
     this->step = 0;
     this->theMenuModus = iMainMenu;
-    /*    this->theRecipe.Name[0]='\0';
+    this->pRezept->Name[0]='\0';
     for(int i = 0;i<LoadDialog::MaxRezeptFileLaenge;i++)
       {
-	this->theRecipe.Rezepte[i].cams[0].x_pos = 0;
-	this->theRecipe.Rezepte[i].cams[1].x_pos = 0;
-	this->theRecipe.Rezepte[i].cams[0].z_pos = 0;
-	this->theRecipe.Rezepte[i].cams[1].z_pos = 0;
-	}*/
+	this->pRezept->Rezepte[i].cams[0].x_pos = 20+i;
+	this->pRezept->Rezepte[i].cams[1].x_pos = 30+i;
+	this->pRezept->Rezepte[i].cams[0].z_pos = 40+i;
+	this->pRezept->Rezepte[i].cams[1].z_pos = 50+i;
+	this->pRezept->Rezepte[i].cams[0].x_cross = 60+i;
+	this->pRezept->Rezepte[i].cams[1].x_cross = 70+i;
+	}
 
     M_y = sdlh - yPos;
     if(M_y<=84)
@@ -1658,18 +1661,18 @@ ___________________________________________
 			      Spalte4_x,Zeile4_y,Button_w,MZeile_h);
 
     snprintf(pcRezept[0],64,"%i",\
-	     Parent->theRezept->Rezepte[Parent->RezeptNummer].cams[0].x_pos);
+	     this->pRezept->Rezepte[this->step].cams[0].x_pos);
     snprintf(pcRezept[1],64,"%i",\
-	     Parent->theRezept->Rezepte[Parent->RezeptNummer].cams[0].z_pos);
+	     this->pRezept->Rezepte[this->step].cams[0].z_pos);
     snprintf(pcRezept[2],64,"%i",\
-	     Parent->theRezept->Rezepte[Parent->RezeptNummer].cams[0].x_cross);
+	     this->pRezept->Rezepte[this->step].cams[0].x_cross);
 
     snprintf(pcRezept[3],64,"%i",\
-	     Parent->theRezept->Rezepte[Parent->RezeptNummer].cams[1].x_pos);
+	     this->pRezept->Rezepte[this->step].cams[1].x_pos);
     snprintf(pcRezept[4],64,"%i",\
-	     Parent->theRezept->Rezepte[Parent->RezeptNummer].cams[1].z_pos);
+	     this->pRezept->Rezepte[this->step].cams[1].z_pos);
     snprintf(pcRezept[5],64,"%i",\
-	     Parent->theRezept->Rezepte[Parent->RezeptNummer].cams[1].x_cross);
+	     this->pRezept->Rezepte[this->step].cams[1].x_cross);
 
     LabelRezept[0] = new Label(pcRezept[0],\
 			       Spalte2_x,Zeile2_y,Button_w,MZeile_h);
@@ -1721,21 +1724,105 @@ ___________________________________________
     Label::showLabel((void*)this->LabelWerte[pos],this->Parent->theGUI->getMainSurface());
   }
 
+  void NewDialog::updateRezeptData()
+  {
+    int rzpStep = this->step - 1;
+    if(this->step)
+      {
+	
+	LabelRezept[NewDialog::iPosQ1]->setText(			\
+		 Parent->int2string(pcRezept[NewDialog::iPosQ1],64, \
+				    pRezept->Rezepte[rzpStep].cams[0].x_pos));
+	Label::showLabel((void*)LabelRezept[NewDialog::iPosQ1],\
+			 Parent->theGUI->getMainSurface());
+
+	LabelRezept[NewDialog::iPosZ1]->setText(			\
+		 Parent->int2string(pcRezept[NewDialog::iPosZ1],64, \
+				    pRezept->Rezepte[rzpStep].cams[0].z_pos));
+	Label::showLabel((void*)LabelRezept[NewDialog::iPosZ1],\
+			 Parent->theGUI->getMainSurface());
+
+	LabelRezept[NewDialog::iPosFP1]->setText(			\
+		 Parent->int2string(pcRezept[NewDialog::iPosFP1],64, \
+				    pRezept->Rezepte[rzpStep].cams[0].x_cross));
+	Label::showLabel((void*)LabelRezept[NewDialog::iPosFP1],\
+			 Parent->theGUI->getMainSurface());
+
+	LabelRezept[NewDialog::iPosQ2]->setText(			\
+		 Parent->int2string(pcRezept[NewDialog::iPosQ2],64, \
+				    pRezept->Rezepte[rzpStep].cams[1].x_pos));
+	Label::showLabel((void*)LabelRezept[NewDialog::iPosQ2],\
+			 Parent->theGUI->getMainSurface());
+
+	LabelRezept[NewDialog::iPosZ2]->setText(			\
+		 Parent->int2string(pcRezept[NewDialog::iPosZ2],64, \
+				    pRezept->Rezepte[rzpStep].cams[1].z_pos));
+	Label::showLabel((void*)LabelRezept[NewDialog::iPosZ2],\
+			 Parent->theGUI->getMainSurface());
+
+	LabelRezept[NewDialog::iPosFP2]->setText(			\
+		 Parent->int2string(pcRezept[NewDialog::iPosFP2],64, \
+				    pRezept->Rezepte[rzpStep].cams[1].x_cross));
+	Label::showLabel((void*)LabelRezept[NewDialog::iPosFP2],\
+			 Parent->theGUI->getMainSurface());
+      }
+    else
+      {
+	LabelRezept[NewDialog::iPosQ1]->setText("");
+	Label::showLabel((void*)LabelRezept[NewDialog::iPosQ1],	\
+			 Parent->theGUI->getMainSurface());
+	LabelRezept[NewDialog::iPosZ1]->setText("");
+	Label::showLabel((void*)LabelRezept[NewDialog::iPosZ1],	\
+			 Parent->theGUI->getMainSurface());
+	LabelRezept[NewDialog::iPosFP1]->setText("");
+	Label::showLabel((void*)LabelRezept[NewDialog::iPosFP1],	\
+			 Parent->theGUI->getMainSurface());
+
+	LabelRezept[NewDialog::iPosQ2]->setText("");
+	Label::showLabel((void*)LabelRezept[NewDialog::iPosQ2],	\
+			 Parent->theGUI->getMainSurface());
+	LabelRezept[NewDialog::iPosZ2]->setText("");
+	Label::showLabel((void*)LabelRezept[NewDialog::iPosZ2],	\
+			 Parent->theGUI->getMainSurface());
+	LabelRezept[NewDialog::iPosFP2]->setText("");
+	Label::showLabel((void*)LabelRezept[NewDialog::iPosFP2],	\
+			 Parent->theGUI->getMainSurface());
+      }   
+  }
+
   void NewDialog::getCam1CrossX()
   {
-    this->Parent->theRezept->Rezepte[Parent->RezeptNummer].cams[0].x_pos = cap_cam_getCrossX(0);
-    LabelWerte[2]->setText(Parent->int2string(pcWerte[2], \
-					      64,cap_cam_getCrossX(0)));
-    Label::showLabel((void*)LabelWerte[2],Parent->theGUI->getMainSurface());
+    if(this->step)
+      {
+	this->pRezept->Rezepte[this->step].cams[0].x_pos = cap_cam_getCrossX(0);
+	LabelWerte[2]->setText(Parent->int2string(pcWerte[2],		\
+						  64,cap_cam_getCrossX(0)));
+	Label::showLabel((void*)LabelWerte[2],Parent->theGUI->getMainSurface());
+      }
+    else
+      {
+	LabelWerte[2]->setText("");
+	Label::showLabel((void*)LabelWerte[2],Parent->theGUI->getMainSurface());
+      }
   }
 
   void NewDialog::getCam2CrossX()
   {
-    this->Parent->theRezept->Rezepte[Parent->RezeptNummer].cams[1].x_pos = cap_cam_getCrossX(1);
-    LabelWerte[5]->setText(Parent->int2string(pcWerte[5], \
-					      64,cap_cam_getCrossX(1)));
-    Label::showLabel((void*)LabelWerte[5],Parent->theGUI->getMainSurface());
+    if(this->step)
+      {
+	this->pRezept->Rezepte[this->step].cams[1].x_pos = cap_cam_getCrossX(1);
+	LabelWerte[5]->setText(Parent->int2string(pcWerte[5],		\
+						  64,cap_cam_getCrossX(1)));
+	Label::showLabel((void*)LabelWerte[5],Parent->theGUI->getMainSurface());
+      }
+    else
+      {
+	LabelWerte[5]->setText("");
+	Label::showLabel((void*)LabelWerte[5],Parent->theGUI->getMainSurface());
+      }
   }
+
+
 
   void NewDialog::incStep()
   {
@@ -1753,8 +1840,9 @@ ___________________________________________
 	     LabelWerte[i]->setBorder(true);
 	  }
       }
-    getCam1CrossX();
-    getCam2CrossX();
+    updateRezeptData();
+    //getCam1CrossX();
+    //getCam2CrossX();
     this->Label_Info->setText(this->InfoText);
   }
   
@@ -1778,8 +1866,9 @@ ___________________________________________
 	snprintf(this->InfoText,256,					\
 		 "Recipe step %i",this->step);
       }
-    getCam1CrossX();
-    getCam2CrossX();
+    updateRezeptData();
+    //getCam1CrossX();
+    //getCam2CrossX();
     this->Label_Info->setText(this->InfoText);
   }
   
