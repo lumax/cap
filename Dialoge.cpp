@@ -1436,8 +1436,8 @@ ___________________________________________
       this->Parent->showLoadDialog(this->ActiveSavePage+1);
   }
   
-  static char * NewDialogMainMenuText = "MainMenu :   RETURN : save recipe | ESC : abort | " \
-    "LEFT previous step | RIGHT next step | F12 Crossaire Menu";
+  static char * NewDialogMainMenuText = "RETURN : take over | ESC : abort | " \
+    "LEFT previous step | RIGHT next step | F10 save | F12 Crossaire Menu";
   static char * NewDialogCrossMenuText = "Crossaire Menu: "	\
     "F1: Cam1 << | F2: Cam1 < | F3: Cam1 > | F4: Cam1 >> | "	\
     "F5: Cam2 << | F6: Cam2 < | F7: Cam2 > | F8: Cam2 >> | ";
@@ -1457,13 +1457,7 @@ ___________________________________________
 	      }
 	    else if(key->keysym.sym == SDLK_RETURN)
 	      {
-		printf("Rezepte fertig! abspeicher!!!\n");
-		if(ad->Parent->theRezept->writeToFile("data3/"))
-		  {
-		    ad->Parent->showErrorDialog("Error saving File");
-		  }
-		else
-		  ad->Parent->showArbeitsDialog();
+		ad->copyValuesToRezept();
 	      }
 	    else if(key->keysym.sym == SDLK_LEFT)
 	      {
@@ -1474,6 +1468,16 @@ ___________________________________________
 	      {
 		if(ad->getStep()<8)
 		  ad->incStep();
+	      }
+	    else if(key->keysym.sym == SDLK_F10)
+	      {
+		printf("Rezepte fertig! abspeicher!!!\n");
+		if(ad->Parent->theRezept->writeToFile("data3/"))
+		  {
+		    ad->Parent->showErrorDialog("Error saving File");
+		  }
+		else
+		  ad->Parent->showArbeitsDialog();		
 	      }
 	    else if(key->keysym.sym == SDLK_F12)
 	      {
@@ -1729,7 +1733,6 @@ ___________________________________________
     int rzpStep = this->step - 1;
     if(this->step)
       {
-	
 	LabelRezept[NewDialog::iPosQ1]->setText(			\
 		 Parent->int2string(pcRezept[NewDialog::iPosQ1],64, \
 				    pRezept->Rezepte[rzpStep].cams[0].x_pos));
@@ -1787,39 +1790,38 @@ ___________________________________________
 	LabelRezept[NewDialog::iPosFP2]->setText("");
 	Label::showLabel((void*)LabelRezept[NewDialog::iPosFP2],	\
 			 Parent->theGUI->getMainSurface());
-      }   
+      }
+  }
+
+  void NewDialog::copyValuesToRezept()
+  {
+    int rzpStep = this->step - 1;
+    if(this->step)
+      {
+	pRezept->Rezepte[rzpStep].cams[0].x_pos = usWerte[NewDialog::iPosQ1];
+	pRezept->Rezepte[rzpStep].cams[0].z_pos = usWerte[NewDialog::iPosZ1];
+	pRezept->Rezepte[rzpStep].cams[0].x_cross = usWerte[NewDialog::iPosFP1];
+	pRezept->Rezepte[rzpStep].cams[1].x_pos = usWerte[NewDialog::iPosQ2];
+	pRezept->Rezepte[rzpStep].cams[1].z_pos = usWerte[NewDialog::iPosZ2];
+	pRezept->Rezepte[rzpStep].cams[1].x_cross = usWerte[NewDialog::iPosFP2];
+	updateRezeptData();
+      } 
   }
 
   void NewDialog::getCam1CrossX()
   {
-    if(this->step)
-      {
-	this->pRezept->Rezepte[this->step].cams[0].x_pos = cap_cam_getCrossX(0);
-	LabelWerte[2]->setText(Parent->int2string(pcWerte[2],		\
-						  64,cap_cam_getCrossX(0)));
-	Label::showLabel((void*)LabelWerte[2],Parent->theGUI->getMainSurface());
-      }
-    else
-      {
-	LabelWerte[2]->setText("");
-	Label::showLabel((void*)LabelWerte[2],Parent->theGUI->getMainSurface());
-      }
+    usWerte[NewDialog::iPosFP1] = cap_cam_getCrossX(0);
+    LabelWerte[2]->setText(Parent->int2string(pcWerte[NewDialog::iPosFP1], \
+					      64,cap_cam_getCrossX(0)));
+    Label::showLabel((void*)LabelWerte[2],Parent->theGUI->getMainSurface());
   }
 
   void NewDialog::getCam2CrossX()
   {
-    if(this->step)
-      {
-	this->pRezept->Rezepte[this->step].cams[1].x_pos = cap_cam_getCrossX(1);
-	LabelWerte[5]->setText(Parent->int2string(pcWerte[5],		\
-						  64,cap_cam_getCrossX(1)));
-	Label::showLabel((void*)LabelWerte[5],Parent->theGUI->getMainSurface());
-      }
-    else
-      {
-	LabelWerte[5]->setText("");
-	Label::showLabel((void*)LabelWerte[5],Parent->theGUI->getMainSurface());
-      }
+    usWerte[NewDialog::iPosFP2] = cap_cam_getCrossX(1);
+    LabelWerte[5]->setText(Parent->int2string(pcWerte[NewDialog::iPosFP2], \
+					      64,cap_cam_getCrossX(1)));
+    Label::showLabel((void*)LabelWerte[5],Parent->theGUI->getMainSurface());
   }
 
 
