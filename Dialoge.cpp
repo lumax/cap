@@ -364,13 +364,14 @@ namespace EuMax01
       }
   }
   ArbeitsDialog::~ArbeitsDialog(){}
-  ArbeitsDialog::ArbeitsDialog(GUI * pGUI,	\
-			       MBProtocol *prot,\
-			       int sdlw,	\
-			       int sdlh,	\
-			       int camw,	\
-			       int camh,	\
-			       int yPos)//:Screen()
+  ArbeitsDialog::ArbeitsDialog(GUI * pGUI,		\
+			       MBProtocol *prot,	\
+			       int sdlw,		\
+			       int sdlh,		\
+			       int camw,		\
+			       int camh,			\
+			       int yPos,			\
+			       char * saveFilePath)//:Screen()
   {
     /*    this->KeyListener = new EvtTarget();
     if(this->KeyListern)
@@ -425,6 +426,7 @@ ___________________________________________
     this->theRezept = new Rezept();
     this->theGUI = pGUI;
     this->theProtocol = prot;
+    this->pcSaveFilePath = saveFilePath;
     theLoadDialog = new LoadDialog(sdlw,sdlh,camw,camh,yPos,this);
     theErrorDialog = new ErrorDialog(sdlw,sdlh,camw,camh,yPos,this);
     theNewDialog = new NewDialog(sdlw,sdlh,camw,camh,yPos,this);
@@ -489,7 +491,7 @@ ___________________________________________
     thePosDialog = new PosDialog(theRezept->Name,sdlw,sdlh,camw,camh,yPos,this);
 
     LabelDialogName = new Label("Recipe",MInfoF1_x,MInfo_y,MInfo_w,MZeile_h);
-    LabelInfo = new Label("F2: save | F3: new | F5 prev step | F6 next step | "\
+    LabelInfo = new Label("F1: laod | F2: save | F3: new | F5 prev step | F6 next step | "\
 			  "F7 calibrate | F12 exit",			\
 			     MInfoF2_x,					\
 			     MInfo_y,					\
@@ -511,7 +513,7 @@ ___________________________________________
   void ArbeitsDialog::showLoadDialog(unsigned int page)
   {
     this->iActiveDialog = ArbeitsDialog::LoadDialogIsActive;
-    if(theLoadDialog->readSaveDirectory("data",page))
+    if(theLoadDialog->readSaveDirectory(pcSaveFilePath,page))
       {
 	showErrorDialog("Error reading save directory");
 	return;
@@ -1278,7 +1280,16 @@ ___________________________________________
   void LoadDialog::naviRight(){this->addToActiveRecipe(+1);}
   void LoadDialog::naviReturn()
   {
-    this->Parent->showErrorDialog("Cannot open Save File Directory");
+    printf("ActiveRecipe Name:%s\n",DateiNamen[ActiveRecipe]);
+    if(Parent->theRezept->readFromFile(DateiNamen[ActiveRecipe]))
+      {
+	Parent->showArbeitsDialog();
+	printf("ArbeitsDialog Update Recipe Daten\n");
+      }
+    else
+      {
+	this->Parent->showErrorDialog("Error Reading SaveFile");
+      }
   }
 
   void LoadDialog::naviPageup()

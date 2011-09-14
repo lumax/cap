@@ -16,6 +16,7 @@ Bastian Ruppert
 #include "Label.h"
 #include "Screen.h"
 #include "Main.h"
+#include "iniParser.h"
 
 #include "Rezept.h"
 
@@ -50,6 +51,26 @@ static void evtExit(void * src,SDL_Event * evt){
       }
     this->Name[0] = '1';
   };
+
+  void Rezept::copy(Rezept * source,Rezept * target)
+  {
+    int i;
+    for(i=0;i<Rezept::AnzahlRezepte;i++)
+      {
+	target->Rezepte[i].cams[0].x_pos = source->Rezepte[i].cams[0].x_pos;
+	target->Rezepte[i].cams[0].z_pos = source->Rezepte[i].cams[0].z_pos;
+	target->Rezepte[i].cams[0].x_cross = source->Rezepte[i].cams[0].x_cross;
+
+	target->Rezepte[i].cams[1].x_pos = source->Rezepte[i].cams[1].x_pos;
+	target->Rezepte[i].cams[1].z_pos = source->Rezepte[i].cams[1].z_pos;
+	target->Rezepte[i].cams[1].x_cross = source->Rezepte[i].cams[1].x_cross;
+      }
+
+    for(i=0;i<9;i++)
+      {
+	target->Name[i] = source->Name[i];
+      }
+  }
 
   Rezept::~Rezept()
   {
@@ -116,7 +137,7 @@ static void evtExit(void * src,SDL_Event * evt){
 	if(write(fd,buf,strlen(buf))==-1)
 	  goto error_out;
 
-	sprintf(this->buf,"r%i_cam2_x_pos = %i\n",i,this->Rezepte[i].cams[0].x_pos);
+	sprintf(this->buf,"r%i_cam2_x_pos = %i\n",i,this->Rezepte[i].cams[1].x_pos);
 	if(write(fd,buf,strlen(buf))==-1)
 	  goto error_out;
 	sprintf(this->buf,"r%i_cam2_z_pos = %i\n",i,this->Rezepte[i].cams[1].z_pos);
@@ -137,6 +158,72 @@ static void evtExit(void * src,SDL_Event * evt){
 
   int Rezept::readFromFile(char * FilePath)
   {
+    char tmp[64];
+    for(int i=0;i<8;i++)
+      {
+	sprintf(this->buf,"r%i_cam1_x_pos",i);
+	if(iniParser_getParam(FilePath,this->buf,tmp,64))
+	  {
+	    goto error_out;
+	  }
+	else
+	  {
+	    this->Rezepte[i].cams[0].x_pos = atoi(tmp);
+	  }
+	
+	sprintf(this->buf,"r%i_cam1_z_pos",i);
+	if(iniParser_getParam(FilePath,this->buf,tmp,64))
+	  {
+	    goto error_out;
+	  }
+	else
+	  {
+	    this->Rezepte[i].cams[0].z_pos = atoi(tmp);
+	  }
+	
+	sprintf(this->buf,"r%i_cam1_x_cross",i);
+	if(iniParser_getParam(FilePath,this->buf,tmp,64))
+	  {
+	    goto error_out;
+	  }
+	else
+	  {
+	    this->Rezepte[i].cams[0].x_cross = atoi(tmp);
+	  }
+
+	sprintf(this->buf,"r%i_cam2_x_pos",i);
+	if(iniParser_getParam(FilePath,this->buf,tmp,64))
+	  {
+	    goto error_out;
+	  }
+	else
+	  {
+	    this->Rezepte[i].cams[1].x_pos = atoi(tmp);
+	  }
+
+	sprintf(this->buf,"r%i_cam2_z_pos",i);
+	if(iniParser_getParam(FilePath,this->buf,tmp,64))
+	  {
+	    goto error_out;
+	  }
+	else
+	  {
+	    this->Rezepte[i].cams[1].z_pos = atoi(tmp);
+	  }
+
+	sprintf(this->buf,"r%i_cam2_x_cross",i);
+	if(iniParser_getParam(FilePath,this->buf,tmp,64))
+	  {
+	    goto error_out;
+	  }
+	else
+	  {
+	    this->Rezepte[i].cams[1].x_cross = atoi(tmp);
+	  }
+      }
+    
+    return 0;
+  error_out:
     return -1;
   }
 }

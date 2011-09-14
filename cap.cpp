@@ -690,6 +690,7 @@ int main(int argc, char *argv[])
   
   char path[64];
   char confpath[96];
+  char saveFilePath[96];
 
   if(Tool::getAppPath(argv[0],path,64))
     {
@@ -727,6 +728,19 @@ int main(int argc, char *argv[])
     {
       camheight = atoi(tmp);
       printf("camheight = %i\n",camheight);
+    }
+  if(!iniParser_getParam(confpath,"PathSaveFile",saveFilePath,96))
+    {
+      printf("saveFilePath = %s\n",saveFilePath);
+    }
+  else
+    {
+      saveFilePath[0] ='d';
+      saveFilePath[1] ='a';
+      saveFilePath[2] ='t';
+      saveFilePath[3] ='a';
+      saveFilePath[4] ='\0';
+      printf("reading saveFilePath failed, using default path %s\n",saveFilePath); 
     }
   if(!iniParser_getParam(confpath,"pixelformat",tmp,64))
     {
@@ -808,7 +822,8 @@ int main(int argc, char *argv[])
 				       sdlheight,		\
 				       camwidth,		\
 				       camheight,		\
-				       ButtonAreaHeight);
+				       ButtonAreaHeight,	\
+				       saveFilePath);
   //thePositionDialog = new PositionDialog(sdlwidth/2-506,ButtonAreaHeight,506,100);
 
   if(theProtocol.initProtocol(theGUI,theArbeitsDialog))

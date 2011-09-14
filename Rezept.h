@@ -34,6 +34,9 @@ struct PositionSet
     ~Rezept();
     unsigned short getXPosition(int cam,int rezept);
     unsigned short getZPosition(int rezept);
+    
+    void copy(Rezept * source,Rezept * target);
+
     static const int AnzahlRezepte = 8;
     char Name[9];
     struct PositionSet Rezepte[8];

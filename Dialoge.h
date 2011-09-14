@@ -115,7 +115,7 @@ namespace EuMax01
   public:
     ArbeitsDialog(GUI * pGUI,MBProtocol * prot,\
 		  int sdlw,int sdlh, int camw,\
-		  int camh,int yPos);
+		  int camh,int yPos,char * saveFilePath);
     ~ArbeitsDialog();
 
     /*! \brief füllt den einen char Puffer mit data als string
@@ -160,7 +160,7 @@ namespace EuMax01
     void showCalibrationDialog();
 
   private:
-    
+    char * pcSaveFilePath;
     EvtTarget ArbeitsDialogEvtTargets;
 
     SDL_Rect Area;
