@@ -48,49 +48,33 @@ namespace EuMax01
     void setXXData(unsigned short dat,int MyStep);
   };
 
-  class PositionDialog : public Screen
+  class PosDialog : public Screen
   {
 
   public:
-    PositionDialog(char* text,short x,short y, unsigned short w,unsigned short h);
-    char * getXaxisCurBuf();
-    char * getXaxisDifBuf();
-    char * getXaxisRefBuf();
-    char * getZaxisCurBuf();
-    char * getZaxisDifBuf();
-    char * getZaxisRefBuf();
-    char * getCrossCurBuf();
-    char * getCrossRefBuf();
+    PosDialog(char* text,int sdlw,int sdlh, int camw,int camh,int yPos);
+    ~PosDialog();
+ 
+    Label * LabelRecipeName;
+    Label * LabelStep;
+    Label * LabelActual;
 
-    Label * LabelXaxisCur;
-    Label * LabelXaxisDif;
-    Label * LabelXaxisRef;
+    static const int iStep = 0;
+    static const int iDiff = 1;
+    static const int iCurr = 2;
+    static const int iLabelName = 3;
 
-    Label * LabelZaxisCur;
-    Label * LabelZaxisDif;
-    Label * LabelZaxisRef;
+    Label * pLabelCam1[4];
+    Label * pLabelCam2[4];
+    Label * pLabelZ[4];
+    char pcLabelCam1[3][64];
+    char pcLabelCam2[3][64];
+    char pcLabelZ[3][64];
 
-    Label * Label_CrossCur;
-    Label * Label_CrossRef;
+    void setRecipe(Rezept * pRec);
+    void setStep(unsigned int step);
+
   private:
-    Label * LabelName;
-    Label * LabelXaxis;
-    Label * LabelZaxis;
-    Label * LabelNameCur;
-    Label * LabelNameDif;
-    Label * LabelNameRef;
-
-    Label * Label_CrossPos;
-    //    Label * Label_Cross_Name;
-
-    char XaxisCurBuf[64];
-    char XaxisDifBuf[64];
-    char XaxisRefBuf[64];
-    char ZaxisCurBuf[64];
-    char ZaxisDifBuf[64];
-    char ZaxisRefBuf[64];
-    char CrossCurBuf[64];
-    char CrossRefBuf[64];
 
   };
 
@@ -198,19 +182,7 @@ namespace EuMax01
     CalibrationDialog * theCalDialog;
 
     //EvtTarget * KeyListener;
-    PositionDialog * Pos_Cam1;
-    PositionDialog * Pos_Cam2;
-
-    Label * Label_RezeptName;
-    Label * Label_RezeptNr1;
-    Label * Label_RezeptNr2;
-    Label * Label_RezeptNr3;
-    Label * Label_RezeptNr4;
-    Label * Label_RezeptNr5;
-    Label * Label_RezeptNr6;
-    Label * Label_RezeptNr7;
-    Label * Label_RezeptNr8;
-    Label * pLabel_CurrentRezept[8];
+    PosDialog * thePosDialog;
     
     Label * Label_InfoF1;
     Label * Label_InfoF2;

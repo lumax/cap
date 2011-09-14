@@ -451,7 +451,7 @@ ___________________________________________
     Area.h = M_y;
 
     MName_y = yPos + 2*MSpace_h + 1*MZeile_h;
-    MInfo_y = yPos + 4*MSpace_h + 4*MZeile_h;
+    MInfo_y = yPos + 4*MSpace_h + 4*MZeile_h+5;
 
     if(M_y<=84)
       {
@@ -486,12 +486,9 @@ ___________________________________________
     MInfoF8_x  = MLinks_x + 6*MInfo_w + 6*MInfoSpace_w;
     MInfoF12_x = MLinks_x + 7*MInfo_w + 7*MInfoSpace_w;
 
-    Pos_Cam1 = new PositionDialog("CAM 1",sdlw/2-506,MName_y,\
-				  506,1*MSpace_h+3*MZeile_h);
-    Pos_Cam2 = new PositionDialog("CAM 2",sdlw/2,MName_y,\
-				  506,1*MSpace_h+3*MZeile_h);
+    thePosDialog = new PosDialog(theRezept->Name,sdlw,sdlh,camw,camh,yPos);
 
-    Label_RezeptName = new Label("----------------",MLinks_x,yPos+MSpace_h,\
+    /*   Label_RezeptName = new Label("----------------",MLinks_x,yPos+MSpace_h, \
 				 MName_w,MZeile_h);
     Label_RezeptNr1 = new Label("1",MNameNr1_x,yPos+MSpace_h,MNameNr_w,MZeile_h);
     Label_RezeptNr2 = new Label("2",MNameNr2_x,yPos+MSpace_h,MNameNr_w,MZeile_h);
@@ -500,9 +497,9 @@ ___________________________________________
     Label_RezeptNr5 = new Label("5",MNameNr5_x,yPos+MSpace_h,MNameNr_w,MZeile_h);
     Label_RezeptNr6 = new Label("6",MNameNr6_x,yPos+MSpace_h,MNameNr_w,MZeile_h);
     Label_RezeptNr7 = new Label("7",MNameNr7_x,yPos+MSpace_h,MNameNr_w,MZeile_h);
-    Label_RezeptNr8 = new Label("8",MNameNr8_x,yPos+MSpace_h,MNameNr_w,MZeile_h);
+    Label_RezeptNr8 = new Label("8",MNameNr8_x,yPos+MSpace_h,MNameNr_w,MZeile_h);*/
 
-    Label_InfoF1 = new Label("F1: load",MInfoF1_x,MInfo_y,MInfo_w,MZeile_h);
+       Label_InfoF1 = new Label("F1: load",MInfoF1_x,MInfo_y,MInfo_w,MZeile_h);
     Label_InfoF2 = new Label("F2: save",MInfoF2_x,MInfo_y,MInfo_w,MZeile_h);
     Label_InfoF3 = new Label("F3: new",MInfoF3_x,MInfo_y,MInfo_w,MZeile_h);
     Label_InfoF5 = new Label("F5: prev step",MInfoF5_x,MInfo_y,MInfo_w,MZeile_h);
@@ -515,20 +512,18 @@ ___________________________________________
     this->setKeyboardUpEvtHandler(ArbeitsDialogKeyListener);
     this->addEvtTarget(this);//den Screen Key Listener bei sich selber anmelden!
 
-
-    pLabel_CurrentRezept[0] = Label_RezeptNr1;
+    /*    pLabel_CurrentRezept[0] = Label_RezeptNr1;
     pLabel_CurrentRezept[1] = Label_RezeptNr2;
     pLabel_CurrentRezept[2] = Label_RezeptNr3;
     pLabel_CurrentRezept[3] = Label_RezeptNr4;
     pLabel_CurrentRezept[4] = Label_RezeptNr5;
     pLabel_CurrentRezept[5] = Label_RezeptNr6;
     pLabel_CurrentRezept[6] = Label_RezeptNr7;
-    pLabel_CurrentRezept[7] = Label_RezeptNr8;
+    pLabel_CurrentRezept[7] = Label_RezeptNr8;*/
     
-    addEvtTarget(&Pos_Cam1->EvtTargets);
-    addEvtTarget(&Pos_Cam2->EvtTargets);
+    addEvtTarget(&thePosDialog->EvtTargets);
 
-    addEvtTarget(Label_RezeptName);
+    /*    addEvtTarget(Label_RezeptName);
     addEvtTarget(Label_RezeptNr1);
     addEvtTarget(Label_RezeptNr2);
     addEvtTarget(Label_RezeptNr3);
@@ -536,9 +531,9 @@ ___________________________________________
     addEvtTarget(Label_RezeptNr5);
     addEvtTarget(Label_RezeptNr6);
     addEvtTarget(Label_RezeptNr7);
-    addEvtTarget(Label_RezeptNr8);
+    addEvtTarget(Label_RezeptNr8);*/
     
-    addEvtTarget(Label_InfoF1);
+        addEvtTarget(Label_InfoF1);
     addEvtTarget(Label_InfoF2);
     addEvtTarget(Label_InfoF3);
     addEvtTarget(Label_InfoF5);
@@ -675,7 +670,7 @@ ___________________________________________
 
   void ArbeitsDialog::setCam1XaxisCur(int val)
   {
-    Cam1XaxisCur = val;
+    /*    Cam1XaxisCur = val;
     Cam1XaxisDif = Cam1XaxisCur - this->theRezept->getXPosition(0,RezeptNummer);
     sprintf(this->Pos_Cam1->getXaxisDifBuf(),"%i",Cam1XaxisDif);
     Pos_Cam1->LabelXaxisDif->setText(this->Pos_Cam1->getXaxisDifBuf());
@@ -684,11 +679,13 @@ ___________________________________________
     sprintf(this->Pos_Cam1->getXaxisCurBuf(),"%i",Cam1XaxisCur);
     Pos_Cam1->LabelXaxisCur->setText(this->Pos_Cam1->getXaxisCurBuf());
     Label::showLabel((void*)Pos_Cam1->LabelXaxisCur,this->theGUI->getMainSurface());
+    */
+    printf("ArbeitsDialog::setCam1XaxisCur(int val)\n");
   }
 
   void ArbeitsDialog::setCam2XaxisCur(int val)
   {
-    Cam2XaxisCur = val;
+    /*    Cam2XaxisCur = val;
     Cam2XaxisDif = Cam2XaxisCur - this->theRezept->getXPosition(1,RezeptNummer);
     sprintf(this->Pos_Cam2->getXaxisDifBuf(),"%i",Cam2XaxisDif);
     Pos_Cam2->LabelXaxisDif->setText(this->Pos_Cam2->getXaxisDifBuf());
@@ -696,10 +693,13 @@ ___________________________________________
     sprintf(this->Pos_Cam2->getXaxisCurBuf(),"%i",Cam2XaxisCur);
     Pos_Cam2->LabelXaxisCur->setText(this->Pos_Cam2->getXaxisCurBuf());
     Label::showLabel((void*)Pos_Cam2->LabelXaxisCur,this->theGUI->getMainSurface());
+    */
+    printf("ArbeitsDialog::setCam2XaxisCur(int val)\n");
   }
 
   void ArbeitsDialog::setCam1ZaxisCur(int val)
   {
+    /*
     Cam1ZaxisCur = val;
     Cam1ZaxisDif = Cam1ZaxisCur - this->theRezept->getXPosition(0,RezeptNummer);
     sprintf(this->Pos_Cam1->getZaxisDifBuf(),"%i",Cam1ZaxisDif);
@@ -709,10 +709,13 @@ ___________________________________________
     sprintf(this->Pos_Cam1->getZaxisCurBuf(),"%i",Cam1ZaxisCur);
     Pos_Cam1->LabelZaxisCur->setText(this->Pos_Cam1->getZaxisCurBuf());
     Label::showLabel((void*)Pos_Cam1->LabelZaxisCur,this->theGUI->getMainSurface());
+    */
+    printf("ArbeitsDialog::setCam1ZaxisCur(int val)\n");
   }
 
   void ArbeitsDialog::setCam2ZaxisCur(int val)
   {
+    /*
     Cam2ZaxisCur = val;
     Cam2ZaxisDif = Cam2ZaxisCur - this->theRezept->getXPosition(1,RezeptNummer);
     sprintf(this->Pos_Cam2->getZaxisDifBuf(),"%i",Cam2ZaxisDif);
@@ -721,51 +724,30 @@ ___________________________________________
     sprintf(this->Pos_Cam2->getZaxisCurBuf(),"%i",Cam2ZaxisCur);
     Pos_Cam2->LabelZaxisCur->setText(this->Pos_Cam2->getZaxisCurBuf());
     Label::showLabel((void*)Pos_Cam2->LabelZaxisCur,this->theGUI->getMainSurface());
+    */
+    printf("ArbeitsDialog::setCam2ZaxisCur(int val)\n");
   }
-
-  /*  void ArbeitsDialog::setCam1Cur_Cross(int val)
-  {
-    Cam1Cur_Cross = val;
-    Cam1Dif_Cross = Cam1Cur_Cross - this->theRezept->getCrossPosition(0,RezeptNummer);
-    sprintf(this->Pos_Cam1->getCrossDifBuf(),"%i",Cross1Dif);
-    Pos_Cam2->Label_WertDif->setText(this->Pos_Cam2->getXaxisDifBuf());
-    Label::showLabel((void*)Pos_Cam2->Label_WertDif,this->theGUI->getMainSurface());
-    sprintf(this->Pos_Cam2->getXaxisCurBuf(),"%i",Cam2Cur);
-    Pos_Cam2->Label_WertCur->setText(this->Pos_Cam2->getXaxisCurBuf());
-    Label::showLabel((void*)Pos_Cam2->Label_WertCur,this->theGUI->getMainSurface());
-  }
-  void ArbeitsDialog::setCam2Cur_Cross(int val)
-  {
-    Cam2Cur = val;
-    Cam2Dif = Cam2Cur - this->theRezept->getXPosition(1,RezeptNummer);
-    sprintf(this->Pos_Cam2->getXaxisDifBuf(),"%i",Cam2Dif);
-    Pos_Cam2->Label_WertDif->setText(this->Pos_Cam2->getXaxisDifBuf());
-    Label::showLabel((void*)Pos_Cam2->Label_WertDif,this->theGUI->getMainSurface());
-    sprintf(this->Pos_Cam2->getXaxisCurBuf(),"%i",Cam2Cur);
-    Pos_Cam2->Label_WertCur->setText(this->Pos_Cam2->getXaxisCurBuf());
-    Label::showLabel((void*)Pos_Cam2->Label_WertCur,this->theGUI->getMainSurface());
-    }*/
 
   void ArbeitsDialog::showRezept(int nummer)
   {
     if(theRezept)
       {
 	RezeptNummer = nummer;
-	sprintf(this->Pos_Cam1->getXaxisRefBuf(),"%i",theRezept->getXPosition(0,nummer));
-	Pos_Cam1->LabelXaxisRef->setText(this->Pos_Cam1->getXaxisRefBuf());
-	sprintf(this->Pos_Cam2->getXaxisRefBuf(),"%i",theRezept->getXPosition(1,nummer));
-	Pos_Cam2->LabelXaxisRef->setText(this->Pos_Cam2->getXaxisRefBuf());
+	sprintf(thePosDialog->pcLabelCam1[PosDialog::iStep],	\
+		"%i",theRezept->getXPosition(0,nummer));
+	thePosDialog->pLabelCam1[PosDialog::iStep]->		\
+	  setText(thePosDialog->pcLabelCam1[PosDialog::iStep]);
+
+	sprintf(thePosDialog->pcLabelCam2[PosDialog::iStep],	\
+		"%i",theRezept->getXPosition(1,nummer));
+	thePosDialog->pLabelCam2[PosDialog::iStep]->	\
+	  setText(thePosDialog->pcLabelCam2[PosDialog::iStep]);
 
 	//Difference Berechnen
 	this->setCam1XaxisCur(this->Cam1XaxisCur);
 	this->setCam2XaxisCur(this->Cam2XaxisCur);
 	this->setCam1ZaxisCur(this->Cam1ZaxisCur);
 	this->setCam2ZaxisCur(this->Cam2ZaxisCur);
-
-	for(int i=0;i<Rezept::AnzahlRezepte;i++)
-	  pLabel_CurrentRezept[i]->setBorder(false);
-
-	pLabel_CurrentRezept[RezeptNummer]->setBorder(true);
       }
   }
 
@@ -777,14 +759,16 @@ ___________________________________________
   
   void ArbeitsDialog::setCross1Ref()
   {
-    sprintf(this->Pos_Cam1->getCrossRefBuf(),"%i",cap_cam_getCrossX(0));
-    Pos_Cam1->Label_CrossRef->setText(this->Pos_Cam1->getCrossRefBuf());
+    //sprintf(thePosDialog->getCrossRefBuf(),"%i",cap_cam_getCrossX(0));
+    //Pos_Cam1->Label_CrossRef->setText(this->Pos_Cam1->getCrossRefBuf());
+    printf("void ArbeitsDialog::setCross1Ref()\n");
   }
 
   void ArbeitsDialog::setCross2Ref()
   {
-    sprintf(this->Pos_Cam2->getCrossRefBuf(),"%i",cap_cam_getCrossX(1));
-    Pos_Cam2->Label_CrossRef->setText(this->Pos_Cam2->getCrossRefBuf());
+    //sprintf(this->Pos_Cam2->getCrossRefBuf(),"%i",cap_cam_getCrossX(1));
+    //Pos_Cam2->Label_CrossRef->setText(this->Pos_Cam2->getCrossRefBuf());
+    printf("void ArbeitsDialog::setCross2Ref()\n");
   }
 
   /*  void ArbeitsDialog::showRecipe(Rezept * rez)
@@ -854,93 +838,69 @@ ___________________________________________
     printf("ArbeitsDialog HWVersion:%i\n",dat);
   }
 
-  char * PositionDialog::getXaxisCurBuf()
+  PosDialog::~PosDialog(){}
+  PosDialog::PosDialog(char* text,		\
+		       int sdlw,		\
+		       int sdlh,		\
+		       int camw,		\
+		       int camh,		\
+		       int yPos)
   {
-    return this->XaxisCurBuf;
-  }
-  char * PositionDialog::getXaxisDifBuf()
-  {
-    return this->XaxisDifBuf;
-  }
-  char * PositionDialog::getXaxisRefBuf()
-  {
-    return this->XaxisRefBuf;
-  }
-  char * PositionDialog::getZaxisCurBuf()
-  {
-    return this->ZaxisCurBuf;
-  }
-  char * PositionDialog::getZaxisDifBuf()
-  {
-    return this->ZaxisDifBuf;
-  }
-  char * PositionDialog::getZaxisRefBuf()
-  {
-    return this->ZaxisRefBuf;
-  }
-  char * PositionDialog::getCrossRefBuf()
-  {
-    return this->CrossRefBuf;
-  }
-  char * PositionDialog::getCrossCurBuf()
-  {
-    return this->CrossCurBuf;
-  }
-
-  PositionDialog::PositionDialog(char * text,			\
-				 short x,			\
-				 short y,			\
-				 unsigned short w,		\
-				 unsigned short h):Screen()
-  {
-    /*      
-      x/y    
-    |<-------------------- w ---------------->|
-                                                VSpace
-    |s |A |s|  B1     |s| B2      |s| B3      |  LineH
-                                                VSpace
-    |  |    |  WertB1 | | WertB2  | | WertB3  |  LineH 
-
-
-      s = HSpace = 3 Pixel
-
-     */
-    
-    //unsigned short Aw;
-    short B1x,B2x,B3x,B4x;
+    short M_y;
+    unsigned short MSpace_h;
+    unsigned short MZeile_h;
+    //unsigned short Rezepte_y;
+    //short Rezepte_w;
     short Y1,Y2,Y3,Y4;
-    unsigned short Bw;
-    unsigned short HSpace,VSpace;
-    unsigned short LineH;
+    short B1x, B2x, B3x, B4x;
+    unsigned short Bw , x_space;
+
+    //unsigned short HSpace,VSpace;
+    //unsigned short LineH;
     int i;
     for(i=0;i<64;i++)
       {
 	if(i<=3)
 	  {
-	    XaxisCurBuf[i] = '-';
-	    XaxisDifBuf[i] = '-';
-	    XaxisRefBuf[i] = '-';
-	    ZaxisCurBuf[i] = '-';
-	    ZaxisDifBuf[i] = '-';
-	    ZaxisRefBuf[i] = '-';
-	    CrossCurBuf[i] = '-';
-	    CrossRefBuf[i] = '-';
+	    pcLabelCam1[0][i] = '-';
+	    pcLabelCam1[1][i] = '-';
+	    pcLabelCam1[2][i] = '-';
+	    pcLabelCam2[0][i] = '-';
+	    pcLabelCam2[1][i] = '-';
+	    pcLabelCam2[2][i] = '-';
+	    pcLabelZ[0][i] = '-';
+	    pcLabelZ[1][i] = '-';
+	    pcLabelZ[2][i] = '-';
 	  }
 	else
 	  {
-	    XaxisCurBuf[i] = '\0';
-	    XaxisDifBuf[i] = '\0';
-	    XaxisRefBuf[i] = '\0';
-	    ZaxisCurBuf[i] = '\0';
-	    ZaxisDifBuf[i] = '\0';
-	    ZaxisRefBuf[i] = '\0';
-	    CrossCurBuf[i] = '\0';
-	    CrossRefBuf[i] = '\0';
+	    pcLabelCam1[0][i] = '\0';
+	    pcLabelCam1[1][i] = '\0';
+	    pcLabelCam1[2][i] = '\0';
+	    pcLabelCam2[0][i] = '\0';
+	    pcLabelCam2[1][i] = '\0';
+	    pcLabelCam2[2][i] = '\0';
+	    pcLabelZ[0][i] = '\0';
+	    pcLabelZ[1][i] = '\0';
+	    pcLabelZ[2][i] = '\0';
 	  }
       }
-    HSpace = 3;
+
+    M_y = sdlh - yPos;
+    if(M_y<=84)
+      {
+	MSpace_h = 2;
+	MZeile_h = 18;
+      }
+    else
+      {
+	MSpace_h = 5;
+	MZeile_h = 28;
+      }
+    /*  HSpace = 3;
     VSpace = 3;
-    Y1  = y+VSpace;
+    Y1  = sdlh - yPos;
+    //Y1  = y+VSpace;
     //Aw = w/5 - 1*HSpace;
     //Bw = (w-(Aw+4*HSpace))/3;
     Bw = (w-4*HSpace)/4;
@@ -953,47 +913,52 @@ ___________________________________________
     
     Y2 = Y1 + LineH + VSpace;
     Y3 = Y2 + LineH + VSpace;
-    Y4 = Y3 + LineH + VSpace;
+    Y4 = Y3 + LineH + VSpace;*/
 
-    LabelName = new Label(text,B1x,Y1,Bw,LineH);
+    Y1 = yPos + 1*MSpace_h + 0*MZeile_h;
+    Y2 = yPos + 2*MSpace_h + 1*MZeile_h;
+    Y3 = yPos + 3*MSpace_h + 2*MZeile_h;
+    Y4 = yPos + 4*MSpace_h + 3*MZeile_h;
 
-    LabelNameRef = new Label("reference",B1x,Y2,Bw,LineH);
-    LabelNameCur = new Label("current",B1x,Y3,Bw,LineH);
-    LabelNameDif = new Label("difference",B1x,Y4,Bw,LineH);
+    x_space = 5;
+    Bw = (1012-3*x_space)/4;
 
-    Label_CrossPos = new Label("Crossair",B4x,Y1,Bw,LineH);
-    Label_CrossCur = new Label(CrossCurBuf,B4x,Y3,Bw,LineH);
-    Label_CrossRef = new Label(CrossRefBuf,B4x,Y2,Bw,LineH);
+    B1x = sdlw/2 - 506;
+    B2x = B1x + 1*Bw+1*x_space;
+    B3x = B1x + 2*Bw+2*x_space;
+    B4x = B1x + 3*Bw+3*x_space;
 
-    LabelXaxis = new Label("X - Axis",B2x,Y1,Bw,LineH);
-    LabelXaxisRef = new Label(XaxisRefBuf,B2x,Y2,Bw,LineH);
-    LabelXaxisCur = new Label(XaxisCurBuf,B2x,Y3,Bw,LineH);
-    LabelXaxisDif = new Label(XaxisDifBuf,B2x,Y4,Bw,LineH);
+    LabelRecipeName = new Label(text,B1x,Y1,Bw,MZeile_h);
+    LabelStep = new Label("Step 1",B2x,Y1,Bw,MZeile_h);
+    //difference
+    LabelActual = new Label("current position",B4x,Y1,Bw,MZeile_h);
 
-    LabelZaxis = new Label("Y - Axis",B3x,Y1,Bw,LineH);
-    LabelZaxisRef = new Label(ZaxisRefBuf,B3x,Y2,Bw,LineH);
-    LabelZaxisCur = new Label(ZaxisCurBuf,B3x,Y3,Bw,LineH);
-    LabelZaxisDif = new Label(ZaxisDifBuf,B3x,Y4,Bw,LineH);
- 
-    
-    addEvtTarget(LabelName);
-    addEvtTarget(LabelNameCur);
-    addEvtTarget(LabelNameDif);
-    addEvtTarget(LabelNameRef);
+    pLabelCam1[PosDialog::iLabelName] = new Label("CAM1",B1x,Y2,Bw,MZeile_h);
+    pLabelCam2[PosDialog::iLabelName] = new Label("CAM2",B1x,Y3,Bw,MZeile_h);
+    pLabelZ[PosDialog::iLabelName] = new Label("Z",B1x,Y4,Bw,MZeile_h);
 
-    addEvtTarget(Label_CrossPos);
-    addEvtTarget(Label_CrossCur);
-    addEvtTarget(Label_CrossRef);
+    pLabelCam1[PosDialog::iStep] = new Label(pcLabelCam1[PosDialog::iStep],B2x,Y2,Bw,MZeile_h);
+    pLabelCam2[PosDialog::iStep] = new Label(pcLabelCam2[PosDialog::iStep],B2x,Y3,Bw,MZeile_h);
+    pLabelZ[PosDialog::iStep] = new Label(pcLabelZ[PosDialog::iStep],B2x,Y4,Bw,MZeile_h);
 
-    addEvtTarget(LabelXaxis);
-    addEvtTarget(LabelXaxisCur);
-    addEvtTarget(LabelXaxisDif);
-    addEvtTarget(LabelXaxisRef);
+    pLabelCam1[PosDialog::iDiff] = new Label(pcLabelCam1[PosDialog::iDiff],B3x,Y2,Bw,MZeile_h);
+    pLabelCam2[PosDialog::iDiff] = new Label(pcLabelCam2[PosDialog::iDiff],B3x,Y3,Bw,MZeile_h);
+    pLabelZ[PosDialog::iDiff] = new Label(pcLabelZ[PosDialog::iDiff],B3x,Y4,Bw,MZeile_h);
 
-    addEvtTarget(LabelZaxis);
-    addEvtTarget(LabelZaxisCur);
-    addEvtTarget(LabelZaxisDif);
-    addEvtTarget(LabelZaxisRef);
+    pLabelCam1[PosDialog::iCurr] = new Label(pcLabelCam1[PosDialog::iCurr],B4x,Y2,Bw,MZeile_h);
+    pLabelCam2[PosDialog::iCurr] = new Label(pcLabelCam2[PosDialog::iCurr],B4x,Y3,Bw,MZeile_h);
+    pLabelZ[PosDialog::iCurr] = new Label(pcLabelZ[PosDialog::iCurr],B4x,Y4,Bw,MZeile_h);
+
+    addEvtTarget(LabelRecipeName);
+    addEvtTarget(LabelStep);
+    addEvtTarget(LabelActual);
+
+    for(int i = 0; i<4 ;i++)
+      {
+	addEvtTarget(pLabelCam1[i]);
+	addEvtTarget(pLabelCam2[i]);
+	addEvtTarget(pLabelZ[i]);
+      }
   };
 
   static void ErrorDialogKeyListener(void * src, SDL_Event * evt)

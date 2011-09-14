@@ -672,7 +672,7 @@ const char * usage =				\
     }*/
 
 ArbeitsDialog * theArbeitsDialog;
-PositionDialog * thePositionDialog;
+//PositionDialog * thePositionDialog;
 MBProtocol theProtocol;
 Rezept theRezept;
 
