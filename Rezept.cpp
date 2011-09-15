@@ -49,7 +49,7 @@ static void evtExit(void * src,SDL_Event * evt){
       {
 	this->Name[i] = '\0';
       }
-    this->Name[0] = '1';
+    this->Name[0] = ' ';
   };
 
   void Rezept::copy(Rezept * source,Rezept * target)

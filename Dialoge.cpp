@@ -517,7 +517,7 @@ ___________________________________________
     this->iActiveDialog = ArbeitsDialog::LoadDialogIsActive;
     if(theLoadDialog->readSaveDirectory(pcSaveFilePath,page))
       {
-	showErrorDialog("Error reading save directory");
+	showErrorDialog((char*)"Error reading save directory");
 	return;
       }
 
@@ -1209,10 +1209,10 @@ ___________________________________________
     Rezepte_w = 108;
 
     Label_LadenName = new Label("LOAD RECIPE",MLinks_x,MLoadName_y,506*2,MZeile_h);
-    int ii = 0;
+    unsigned int ii = 0;
     char tmpc[16] = { 'x','X','x','x','x','x','x','x'};
     tmpc[15]='\0';
-    for(int i=0;i<LoadDialog::RezepteLen;i++)
+    for(unsigned int i=0;i<LoadDialog::RezepteLen;i++)
       {
 	if(ii>=LoadDialog::RezepteProZeile)
 	  {
@@ -1241,7 +1241,7 @@ ___________________________________________
 
   /* \brief Makiert das aktive Label und desmaskiert den Vorherigen.
    */ 
-  void LoadDialog::setActiveRecipe(int nr)
+  void LoadDialog::setActiveRecipe(unsigned int nr)
   {
     pLabel_Rezepte[ActiveRecipe]->setBorder(false);
     
@@ -1289,7 +1289,7 @@ ___________________________________________
   int LoadDialog::readSaveDirectory(char * dirName,unsigned int page)
   {
     struct dirent **namelist;
-    int n;
+    unsigned int n;
     unsigned int fileToShow;
 
     this->EvtTargets.Next = 0;     //alle FileLabels deaktivieren
@@ -1303,7 +1303,7 @@ ___________________________________________
     if (n < 0)
       return -1;
 
-    int ii = n;
+    unsigned int ii = n;
     this->MaxSavePages = 0;
     while(ii>=LoadDialog::RezepteLen)
       {
@@ -1315,8 +1315,8 @@ ___________________________________________
     if(fileToShow<=n)
       {
 	//int tmp = 0;
-	int i = 0;
-	int i2 = 0;
+	unsigned int i = 0;
+	unsigned int i2 = 0;
 	for(i=fileToShow,i2=0;i<n&&i2<LoadDialog::RezepteLen;i++,i2++)
 	  {
 	    strncpy(DateiNamen[/*tmp*/i2],namelist[i]->d_name,LoadDialog::MaxRezeptFileLaenge);
@@ -1354,7 +1354,7 @@ ___________________________________________
       }
     else
       {
-	this->Parent->showErrorDialog("Error Reading SaveFile");
+	this->Parent->showErrorDialog((char*)"Error Reading SaveFile");
       }
   }
 
@@ -1370,9 +1370,9 @@ ___________________________________________
       this->Parent->showLoadDialog(this->ActiveSavePage+1);
   }
   
-  static char * NewDialogMainMenuText = "RETURN : take over | ESC : abort | " \
+  static char * NewDialogMainMenuText = (char*)"RETURN : take over | ESC : abort | " \
     "LEFT previous step | RIGHT next step | F10 save | F12 Crossaire Menu";
-  static char * NewDialogCrossMenuText = "Crossaire Menu: "	\
+  static char * NewDialogCrossMenuText = (char*)"Crossaire Menu: "	\
     "F1: Cam1 << | F2: Cam1 < | F3: Cam1 > | F4: Cam1 >> | "	\
     "F5: Cam2 << | F6: Cam2 < | F7: Cam2 > | F8: Cam2 >> | ";
   
@@ -1380,7 +1380,6 @@ ___________________________________________
   {
     NewDialog* ad = (NewDialog*)src;//KeyListener
     SDL_KeyboardEvent * key = (SDL_KeyboardEvent *)&evt->key;
-    char zeichen = 0;
     if(ad->theMenuModus==NewDialog::iMainMenu)
       {
 	if( key->type == SDL_KEYUP )
@@ -1406,9 +1405,9 @@ ___________________________________________
 	    else if(key->keysym.sym == SDLK_F10)
 	      {
 		printf("Rezepte fertig! abspeicher!!!\n");
-		if(ad->Parent->theRezept->writeToFile("data3/"))
+		if(ad->Parent->theRezept->writeToFile(ad->Parent->pcSaveFilePath))
 		  {
-		    ad->Parent->showErrorDialog("Error saving File");
+		    ad->Parent->showErrorDialog((char*)"Error saving File");
 		  }
 		else
 		  ad->Parent->showArbeitsDialog();		
@@ -1498,7 +1497,7 @@ ___________________________________________
     this->step = 0;
     this->theMenuModus = iMainMenu;
     this->pRezept->Name[0]='\0';
-    for(int i = 0;i<LoadDialog::MaxRezeptFileLaenge;i++)
+    for(unsigned int i = 0;i<LoadDialog::MaxRezeptFileLaenge;i++)
       {
 	this->pRezept->Rezepte[i].cams[0].x_pos = 20+i;
 	this->pRezept->Rezepte[i].cams[1].x_pos = 30+i;

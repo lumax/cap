@@ -74,8 +74,8 @@ static unsigned char getVfromRGB(unsigned char r,unsigned char g,unsigned char b
 static void overlayAndCrossair(struct v4l_capture* cap,char * pc,size_t len)
 {
   unsigned int i,ii;
-  int w = cap->camWidth;
-  int h = cap->camHeight;
+  unsigned int w = (unsigned int)cap->camWidth;
+  unsigned int h = (unsigned int)cap->camHeight;
   int alles = 0;
   int cam = cap->camnumber;
   int wMalZwei = w*2;
@@ -325,8 +325,8 @@ static void convertYUYVtoRGB(char * src,char * target,int w,int h)
 
   unsigned int len = (w*h)/2;
   unsigned int i;
-  double term1 = 0;
-  char alpha = 0;//255;//128;
+  //double term1 = 0;
+  //char alpha = 0;//255;//128;
 
   char * ps = src;
   char * pt = target;
@@ -709,27 +709,27 @@ int main(int argc, char *argv[])
   //camwidth = 640;//352;//800;
   //camheight = 480;//288;//600
 
-  if(!iniParser_getParam(confpath,"sdlwidth",tmp,64))
+  if(!iniParser_getParam(confpath,(char*)"sdlwidth",tmp,64))
     {
       sdlwidth = atoi(tmp);
       printf("sdlwidth = %i\n",sdlwidth);
     }
-  if(!iniParser_getParam(confpath,"sdlheight",tmp,64))
+  if(!iniParser_getParam(confpath,(char*)"sdlheight",tmp,64))
     {
       sdlheight = atoi(tmp);
       printf("sdlheigth = %i\n",sdlheight);
     }
-  if(!iniParser_getParam(confpath,"camwidth",tmp,64))
+  if(!iniParser_getParam(confpath,(char*)"camwidth",tmp,64))
     {
       camwidth = atoi(tmp);
       printf("camwidth = %i\n",camwidth);
     }
- if(!iniParser_getParam(confpath,"camheight",tmp,64))
+  if(!iniParser_getParam(confpath,(char*)"camheight",tmp,64))
     {
       camheight = atoi(tmp);
       printf("camheight = %i\n",camheight);
     }
-  if(!iniParser_getParam(confpath,"PathSaveFile",saveFilePath,96))
+  if(!iniParser_getParam(confpath,(char*)"PathSaveFile",saveFilePath,96))
     {
       printf("saveFilePath = %s\n",saveFilePath);
     }
@@ -742,7 +742,7 @@ int main(int argc, char *argv[])
       saveFilePath[4] ='\0';
       printf("reading saveFilePath failed, using default path %s\n",saveFilePath); 
     }
-  if(!iniParser_getParam(confpath,"pixelformat",tmp,64))
+  if(!iniParser_getParam(confpath,(char*)"pixelformat",tmp,64))
     {
       if(!strcmp("mjpeg",tmp))
 	{
@@ -755,7 +755,7 @@ int main(int argc, char *argv[])
 	  printf("pixelformat = NORMAL\n");
 	}	  
     }
-  if(!iniParser_getParam(confpath,"rgb_mode",tmp,64))
+  if(!iniParser_getParam(confpath,(char*)"rgb_mode",tmp,64))
     {
       if(!strcmp("true",tmp))
 	{
