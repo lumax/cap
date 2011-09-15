@@ -163,7 +163,14 @@ namespace EuMax01
     void showNewDialog();
     void showCalibrationDialog();
 
+
+    /*! gibt ein "frisches Rezept zurück
+     *
+     */
+    Rezept * getNullRezept();
+
   private:
+    Rezept * pNullRezept;
     EvtTarget ArbeitsDialogEvtTargets;
 
     SDL_Rect Area;
@@ -293,8 +300,13 @@ namespace EuMax01
     int theMenuModus;
     void getCam1CrossX();
     void getCam2CrossX();
+
+
+    /*! brief prüft den Dateinamen auf länge und beschreibt den Parent->theRezept
+     *        Namen
+     */
+    bool verifyName();
   private:
-    Rezept * pRezept;
     //Label * Label_NewName;
     Label * Label_Name;
 
