@@ -35,13 +35,14 @@ struct PositionSet
     unsigned short getXPosition(int cam,int rezept);
     unsigned short getZPosition(int rezept);
     
-    void copy(Rezept * source,Rezept * target);
+    static void copy(Rezept * source,Rezept * target);
 
     static const int AnzahlRezepte = 8;
+    static const int NameLength = 9;
     char Name[9];
     struct PositionSet Rezepte[8];
     int writeToFile(char * SaveDir);
-    int readFromFile(char * FilePath);
+    int readFromFile(char * FilePath,char * FileName);
   private:
     char buf[1024];
     static const int version = 1000;

@@ -491,7 +491,8 @@ ___________________________________________
     thePosDialog = new PosDialog(theRezept->Name,sdlw,sdlh,camw,camh,yPos,this);
 
     LabelDialogName = new Label("Recipe",MInfoF1_x,MInfo_y,MInfo_w,MZeile_h);
-    LabelInfo = new Label("F1: laod | F2: save | F3: new | F5 prev step | F6 next step | "\
+    //TODO F2 save | fehlt
+    LabelInfo = new Label("F1: laod | F3: new | F5 prev step | F6 next step | "\
 			  "F7 calibrate | F12 exit",			\
 			     MInfoF2_x,					\
 			     MInfo_y,					\
@@ -626,12 +627,6 @@ ___________________________________________
     return this->RezeptNummer;
   }
 
-  /*  void ArbeitsDialog::showRezept(Rezept * pRezept,int nummer)
-  {
-    this->theRezept = pRezept;
-    this->showRezept(nummer);
-    }*/
-
   void ArbeitsDialog::setCam1XaxisCur(int val)
   {
     Cam1XaxisCur = val;
@@ -682,6 +677,9 @@ ___________________________________________
     if(theRezept)
       {
 	RezeptNummer = nummer;
+
+	thePosDialog->showRecipeName(theRezept->Name);
+
 	sprintf(thePosDialog->pcLabelCam1[PosDialog::iStep],	\
 		"%i",theRezept->getXPosition(0,nummer));
 	thePosDialog->pLabelCam1[PosDialog::iStep]->		\
@@ -691,6 +689,55 @@ ___________________________________________
 		"%i",theRezept->getXPosition(1,nummer));
 	thePosDialog->pLabelCam2[PosDialog::iStep]->	\
 	  setText(thePosDialog->pcLabelCam2[PosDialog::iStep]);
+
+	switch(nummer)
+	  {
+	  case 0:
+	    {
+	      thePosDialog->LabelStep->setText("Step: 1");
+	      break;
+	    }
+	  case 1:
+	    {
+	      thePosDialog->LabelStep->setText("Step: 2");
+	      break;
+	    }
+	  case 2:
+	    {
+	      thePosDialog->LabelStep->setText("Step: 3");
+	      break;
+	    }
+	  case 3:
+	    {
+	      thePosDialog->LabelStep->setText("Step: 4");
+	      break;
+	    }
+	  case 4:
+	    {
+	      thePosDialog->LabelStep->setText("Step: 5");
+	      break;
+	    }
+	  case 5:
+	    {
+	      thePosDialog->LabelStep->setText("Step: 6");
+	      break;
+	    }
+	  case 6:
+	    {
+	      thePosDialog->LabelStep->setText("Step: 7");
+	      break;
+	    }
+	  case 7:
+	    {
+	      thePosDialog->LabelStep->setText("Step: 8");
+	      break;
+	    }
+	  default:
+	    {
+	      thePosDialog->LabelStep->setText("Step");
+	      break;
+	    }
+	  }
 
 	//Difference Berechnen
 	this->setCam1XaxisCur(this->Cam1XaxisCur);
@@ -710,14 +757,14 @@ ___________________________________________
   {
     //sprintf(thePosDialog->getCrossRefBuf(),"%i",cap_cam_getCrossX(0));
     //Pos_Cam1->Label_CrossRef->setText(this->Pos_Cam1->getCrossRefBuf());
-    printf("void ArbeitsDialog::setCross1Ref()\n");
+    //printf("void ArbeitsDialog::setCross1Ref()\n");
   }
 
   void ArbeitsDialog::setCross2Ref()
   {
     //sprintf(this->Pos_Cam2->getCrossRefBuf(),"%i",cap_cam_getCrossX(1));
     //Pos_Cam2->Label_CrossRef->setText(this->Pos_Cam2->getCrossRefBuf());
-    printf("void ArbeitsDialog::setCross2Ref()\n");
+    //printf("void ArbeitsDialog::setCross2Ref()\n");
   }
 
   /*  void ArbeitsDialog::showRecipe(Rezept * rez)
@@ -880,7 +927,8 @@ ___________________________________________
     B3x = B1x + 2*Bw+2*x_space;
     B4x = B1x + 3*Bw+3*x_space;
 
-    LabelRecipeName = new Label(text,B1x,Y1,Bw,MZeile_h);
+    LabelRecipeName = new Label("",B1x,Y1,Bw,MZeile_h);
+    showRecipeName(text);
     LabelStep = new Label("Step 1",B2x,Y1,Bw,MZeile_h);
     //difference
     LabelActual = new Label("current position",B4x,Y1,Bw,MZeile_h);
@@ -985,6 +1033,14 @@ ___________________________________________
 	    target[PosDialog::DiffLen/2-abs] = '|'; 
 	  }
       }
+  }
+
+  void PosDialog::showRecipeName(char * text)
+  {
+    snprintf(pcLabelRecipeName,64,"Name: %s",text);
+    LabelRecipeName->setText(pcLabelRecipeName);
+    Label::showLabel((void*)LabelRecipeName,		\
+		     Parent->theGUI->getMainSurface());
   }
 
   static void ErrorDialogKeyListener(void * src, SDL_Event * evt)
@@ -1118,13 +1174,14 @@ ___________________________________________
     unsigned short MZeile_h;
     unsigned short Rezepte_y;
     short Rezepte_w;
-    short MLoadName_y, MLabels_y;
+    short MLoadName_y;
 
     this->Parent = parent;
     this->ActiveRecipe = 0;
     this->MaxRecipesToDisplay = 0;
     this->ActiveSavePage = 0;
     this->MaxSavePages = 0;
+    this->tmpRezept = new Rezept();
 
     M_y = sdlh - yPos;
     //[master cec6470] Dialoge: get und set Crossaire
@@ -1280,11 +1337,14 @@ ___________________________________________
   void LoadDialog::naviRight(){this->addToActiveRecipe(+1);}
   void LoadDialog::naviReturn()
   {
-    printf("ActiveRecipe Name:%s\n",DateiNamen[ActiveRecipe]);
-    if(Parent->theRezept->readFromFile(DateiNamen[ActiveRecipe]))
+    if(!tmpRezept->readFromFile(Parent->pcSaveFilePath,DateiNamen[ActiveRecipe]))
       {
+	memcpy(Parent->theRezept->Name,tmpRezept->Name,Rezept::NameLength);
+	Rezept::copy(tmpRezept,Parent->theRezept);
+	//Rezept::copy();
+	Parent->showRezept(0);
 	Parent->showArbeitsDialog();
-	printf("ArbeitsDialog Update Recipe Daten\n");
+	//printf("ArbeitsDialog Update Recipe Daten\n");
       }
     else
       {

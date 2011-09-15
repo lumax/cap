@@ -156,13 +156,17 @@ static void evtExit(void * src,SDL_Event * evt){
     return -1;
   }
 
-  int Rezept::readFromFile(char * FilePath)
+  int Rezept::readFromFile(char * FilePath,char * FileName)
   {
+    char tmpBuf[1024];
     char tmp[64];
+
+    snprintf(tmpBuf,1024,"%s%s",FilePath,FileName);
+
     for(int i=0;i<8;i++)
       {
 	sprintf(this->buf,"r%i_cam1_x_pos",i);
-	if(iniParser_getParam(FilePath,this->buf,tmp,64))
+	if(iniParser_getParam(tmpBuf,this->buf,tmp,64))
 	  {
 	    goto error_out;
 	  }
@@ -172,7 +176,7 @@ static void evtExit(void * src,SDL_Event * evt){
 	  }
 	
 	sprintf(this->buf,"r%i_cam1_z_pos",i);
-	if(iniParser_getParam(FilePath,this->buf,tmp,64))
+	if(iniParser_getParam(tmpBuf,this->buf,tmp,64))
 	  {
 	    goto error_out;
 	  }
@@ -182,7 +186,7 @@ static void evtExit(void * src,SDL_Event * evt){
 	  }
 	
 	sprintf(this->buf,"r%i_cam1_x_cross",i);
-	if(iniParser_getParam(FilePath,this->buf,tmp,64))
+	if(iniParser_getParam(tmpBuf,this->buf,tmp,64))
 	  {
 	    goto error_out;
 	  }
@@ -192,7 +196,7 @@ static void evtExit(void * src,SDL_Event * evt){
 	  }
 
 	sprintf(this->buf,"r%i_cam2_x_pos",i);
-	if(iniParser_getParam(FilePath,this->buf,tmp,64))
+	if(iniParser_getParam(tmpBuf,this->buf,tmp,64))
 	  {
 	    goto error_out;
 	  }
@@ -202,7 +206,7 @@ static void evtExit(void * src,SDL_Event * evt){
 	  }
 
 	sprintf(this->buf,"r%i_cam2_z_pos",i);
-	if(iniParser_getParam(FilePath,this->buf,tmp,64))
+	if(iniParser_getParam(tmpBuf,this->buf,tmp,64))
 	  {
 	    goto error_out;
 	  }
@@ -212,7 +216,7 @@ static void evtExit(void * src,SDL_Event * evt){
 	  }
 
 	sprintf(this->buf,"r%i_cam2_x_cross",i);
-	if(iniParser_getParam(FilePath,this->buf,tmp,64))
+	if(iniParser_getParam(tmpBuf,this->buf,tmp,64))
 	  {
 	    goto error_out;
 	  }
@@ -221,7 +225,9 @@ static void evtExit(void * src,SDL_Event * evt){
 	    this->Rezepte[i].cams[1].x_cross = atoi(tmp);
 	  }
       }
-    
+
+    memcpy(this->Name,FileName,Rezept::NameLength);
+
     return 0;
   error_out:
     return -1;

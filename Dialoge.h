@@ -71,12 +71,15 @@ namespace EuMax01
     char pcLabelCam1[3][64];
     char pcLabelCam2[3][64];
     char pcLabelZ[3][64];
+    char pcLabelRecipeName[64];
 
     void setRecipe(Rezept * pRec);
     void setStep(unsigned int step);
     void showDifferenceCam1(int diff);
     void showDifferenceCam2(int diff);
     void showDifferenceZ(int diff);
+    
+    void showRecipeName(char * text);
 
   private:
     
@@ -152,6 +155,7 @@ namespace EuMax01
     Rezept * theRezept;
     GUI * theGUI;
     MBProtocol * theProtocol;
+    char * pcSaveFilePath;
     
     void showLoadDialog(unsigned int page);
     void showArbeitsDialog();
@@ -160,7 +164,6 @@ namespace EuMax01
     void showCalibrationDialog();
 
   private:
-    char * pcSaveFilePath;
     EvtTarget ArbeitsDialogEvtTargets;
 
     SDL_Rect Area;
@@ -244,6 +247,7 @@ namespace EuMax01
     void naviPagedown();
     int readSaveDirectory(char * dirName,unsigned int page);
   private:
+    Rezept * tmpRezept;
     int ActiveRecipe;
     int MaxRecipesToDisplay;
     int ActiveSavePage;
