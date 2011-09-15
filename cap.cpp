@@ -448,7 +448,7 @@ static void processRGBImages(struct v4l_capture* cap,const void * p,int method,s
 	  printf("SDL_GetVideoSurface()->format->BitsPerPixel: %i\n",SDL_GetVideoSurface()->format->BitsPerPixel);
 	  printf("SDL_GetVideoSurface()->format->BytesPerPixel: %i\n",SDL_GetVideoSurface()->format->BytesPerPixel);
 	  printf("SDL_GetVideoSurface()->format->alpha: %i\n",SDL_GetVideoSurface()->format->alpha);
-	  printf("SDL_GetVideoSurface()->format->palette: %x\n",SDL_GetVideoSurface()->format->palette);
+	  //printf("SDL_GetVideoSurface()->format->palette: %i\n",SDL_GetVideoSurface()->format->palette);
 	  initNotDone = 0;
 	}
       else if(cap->camnumber==0)
