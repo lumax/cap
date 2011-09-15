@@ -1410,6 +1410,8 @@ ___________________________________________
 	    else if(key->keysym.sym == SDLK_RETURN)
 	      {
 		ad->copyValuesToRezept();
+		if(ad->getStep()<8)
+		  ad->incStep();
 	      }
 	    else if(key->keysym.sym == SDLK_LEFT)
 	      {
@@ -1566,7 +1568,7 @@ ___________________________________________
     Spalte5_x = Spalte4_x + Button_w+1*x_space; 
 
     //Label_NewName = new Label("NEW RECIPE",MLinks_x,Zeile1_y,506*2,MZeile_h);
-    Label_Name = new Label("NEW RECIPE     Name :",Spalte1_x,Zeile1_y,506-MSpace_h,MZeile_h);
+    Label_Name = new Label("RECIPE     Name :",Spalte1_x,Zeile1_y,506-MSpace_h,MZeile_h);
     Label_Name->setFont(Globals::getFontButtonBig());
 
     Label_Info = new Label("Recipe Name",Spalte1_x,Zeile5_y,150,MZeile_h);
