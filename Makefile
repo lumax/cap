@@ -15,8 +15,8 @@ endif
 
 CPPFLAGS+=-g -Wall -DFSGPP_SHOW_IMMEDIATELY
 #`sdl-config --cflags`
-LDFLAGS+=-lSDL -lSDL_ttf -lSDL_image -lts -Wl,-Map,$(PROJECT_NAME).map
-
+LDFLAGS+=-lSDL -lSDL_ttf -lSDL_image -Wl,-Map,$(PROJECT_NAME).map
+#-lts
 ifdef CROSS_COMPILE
 LIBS+=../capture/libc6_dsp_jpeg.lib
 CPPFLAGS+= -DC6COMPILE
