@@ -509,6 +509,7 @@ ___________________________________________
     
     this->ArbeitsDialogEvtTargets.Next = this->EvtTargets.Next;//EvtTargets fuer spaeter sichern
     this->showCalibrationDialog();
+    this->showRezept(0);
   }
 
   void ArbeitsDialog::showLoadDialog(unsigned int page)
@@ -689,6 +690,11 @@ ___________________________________________
 		"%i",theRezept->getXPosition(1,nummer));
 	thePosDialog->pLabelCam2[PosDialog::iStep]->	\
 	  setText(thePosDialog->pcLabelCam2[PosDialog::iStep]);
+
+	sprintf(thePosDialog->pcLabelZ[PosDialog::iStep],	\
+		"%i",theRezept->getZPosition(nummer));
+	thePosDialog->pLabelZ[PosDialog::iStep]->	\
+	  setText(thePosDialog->pcLabelZ[PosDialog::iStep]);
 
 	switch(nummer)
 	  {
