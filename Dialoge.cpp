@@ -312,11 +312,12 @@ namespace EuMax01
 	    //   ad->theProtocol->enableAuto());
 	    //prt_sendmsg_uint(nPEC_RESET_Q1,0x00);
 	    //prt_sendmsg_uint(nPEC_GET_Q1,0x00);
+	    Rezept::copy(ad->theRezept,ad->theNewDialog->tmpRezept);
 	    ad->showNewDialog();
 	  }
 	else if(key->keysym.sym == SDLK_F3)
 	  {
-	    Rezept::copy(ad->getNullRezept(),ad->theRezept);
+	    Rezept::copy(ad->getNullRezept(),ad->theNewDialog->tmpRezept);
 	    ad->showNewDialog();//printf("F3\n");
 	  }
 	else if(key->keysym.sym == SDLK_F4)
@@ -1468,6 +1469,7 @@ namespace EuMax01
 		      }
 		    else
 		      {
+			Rezept::copy(ad->tmpRezept,ad->Parent->theRezept);
 			ad->Parent->showRezept(0);
 			ad->Parent->showArbeitsDialog();
 		      }
@@ -1556,6 +1558,8 @@ namespace EuMax01
     this->Parent = parent;
     this->step = 0;
     this->theMenuModus = iMainMenu;
+    this->tmpRezept = new Rezept();
+    Rezept::copy(Parent->getNullRezept(),tmpRezept);
 
     M_y = sdlh - yPos;
     if(M_y<=84)
@@ -1648,18 +1652,18 @@ namespace EuMax01
 			      Spalte4_x,Zeile4_y,Button_w,MZeile_h);
 
     snprintf(pcRezept[0],64,"%i",\
-	     this->Parent->theRezept->Rezepte[this->step].cams[0].x_pos);
+	     tmpRezept->Rezepte[this->step].cams[0].x_pos);
     snprintf(pcRezept[1],64,"%i",\
-	     this->Parent->theRezept->Rezepte[this->step].cams[0].z_pos);
+	     tmpRezept->Rezepte[this->step].cams[0].z_pos);
     snprintf(pcRezept[2],64,"%i",\
-	     this->Parent->theRezept->Rezepte[this->step].cams[0].x_cross);
+	     tmpRezept->Rezepte[this->step].cams[0].x_cross);
 
     snprintf(pcRezept[3],64,"%i",\
-	     this->Parent->theRezept->Rezepte[this->step].cams[1].x_pos);
+	     tmpRezept->Rezepte[this->step].cams[1].x_pos);
     snprintf(pcRezept[4],64,"%i",\
-	     this->Parent->theRezept->Rezepte[this->step].cams[1].z_pos);
+	     tmpRezept->Rezepte[this->step].cams[1].z_pos);
     snprintf(pcRezept[5],64,"%i",\
-	     this->Parent->theRezept->Rezepte[this->step].cams[1].x_cross);
+	     tmpRezept->Rezepte[this->step].cams[1].x_cross);
 
     LabelRezept[0] = new Label(pcRezept[0],\
 			       Spalte2_x,Zeile2_y,Button_w,MZeile_h);
@@ -1707,7 +1711,7 @@ namespace EuMax01
   {
     if(TextField_Name->getTextLen()<=2)
       return true;
-    strcpy(Parent->theRezept->Name,TextField_Name->getText());
+    strcpy(tmpRezept->Name,TextField_Name->getText());
     return false;
   }
 
@@ -1722,53 +1726,53 @@ namespace EuMax01
   void NewDialog::updateRezeptData()
   {
     int rzpStep = this->step - 1;
-    TextField_Name->setText(Parent->theRezept->Name);
+    TextField_Name->setText(tmpRezept->Name);
     Label::showLabel((void*)this->TextField_Name,this->Parent->theGUI->getMainSurface());
 
     if(this->step)
       {
 	//cross aus den Rezept Daten holen
 	cap_cam_setCrossX(0,\
-			  Parent->theRezept->Rezepte[Parent->getRezeptNummer()].cams[0].x_cross);
+			  tmpRezept->Rezepte[rzpStep].cams[0].x_cross);
 	cap_cam_setCrossX(1,\
-			  Parent->theRezept->Rezepte[Parent->getRezeptNummer()].cams[1].x_cross);
+			  tmpRezept->Rezepte[rzpStep].cams[1].x_cross);
 	//cross Werte updaten
 	getCam1CrossX();
 	getCam2CrossX();
 
 	LabelRezept[NewDialog::iPosQ1]->setText(			\
 		 Parent->int2string(pcRezept[NewDialog::iPosQ1],64, \
-				    Parent->theRezept->Rezepte[rzpStep].cams[0].x_pos));
+				    tmpRezept->Rezepte[rzpStep].cams[0].x_pos));
 	Label::showLabel((void*)LabelRezept[NewDialog::iPosQ1],\
 			 Parent->theGUI->getMainSurface());
 
 	LabelRezept[NewDialog::iPosZ1]->setText(			\
 		 Parent->int2string(pcRezept[NewDialog::iPosZ1],64, \
-				    Parent->theRezept->Rezepte[rzpStep].cams[0].z_pos));
+				    tmpRezept->Rezepte[rzpStep].cams[0].z_pos));
 	Label::showLabel((void*)LabelRezept[NewDialog::iPosZ1],\
 			 Parent->theGUI->getMainSurface());
 
 	LabelRezept[NewDialog::iPosFP1]->setText(			\
 		 Parent->int2string(pcRezept[NewDialog::iPosFP1],64, \
-				    Parent->theRezept->Rezepte[rzpStep].cams[0].x_cross));
+				    tmpRezept->Rezepte[rzpStep].cams[0].x_cross));
 	Label::showLabel((void*)LabelRezept[NewDialog::iPosFP1],\
 			 Parent->theGUI->getMainSurface());
 
 	LabelRezept[NewDialog::iPosQ2]->setText(			\
 		 Parent->int2string(pcRezept[NewDialog::iPosQ2],64, \
-				    Parent->theRezept->Rezepte[rzpStep].cams[1].x_pos));
+				    tmpRezept->Rezepte[rzpStep].cams[1].x_pos));
 	Label::showLabel((void*)LabelRezept[NewDialog::iPosQ2],\
 			 Parent->theGUI->getMainSurface());
 
 	LabelRezept[NewDialog::iPosZ2]->setText(			\
 		 Parent->int2string(pcRezept[NewDialog::iPosZ2],64, \
-				    Parent->theRezept->Rezepte[rzpStep].cams[1].z_pos));
+				    tmpRezept->Rezepte[rzpStep].cams[1].z_pos));
 	Label::showLabel((void*)LabelRezept[NewDialog::iPosZ2],\
 			 Parent->theGUI->getMainSurface());
 
 	LabelRezept[NewDialog::iPosFP2]->setText(			\
 		 Parent->int2string(pcRezept[NewDialog::iPosFP2],64, \
-				    Parent->theRezept->Rezepte[rzpStep].cams[1].x_cross));
+				    tmpRezept->Rezepte[rzpStep].cams[1].x_cross));
 	Label::showLabel((void*)LabelRezept[NewDialog::iPosFP2],\
 			 Parent->theGUI->getMainSurface());
       }
@@ -1801,12 +1805,12 @@ namespace EuMax01
     int rzpStep = this->step - 1;
     if(this->step)
       {
-	Parent->theRezept->Rezepte[rzpStep].cams[0].x_pos = usWerte[NewDialog::iPosQ1];
-	Parent->theRezept->Rezepte[rzpStep].cams[0].z_pos = usWerte[NewDialog::iPosZ1];
-	Parent->theRezept->Rezepte[rzpStep].cams[0].x_cross = usWerte[NewDialog::iPosFP1];
-	Parent->theRezept->Rezepte[rzpStep].cams[1].x_pos = usWerte[NewDialog::iPosQ2];
-	Parent->theRezept->Rezepte[rzpStep].cams[1].z_pos = usWerte[NewDialog::iPosZ2];
-	Parent->theRezept->Rezepte[rzpStep].cams[1].x_cross = usWerte[NewDialog::iPosFP2];
+	tmpRezept->Rezepte[rzpStep].cams[0].x_pos = usWerte[NewDialog::iPosQ1];
+	tmpRezept->Rezepte[rzpStep].cams[0].z_pos = usWerte[NewDialog::iPosZ1];
+	tmpRezept->Rezepte[rzpStep].cams[0].x_cross = usWerte[NewDialog::iPosFP1];
+	tmpRezept->Rezepte[rzpStep].cams[1].x_pos = usWerte[NewDialog::iPosQ2];
+	tmpRezept->Rezepte[rzpStep].cams[1].z_pos = usWerte[NewDialog::iPosZ2];
+	tmpRezept->Rezepte[rzpStep].cams[1].x_cross = usWerte[NewDialog::iPosFP2];
 	updateRezeptData();
       } 
   }

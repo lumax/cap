@@ -172,6 +172,8 @@ namespace EuMax01
      */
     Rezept * getNullRezept();
 
+    NewDialog * theNewDialog;
+
   private:
     Rezept * pNullRezept;
     EvtTarget ArbeitsDialogEvtTargets;
@@ -207,7 +209,6 @@ namespace EuMax01
 
     LoadDialog * theLoadDialog;
     ErrorDialog * theErrorDialog;
-    NewDialog * theNewDialog;
     CalibrationDialog * theCalDialog;
 
     int convertCamPos(int cam,unsigned short dat);
@@ -251,8 +252,9 @@ namespace EuMax01
     void naviPageup();
     void naviPagedown();
     int readSaveDirectory(char * dirName,unsigned int page);
-  private:
+
     Rezept * tmpRezept;
+  private:
     int ActiveRecipe;
     unsigned int MaxRecipesToDisplay;
     int ActiveSavePage;
@@ -304,6 +306,7 @@ namespace EuMax01
      *        Namen
      */
     bool verifyName();
+    Rezept * tmpRezept;
   private:
     //Label * Label_NewName;
     Label * Label_Name;
@@ -315,8 +318,6 @@ namespace EuMax01
     Label * LabelCrossText;
 
     void updateRezeptData();
-
-    Rezept theRecipe;
     int step;
   };
   
