@@ -174,6 +174,7 @@ namespace EuMax01
     EvtTarget ArbeitsDialogEvtTargets;
 
     SDL_Rect Area;
+    bool useGUI;
 
     int Cam1XaxisCur;
     int Cam1XaxisDif;
@@ -197,6 +198,7 @@ namespace EuMax01
     static const int ErrorDialogIsActive = 2;
     static const int NewDialogIsActive = 3;
     static const int CalDialogIsActive = 4;
+    static const int NoGUIModeIsActive = 5;
 
     LoadDialog * theLoadDialog;
     ErrorDialog * theErrorDialog;

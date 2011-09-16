@@ -374,7 +374,7 @@ namespace EuMax01
 			       int camh,			\
 			       int yPos,			\
 			       char * saveFilePath,\
-			       bool useGUI)//:Screen()
+			       bool useTheGUI)//:Screen()
   {
     /*    this->KeyListener = new EvtTarget();
     if(this->KeyListern)
@@ -426,6 +426,7 @@ ___________________________________________
     Cam2ZaxisCur = 0;
     Cam2ZaxisDif = 0;
 
+    this->useGUI = useTheGUI; 
     this->theRezept = new Rezept();
     this->pNullRezept = new Rezept();
     this->theGUI = pGUI;
@@ -531,11 +532,16 @@ ___________________________________________
     this->showRezept(0);
       }
     else
-      printf("guiMode false \n");
+      {
+	printf("guiMode false \n");
+	iActiveDialog = ArbeitsDialog::NoGUIModeIsActive;
+      }
   }
 
   void ArbeitsDialog::showLoadDialog(unsigned int page)
   {
+    if(!useGUI)
+      return;
     this->iActiveDialog = ArbeitsDialog::LoadDialogIsActive;
     if(theLoadDialog->readSaveDirectory(pcSaveFilePath,page))
       {
@@ -558,6 +564,8 @@ ___________________________________________
 
   void ArbeitsDialog::showArbeitsDialog()
   {
+    if(!useGUI)
+      return;
     this->iActiveDialog = ArbeitsDialog::ArbeitsDialogIsActive;
     this->EvtTargets.Next = this->ArbeitsDialogEvtTargets.Next;
     Tool::blankSurface(this->theGUI->getMainSurface(),	\
@@ -577,6 +585,8 @@ ___________________________________________
 
   void ArbeitsDialog::showErrorDialog(char * msg)
   {
+    if(!useGUI)//TODO errors im BlindMode evtl. zulassen
+      return;
     this->iActiveDialog = ArbeitsDialog::ErrorDialogIsActive;
     this->theErrorDialog->setErrorMsg(msg);
     this->EvtTargets.Next = this->theErrorDialog->EvtTargets.Next;
@@ -593,6 +603,8 @@ ___________________________________________
 
   void ArbeitsDialog::showNewDialog()
   {
+    if(!useGUI)
+      return;
     this->iActiveDialog = ArbeitsDialog::NewDialogIsActive;
     this->EvtTargets.Next = this->theNewDialog->EvtTargets.Next;
     Tool::blankSurface(this->theGUI->getMainSurface(),	\
@@ -616,6 +628,8 @@ ___________________________________________
 
   void ArbeitsDialog::showCalibrationDialog()
   {
+    if(!useGUI)
+      return;
     this->iActiveDialog = ArbeitsDialog::CalDialogIsActive;
     this->EvtTargets.Next = this->theCalDialog->EvtTargets.Next;
     Tool::blankSurface(this->theGUI->getMainSurface(),	\
@@ -987,7 +1001,7 @@ ___________________________________________
     B4x = B1x + 3*Bw+3*x_space;
 
     LabelRecipeName = new Label("",B1x,Y1,Bw,MZeile_h);
-    showRecipeName(text);
+    //showRecipeName(text);
     LabelStep = new Label("Step 1",B2x,Y1,Bw,MZeile_h);
     //difference
     LabelActual = new Label("current position",B4x,Y1,Bw,MZeile_h);
@@ -1282,7 +1296,7 @@ ___________________________________________
 	ii++;
 	this->addEvtTarget(pLabel_Rezepte[i]);
       }
-    setActiveRecipe(10);
+    //setActiveRecipe(10);
     this->addEvtTarget(Label_LadenName);
     this->pTSource = this;//EvtTarget Quelle setzen, damit der EvtListener die Quelle mitteilen kann
     this->setKeyboardUpEvtHandler(LoadDialogKeyListener);
