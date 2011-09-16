@@ -313,12 +313,12 @@ namespace EuMax01
 	    //prt_sendmsg_uint(nPEC_RESET_Q1,0x00);
 	    //prt_sendmsg_uint(nPEC_GET_Q1,0x00);
 	    Rezept::copy(ad->theRezept,ad->theNewDialog->tmpRezept);
-	    ad->showNewDialog();
+	    ad->showNewDialog("Save as");
 	  }
 	else if(key->keysym.sym == SDLK_F3)
 	  {
 	    Rezept::copy(ad->getNullRezept(),ad->theNewDialog->tmpRezept);
-	    ad->showNewDialog();//printf("F3\n");
+	    ad->showNewDialog("New");
 	  }
 	else if(key->keysym.sym == SDLK_F4)
 	  {
@@ -581,7 +581,7 @@ namespace EuMax01
     this->show(this->theGUI->getMainSurface());
   }
 
-  void ArbeitsDialog::showNewDialog()
+  void ArbeitsDialog::showNewDialog(char * MenuTitel)
   {
     if(!useGUI)
       return;
@@ -605,6 +605,9 @@ namespace EuMax01
 	//prt_sendmsg_uint(nPEC_GET_FP2,0x00);
 	theNewDialog->TextField_Name->setText(theNewDialog->tmpRezept->Name);
 	Label::showLabel((void*)theNewDialog->TextField_Name,\
+			 theGUI->getMainSurface());
+	theNewDialog->Label_MenuTitle->setText(MenuTitel);
+	Label::showLabel((void*)theNewDialog->Label_MenuTitle,\
 			 theGUI->getMainSurface());
 	this->theNewDialog->decStep();
   }
@@ -1583,11 +1586,10 @@ namespace EuMax01
     //unsigned short Rezepte_y;
     //short Rezepte_w;
     short Zeile1_y,Zeile2_y,Zeile3_y,Zeile4_y,Zeile5_y;
-    short Spalte1_x, Spalte2_x, Spalte3_x, Spalte4_x, Spalte5_x;
+    short Spalte1_x, Spalte2_x, Spalte3_x;
 
-    short Mitte_w = 50;
-    short Button_w = 218;
-    short x_space = 6;
+    short Button_w = 332;
+    short x_space = 8;
 
     this->Parent = parent;
     this->step = 0;
@@ -1607,19 +1609,6 @@ namespace EuMax01
 	MZeile_h = 28;
       }
 
-    /*if(M_y<=84)
-      {
-	MName_w = 90;     //5*MZeile_h
-	MNameNr_w = 54;   //3*MZeile_h
-	MNameSpace_w = 61;//(1012 - (MName_w+MNameNr_w*8))/8 = 61,25
-      }
-    else
-      {
-	MName_w = 112;     //4*MZeile_h
-	MNameNr_w = 56;    //2*MZeile_h
-	MNameSpace_w = 56; //(1012 - (MName_w+MNameNr_w*8))/8 = 56
-       }*/
-
     Zeile1_y = yPos + 1*MSpace_h + 0*MZeile_h;
     Zeile2_y = yPos + 2*MSpace_h + 1*MZeile_h;
     Zeile3_y = yPos + 3*MSpace_h + 2*MZeile_h;
@@ -1628,39 +1617,36 @@ namespace EuMax01
     //Rezepte_w = 108;
 
     Spalte1_x = sdlw/2 - 506;
-    Spalte2_x = Spalte1_x + Button_w+1*x_space;
-    Spalte3_x = 506-Mitte_w;
-    Spalte4_x = 506+Mitte_w+2*x_space;
-    Spalte5_x = Spalte4_x + Button_w+1*x_space; 
+    Spalte2_x = Spalte1_x + 1*Button_w+1*x_space;
+    Spalte3_x = Spalte1_x + 2*Button_w+2*x_space;
 
     //Label_NewName = new Label("NEW RECIPE",MLinks_x,Zeile1_y,506*2,MZeile_h);
-    Label_Name = new Label("RECIPE     Name :",Spalte1_x,Zeile1_y,506-MSpace_h,MZeile_h);
+    Label_Name = new Label("RECIPE     Name :",Spalte1_x,Zeile1_y,Button_w,MZeile_h);
     Label_Name->setFont(Globals::getFontButtonBig());
+    Label_Name->setNormalColor(Globals::GlobalUint32Color1);
+    Label_Name->setMarkedColor(Globals::GlobalUint32Color1);
 
-    Label_Info = new Label("Recipe Name",Spalte1_x,Zeile5_y,150,MZeile_h);
+    Label_Info = new Label("Recipe Name",Spalte3_x,Zeile1_y,Button_w,MZeile_h);
     Label_Info->setFont(Globals::getFontButtonBig());
     snprintf(this->InfoText,64,"Recipe Name");
     this->Label_Info->setText(this->InfoText);
 
-    /*    Label_Menu = new Label("RETURN : save recipe | ESC : abort | " \
-			   "LEFT previous step | RIGHT next step",	\
-			   MLinks_x+156,Zeile5_y,1012-156,MZeile_h);
-    */
+    Label_MenuTitle = new Label("New",Spalte1_x,Zeile5_y,150,MZeile_h);
+    Label_MenuTitle->setFont(Globals::getFontButtonBig());
+
     Label_Menu = new Label(NewDialogMainMenuText,			\
-			   Spalte1_x+156,Zeile5_y,1012-156,MZeile_h);    
-    Label_Name->setNormalColor(Globals::GlobalUint32Color1);
-    Label_Name->setMarkedColor(Globals::GlobalUint32Color1);
+			   Spalte1_x+158,Zeile5_y,1012-158,MZeile_h);
 
     TextField_Name = new TextField(0,LoadDialog::MaxRezeptFileLaenge,	\
-				   Spalte1_x+506+2*MSpace_h,		\
-				   Zeile1_y,506-2*MSpace_h,		\
+				   Spalte2_x,				\
+				   Zeile1_y,Button_w,			\
 				   MZeile_h);
     TextField_Name->setFont(Globals::getFontButtonBig());
     TextField_Name->setActive(true);
 
-    LabelXaxisText = new Label("X-Axis",Spalte3_x,Zeile2_y,106,MZeile_h);
-    LabelZaxisText = new Label("Y-Axis",Spalte3_x,Zeile3_y,106,MZeile_h);
-    LabelCrossText = new Label("Cross",Spalte3_x,Zeile4_y,106,MZeile_h);
+    LabelXaxisText = new Label("Cam1 X-Axis",Spalte1_x,Zeile2_y,Button_w,MZeile_h);
+    LabelZaxisText = new Label("Cam2 X-Axis",Spalte1_x,Zeile3_y,Button_w,MZeile_h);
+    LabelCrossText = new Label("Z - Axis",Spalte1_x,Zeile4_y,Button_w,MZeile_h);
 
     for(int i =0;i<3;i++)
       {
@@ -1675,11 +1661,11 @@ namespace EuMax01
       }
 
     LabelWerte[NewDialog::iPosX1] = new Label(pcWerte[NewDialog::iPosX1],\
-			      Spalte1_x,Zeile2_y,Button_w,MZeile_h);
+			      Spalte2_x,Zeile2_y,Button_w,MZeile_h);
     LabelWerte[NewDialog::iPosX2] = new Label(pcWerte[NewDialog::iPosX2],\
-			      Spalte1_x,Zeile3_y,Button_w,MZeile_h);
+			      Spalte2_x,Zeile3_y,Button_w,MZeile_h);
     LabelWerte[NewDialog::iPosZ] = new Label(pcWerte[NewDialog::iPosZ],\
-			      Spalte1_x,Zeile4_y,Button_w,MZeile_h);
+			      Spalte2_x,Zeile4_y,Button_w,MZeile_h);
 
     snprintf(pcRezept[NewDialog::iPosX1],64,"%i",			\
 	     tmpRezept->Rezepte[this->step].cams[0].x_pos);
@@ -1690,13 +1676,14 @@ namespace EuMax01
 	     tmpRezept->Rezepte[this->step].cams[1].x_pos);
 
     LabelRezept[NewDialog::iPosX1] = new Label(pcRezept[NewDialog::iPosX1],\
-			       Spalte2_x,Zeile2_y,Button_w,MZeile_h);
+			       Spalte3_x,Zeile2_y,Button_w,MZeile_h);
     LabelRezept[NewDialog::iPosX2] = new Label(pcRezept[NewDialog::iPosX2],\
-			       Spalte2_x,Zeile3_y,Button_w,MZeile_h);
+			       Spalte3_x,Zeile3_y,Button_w,MZeile_h);
     LabelRezept[NewDialog::iPosZ] = new Label(pcRezept[NewDialog::iPosZ], \
-			       Spalte2_x,Zeile4_y,Button_w,MZeile_h);
+			       Spalte3_x,Zeile4_y,Button_w,MZeile_h);
 
     addEvtTarget(Label_Name);
+    addEvtTarget(Label_MenuTitle);
     addEvtTarget(TextField_Name);
     addEvtTarget(Label_Info);
     addEvtTarget(Label_Menu);

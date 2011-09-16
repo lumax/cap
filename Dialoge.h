@@ -171,7 +171,7 @@ namespace EuMax01
     void showLoadDialog(unsigned int page);
     void showArbeitsDialog();
     void showErrorDialog(char * errorMsg);
-    void showNewDialog();
+    void showNewDialog(char * MenuTitel);
     void showCalibrationDialog();
 
 
@@ -283,6 +283,7 @@ namespace EuMax01
     void incStep();
     void decStep();
     int getStep();
+    Label * Label_MenuTitle;
     TextField * TextField_Name;
     Label * LabelWerte[3];
     char pcWerte[3][32];
