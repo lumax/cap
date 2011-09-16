@@ -250,7 +250,7 @@ namespace EuMax01
     ArbeitsDialog * Parent;
     static const unsigned int RezepteLen = 27;
     static const unsigned int RezepteProZeile = 9;
-    static const unsigned int MaxRezeptFileLaenge = 8;
+    static const unsigned int MaxRezeptFileLaenge = 16;
     void setActiveRecipe(unsigned int nr);
     void naviUp();
     void naviDown();
@@ -270,7 +270,7 @@ namespace EuMax01
     void addToActiveRecipe(int summand);
     Label * Label_LadenName;
     Label * pLabel_Rezepte[LoadDialog::RezepteLen];
-    char DateiNamen[LoadDialog::RezepteLen][16];
+    char DateiNamen[LoadDialog::RezepteLen][32];
   };
 
 
