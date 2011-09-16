@@ -284,22 +284,22 @@ namespace EuMax01
     void decStep();
     int getStep();
     TextField * TextField_Name;
-    Label * LabelWerte[6];
-    char pcWerte[6][32];
-    static const int iPosQ1 = 0;
-    static const int iPosZ1 = 1;
-    static const int iPosFP1 = 2;
+    Label * LabelWerte[3];
+    char pcWerte[3][32];
+    static const int iPosX1 = 0;
+    static const int iPosX2 = 1;
+    static const int iPosZ = 2;
+    static const int iPosFP1 = 3;
+    static const int iPosZ2 = 2;
+    static const int iPosFP2 = 2;
 
-    static const int iPosQ2 = 3;
-    static const int iPosZ2 = 4;
-    static const int iPosFP2 = 5;
     unsigned short usWerte[6];
 
     void setNewPositionValue(int pos, unsigned short value);
     void copyValuesToRezept();
 
-    Label * LabelRezept[6];
-    char pcRezept[6][64];
+    Label * LabelRezept[3];
+    char pcRezept[3][64];
 
     Label * Label_Menu;
 

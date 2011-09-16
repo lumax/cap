@@ -808,7 +808,7 @@ namespace EuMax01
       this->theCalDialog->setQ1(dat);
     else if(iActiveDialog==ArbeitsDialog::NewDialogIsActive)
       {
-	this->theNewDialog->setNewPositionValue(NewDialog::iPosQ1,dat);
+	this->theNewDialog->setNewPositionValue(NewDialog::iPosX1,dat);
       }
   }
 
@@ -820,7 +820,7 @@ namespace EuMax01
       this->theCalDialog->setQ2(dat);
     else if(iActiveDialog==ArbeitsDialog::NewDialogIsActive)
       {
-	this->theNewDialog->setNewPositionValue(NewDialog::iPosQ2,dat);
+	this->theNewDialog->setNewPositionValue(NewDialog::iPosX2,dat);
       }
   }
   void ArbeitsDialog::Z1_evt(unsigned short dat)
@@ -831,7 +831,7 @@ namespace EuMax01
       this->theCalDialog->setZ1(dat);
     else if(iActiveDialog==ArbeitsDialog::NewDialogIsActive)
       {
-	this->theNewDialog->setNewPositionValue(NewDialog::iPosZ1,dat);
+	this->theNewDialog->setNewPositionValue(NewDialog::iPosZ,dat);
       }
   }
   void ArbeitsDialog::Z2_evt(unsigned short dat)
@@ -1662,60 +1662,40 @@ namespace EuMax01
     LabelZaxisText = new Label("Y-Axis",Spalte3_x,Zeile3_y,106,MZeile_h);
     LabelCrossText = new Label("Cross",Spalte3_x,Zeile4_y,106,MZeile_h);
 
-    for(int i =0;i<6;i++)
+    for(int i =0;i<3;i++)
       {
 	pcWerte[i][0] = '-';
 	pcWerte[i][1] = '-';
 	pcWerte[i][2] = '-';
 	pcWerte[i][3] = '\0';
-	usWerte[i]=0;
+      }
+    for(int i=0;i<6;i++)
+      {
+    	usWerte[i]=0;
       }
 
-    LabelWerte[0] = new Label(pcWerte[0],\
+    LabelWerte[NewDialog::iPosX1] = new Label(pcWerte[NewDialog::iPosX1],\
 			      Spalte1_x,Zeile2_y,Button_w,MZeile_h);
-    LabelWerte[1] = new Label(pcWerte[1],\
+    LabelWerte[NewDialog::iPosX2] = new Label(pcWerte[NewDialog::iPosX2],\
 			      Spalte1_x,Zeile3_y,Button_w,MZeile_h);
-    LabelWerte[2] = new Label(pcWerte[2],\
+    LabelWerte[NewDialog::iPosZ] = new Label(pcWerte[NewDialog::iPosZ],\
 			      Spalte1_x,Zeile4_y,Button_w,MZeile_h);
 
-    LabelWerte[3] = new Label(pcWerte[3],\
-			      Spalte4_x,Zeile2_y,Button_w,MZeile_h);
-    LabelWerte[4] = new Label(pcWerte[4],\
-			      Spalte4_x,Zeile3_y,Button_w,MZeile_h);
-    LabelWerte[5] = new Label(pcWerte[5],\
-			      Spalte4_x,Zeile4_y,Button_w,MZeile_h);
-
-    snprintf(pcRezept[0],64,"%i",\
+    snprintf(pcRezept[NewDialog::iPosX1],64,"%i",			\
 	     tmpRezept->Rezepte[this->step].cams[0].x_pos);
-    snprintf(pcRezept[1],64,"%i",\
+    snprintf(pcRezept[NewDialog::iPosZ],64,"%i",\
 	     tmpRezept->Rezepte[this->step].cams[0].z_pos);
-    snprintf(pcRezept[2],64,"%i",\
-	     tmpRezept->Rezepte[this->step].cams[0].x_cross);
 
-    snprintf(pcRezept[3],64,"%i",\
+    snprintf(pcRezept[NewDialog::iPosX2],64,"%i",\
 	     tmpRezept->Rezepte[this->step].cams[1].x_pos);
-    snprintf(pcRezept[4],64,"%i",\
-	     tmpRezept->Rezepte[this->step].cams[1].z_pos);
-    snprintf(pcRezept[5],64,"%i",\
-	     tmpRezept->Rezepte[this->step].cams[1].x_cross);
 
-    LabelRezept[0] = new Label(pcRezept[0],\
+    LabelRezept[NewDialog::iPosX1] = new Label(pcRezept[NewDialog::iPosX1],\
 			       Spalte2_x,Zeile2_y,Button_w,MZeile_h);
-    LabelRezept[1] = new Label(pcRezept[1],\
+    LabelRezept[NewDialog::iPosX2] = new Label(pcRezept[NewDialog::iPosX2],\
 			       Spalte2_x,Zeile3_y,Button_w,MZeile_h);
-    LabelRezept[2] = new Label(pcRezept[2],\
+    LabelRezept[NewDialog::iPosZ] = new Label(pcRezept[NewDialog::iPosZ], \
 			       Spalte2_x,Zeile4_y,Button_w,MZeile_h);
 
-    LabelRezept[3] = new Label(pcRezept[3],\
-			       Spalte5_x,Zeile2_y,Button_w,MZeile_h);
-    LabelRezept[4] = new Label(pcRezept[4],\
-			       Spalte5_x,Zeile3_y,Button_w,MZeile_h);
-    LabelRezept[5] = new Label(pcRezept[5],\
-			       Spalte5_x,Zeile4_y,Button_w,MZeile_h);
-
-    //    LabelWerte[0]->setText(pcWerte[1]);
-
-    //addEvtTarget(Label_NewName);
     addEvtTarget(Label_Name);
     addEvtTarget(TextField_Name);
     addEvtTarget(Label_Info);
@@ -1723,18 +1703,12 @@ namespace EuMax01
     addEvtTarget(LabelXaxisText);
     addEvtTarget(LabelZaxisText);
     addEvtTarget(LabelCrossText);
-    addEvtTarget(LabelWerte[0]);
-    addEvtTarget(LabelWerte[1]);
-    addEvtTarget(LabelWerte[2]);
-    addEvtTarget(LabelWerte[3]);
-    addEvtTarget(LabelWerte[4]);
-    addEvtTarget(LabelWerte[5]);
-    addEvtTarget(LabelRezept[0]);
-    addEvtTarget(LabelRezept[1]);
-    addEvtTarget(LabelRezept[2]);
-    addEvtTarget(LabelRezept[3]);
-    addEvtTarget(LabelRezept[4]);
-    addEvtTarget(LabelRezept[5]);
+    addEvtTarget(LabelWerte[NewDialog::iPosX1]);
+    addEvtTarget(LabelWerte[NewDialog::iPosX2]);
+    addEvtTarget(LabelWerte[NewDialog::iPosZ]);
+    addEvtTarget(LabelRezept[NewDialog::iPosX1]);
+    addEvtTarget(LabelRezept[NewDialog::iPosX2]);
+    addEvtTarget(LabelRezept[NewDialog::iPosZ]);
 
     this->pTSource = this;//EvtTarget Quelle setzen, damit der EvtListener die Quelle mitteilen kann
     this->setKeyboardUpEvtHandler(NewDialogKeyListener);
@@ -1774,62 +1748,34 @@ namespace EuMax01
 	getCam1CrossX();
 	getCam2CrossX();
 
-	LabelRezept[NewDialog::iPosQ1]->setText(			\
-		 Parent->int2string(pcRezept[NewDialog::iPosQ1],64, \
+	LabelRezept[NewDialog::iPosX1]->setText(			\
+		 Parent->int2string(pcRezept[NewDialog::iPosX1],64, \
 				    tmpRezept->Rezepte[rzpStep].cams[0].x_pos));
-	Label::showLabel((void*)LabelRezept[NewDialog::iPosQ1],\
+	Label::showLabel((void*)LabelRezept[NewDialog::iPosX1],\
 			 Parent->theGUI->getMainSurface());
 
-	LabelRezept[NewDialog::iPosZ1]->setText(			\
-		 Parent->int2string(pcRezept[NewDialog::iPosZ1],64, \
+	LabelRezept[NewDialog::iPosZ]->setText(			\
+		 Parent->int2string(pcRezept[NewDialog::iPosZ],64, \
 				    tmpRezept->Rezepte[rzpStep].cams[0].z_pos));
-	Label::showLabel((void*)LabelRezept[NewDialog::iPosZ1],\
+	Label::showLabel((void*)LabelRezept[NewDialog::iPosZ],\
 			 Parent->theGUI->getMainSurface());
 
-	LabelRezept[NewDialog::iPosFP1]->setText(			\
-		 Parent->int2string(pcRezept[NewDialog::iPosFP1],64, \
-				    tmpRezept->Rezepte[rzpStep].cams[0].x_cross));
-	Label::showLabel((void*)LabelRezept[NewDialog::iPosFP1],\
-			 Parent->theGUI->getMainSurface());
-
-	LabelRezept[NewDialog::iPosQ2]->setText(			\
-		 Parent->int2string(pcRezept[NewDialog::iPosQ2],64, \
+	LabelRezept[NewDialog::iPosX2]->setText(			\
+		 Parent->int2string(pcRezept[NewDialog::iPosX2],64, \
 				    tmpRezept->Rezepte[rzpStep].cams[1].x_pos));
-	Label::showLabel((void*)LabelRezept[NewDialog::iPosQ2],\
-			 Parent->theGUI->getMainSurface());
-
-	LabelRezept[NewDialog::iPosZ2]->setText(			\
-		 Parent->int2string(pcRezept[NewDialog::iPosZ2],64, \
-				    tmpRezept->Rezepte[rzpStep].cams[1].z_pos));
-	Label::showLabel((void*)LabelRezept[NewDialog::iPosZ2],\
-			 Parent->theGUI->getMainSurface());
-
-	LabelRezept[NewDialog::iPosFP2]->setText(			\
-		 Parent->int2string(pcRezept[NewDialog::iPosFP2],64, \
-				    tmpRezept->Rezepte[rzpStep].cams[1].x_cross));
-	Label::showLabel((void*)LabelRezept[NewDialog::iPosFP2],\
+	Label::showLabel((void*)LabelRezept[NewDialog::iPosX2],\
 			 Parent->theGUI->getMainSurface());
       }
     else
       {
-	LabelRezept[NewDialog::iPosQ1]->setText("");
-	Label::showLabel((void*)LabelRezept[NewDialog::iPosQ1],	\
+	LabelRezept[NewDialog::iPosX1]->setText("");
+	Label::showLabel((void*)LabelRezept[NewDialog::iPosX1],	\
 			 Parent->theGUI->getMainSurface());
-	LabelRezept[NewDialog::iPosZ1]->setText("");
-	Label::showLabel((void*)LabelRezept[NewDialog::iPosZ1],	\
+	LabelRezept[NewDialog::iPosZ]->setText("");
+	Label::showLabel((void*)LabelRezept[NewDialog::iPosZ],	\
 			 Parent->theGUI->getMainSurface());
-	LabelRezept[NewDialog::iPosFP1]->setText("");
-	Label::showLabel((void*)LabelRezept[NewDialog::iPosFP1],	\
-			 Parent->theGUI->getMainSurface());
-
-	LabelRezept[NewDialog::iPosQ2]->setText("");
-	Label::showLabel((void*)LabelRezept[NewDialog::iPosQ2],	\
-			 Parent->theGUI->getMainSurface());
-	LabelRezept[NewDialog::iPosZ2]->setText("");
-	Label::showLabel((void*)LabelRezept[NewDialog::iPosZ2],	\
-			 Parent->theGUI->getMainSurface());
-	LabelRezept[NewDialog::iPosFP2]->setText("");
-	Label::showLabel((void*)LabelRezept[NewDialog::iPosFP2],	\
+	LabelRezept[NewDialog::iPosX2]->setText("");
+	Label::showLabel((void*)LabelRezept[NewDialog::iPosX2],	\
 			 Parent->theGUI->getMainSurface());
       }
   }
@@ -1839,10 +1785,11 @@ namespace EuMax01
     int rzpStep = this->step - 1;
     if(this->step)
       {
-	tmpRezept->Rezepte[rzpStep].cams[0].x_pos = usWerte[NewDialog::iPosQ1];
-	tmpRezept->Rezepte[rzpStep].cams[0].z_pos = usWerte[NewDialog::iPosZ1];
+	tmpRezept->Rezepte[rzpStep].cams[0].x_pos = usWerte[NewDialog::iPosX1];
+	tmpRezept->Rezepte[rzpStep].cams[0].z_pos = usWerte[NewDialog::iPosZ];
+	tmpRezept->Rezepte[rzpStep].cams[1].x_pos = usWerte[NewDialog::iPosX2];
+
 	tmpRezept->Rezepte[rzpStep].cams[0].x_cross = usWerte[NewDialog::iPosFP1];
-	tmpRezept->Rezepte[rzpStep].cams[1].x_pos = usWerte[NewDialog::iPosQ2];
 	tmpRezept->Rezepte[rzpStep].cams[1].z_pos = usWerte[NewDialog::iPosZ2];
 	tmpRezept->Rezepte[rzpStep].cams[1].x_cross = usWerte[NewDialog::iPosFP2];
 	updateRezeptData();
@@ -1880,7 +1827,7 @@ namespace EuMax01
     if(this->step!=0)
       {
 	TextField_Name->setActive(false);
-	for(int i =0;i<6;i++)
+	for(int i =0;i<3;i++)
 	  {
 	     LabelWerte[i]->setBorder(true);
 	  }
@@ -1899,7 +1846,7 @@ namespace EuMax01
       {
 	this->TextField_Name->setActive(true);
 	snprintf(this->InfoText,256,"Recipe Name");
-	for(int i =0;i<6;i++)
+	for(int i =0;i<3;i++)
 	  {
 	    LabelWerte[i]->setBorder(true);
 	  }
