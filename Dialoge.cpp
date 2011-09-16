@@ -777,14 +777,14 @@ ___________________________________________
   {
     //sprintf(thePosDialog->getCrossRefBuf(),"%i",cap_cam_getCrossX(0));
     //Pos_Cam1->Label_CrossRef->setText(this->Pos_Cam1->getCrossRefBuf());
-    //printf("void ArbeitsDialog::setCross1Ref()\n");
+    printf("void ArbeitsDialog::setCross1Ref()\n");
   }
 
   void ArbeitsDialog::setCross2Ref()
   {
     //sprintf(this->Pos_Cam2->getCrossRefBuf(),"%i",cap_cam_getCrossX(1));
     //Pos_Cam2->Label_CrossRef->setText(this->Pos_Cam2->getCrossRefBuf());
-    //printf("void ArbeitsDialog::setCross2Ref()\n");
+    printf("void ArbeitsDialog::setCross2Ref()\n");
   }
 
   /*  void ArbeitsDialog::showRecipe(Rezept * rez)
@@ -838,13 +838,39 @@ ___________________________________________
 	this->theNewDialog->setNewPositionValue(NewDialog::iPosZ2,dat);
 	}*/
   }
+  int ArbeitsDialog::convertCamPos(int cam,unsigned short dat)
+  {
+    int step,wert,camera,max;
+    step =  dat / 2; // (0x3ff / 512) = 1.99805
+    if(cam) //Anzeigebereich von 0-512
+      {
+	camera = 1;
+	wert = step;
+	
+      }
+    else   //Anzeigebereich von 288-800
+      {
+	camera = 0;
+	wert = step+288;
+      }
+    if(wert%2)  //nur duch 2 teilbar zulassen
+      {
+	wert--;
+	//printf("camera : %i , Wert: %i\n",camera,wert);
+      }
+    cap_cam_setCrossX(cam,wert);
+  }
   void ArbeitsDialog::FP1_evt(unsigned short dat)
   {
-    printf("ArbeitsDialog getFP1:%i\n",dat);
+    convertCamPos(0,dat);
+    //theNewDialog->getCam1CrossX();
+    //printf("ArbeitsDialog getFP1:%i\n",dat);
   }
   void ArbeitsDialog::FP2_evt(unsigned short dat)
   {
-    printf("ArbeitsDialog getFB2:%i\n",dat);
+    convertCamPos(2,dat);
+    //theNewDialog->getCam2CrossX();
+    //printf("ArbeitsDialog getFB2:%i\n",dat);
   }
   void ArbeitsDialog::SWVersion_evt(unsigned short dat)
   {

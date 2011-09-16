@@ -203,21 +203,12 @@ namespace EuMax01
     NewDialog * theNewDialog;
     CalibrationDialog * theCalDialog;
 
-    //EvtTarget * KeyListener;
+    int convertCamPos(int cam,unsigned short dat);
+
     PosDialog * thePosDialog;
     
     Label * LabelDialogName;
     Label * LabelInfo;
-    
-    /*    Label * Label_InfoF1;
-    Label * Label_InfoF2;
-    Label * Label_InfoF3;
-    Label * Label_InfoF5;
-    Label * Label_InfoF6;
-    Label * Label_InfoF7;
-    Label * Label_InfoF8;
-    Label * Label_InfoF12;*/
-    
   };
 
   class ErrorDialog : public Screen
