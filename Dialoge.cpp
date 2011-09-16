@@ -885,13 +885,13 @@ ___________________________________________
   void ArbeitsDialog::FP1_evt(unsigned short dat)
   {
     convertCamPos(0,dat);
-    //theNewDialog->getCam1CrossX();
+    theNewDialog->getCam1CrossX();//hier werden die cross Daten zum abspeichern geholt
     //printf("ArbeitsDialog getFP1:%i\n",dat);
   }
   void ArbeitsDialog::FP2_evt(unsigned short dat)
   {
     convertCamPos(2,dat);
-    //theNewDialog->getCam2CrossX();
+    theNewDialog->getCam2CrossX();//hier werden die cross Daten zum abspeichern geholt
     //printf("ArbeitsDialog getFB2:%i\n",dat);
   }
   void ArbeitsDialog::SWVersion_evt(unsigned short dat)
@@ -1853,8 +1853,8 @@ ___________________________________________
 	  }
       }
     updateRezeptData();
-    //getCam1CrossX();
-    //getCam2CrossX();
+    getCam1CrossX();
+    getCam2CrossX();
     this->Label_Info->setText(this->InfoText);
   }
   
@@ -1879,8 +1879,8 @@ ___________________________________________
 		 "Recipe step %i",this->step);
       }
     updateRezeptData();
-    //getCam1CrossX();
-    //getCam2CrossX();
+    getCam1CrossX();
+    getCam2CrossX();
     this->Label_Info->setText(this->InfoText);
   }
   
