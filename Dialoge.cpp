@@ -1411,7 +1411,6 @@ ___________________________________________
   {
     if(!tmpRezept->readFromFile(Parent->pcSaveFilePath,DateiNamen[ActiveRecipe]))
       {
-	memcpy(Parent->theRezept->Name,tmpRezept->Name,Rezept::NameLength);
 	Rezept::copy(tmpRezept,Parent->theRezept);
 	//Rezept::copy();
 	Parent->showRezept(0);
