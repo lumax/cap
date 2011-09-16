@@ -1002,20 +1002,20 @@ namespace EuMax01
 
     LabelRecipeName = new Label("",B1x,Y1,Bw,MZeile_h);
     //showRecipeName(text);
-    LabelStep = new Label("Step 1",B2x,Y1,Bw,MZeile_h);
+    LabelStep = new Label("Step 1",B4x,Y1,Bw,MZeile_h);
     //difference
-    LabelActual = new Label("current position",B4x,Y1,Bw,MZeile_h);
+    LabelActual = new Label("current position",B2x,Y1,Bw,MZeile_h);
 
     pLabelCam1[PosDialog::iLabelName] = new Label("CAM1",B1x,Y2,Bw,MZeile_h);
     pLabelCam2[PosDialog::iLabelName] = new Label("CAM2",B1x,Y3,Bw,MZeile_h);
     pLabelZ[PosDialog::iLabelName] = new Label("Z",B1x,Y4,Bw,MZeile_h);
 
     pLabelCam1[PosDialog::iStep] = new Label(pcLabelCam1[PosDialog::iStep],\
-					     B2x,Y2,Bw,MZeile_h);
+					     B4x,Y2,Bw,MZeile_h);
     pLabelCam2[PosDialog::iStep] = new Label(pcLabelCam2[PosDialog::iStep],\
-					     B2x,Y3,Bw,MZeile_h);
+					     B4x,Y3,Bw,MZeile_h);
     pLabelZ[PosDialog::iStep] = new Label(pcLabelZ[PosDialog::iStep],\
-					  B2x,Y4,Bw,MZeile_h);
+					  B4x,Y4,Bw,MZeile_h);
 
     pLabelCam1[PosDialog::iDiff] = new Label(pcLabelCam1[PosDialog::iDiff],\
 					     B3x,Y2,Bw,MZeile_h);
@@ -1033,11 +1033,11 @@ namespace EuMax01
 
 
     pLabelCam1[PosDialog::iCurr] = new Label(pcLabelCam1[PosDialog::iCurr],\
-					     B4x,Y2,Bw,MZeile_h);
+					     B2x,Y2,Bw,MZeile_h);
     pLabelCam2[PosDialog::iCurr] = new Label(pcLabelCam2[PosDialog::iCurr],\
-					     B4x,Y3,Bw,MZeile_h);
+					     B2x,Y3,Bw,MZeile_h);
     pLabelZ[PosDialog::iCurr] = new Label(pcLabelZ[PosDialog::iCurr],\
-					  B4x,Y4,Bw,MZeile_h);
+					  B2x,Y4,Bw,MZeile_h);
 
     addEvtTarget(LabelRecipeName);
     addEvtTarget(LabelStep);
