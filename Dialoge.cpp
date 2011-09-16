@@ -1497,7 +1497,7 @@ namespace EuMax01
 		  }
 		else
 		  {
-		    if(ad->Parent->theRezept->writeToFile(ad->Parent->pcSaveFilePath))
+		    if(ad->tmpRezept->writeToFile(ad->Parent->pcSaveFilePath))
 		      {
 			ad->Parent->showErrorDialog((char*)"Error saving File");
 		      }
