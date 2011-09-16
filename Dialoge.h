@@ -118,7 +118,7 @@ namespace EuMax01
   public:
     ArbeitsDialog(GUI * pGUI,MBProtocol * prot,\
 		  int sdlw,int sdlh, int camw,\
-		  int camh,int yPos,char * saveFilePath);
+		  int camh,int yPos,char * saveFilePath,bool useGUI);
     ~ArbeitsDialog();
 
     /*! \brief füllt den einen char Puffer mit data als string

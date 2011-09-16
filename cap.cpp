@@ -687,6 +687,7 @@ int main(int argc, char *argv[])
   char tmp[64];
   bool rgb_mode = false;
   int ButtonAreaHeight = 0;
+  bool guiMode = false;
   
   char path[64];
   char confpath[96];
@@ -763,6 +764,10 @@ int main(int argc, char *argv[])
 	  printf("using RGB_MODE\n");
 	}
     }
+  if(!iniParser_getParam(confpath,(char*)"GUIMode",tmp,64))
+    {
+      guiMode = true;
+    }
 
   argc--;
   while(argc)
@@ -823,7 +828,8 @@ int main(int argc, char *argv[])
 				       camwidth,		\
 				       camheight,		\
 				       ButtonAreaHeight,	\
-				       saveFilePath);
+				       saveFilePath,\
+				       guiMode);
   //thePositionDialog = new PositionDialog(sdlwidth/2-506,ButtonAreaHeight,506,100);
 
   if(theProtocol.initProtocol(theGUI,theArbeitsDialog))

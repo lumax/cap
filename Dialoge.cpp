@@ -373,7 +373,8 @@ namespace EuMax01
 			       int camw,		\
 			       int camh,			\
 			       int yPos,			\
-			       char * saveFilePath)//:Screen()
+			       char * saveFilePath,\
+			       bool useGUI)//:Screen()
   {
     /*    this->KeyListener = new EvtTarget();
     if(this->KeyListern)
@@ -513,17 +514,24 @@ ___________________________________________
 			  MInfo_w*7+6*MInfoSpace_w,			\
 			  MZeile_h);
 
+    if(useGUI)
+      {
+      printf("guiMode true \n");
+
     this->pTSource = this; //EvtTarget Quelle setzen, damit der EvtListener die Quell mitteilen kann
     this->setKeyboardUpEvtHandler(ArbeitsDialogKeyListener);
     this->addEvtTarget(this);//den Screen Key Listener bei sich selber anmelden!
     
-    addEvtTarget(&thePosDialog->EvtTargets);
-    addEvtTarget(LabelDialogName);
-    addEvtTarget(LabelInfo);
+    this->addEvtTarget(&thePosDialog->EvtTargets);
+    this->addEvtTarget(LabelDialogName);
+    this->addEvtTarget(LabelInfo);
     
     this->ArbeitsDialogEvtTargets.Next = this->EvtTargets.Next;//EvtTargets fuer spaeter sichern
     this->showCalibrationDialog();
     this->showRezept(0);
+      }
+    else
+      printf("guiMode false \n");
   }
 
   void ArbeitsDialog::showLoadDialog(unsigned int page)
@@ -1254,6 +1262,7 @@ ___________________________________________
     Rezepte_w = 108;
 
     Label_LadenName = new Label("LOAD RECIPE",MLinks_x,MLoadName_y,506*2,MZeile_h);
+
     unsigned int ii = 0;
     char tmpc[16] = { 'x','X','x','x','x','x','x','x'};
     tmpc[15]='\0';
@@ -1271,12 +1280,10 @@ ___________________________________________
 				      Rezepte_w,			\
 				      MZeile_h);
 	ii++;
-	addEvtTarget(pLabel_Rezepte[i]);
+	this->addEvtTarget(pLabel_Rezepte[i]);
       }
     setActiveRecipe(10);
-
-    addEvtTarget(Label_LadenName);
-
+    this->addEvtTarget(Label_LadenName);
     this->pTSource = this;//EvtTarget Quelle setzen, damit der EvtListener die Quelle mitteilen kann
     this->setKeyboardUpEvtHandler(LoadDialogKeyListener);
     this->addEvtTarget(this);//den Screen Key Listener bei sich selber anmelden!
