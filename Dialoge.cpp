@@ -603,6 +603,9 @@ namespace EuMax01
 	prt_sendmsg_uint(nPEC_GET_Z2,0x00);
 	//prt_sendmsg_uint(nPEC_GET_FP1,0x00);
 	//prt_sendmsg_uint(nPEC_GET_FP2,0x00);
+	theNewDialog->TextField_Name->setText(theNewDialog->tmpRezept->Name);
+	Label::showLabel((void*)theNewDialog->TextField_Name,\
+			 theGUI->getMainSurface());
 	this->theNewDialog->decStep();
   }
 
@@ -1486,7 +1489,6 @@ namespace EuMax01
 	      }
 	    else if(key->keysym.sym == SDLK_F10)
 	      {
-		printf("Rezepte fertig! abspeicher!!!\n");
 		if(ad->verifyName())//Prüfen und 
 		  {
 		    printf("error Name ist zu kurz oder zu lang\n");
@@ -1758,8 +1760,8 @@ namespace EuMax01
   void NewDialog::updateRezeptData()
   {
     int rzpStep = this->step - 1;
-    TextField_Name->setText(tmpRezept->Name);
-    Label::showLabel((void*)this->TextField_Name,this->Parent->theGUI->getMainSurface());
+//TextField_Name->setText(tmpRezept->Name);
+//Label::showLabel((void*)this->TextField_Name,this->Parent->theGUI->getMainSurface());
 
     if(this->step)
       {
