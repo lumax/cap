@@ -648,7 +648,7 @@ namespace EuMax01
   {
     Cam1XaxisCur = val;
     Cam1XaxisDif = Cam1XaxisCur - this->theRezept->getXPosition(0,RezeptNummer);
-    thePosDialog->showDifferenceCam1(Cam1XaxisDif);
+    thePosDialog->showDifferenceCam1(val,this->theRezept->getXPosition(0,RezeptNummer));
     
     sprintf(this->thePosDialog->pcLabelCam1[PosDialog::iCurr],"%i",Cam1XaxisCur);
     thePosDialog->pLabelCam1[PosDialog::iCurr]->		\
@@ -661,7 +661,7 @@ namespace EuMax01
   {
     Cam2XaxisCur = val;
     Cam2XaxisDif = Cam2XaxisCur - this->theRezept->getXPosition(1,RezeptNummer);
-    thePosDialog->showDifferenceCam2(Cam2XaxisDif);
+    thePosDialog->showDifferenceCam2(val,this->theRezept->getXPosition(1,RezeptNummer));
     
     sprintf(this->thePosDialog->pcLabelCam2[PosDialog::iCurr],"%i",Cam2XaxisCur);
     thePosDialog->pLabelCam2[PosDialog::iCurr]->		\
@@ -674,7 +674,7 @@ namespace EuMax01
   {
     Cam1ZaxisCur = val;
     Cam1ZaxisDif = Cam1ZaxisCur - this->theRezept->getZPosition(RezeptNummer);
-    thePosDialog->showDifferenceZ(Cam1ZaxisDif);
+    thePosDialog->showDifferenceZ(val,this->theRezept->getZPosition(RezeptNummer));
     
     sprintf(this->thePosDialog->pcLabelZ[PosDialog::iCurr],"%i",Cam1ZaxisCur);
     thePosDialog->pLabelZ[PosDialog::iCurr]->		\
@@ -843,9 +843,9 @@ namespace EuMax01
 	this->theNewDialog->setNewPositionValue(NewDialog::iPosZ2,dat);
 	}*/
   }
-  int ArbeitsDialog::convertCamPos(int cam,unsigned short dat)
+  void ArbeitsDialog::convertCamPos(int cam,unsigned short dat)
   {
-    int step,wert,camera,max;
+    int step,wert,camera;
     step =  dat / 2; // (0x3ff / 512) = 1.99805
     if(cam) //Anzeigebereich von 0-512
       {
@@ -941,6 +941,23 @@ namespace EuMax01
 	  }
       }
 
+    DiffFarben[0]=Globals::GlobalUint32ColorE1;
+    DiffFarben[1]=Globals::GlobalUint32ColorE2;
+    DiffFarben[2]=Globals::GlobalUint32ColorE3;
+    DiffFarben[3]=Globals::GlobalUint32ColorE4;
+    DiffFarben[4]=Globals::GlobalUint32ColorE5;
+    DiffFarben[5]=Globals::GlobalUint32ColorE6;
+    DiffFarben[6]=Globals::GlobalUint32ColorE7;
+    DiffFarben[7]=Globals::GlobalUint32ColorE8;
+    DiffFarben[8]=Globals::GlobalUint32ColorE9;
+    DiffFarben[9]=Globals::GlobalUint32ColorE10;
+    DiffFarben[10]=Globals::GlobalUint32ColorE11;
+    DiffFarben[11]=Globals::GlobalUint32ColorE12;
+    DiffFarben[12]=Globals::GlobalUint32ColorE13;
+    DiffFarben[13]=Globals::GlobalUint32ColorE14;
+    DiffFarben[14]=Globals::GlobalUint32ColorE15;
+    DiffFarben[15]=Globals::GlobalUint32ColorE16;
+
     M_y = sdlh - yPos;
     if(M_y<=84)
       {
@@ -993,20 +1010,34 @@ namespace EuMax01
     pLabelCam2[PosDialog::iLabelName] = new Label("CAM2",B1x,Y3,Bw,MZeile_h);
     pLabelZ[PosDialog::iLabelName] = new Label("Z",B1x,Y4,Bw,MZeile_h);
 
-    pLabelCam1[PosDialog::iStep] = new Label(pcLabelCam1[PosDialog::iStep],B2x,Y2,Bw,MZeile_h);
-    pLabelCam2[PosDialog::iStep] = new Label(pcLabelCam2[PosDialog::iStep],B2x,Y3,Bw,MZeile_h);
-    pLabelZ[PosDialog::iStep] = new Label(pcLabelZ[PosDialog::iStep],B2x,Y4,Bw,MZeile_h);
+    pLabelCam1[PosDialog::iStep] = new Label(pcLabelCam1[PosDialog::iStep],\
+					     B2x,Y2,Bw,MZeile_h);
+    pLabelCam2[PosDialog::iStep] = new Label(pcLabelCam2[PosDialog::iStep],\
+					     B2x,Y3,Bw,MZeile_h);
+    pLabelZ[PosDialog::iStep] = new Label(pcLabelZ[PosDialog::iStep],\
+					  B2x,Y4,Bw,MZeile_h);
 
-    pLabelCam1[PosDialog::iDiff] = new Label(pcLabelCam1[PosDialog::iDiff],B3x,Y2,Bw,MZeile_h);
-    pLabelCam2[PosDialog::iDiff] = new Label(pcLabelCam2[PosDialog::iDiff],B3x,Y3,Bw,MZeile_h);
-    pLabelZ[PosDialog::iDiff] = new Label(pcLabelZ[PosDialog::iDiff],B3x,Y4,Bw,MZeile_h);
-    //pLabelCam1[PosDialog::iDiff]->setFont(Globals::getFontButtonBig());
-    //pLabelCam2[PosDialog::iDiff]->setFont(Globals::getFontButtonBig());
-    //pLabelZ[PosDialog::iDiff]->setFont(Globals::getFontButtonBig());
+    pLabelCam1[PosDialog::iDiff] = new Label(pcLabelCam1[PosDialog::iDiff],\
+					     B3x,Y2,Bw,MZeile_h);
+    pLabelCam2[PosDialog::iDiff] = new Label(pcLabelCam2[PosDialog::iDiff],\
+					     B3x,Y3,Bw,MZeile_h);
+    pLabelZ[PosDialog::iDiff] = new Label(pcLabelZ[PosDialog::iDiff],\
+					  B3x,Y4,Bw,MZeile_h);
 
-    pLabelCam1[PosDialog::iCurr] = new Label(pcLabelCam1[PosDialog::iCurr],B4x,Y2,Bw,MZeile_h);
-    pLabelCam2[PosDialog::iCurr] = new Label(pcLabelCam2[PosDialog::iCurr],B4x,Y3,Bw,MZeile_h);
-    pLabelZ[PosDialog::iCurr] = new Label(pcLabelZ[PosDialog::iCurr],B4x,Y4,Bw,MZeile_h);
+    pLabelCam1[PosDialog::iDiff]->setFont(Globals::getFontButtonBig());
+    pLabelCam2[PosDialog::iDiff]->setFont(Globals::getFontButtonBig());
+    pLabelZ[PosDialog::iDiff]->setFont(Globals::getFontButtonBig());
+    pLabelCam1[PosDialog::iDiff]->setFontColor(&Globals::GlobalSDL_Color2);
+    pLabelCam2[PosDialog::iDiff]->setFontColor(&Globals::GlobalSDL_Color2);
+    pLabelZ[PosDialog::iDiff]->setFontColor(&Globals::GlobalSDL_Color2);
+
+
+    pLabelCam1[PosDialog::iCurr] = new Label(pcLabelCam1[PosDialog::iCurr],\
+					     B4x,Y2,Bw,MZeile_h);
+    pLabelCam2[PosDialog::iCurr] = new Label(pcLabelCam2[PosDialog::iCurr],\
+					     B4x,Y3,Bw,MZeile_h);
+    pLabelZ[PosDialog::iCurr] = new Label(pcLabelZ[PosDialog::iCurr],\
+					  B4x,Y4,Bw,MZeile_h);
 
     addEvtTarget(LabelRecipeName);
     addEvtTarget(LabelStep);
@@ -1020,75 +1051,76 @@ namespace EuMax01
       }
   };
 
-  void PosDialog::showDifferenceCam1(int diff)
+  void PosDialog::showDifferenceCam1(int aktuell,int rezept)
   {
-    printDifference(pcLabelCam1[PosDialog::iDiff],diff);    
+    unsigned int e = 0;
+    e=printDifference(pcLabelCam1[PosDialog::iDiff],aktuell,rezept);
+    pLabelCam1[PosDialog::iDiff]->setMarkedColor(DiffFarben[e]);
     pLabelCam1[PosDialog::iDiff]->setText(pcLabelCam1[PosDialog::iDiff]);
     Label::showLabel((void*)pLabelCam1[PosDialog::iDiff],	\
 		     Parent->theGUI->getMainSurface());
   }
   
-  void PosDialog::showDifferenceCam2(int diff)
+  void PosDialog::showDifferenceCam2(int aktuell,int rezept)
   {
-    printDifference(pcLabelCam2[PosDialog::iDiff],diff);    
+    unsigned int e =0;
+    e=printDifference(pcLabelCam2[PosDialog::iDiff],aktuell,rezept);
+    pLabelCam2[PosDialog::iDiff]->setMarkedColor(DiffFarben[e]);
     pLabelCam2[PosDialog::iDiff]->setText(pcLabelCam2[PosDialog::iDiff]);
     Label::showLabel((void*)pLabelCam2[PosDialog::iDiff],	\
 		     Parent->theGUI->getMainSurface());
   }
   
-  void PosDialog::showDifferenceZ(int diff)
+  void PosDialog::showDifferenceZ(int aktuell,int rezept)
   {
-    printDifference(pcLabelZ[PosDialog::iDiff],diff);    
+    unsigned int e = 0;
+    e=printDifference(pcLabelZ[PosDialog::iDiff],aktuell,rezept);
+    pLabelZ[PosDialog::iDiff]->setMarkedColor(DiffFarben[e]);
     pLabelZ[PosDialog::iDiff]->setText(pcLabelZ[PosDialog::iDiff]);
     Label::showLabel((void*)pLabelZ[PosDialog::iDiff],	\
 		     Parent->theGUI->getMainSurface());
   }
 
-  void PosDialog::printDifference(char * target,int diff)
+  unsigned int PosDialog::printDifference(char * target,int aktuell,int rezept)
   {
-    int abs;
-    bool isPlus = true;
-
-    target[PosDialog::DiffLen-1] = '\0';
-    for(int i=0;i<PosDialog::DiffLen-1;i++)
+    int distanz=0;
+    unsigned int GradDerEntfernung = 0;
+    char FuellZeichen = ' ';
+    for(unsigned int i = 0;i<PosDialog::DiffLen;i++)
       {
-	target[i] = PosDialog::DiffLeerzeichen;
+	target[i] = '\0';
       }
-    target[PosDialog::DiffLen/2] = PosDialog::DiffLine; //Mitte
+    target[PosDialog::DiffLen] = '\0';
     
-    abs = diff;   //Betrag
-    if(abs<0)
+    if(aktuell<rezept)//links von ref
       {
-	abs *= -1;
-	isPlus = false;
+	FuellZeichen = PosDialog::DiffZeichenLinks;
+	distanz = rezept-aktuell;
+      }
+    else if(aktuell>rezept)//rechts von ref
+      {
+	FuellZeichen = PosDialog::DiffZeichenRechts;
+	distanz = aktuell-rezept;
+      }
+    else//Volltreffer!
+      {
+	FuellZeichen = PosDialog::DiffZeichenMitte;
+	distanz = 0;
       }
 
-    if(abs>PosDialog::DiffLen/2)//ganz weit draussen
+    for(unsigned int i =0;i<PosDialog::DiffLen;i++) //Wie weit ist die Zielposition entfernt?
       {
-	if(isPlus)
+	if((distanz/=2)>0)
 	  {
-	    target[PosDialog::DiffLen-4] = '-';
-	    target[PosDialog::DiffLen-3] = '-';
-	    target[PosDialog::DiffLen-2] = '>';
+	    target[i]=FuellZeichen;
+	    GradDerEntfernung++;
 	  }
 	else
 	  {
-	    target[2] = '-';
-	    target[1] = '-';
-	    target[0] = '<';	    
+	    break;
 	  }
       }
-    else//schon nah dran
-      {
-	if(isPlus)
-	  {
-	    target[PosDialog::DiffLen/2+abs] = '|';
-	  } 
-	else
-	  {
-	    target[PosDialog::DiffLen/2-abs] = '|'; 
-	  }
-      }
+    return GradDerEntfernung;
   }
 
   void PosDialog::showRecipeName(char * text)

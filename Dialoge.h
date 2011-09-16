@@ -75,22 +75,30 @@ namespace EuMax01
 
     void setRecipe(Rezept * pRec);
     void setStep(unsigned int step);
-    void showDifferenceCam1(int diff);
-    void showDifferenceCam2(int diff);
-    void showDifferenceZ(int diff);
+    void showDifferenceCam1(int aktuell,int rezept);
+    void showDifferenceCam2(int aktuell,int rezept);
+    void showDifferenceZ(int aktuell,int rezept);
     
     void showRecipeName(char * text);
 
   private:
-    
     ArbeitsDialog * Parent;
-    static const char DiffLeerzeichen = ' ';
-    static const char DiffLen = 62;
-    static const char DiffLine = '|';
+    static const char DiffZeichenLinks = '>';
+    static const char DiffZeichenRechts= '<';
+    static const char DiffZeichenMitte = ' ';
+    /*! \brief Wieviele Zeichen werden im Extremfall angezeigt
+     *
+     *  Darf nicht größer oder gleich 64 sein!
+     */
+    static const unsigned int DiffLen = 16;
+
+    unsigned int DiffFarben[PosDialog::DiffLen];
+
     /*! \brief füllt den char buffer mit einer Pegelgrafik
      *
+     *  \returns GradDerEntfernung, (0-15) je höher, desto weiter weg
      */
-    void printDifference(char target[64],int diff);
+    unsigned int printDifference(char target[64],int aktuell,int rezept);
   };
 
   class ErrorDialog;
@@ -211,7 +219,7 @@ namespace EuMax01
     ErrorDialog * theErrorDialog;
     CalibrationDialog * theCalDialog;
 
-    int convertCamPos(int cam,unsigned short dat);
+    void convertCamPos(int cam,unsigned short dat);
 
     PosDialog * thePosDialog;
     
