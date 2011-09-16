@@ -327,25 +327,15 @@ namespace EuMax01
 	  {
 	    ad->decRezeptNummer();
 	    ad->showRezept(ad->getRezeptNummer());
-	    /* int xxx=0;
-	    xxx = cap_cam_getCrossX(0);
-	    cap_cam_setCrossX(0,xxx-10);
-	    ad->setCross1Ref();
-	    xxx = cap_cam_getCrossX(1);
-	    cap_cam_setCrossX(1,xxx-10);
-	    ad->setCross2Ref();*/
+	    //ad->setCross1Ref();
+	    //ad->setCross2Ref();
 	  }
 	else if(key->keysym.sym == SDLK_F6||key->keysym.sym == SDLK_RIGHT)
 	  {
 	    ad->incRezeptNummer();
 	    ad->showRezept(ad->getRezeptNummer());
-	    //	    int xx=0;
-	    //xx = cap_cam_getCrossX(0);
-	    //cap_cam_setCrossX(0,xx+10);
-	    ad->setCross1Ref();
-	    //xx = cap_cam_getCrossX(1);
-	    //cap_cam_setCrossX(1,xx+10);
-	    ad->setCross2Ref();
+	    //ad->setCross1Ref();
+	    //ad->setCross2Ref();
 	  }
 	else if(key->keysym.sym == SDLK_F7)
 	  {
@@ -376,28 +366,6 @@ namespace EuMax01
 			       char * saveFilePath,\
 			       bool useTheGUI)//:Screen()
   {
-    /*    this->KeyListener = new EvtTarget();
-    if(this->KeyListern)
-      KeyListern->setKeyboardUpEvtHandler(void (*pfnk)(void * src,SDL_Event *))
-	{
-	  this->fnkKeyboardUp = pfnk;
-	}
-    */
-
-/*
-<------------------| sdlwidth/2
-
-___________________________________________
-|                  |                      |
-|                  |                      |
-|                  |                      |
-|                  |                      |
-|                  |                      |
-|                  |                      |
-|__________________|______________________|
-
-
-*/
     short M_y;
     short MLinks_x;
     short MRechts_x;
@@ -435,17 +403,27 @@ ___________________________________________
     this->pNullRezept->Name[0]='\0';
     for(unsigned int i = 0;i<LoadDialog::MaxRezeptFileLaenge;i++)
       {
+	this->theRezept->Rezepte[i].cams[0].x_pos = 0;
+	this->theRezept->Rezepte[i].cams[1].x_pos = 0;
+	this->theRezept->Rezepte[i].cams[0].z_pos = 0;
+	this->theRezept->Rezepte[i].cams[1].z_pos = 0;
+	this->theRezept->Rezepte[i].cams[0].x_cross = ArbeitsDialog::MitteCrossCam1;
+	this->theRezept->Rezepte[i].cams[1].x_cross = ArbeitsDialog::MitteCrossCam2;
+
 	this->pNullRezept->Rezepte[i].cams[0].x_pos = 0;
 	this->pNullRezept->Rezepte[i].cams[1].x_pos = 0;
 	this->pNullRezept->Rezepte[i].cams[0].z_pos = 0;
 	this->pNullRezept->Rezepte[i].cams[1].z_pos = 0;
-	this->pNullRezept->Rezepte[i].cams[0].x_cross = 0;
-	this->pNullRezept->Rezepte[i].cams[1].x_cross = 0;
+	this->pNullRezept->Rezepte[i].cams[0].x_cross = ArbeitsDialog::MitteCrossCam1;
+	this->pNullRezept->Rezepte[i].cams[1].x_cross = ArbeitsDialog::MitteCrossCam2;
 	}
     theLoadDialog = new LoadDialog(sdlw,sdlh,camw,camh,yPos,this);
     theErrorDialog = new ErrorDialog(sdlw,sdlh,camw,camh,yPos,this);
     theNewDialog = new NewDialog(sdlw,sdlh,camw,camh,yPos,this);
     theCalDialog = new CalibrationDialog(sdlw,sdlh,camw,camh,yPos,this);
+
+    cap_cam_setCrossX(0,ArbeitsDialog::MitteCrossCam1);
+    cap_cam_setCrossX(1,ArbeitsDialog::MitteCrossCam2);
 
     MLinks_x = sdlw/2 - 506;
     MRechts_x = sdlw/2 + 6;
@@ -577,10 +555,11 @@ ___________________________________________
 		   this->Area.w,			\
 		   this->Area.h);
     this->show(this->theGUI->getMainSurface());
+    this->showRezept(0);
     prt_sendmsg_uint(nPEC_GET_Q1,0x00);
     prt_sendmsg_uint(nPEC_GET_Q2,0x00);
     prt_sendmsg_uint(nPEC_GET_Z1,0x00);
-    prt_sendmsg_uint(nPEC_GET_Z2,0x00);
+    //prt_sendmsg_uint(nPEC_GET_Z2,0x00);
   }
 
   void ArbeitsDialog::showErrorDialog(char * msg)
@@ -714,6 +693,9 @@ ___________________________________________
     if(theRezept)
       {
 	RezeptNummer = nummer;
+
+	cap_cam_setCrossX(0,theRezept->Rezepte[RezeptNummer].cams[0].x_cross);
+	cap_cam_setCrossX(1,theRezept->Rezepte[RezeptNummer].cams[1].x_cross);
 
 	thePosDialog->showRecipeName(theRezept->Name);
 
@@ -1740,8 +1722,20 @@ ___________________________________________
   void NewDialog::updateRezeptData()
   {
     int rzpStep = this->step - 1;
+    TextField_Name->setText(Parent->theRezept->Name);
+    Label::showLabel((void*)this->TextField_Name,this->Parent->theGUI->getMainSurface());
+
     if(this->step)
       {
+	//cross aus den Rezept Daten holen
+	cap_cam_setCrossX(0,\
+			  Parent->theRezept->Rezepte[Parent->getRezeptNummer()].cams[0].x_cross);
+	cap_cam_setCrossX(1,\
+			  Parent->theRezept->Rezepte[Parent->getRezeptNummer()].cams[1].x_cross);
+	//cross Werte updaten
+	getCam1CrossX();
+	getCam2CrossX();
+
 	LabelRezept[NewDialog::iPosQ1]->setText(			\
 		 Parent->int2string(pcRezept[NewDialog::iPosQ1],64, \
 				    Parent->theRezept->Rezepte[rzpStep].cams[0].x_pos));
@@ -1820,20 +1814,22 @@ ___________________________________________
   void NewDialog::getCam1CrossX()
   {
     usWerte[NewDialog::iPosFP1] = cap_cam_getCrossX(0);
+    /*
     LabelWerte[2]->setText(Parent->int2string(pcWerte[NewDialog::iPosFP1], \
 					      64,cap_cam_getCrossX(0)));
     Label::showLabel((void*)LabelWerte[2],Parent->theGUI->getMainSurface());
+    */
   }
 
   void NewDialog::getCam2CrossX()
   {
     usWerte[NewDialog::iPosFP2] = cap_cam_getCrossX(1);
+    /*
     LabelWerte[5]->setText(Parent->int2string(pcWerte[NewDialog::iPosFP2], \
 					      64,cap_cam_getCrossX(1)));
     Label::showLabel((void*)LabelWerte[5],Parent->theGUI->getMainSurface());
+    */
   }
-
-
 
   void NewDialog::incStep()
   {
@@ -1852,8 +1848,6 @@ ___________________________________________
 	  }
       }
     updateRezeptData();
-    getCam1CrossX();
-    getCam2CrossX();
     this->Label_Info->setText(this->InfoText);
   }
   
@@ -1878,8 +1872,6 @@ ___________________________________________
 		 "Recipe step %i",this->step);
       }
     updateRezeptData();
-    getCam1CrossX();
-    getCam2CrossX();
     this->Label_Info->setText(this->InfoText);
   }
   

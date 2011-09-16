@@ -156,7 +156,10 @@ namespace EuMax01
     GUI * theGUI;
     MBProtocol * theProtocol;
     char * pcSaveFilePath;
-    
+
+    static const int MitteCrossCam1 = 544;
+    static const int MitteCrossCam2 = 256;
+
     void showLoadDialog(unsigned int page);
     void showArbeitsDialog();
     void showErrorDialog(char * errorMsg);
@@ -192,6 +195,8 @@ namespace EuMax01
     int Cam2Dif_Cross;
 
     int iActiveDialog;
+
+
     
     static const int ArbeitsDialogIsActive = 0;
     static const int LoadDialogIsActive = 1;
