@@ -89,7 +89,7 @@ static void overlayAndCrossair(struct v4l_capture* cap,char * pc,size_t len)
   //unsigned int crossX = w/2-crossBreite/2;
   //unsigned int crossY = h/2-crossDicke;
   unsigned int crossX = cap->camCrossX;
-  unsigned int crossY = cap->camHeight/2;
+  unsigned int crossY = cap->camWidth/2;//warum nicht camHeigt für crossY = ?
 
   int start = zeile*crossY;
   //int flag = 1;
