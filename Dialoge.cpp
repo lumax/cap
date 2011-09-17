@@ -313,12 +313,12 @@ namespace EuMax01
 	    //prt_sendmsg_uint(nPEC_RESET_Q1,0x00);
 	    //prt_sendmsg_uint(nPEC_GET_Q1,0x00);
 	    Rezept::copy(ad->theRezept,ad->theNewDialog->tmpRezept);
-	    ad->showNewDialog("Save as");
+	    ad->showNewDialog((char*)"Save as");
 	  }
 	else if(key->keysym.sym == SDLK_F3)
 	  {
 	    Rezept::copy(ad->getNullRezept(),ad->theNewDialog->tmpRezept);
-	    ad->showNewDialog("New");
+	    ad->showNewDialog((char*)"New");
 	  }
 	else if(key->keysym.sym == SDLK_F4)
 	  {
@@ -1269,6 +1269,7 @@ namespace EuMax01
     unsigned short Rezepte_y;
     short Rezepte_w;
     short MLoadName_y;
+    short x_space;
 
     this->Parent = parent;
     this->ActiveRecipe = 0;
@@ -1278,7 +1279,6 @@ namespace EuMax01
     this->tmpRezept = new Rezept();
 
     M_y = sdlh - yPos;
-    //[master cec6470] Dialoge: get und set Crossaire
     if(M_y<=84)
       {
 	MSpace_h = 2;
@@ -1290,13 +1290,17 @@ namespace EuMax01
 	MZeile_h = 28;
       }
 
+    x_space = 2;
     MLinks_x = sdlw/2 - 506;
 
-    MLoadName_y  = yPos + 1*MSpace_h + 0*MZeile_h;
-    Rezepte_y = yPos + 2*MSpace_h + 1*MZeile_h;
-    Rezepte_w = 108;
+    MLoadName_y  = yPos + 5*MSpace_h + 4*MZeile_h;
+    Rezepte_y = yPos + 1*MSpace_h + 0*MZeile_h;
+    Rezepte_w = 125;
 
-    Label_LadenName = new Label("LOAD RECIPE",MLinks_x,MLoadName_y,506*2,MZeile_h);
+    Label_LadenName = new Label("Load",MLinks_x,MLoadName_y,150,MZeile_h);
+    Label_LadenName->setFont(Globals::getFontButtonBig());
+
+    //Label_MenuText = new Label("F1 F2 usw",MLinks_x+158,MLoadName_y,1012-158,MZeile_h);
 
     unsigned int ii = 0;
     char tmpc[16] = { 'x','X','x','x','x','x','x','x'};
@@ -1310,7 +1314,7 @@ namespace EuMax01
 	  }
 	sprintf(DateiNamen[i],"%s",tmpc);                   //Text Buffer füllen
 	pLabel_Rezepte[i] = new Label(DateiNamen[i],			\
-				      MLinks_x + ii*MSpace_h + ii*Rezepte_w, \
+				      MLinks_x + ii*x_space + ii*Rezepte_w, \
 				      Rezepte_y,			\
 				      Rezepte_w,			\
 				      MZeile_h);
@@ -1318,7 +1322,8 @@ namespace EuMax01
 	this->addEvtTarget(pLabel_Rezepte[i]);
       }
     //setActiveRecipe(10);
-    this->addEvtTarget(Label_LadenName);
+
+    //this->addEvtTarget(Label_LadenName);
     this->pTSource = this;//EvtTarget Quelle setzen, damit der EvtListener die Quelle mitteilen kann
     this->setKeyboardUpEvtHandler(LoadDialogKeyListener);
     this->addEvtTarget(this);//den Screen Key Listener bei sich selber anmelden!
@@ -1384,6 +1389,8 @@ namespace EuMax01
     this->addEvtTarget(this);      //den Screen Key Listener bei sich selber anmelden!
     this->Label_LadenName->Next = 0; //Laden Label anzeigen
     this->addEvtTarget(Label_LadenName);
+    //this->Label_MenuText->Next = 0; //Laden MenuText anzeigen
+    //this->addEvtTarget(Label_MenuText);
     this->ActiveSavePage = page;
 
     n = scandir(dirName, &namelist, dirFilter, alphasort);
