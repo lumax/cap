@@ -346,16 +346,27 @@ namespace EuMax01
 	  {
 	    exit(0);
 	  }
-	/*	else
-	  {
-	    zeichen = Tool::getStdASCII_Char(key);
-	  }
-	if(zeichen)
-	  {
-	    tf->addChar(zeichen);
-	    }*/
       }
   }
+
+  static void ArbeitsDialogNoGUIKeyListener(void * src, SDL_Event * evt)
+  {
+    ArbeitsDialog* ad = (ArbeitsDialog*)src;//KeyListener
+    SDL_KeyboardEvent * key = (SDL_KeyboardEvent *)&evt->key;
+
+    if( key->type == SDL_KEYUP )
+      {
+	if(key->keysym.sym == SDLK_F1)
+	  {
+
+	  }
+	else if(key->keysym.sym == SDLK_F12)
+	  {
+	    exit(0);
+	  }
+      }
+  }
+
   ArbeitsDialog::~ArbeitsDialog(){}
   ArbeitsDialog::ArbeitsDialog(GUI * pGUI,		\
 			       MBProtocol *prot,	\
@@ -498,7 +509,7 @@ namespace EuMax01
       {
       printf("guiMode true \n");
 
-    this->pTSource = this; //EvtTarget Quelle setzen, damit der EvtListener die Quell mitteilen kann
+    this->pTSource = this; //EvtTarget Quelle setzen, damit der EvtListener die Quelle mitteilen kann
     this->setKeyboardUpEvtHandler(ArbeitsDialogKeyListener);
     this->addEvtTarget(this);//den Screen Key Listener bei sich selber anmelden!
     
@@ -514,6 +525,13 @@ namespace EuMax01
       {
 	printf("guiMode false \n");
 	iActiveDialog = ArbeitsDialog::NoGUIModeIsActive;
+
+	LabelDialogName->setText("F12: Exit");
+
+	this->pTSource = this; //EvtTarget Quelle setzenfür den EvtListener
+	this->setKeyboardUpEvtHandler(ArbeitsDialogNoGUIKeyListener);
+	this->addEvtTarget(this);
+	this->addEvtTarget(LabelDialogName);
       }
   }
 
