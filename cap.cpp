@@ -768,6 +768,10 @@ int main(int argc, char *argv[])
     {
       guiMode = true;
     }
+  if(!iniParser_getParam(confpath,(char*)"Fullscreen",tmp,64))
+    {
+      props.flags|=SDL_FULLSCREEN;
+    }
 
   argc--;
   while(argc)
