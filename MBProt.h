@@ -24,6 +24,7 @@ namespace EuMax01
     void closeProtocol();
     int getQ1();
     int enableAuto();
+    static int disableAuto();
   private:
     struct termios termOptions;
     int fd;

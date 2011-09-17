@@ -126,6 +126,18 @@ namespace EuMax01
       }
   }
 
+  static void the_on_exit_fnc(int i, void * v)
+  {
+    if(MBProt_fd!=0)
+      {
+	if(MBProtocol::disableAuto())
+	  perror("MBProtocoll::disableAuto failed on_exit\n");
+      }
+      
+    if(MBProt_class!=0)
+      MBProt_class->closeProtocol();
+  }
+
   int MBProtocol::initProtocol(GUI * pGUI,IMBProtListener * listener)
   {
       // Open the tty:
@@ -147,6 +159,9 @@ namespace EuMax01
 
     // Now set the term options (set immediately)
     tcsetattr( fd, TCSANOW, &termOptions );
+
+    if(on_exit(the_on_exit_fnc,0))
+       perror("MBProt set function on_exit failed!\n");
 
     pPollTimer = new PollTimer(100,this);
     pPollIncoming = new PollReader(this);
@@ -220,6 +235,22 @@ namespace EuMax01
     else
       return 0;
   }
+  int MBProtocol::disableAuto()
+  {
+    char buf[7];
+    buf[0]=0x1f;
+    buf[1]=0x22;
+    buf[2]=0x07;
+    buf[3]=0x0a;
+    buf[4]=0x00;
+    buf[5]=0x00;
+    buf[6]=0x35;
+    if(write(MBProt_fd,buf,7)!=7)
+      return -1;
+    else
+      return 0;
+  }
+
   int MBProtocol::enableAuto()
   {
     char buf[7];
