@@ -1399,6 +1399,10 @@ namespace EuMax01
 				      Rezepte_y,			\
 				      Rezepte_w,			\
 				      MZeile_h);
+	pLabel_Rezepte[i]->setNormalColor(Parent->uiC_WerteNormal);
+	pLabel_Rezepte[i]->setMarkedColor(Parent->uiC_WerteMarked);
+	pLabel_Rezepte[i]->setFontColor(Parent->pC_WerteText);
+	pLabel_Rezepte[i]->setFont(Globals::getFontButton10());
 	ii++;
 	this->addEvtTarget(pLabel_Rezepte[i]);
       }
