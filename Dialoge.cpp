@@ -351,7 +351,7 @@ namespace EuMax01
 
   static void ArbeitsDialogNoGUIKeyListener(void * src, SDL_Event * evt)
   {
-    ArbeitsDialog* ad = (ArbeitsDialog*)src;//KeyListener
+    //ArbeitsDialog* ad = (ArbeitsDialog*)src;//KeyListener
     SDL_KeyboardEvent * key = (SDL_KeyboardEvent *)&evt->key;
 
     if( key->type == SDL_KEYUP )
@@ -413,6 +413,8 @@ namespace EuMax01
     this->theProtocol = prot;
     this->pcSaveFilePath = saveFilePath;
     this->pNullRezept->Name[0]='\0';
+    this->setColors();
+
     for(unsigned int i = 0;i<LoadDialog::MaxRezeptFileLaenge;i++)
       {
 	this->theRezept->Rezepte[i].cams[0].x_pos = 0;
@@ -496,7 +498,11 @@ namespace EuMax01
     thePosDialog = new PosDialog(theRezept->Name,sdlw,sdlh,camw,camh,yPos,this);
 
     LabelDialogName = new Label("Recipe",MInfoF1_x,MInfo_y,MInfo_w,MZeile_h);
-    //TODO F2 save | fehlt
+    LabelDialogName->setFont(Globals::getFontButtonBig());
+    LabelDialogName->setNormalColor(ArbeitsDialog::uiC_MenuNormal);
+    LabelDialogName->setMarkedColor(ArbeitsDialog::uiC_MenuMarked);
+    LabelDialogName->setFontColor(ArbeitsDialog::pC_MenuText);
+
     LabelInfo = new Label("F1: load | F2: save as | F3: new | "		\
 			  "F5: prev step | F6: next step | "		\
 			  "F7: calibrate | F12: exit",			\
@@ -504,6 +510,10 @@ namespace EuMax01
 			  MInfo_y,					\
 			  MInfo_w*7+6*MInfoSpace_w,			\
 			  MZeile_h);
+    LabelInfo->setNormalColor(ArbeitsDialog::uiC_MenuNormal);
+    LabelInfo->setMarkedColor(ArbeitsDialog::uiC_MenuMarked);
+    LabelInfo->setFontColor(ArbeitsDialog::pC_MenuText);
+    LabelInfo->setFont(Globals::getFontButtonBig());
 
     if(useGUI)
       {
@@ -533,6 +543,13 @@ namespace EuMax01
 	this->addEvtTarget(this);
 	this->addEvtTarget(LabelDialogName);
       }
+  }
+
+  void ArbeitsDialog::setColors()
+  {
+    uiC_MenuNormal = Globals::GlobalUint32ColorDarkGray;
+    uiC_MenuMarked = Globals::GlobalUint32ColorDarkGray;
+    pC_MenuText = &Globals::GlobalSDL_Color2;
   }
 
   void ArbeitsDialog::showLoadDialog(unsigned int page)
@@ -1482,10 +1499,11 @@ namespace EuMax01
   }
   
   static char * NewDialogMainMenuText = (char*)"RETURN : take over | ESC : abort | " \
-    "LEFT previous step | RIGHT next step | F10 save | F12 Crossaire Menu";
-  static char * NewDialogCrossMenuText = (char*)"Crossaire Menu: "	\
-    "F1: Cam1 << | F2: Cam1 < | F3: Cam1 > | F4: Cam1 >> | "	\
-    "F5: Cam2 << | F6: Cam2 < | F7: Cam2 > | F8: Cam2 >> | ";
+    "F10 save | F12 Cross Menu";
+  //LEFT prev step | RIGHT next step | 
+  static char * NewDialogCrossMenuText = (char*)"CAM1 F1: << "\
+    "| F2: < | F3: > | F4: >> || "	\
+    "CAM2 F5: << | F6: < | F7: > | F8: >> | ";
   
   static void NewDialogKeyListener(void * src, SDL_Event * evt)
   {
@@ -1653,14 +1671,21 @@ namespace EuMax01
 
     Label_Info = new Label("Recipe Name",Spalte3_x,Zeile1_y,Button_w,MZeile_h);
     Label_Info->setFont(Globals::getFontButtonBig());
+    Label_Info->setText(this->InfoText);
     snprintf(this->InfoText,64,"Recipe Name");
-    this->Label_Info->setText(this->InfoText);
 
     Label_MenuTitle = new Label("New",Spalte1_x,Zeile5_y,150,MZeile_h);
+    Label_MenuTitle->setFont(Globals::getFontButtonBig());
+    Label_MenuTitle->setMarkedColor(Parent->uiC_MenuMarked);
+    Label_MenuTitle->setFontColor(Parent->pC_MenuText);
     Label_MenuTitle->setFont(Globals::getFontButtonBig());
 
     Label_Menu = new Label(NewDialogMainMenuText,			\
 			   Spalte1_x+158,Zeile5_y,1012-158,MZeile_h);
+    Label_Menu->setNormalColor(Parent->uiC_MenuNormal);
+    Label_Menu->setMarkedColor(Parent->uiC_MenuMarked);
+    Label_Menu->setFontColor(Parent->pC_MenuText);
+    Label_Menu->setFont(Globals::getFontButtonBig());
 
     TextField_Name = new TextField(0,LoadDialog::MaxRezeptFileLaenge,	\
 				   Spalte2_x,				\

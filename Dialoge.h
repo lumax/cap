@@ -182,6 +182,12 @@ namespace EuMax01
 
     NewDialog * theNewDialog;
 
+    void setColors();
+
+    unsigned int uiC_MenuNormal;
+    unsigned int uiC_MenuMarked;
+    SDL_Color * pC_MenuText;
+
   private:
     Rezept * pNullRezept;
     EvtTarget ArbeitsDialogEvtTargets;
