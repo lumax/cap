@@ -188,6 +188,14 @@ namespace EuMax01
     unsigned int uiC_MenuMarked;
     SDL_Color * pC_MenuText;
 
+    unsigned int uiC_DialogNormal;
+    unsigned int uiC_DialogMarked;
+    SDL_Color * pC_DialogText;
+
+    unsigned int uiC_WerteNormal;
+    unsigned int uiC_WerteMarked;
+    SDL_Color * pC_WerteText;
+
   private:
     Rezept * pNullRezept;
     EvtTarget ArbeitsDialogEvtTargets;
@@ -298,8 +306,8 @@ namespace EuMax01
     static const int iPosX2 = 1;
     static const int iPosZ = 2;
     static const int iPosFP1 = 3;
-    static const int iPosZ2 = 2;
-    static const int iPosFP2 = 2;
+    static const int iPosZ2 = 4;
+    static const int iPosFP2 = 5;
 
     unsigned short usWerte[6];
 
