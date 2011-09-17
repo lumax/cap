@@ -1068,9 +1068,9 @@ namespace EuMax01
     LabelActual->setFontColor(Parent->pC_DialogText);
     LabelActual->setFont(Globals::getFontButtonBig());
 
-    pLabelCam1[PosDialog::iLabelName] = new Label("CAM1",B1x,Y2,Bw,MZeile_h);
-    pLabelCam2[PosDialog::iLabelName] = new Label("CAM2",B1x,Y3,Bw,MZeile_h);
-    pLabelZ[PosDialog::iLabelName] = new Label("Z",B1x,Y4,Bw,MZeile_h);
+    pLabelCam1[PosDialog::iLabelName] = new Label("Cam1 X-Axis",B1x,Y2,Bw,MZeile_h);
+    pLabelCam2[PosDialog::iLabelName] = new Label("Cam2 X-Axis",B1x,Y3,Bw,MZeile_h);
+    pLabelZ[PosDialog::iLabelName] = new Label("Z - Axis",B1x,Y4,Bw,MZeile_h);
 
     pLabelCam1[PosDialog::iStep] = new Label(pcLabelCam1[PosDialog::iStep],\
 					     B4x,Y2,Bw,MZeile_h);
@@ -1100,6 +1100,28 @@ namespace EuMax01
 					     B2x,Y3,Bw,MZeile_h);
     pLabelZ[PosDialog::iCurr] = new Label(pcLabelZ[PosDialog::iCurr],\
 					  B2x,Y4,Bw,MZeile_h);
+
+    for(int i=0;i<3;i++)
+      {
+	if(i!=PosDialog::iDiff)
+	  {
+	    pLabelCam1[i]->setNormalColor(Parent->uiC_WerteNormal);
+	    pLabelCam1[i]->setMarkedColor(Parent->uiC_WerteMarked);
+	    pLabelCam1[i]->setFontColor(Parent->pC_WerteText);
+	    pLabelCam1[i]->setFont(Globals::getFontButtonBig());
+
+	    pLabelCam2[i]->setNormalColor(Parent->uiC_WerteNormal);
+	    pLabelCam2[i]->setMarkedColor(Parent->uiC_WerteMarked);
+	    pLabelCam2[i]->setFontColor(Parent->pC_WerteText);
+	    pLabelCam2[i]->setFont(Globals::getFontButtonBig());
+
+	    pLabelZ[i]->setNormalColor(Parent->uiC_WerteNormal);
+	    pLabelZ[i]->setMarkedColor(Parent->uiC_WerteMarked);
+	    pLabelZ[i]->setFontColor(Parent->pC_WerteText);
+	    pLabelZ[i]->setFont(Globals::getFontButtonBig());
+	  }
+      }
+
 
     addEvtTarget(LabelRecipeName);
     addEvtTarget(LabelStep);
