@@ -45,7 +45,7 @@ static void evtExit(void * src,SDL_Event * evt){
 	this->Rezepte[i].cams[1].x_cross = 0;
       }
 
-    for(i=0;i<9;i++)
+    for(i=0;i<Rezept::NameLength;i++)
       {
 	this->Name[i] = '\0';
       }

@@ -38,8 +38,8 @@ struct PositionSet
     static void copy(Rezept * source,Rezept * target);
 
     static const int AnzahlRezepte = 8;
-    static const int NameLength = 9;
-    char Name[9];
+    static const int NameLength = 17;
+    char Name[17];
     struct PositionSet Rezepte[8];
     int writeToFile(char * SaveDir);
     int readFromFile(char * FilePath,char * FileName);
