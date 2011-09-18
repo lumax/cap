@@ -102,8 +102,8 @@ namespace EuMax01
 	     "Move camera 1 X-Axis in zero position :");
     Label_Step = new Label(this->StepText,			\
 			   MLinks_x,Zeile1_y,506*2,MZeile_h);
-    Label_Step->setNormalColor(Parent->uiC_DialogNormal);
-    Label_Step->setMarkedColor(Parent->uiC_DialogMarked);
+    Label_Step->setNormalColor(Parent->uiC_MenuNormal);
+    Label_Step->setMarkedColor(Parent->uiC_MenuMarked);
     Label_Step->setFontColor(&Globals::GlobalSDL_Color3);//ein rot
     Label_Step->setFont(Globals::getFontButtonBig());
 
@@ -1325,38 +1325,23 @@ namespace EuMax01
 	getCam1CrossX();
 	getCam2CrossX();
 
-	/*	LabelRezept[NewDialog::iPosX1]->setText(	    \
-		 Parent->int2string(pcRezept[NewDialog::iPosX1],64, \
-				    tmpRezept->Rezepte[rzpStep].cams[0].x_pos));
-		Label::showLabel((void*)LabelRezept[NewDialog::iPosX1],	\
-			 Parent->theGUI->getMainSurface());
+	LabelRezept[NewDialog::iPosX1]->setText(		    \
+		Parent->int2string(pcRezept[NewDialog::iPosX1],64, \
+				   tmpRezept->Rezepte[rzpStep].cams[0].x_pos));
 
 	LabelRezept[NewDialog::iPosZ]->setText(			\
 		 Parent->int2string(pcRezept[NewDialog::iPosZ],64, \
 				    tmpRezept->Rezepte[rzpStep].cams[0].z_pos));
-	Label::showLabel((void*)LabelRezept[NewDialog::iPosZ],\
-			 Parent->theGUI->getMainSurface());
 
 	LabelRezept[NewDialog::iPosX2]->setText(			\
 		 Parent->int2string(pcRezept[NewDialog::iPosX2],64, \
 				    tmpRezept->Rezepte[rzpStep].cams[1].x_pos));
-	Label::showLabel((void*)LabelRezept[NewDialog::iPosX2],\
-			 Parent->theGUI->getMainSurface());*/
-	//this->show(Parent->theGUI->getMainSurface());
       }
     else
       {
-	/*	LabelRezept[NewDialog::iPosX1]->setText("");
-	Label::showLabel((void*)LabelRezept[NewDialog::iPosX1],	\
-			 Parent->theGUI->getMainSurface());
+	LabelRezept[NewDialog::iPosX1]->setText("");
 	LabelRezept[NewDialog::iPosZ]->setText("");
-	Label::showLabel((void*)LabelRezept[NewDialog::iPosZ],	\
-			 Parent->theGUI->getMainSurface());
 	LabelRezept[NewDialog::iPosX2]->setText("");
-	Label::showLabel((void*)LabelRezept[NewDialog::iPosX2],	\
-			 Parent->theGUI->getMainSurface());
-	*/
-	//this->show(Parent->theGUI->getMainSurface());
       }
   }
 
