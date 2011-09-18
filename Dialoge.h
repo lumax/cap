@@ -192,6 +192,8 @@ namespace EuMax01
      */
     bool verifyName();
     Rezept * tmpRezept;
+    
+    LL * getDialogsEvtTargets();
   private:
     //Label * Label_NewName;
     Label * Label_Name;
@@ -204,6 +206,13 @@ namespace EuMax01
 
     void updateRezeptData();
     int step;
+
+    static const int EvtTargetsLen = 15;
+    EvtTarget * theEvtTargets[NewDialog::EvtTargetsLen];
+
+    void resetEvtTargets();
+    void preparePhaseEnterName();
+    void preparePhaseRecipeSteps();
   };
   
 #endif /* __CAPDIALOGE_H__*/

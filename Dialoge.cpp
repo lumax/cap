@@ -1083,10 +1083,10 @@ namespace EuMax01
     Spalte3_x = Spalte1_x + 2*Button_w+2*x_space;
 
     //Label_NewName = new Label("NEW RECIPE",MLinks_x,Zeile1_y,506*2,MZeile_h);
-    Label_Name = new Label("RECIPE     Name :",Spalte1_x,Zeile1_y,Button_w,MZeile_h);
-    Label_Name->setNormalColor(Parent->uiC_DialogNormal);
-    Label_Name->setMarkedColor(Parent->uiC_DialogMarked);
-    Label_Name->setFontColor(Parent->pC_DialogText);
+    Label_Name = new Label("---",Spalte1_x,Zeile1_y,Button_w,MZeile_h);
+    Label_Name->setNormalColor(Parent->uiC_MenuNormal);
+    Label_Name->setMarkedColor(Parent->uiC_MenuMarked);
+    Label_Name->setFontColor(Parent->pC_MenuText);
     Label_Name->setFont(Globals::getFontButtonBig());
 
     Label_Info = new Label("Recipe Name",Spalte3_x,Zeile1_y,Button_w,MZeile_h);
@@ -1174,24 +1174,121 @@ namespace EuMax01
 	LabelRezept[i]->setFont(Globals::getFontButtonBig());	
       }
 
-    addEvtTarget(Label_Name);
-    addEvtTarget(Label_MenuTitle);
-    addEvtTarget(TextField_Name);
-    addEvtTarget(Label_Info);
-    addEvtTarget(Label_Menu);
-    addEvtTarget(LabelXaxisText);
-    addEvtTarget(LabelZaxisText);
-    addEvtTarget(LabelCrossText);
-    addEvtTarget(LabelWerte[NewDialog::iPosX1]);
-    addEvtTarget(LabelWerte[NewDialog::iPosX2]);
-    addEvtTarget(LabelWerte[NewDialog::iPosZ]);
-    addEvtTarget(LabelRezept[NewDialog::iPosX1]);
-    addEvtTarget(LabelRezept[NewDialog::iPosX2]);
-    addEvtTarget(LabelRezept[NewDialog::iPosZ]);
 
     this->pTSource = this;//EvtTarget Quelle setzen, damit der EvtListener die Quelle mitteilen kann
     this->setKeyboardUpEvtHandler(NewDialogKeyListener);
-    this->addEvtTarget(this);//den Screen Key Listener bei sich selber anmelden!
+
+    theEvtTargets[0]=this;
+    theEvtTargets[1]=Label_Name;
+    theEvtTargets[2]=Label_MenuTitle;
+    theEvtTargets[3]=TextField_Name;
+    theEvtTargets[4]=Label_Info;
+    theEvtTargets[5]=Label_Menu;
+    theEvtTargets[6]=LabelXaxisText;
+    theEvtTargets[7]=LabelZaxisText;
+    theEvtTargets[8]=LabelCrossText;
+    theEvtTargets[9]=LabelWerte[NewDialog::iPosX1];
+    theEvtTargets[10]=LabelWerte[NewDialog::iPosX2];
+    theEvtTargets[11]=LabelWerte[NewDialog::iPosZ];
+    theEvtTargets[12]=LabelRezept[NewDialog::iPosX1];
+    theEvtTargets[13]=LabelRezept[NewDialog::iPosX2];
+    theEvtTargets[14]=LabelRezept[NewDialog::iPosZ];
+    preparePhaseEnterName();
+  }
+
+  void NewDialog::resetEvtTargets()
+  {
+    this->EvtTargets.Next = 0;
+    for(int i=0;i<NewDialog::EvtTargetsLen;i++)
+      {
+	theEvtTargets[i]->Next=0;
+      }
+    Parent->blankMenuArea();
+  }
+
+  /* void NewDialog::prepareAll()
+  {
+    resetEvtTargets();
+    this->EvtTargets.Next = this;//KeyListener
+    this->Next = Label_Name;
+    this->Label_Name->Next = Label_MenuTitle;
+    this->Label_MenuTitle->Next = TextField_Name;
+    this->TextField_Name->Next = Label_Info;
+    this->Label_Info->Next = Label_Menu;
+    this->Label_Menu->Next = LabelXaxisText;
+    this->LabelXaxisText->Next = LabelZaxisText;
+    this->LabelZaxisText->Next = LabelCrossText;
+    this->LabelCrossText->Next = LabelWerte[NewDialog::iPosX1];
+    this->LabelWerte[NewDialog::iPosX1]->Next = LabelWerte[NewDialog::iPosX2];
+    this->LabelWerte[NewDialog::iPosX2]->Next = LabelWerte[NewDialog::iPosZ];
+    this->LabelWerte[NewDialog::iPosZ]->Next = LabelRezept[NewDialog::iPosX1];
+    this->LabelRezept[NewDialog::iPosX1]->Next = LabelRezept[NewDialog::iPosX2];
+    this->LabelRezept[NewDialog::iPosX2]->Next = LabelRezept[NewDialog::iPosZ];
+  }*/
+
+  void NewDialog::preparePhaseEnterName()
+  {
+    resetEvtTargets();
+
+    Label_Name->setText("Enter filename :");
+
+    //Überall gleich
+    this->EvtTargets.Next = this;//KeyListener
+    this->Next = Label_MenuTitle;
+    Label_MenuTitle->Next = Label_Menu;
+    Label_Menu->Next = Label_Name;
+    Label_Name->Next = TextField_Name;
+
+    //Phase Enter Name only
+
+    //this->Next = Label_MenuTitle;
+   
+
+    /* this->Label_Name->Next = Label_MenuTitle;
+       this->Label_MenuTitle->Next = TextField_Name;
+    this->TextField_Name->Next = Label_Info;
+    this->Label_Info->Next = Label_Menu;*/
+    /*    this->Label_Menu->Next = LabelXaxisText;
+    this->LabelXaxisText->Next = LabelZaxisText;
+    this->LabelZaxisText->Next = LabelCrossText;
+    this->LabelCrossText->Next = LabelWerte[NewDialog::iPosX1];
+    this->LabelWerte[NewDialog::iPosX1]->Next = LabelWerte[NewDialog::iPosX2];
+    this->LabelWerte[NewDialog::iPosX2]->Next = LabelWerte[NewDialog::iPosZ];
+    this->LabelWerte[NewDialog::iPosZ]->Next = LabelRezept[NewDialog::iPosX1];
+    this->LabelRezept[NewDialog::iPosX1]->Next = LabelRezept[NewDialog::iPosX2];
+    this->LabelRezept[NewDialog::iPosX2]->Next = LabelRezept[NewDialog::iPosZ];*/
+  }
+
+  void NewDialog::preparePhaseRecipeSteps()
+  {
+    resetEvtTargets();
+
+    Label_Name->setText("adjust recipe steps :");
+
+    //Überall gleich
+    this->EvtTargets.Next = this;//KeyListener
+    this->Next = Label_MenuTitle;
+    Label_MenuTitle->Next = Label_Menu;
+    Label_Menu->Next = Label_Name;
+    Label_Name->Next = TextField_Name;
+
+    //PhaseRezeptSteps only
+    this->TextField_Name->Next = Label_Info;
+    this->Label_Info->Next = LabelXaxisText;
+    this->LabelXaxisText->Next = LabelZaxisText;
+    this->LabelZaxisText->Next = LabelCrossText;
+    this->LabelCrossText->Next = LabelWerte[NewDialog::iPosX1];
+    this->LabelWerte[NewDialog::iPosX1]->Next = LabelWerte[NewDialog::iPosX2];
+    this->LabelWerte[NewDialog::iPosX2]->Next = LabelWerte[NewDialog::iPosZ];
+    this->LabelWerte[NewDialog::iPosZ]->Next = LabelRezept[NewDialog::iPosX1];
+    this->LabelRezept[NewDialog::iPosX1]->Next = LabelRezept[NewDialog::iPosX2];
+    this->LabelRezept[NewDialog::iPosX2]->Next = LabelRezept[NewDialog::iPosZ];    
+  }
+
+  LL * NewDialog::getDialogsEvtTargets()
+  {
+    preparePhaseEnterName();
+    return this->EvtTargets.Next;
   }
 
   bool NewDialog::verifyName()
@@ -1207,7 +1304,8 @@ namespace EuMax01
     this->usWerte[pos] = value;
     this->LabelWerte[pos]->setText(this->Parent->int2string(this->pcWerte[pos],	\
 							    32,(int)value));
-    Label::showLabel((void*)this->LabelWerte[pos],this->Parent->theGUI->getMainSurface());
+    //Label::showLabel((void*)this->LabelWerte[pos],this->Parent->theGUI->getMainSurface());
+    this->show(Parent->theGUI->getMainSurface());
   }
 
   void NewDialog::updateRezeptData()
@@ -1227,10 +1325,10 @@ namespace EuMax01
 	getCam1CrossX();
 	getCam2CrossX();
 
-	LabelRezept[NewDialog::iPosX1]->setText(			\
+	/*	LabelRezept[NewDialog::iPosX1]->setText(	    \
 		 Parent->int2string(pcRezept[NewDialog::iPosX1],64, \
 				    tmpRezept->Rezepte[rzpStep].cams[0].x_pos));
-	Label::showLabel((void*)LabelRezept[NewDialog::iPosX1],\
+		Label::showLabel((void*)LabelRezept[NewDialog::iPosX1],	\
 			 Parent->theGUI->getMainSurface());
 
 	LabelRezept[NewDialog::iPosZ]->setText(			\
@@ -1243,11 +1341,12 @@ namespace EuMax01
 		 Parent->int2string(pcRezept[NewDialog::iPosX2],64, \
 				    tmpRezept->Rezepte[rzpStep].cams[1].x_pos));
 	Label::showLabel((void*)LabelRezept[NewDialog::iPosX2],\
-			 Parent->theGUI->getMainSurface());
+			 Parent->theGUI->getMainSurface());*/
+	//this->show(Parent->theGUI->getMainSurface());
       }
     else
       {
-	LabelRezept[NewDialog::iPosX1]->setText("");
+	/*	LabelRezept[NewDialog::iPosX1]->setText("");
 	Label::showLabel((void*)LabelRezept[NewDialog::iPosX1],	\
 			 Parent->theGUI->getMainSurface());
 	LabelRezept[NewDialog::iPosZ]->setText("");
@@ -1256,6 +1355,8 @@ namespace EuMax01
 	LabelRezept[NewDialog::iPosX2]->setText("");
 	Label::showLabel((void*)LabelRezept[NewDialog::iPosX2],	\
 			 Parent->theGUI->getMainSurface());
+	*/
+	//this->show(Parent->theGUI->getMainSurface());
       }
   }
 
@@ -1297,20 +1398,28 @@ namespace EuMax01
 
   void NewDialog::incStep()
   {
+    static bool WechselZuPhaseStep = false;
+    if(this->step==0)
+      WechselZuPhaseStep = true;
+    else
+      WechselZuPhaseStep = false;
+
     if(this->step<8)
       {
 	this->step++;
       }
     snprintf(this->InfoText,256, "Recipe step %i",this->step);
 
-    if(this->step!=0)
+    if(this->step!=0&&WechselZuPhaseStep)
       {
+	preparePhaseRecipeSteps();
 	TextField_Name->setActive(false);
 	for(int i =0;i<3;i++)
 	  {
-	     LabelWerte[i]->setBorder(true);
+	    LabelWerte[i]->setBorder(true);
 	  }
       }
+
     updateRezeptData();
     this->Label_Info->setText(this->InfoText);
   }
@@ -1323,6 +1432,7 @@ namespace EuMax01
       }
     if( this->step==0)
       {
+	preparePhaseEnterName();
 	this->TextField_Name->setActive(true);
 	snprintf(this->InfoText,256,"Recipe Name");
 	for(int i =0;i<3;i++)

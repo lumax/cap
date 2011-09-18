@@ -109,6 +109,7 @@ namespace EuMax01
     unsigned int uiC_WerteNormal;
     unsigned int uiC_WerteMarked;
     SDL_Color * pC_WerteText;
+    void blankMenuArea();
 
   private:
     Rezept * pNullRezept;

@@ -318,15 +318,7 @@ namespace EuMax01
       }
 
     this->EvtTargets.Next = this->theLoadDialog->EvtTargets.Next;
-    Tool::blankSurface(this->theGUI->getMainSurface(),	\
-		       FSG_BACKGROUND,			\
-		       &this->Area);//TODO Rückgabewert
-
-    SDL_UpdateRect(this->theGUI->getMainSurface(),	\
-		   this->Area.x,			\
-		   this->Area.y,			\
-		   this->Area.w,			\
-		   this->Area.h);
+    this->blankMenuArea();
     this->show(this->theGUI->getMainSurface());
   }
 
@@ -336,14 +328,7 @@ namespace EuMax01
       return;
     this->iActiveDialog = ArbeitsDialog::ArbeitsDialogIsActive;
     this->EvtTargets.Next = this->ArbeitsDialogEvtTargets.Next;
-    Tool::blankSurface(this->theGUI->getMainSurface(),	\
-		       FSG_BACKGROUND,			\
-		       &this->Area);//TODO Rückgabewert
-    SDL_UpdateRect(this->theGUI->getMainSurface(),	\
-		   this->Area.x,			\
-		   this->Area.y,			\
-		   this->Area.w,			\
-		   this->Area.h);
+    this->blankMenuArea();
     this->show(this->theGUI->getMainSurface());
     this->showRezept(0);
     prt_sendmsg_uint(nPEC_GET_Q1,0x00);
@@ -359,14 +344,7 @@ namespace EuMax01
     this->iActiveDialog = ArbeitsDialog::ErrorDialogIsActive;
     this->theErrorDialog->setErrorMsg(msg);
     this->EvtTargets.Next = this->theErrorDialog->EvtTargets.Next;
-    Tool::blankSurface(this->theGUI->getMainSurface(),	\
-		       FSG_BACKGROUND,			\
-		       &this->Area);//TODO Rückgabewert
-    SDL_UpdateRect(this->theGUI->getMainSurface(),	\
-		   this->Area.x,			\
-		   this->Area.y,			\
-		   this->Area.w,			\
-		   this->Area.h);
+    this->blankMenuArea();
     this->show(this->theGUI->getMainSurface());
   }
 
@@ -375,16 +353,8 @@ namespace EuMax01
     if(!useGUI)
       return;
     this->iActiveDialog = ArbeitsDialog::NewDialogIsActive;
-    this->EvtTargets.Next = this->theNewDialog->EvtTargets.Next;
-    Tool::blankSurface(this->theGUI->getMainSurface(),	\
-		       FSG_BACKGROUND,			\
-		       &this->Area);//TODO Rückgabewert
-
-    SDL_UpdateRect(this->theGUI->getMainSurface(),	\
-		   this->Area.x,			\
-		   this->Area.y,			\
-		   this->Area.w,			\
-		   this->Area.h);
+    this->EvtTargets.Next = this->theNewDialog->getDialogsEvtTargets();
+    this->blankMenuArea();
     this->show(this->theGUI->getMainSurface());
     	prt_sendmsg_uint(nPEC_GET_Q1,0x00);
 	prt_sendmsg_uint(nPEC_GET_Q2,0x00);
@@ -393,12 +363,16 @@ namespace EuMax01
 	//prt_sendmsg_uint(nPEC_GET_FP1,0x00);
 	//prt_sendmsg_uint(nPEC_GET_FP2,0x00);
 	theNewDialog->TextField_Name->setText(theNewDialog->tmpRezept->Name);
-	Label::showLabel((void*)theNewDialog->TextField_Name,\
-			 theGUI->getMainSurface());
+	/*	Label::showLabel((void*)theNewDialog->TextField_Name,	\
+		theGUI->getMainSurface());*/
 	theNewDialog->Label_MenuTitle->setText(MenuTitel);
-	Label::showLabel((void*)theNewDialog->Label_MenuTitle,\
-			 theGUI->getMainSurface());
-	this->theNewDialog->decStep();
+	/*	Label::showLabel((void*)theNewDialog->Label_MenuTitle,	\
+		theGUI->getMainSurface());*/
+	while(this->theNewDialog->getStep()>0)
+	  {
+	    //step zurückspulen
+	    this->theNewDialog->decStep();
+	  }
   }
 
   void ArbeitsDialog::showCalibrationDialog()
@@ -408,6 +382,13 @@ namespace EuMax01
     this->iActiveDialog = ArbeitsDialog::CalDialogIsActive;
     this->sendProtocolMsg(nPEC_GET_Q1);
     this->EvtTargets.Next = this->theCalDialog->EvtTargets.Next;
+    this->blankMenuArea();
+    this->show(this->theGUI->getMainSurface());
+    //this->theCalDialog->incStep();
+  }
+
+  void ArbeitsDialog::blankMenuArea()
+  {
     Tool::blankSurface(this->theGUI->getMainSurface(),	\
 		       FSG_BACKGROUND,			\
 		       &this->Area);//TODO Rückgabewert
@@ -417,8 +398,6 @@ namespace EuMax01
 		   this->Area.y,			\
 		   this->Area.w,			\
 		   this->Area.h);
-    this->show(this->theGUI->getMainSurface());
-    //this->theCalDialog->incStep();
   }
 
   void ArbeitsDialog::incRezeptNummer()
