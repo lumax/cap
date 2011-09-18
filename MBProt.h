@@ -25,7 +25,9 @@ namespace EuMax01
     int getQ1();
     int enableAuto();
     static int disableAuto();
+    bool isInitialised();
   private:
+    bool isInit;
     struct termios termOptions;
     int fd;
     PollTimer * pPollTimer;

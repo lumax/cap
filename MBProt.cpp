@@ -37,6 +37,7 @@ namespace EuMax01
   {
     fd = 0;
     lis = 0;
+    isInit = false;
   }
 
   static void MBProt_putchar(unsigned char dat)
@@ -178,8 +179,13 @@ namespace EuMax01
     PRTDISPATCHER = MBProt_dispatcher;
     PRTPUTCH = MBProt_putchar;
     prtmodule_init();
-
+    this->isInit = true;
     return 0;
+  }
+
+  bool MBProtocol::isInitialised()
+  {
+    return isInit;
   }
 
   void MBProtocol::closeProtocol()
@@ -187,6 +193,7 @@ namespace EuMax01
     close(this->fd);
     this->fd = 0;
     MBProt_fd = 0;
+    isInit = false;
   }
   
   void MBProtocol::pollReadEvent(PollSource * s)
