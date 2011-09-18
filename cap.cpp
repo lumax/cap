@@ -51,6 +51,8 @@ private:
 
 static int camwidth = 0;
 static int camheight = 0;
+static int sdlwidth = 1024;
+static int sdlheight = 576;
 
 static CamControl * camCtrl;
 
@@ -507,10 +509,12 @@ CamControl::CamControl(GUI * pGUI,int Pixelformat,bool RGB_Mode,int yBottomSide)
   else
     this->PixelFormat = 0;//uncompressed
 
-  cap_init(pGUI->getMainSurface(),	\
+  cap_init(pGUI->getMainSurface(),		\
 	   camwidth,				\
 	   camheight,				\
-	   0,				\
+	   sdlwidth,				\
+	   sdlheight,				\
+	   0,					\
 	   this->PixelFormat);
   cam0ready=false;
   cam1ready=false;
@@ -680,8 +684,6 @@ int main(int argc, char *argv[])
 {
   //SDL_version compile_version;
   GUI* theGUI;
-  int sdlwidth = 1024;
-  int sdlheight = 576;
   GUI_Properties props;
   int Pixelformat = 0;//0 = normal, 1 = MJPEG, 2 = RGB
   char tmp[64];
