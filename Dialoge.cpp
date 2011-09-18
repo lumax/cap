@@ -45,6 +45,7 @@ namespace EuMax01
 	else if(key->keysym.sym == SDLK_RETURN)
 	  {
 	    ad->resetStepValue();
+	    ad->incStep();
 	  }
 	else if(key->keysym.sym == SDLK_LEFT)
 	  {
@@ -678,6 +679,7 @@ namespace EuMax01
     if(!useGUI)
       return;
     this->iActiveDialog = ArbeitsDialog::CalDialogIsActive;
+    this->sendProtocolMsg(nPEC_GET_Q1);
     this->EvtTargets.Next = this->theCalDialog->EvtTargets.Next;
     Tool::blankSurface(this->theGUI->getMainSurface(),	\
 		       FSG_BACKGROUND,			\
@@ -956,6 +958,13 @@ namespace EuMax01
   Rezept * ArbeitsDialog::getNullRezept()
   {
     return this->pNullRezept;
+  }
+
+  void ArbeitsDialog::sendProtocolMsg(char cmd)
+  {
+    if(theProtocol)
+      if(theProtocol->isInitialised())
+	prt_sendmsg_uint(cmd,0x00);
   }
 
   PosDialog::~PosDialog(){}
