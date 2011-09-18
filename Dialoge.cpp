@@ -522,7 +522,7 @@ namespace EuMax01
     LabelDialogName->setMarkedColor(ArbeitsDialog::uiC_MenuMarked);
     LabelDialogName->setFontColor(ArbeitsDialog::pC_MenuText);
 
-    LabelInfo = new Label("F1: load | F2: save as | F3: new | "		\
+    LabelInfo = new Label("F1: load | F2: edit | F3: new | "		\
 			  "F5: prev step | F6: next step | "		\
 			  "F7: calibrate | F12: exit",			\
 			  MInfoF2_x,					\
