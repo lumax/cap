@@ -168,6 +168,10 @@ namespace EuMax01
     static const int MitteCrossCam1 = 544;
     static const int MitteCrossCam2 = 256;
 
+    const char * TextCam1Xaxis;
+    const char * TextCam2Xaxis;
+    const char * TextZaxis;
+    
     void showLoadDialog(unsigned int page);
     void showArbeitsDialog();
     void showErrorDialog(char * errorMsg);

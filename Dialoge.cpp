@@ -102,11 +102,10 @@ namespace EuMax01
     Label_Step = new Label(this->StepText,			\
 			   MLinks_x,Zeile2_y,506*2,MZeile_h);
 
-    snprintf(this->ValueName,16,"Q1");
     Label_ValueName = new Label(this->ValueName,			\
 				MLinks_x,Zeile3_y,			\
 				506-MSpace_h,MZeile_h);  
-    
+    Label_ValueName->setText(Parent->TextCam1Xaxis);
 
     snprintf(this->Value,64,"---");
     Label_Value = new Label(Value,					\
@@ -219,8 +218,7 @@ namespace EuMax01
 	  this->Label_Step->setText(this->StepText);
 
 
-	  snprintf(this->ValueName,16,"Q2");
-	  this->Label_ValueName->setText(this->ValueName);
+	  this->Label_ValueName->setText(Parent->TextCam2Xaxis);
 	  prt_sendmsg_uint(nPEC_GET_Q2,0x00);
 	  break;
 	}
@@ -232,9 +230,7 @@ namespace EuMax01
 		   "Move Z-Axis in zero position :");
 	  this->Label_Step->setText(this->StepText);
 
-
-	  snprintf(this->ValueName,16,"Z1");
-	  this->Label_ValueName->setText(this->ValueName);
+	  this->Label_ValueName->setText(Parent->TextZaxis);
 	  prt_sendmsg_uint(nPEC_GET_Z1,0x00);
 	  break;
 	}
@@ -313,7 +309,7 @@ namespace EuMax01
 	    //prt_sendmsg_uint(nPEC_RESET_Q1,0x00);
 	    //prt_sendmsg_uint(nPEC_GET_Q1,0x00);
 	    Rezept::copy(ad->theRezept,ad->theNewDialog->tmpRezept);
-	    ad->showNewDialog((char*)"Save as");
+	    ad->showNewDialog((char*)"Edit");
 	  }
 	else if(key->keysym.sym == SDLK_F3)
 	  {
@@ -414,6 +410,10 @@ namespace EuMax01
     this->pcSaveFilePath = saveFilePath;
     this->pNullRezept->Name[0]='\0';
     this->setColors();
+
+    this->TextCam1Xaxis =(char*)"Cam1 X-Axis";
+    this->TextCam2Xaxis = (char*)"Cam2 X-Axis";
+    this->TextZaxis = (char*)"Z-Axis";
 
     for(unsigned int i = 0;i<LoadDialog::MaxRezeptFileLaenge;i++)
       {
@@ -1068,9 +1068,12 @@ namespace EuMax01
     LabelActual->setFontColor(Parent->pC_DialogText);
     LabelActual->setFont(Globals::getFontButtonBig());
 
-    pLabelCam1[PosDialog::iLabelName] = new Label("Cam1 X-Axis",B1x,Y2,Bw,MZeile_h);
-    pLabelCam2[PosDialog::iLabelName] = new Label("Cam2 X-Axis",B1x,Y3,Bw,MZeile_h);
-    pLabelZ[PosDialog::iLabelName] = new Label("Z - Axis",B1x,Y4,Bw,MZeile_h);
+    pLabelCam1[PosDialog::iLabelName] = new Label(Parent->TextCam1Xaxis,\
+						  B1x,Y2,Bw,MZeile_h);
+    pLabelCam2[PosDialog::iLabelName] = new Label(Parent->TextCam2Xaxis,\
+						  B1x,Y3,Bw,MZeile_h);
+    pLabelZ[PosDialog::iLabelName] = new Label(Parent->TextZaxis,\
+					       B1x,Y4,Bw,MZeile_h);
 
     pLabelCam1[PosDialog::iStep] = new Label(pcLabelCam1[PosDialog::iStep],\
 					     B4x,Y2,Bw,MZeile_h);
@@ -1751,9 +1754,12 @@ namespace EuMax01
     TextField_Name->setFont(Globals::getFontButtonBig());
     TextField_Name->setActive(true);
 
-    LabelXaxisText = new Label("Cam1 X-Axis",Spalte1_x,Zeile2_y,Button_w,MZeile_h);
-    LabelZaxisText = new Label("Cam2 X-Axis",Spalte1_x,Zeile3_y,Button_w,MZeile_h);
-    LabelCrossText = new Label("Z - Axis",Spalte1_x,Zeile4_y,Button_w,MZeile_h);
+    LabelXaxisText = new Label(Parent->TextCam1Xaxis,		\
+			       Spalte1_x,Zeile2_y,Button_w,MZeile_h);
+    LabelZaxisText = new Label(Parent->TextCam2Xaxis,		\
+			       Spalte1_x,Zeile3_y,Button_w,MZeile_h);
+    LabelCrossText = new Label(Parent->TextZaxis,		\
+			       Spalte1_x,Zeile4_y,Button_w,MZeile_h);
 
     for(int i =0;i<3;i++)
       {
