@@ -26,7 +26,6 @@ namespace EuMax01
     void showStep(int theNewStep);
 
   private:
-    Label * Label_TitleName;
     Label * Label_Step;
     char StepText[256];
 
@@ -36,8 +35,10 @@ namespace EuMax01
     Label * Label_Value;
     char Value[64];
 
-    Label * Label_Menue;
+    Label * Label_Menu;
     char InfoText[256];
+    
+    Label * Label_MenuTitle;
 
     static const int iQ1 = 0;
     static const int iQ2 = 1;

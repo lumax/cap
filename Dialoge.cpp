@@ -69,7 +69,7 @@ namespace EuMax01
     unsigned short MZeile_h;
     //unsigned short Rezepte_y;
     //short Rezepte_w;
-    short Zeile1_y,Zeile2_y,Zeile3_y,Zeile4_y;
+    short Zeile1_y,Zeile2_y,Zeile3_y,Zeile4_y,Zeile5_y;
 
     this->Parent = parent;
     this->ActualStep = CalibrationDialog::iQ1;
@@ -92,15 +92,18 @@ namespace EuMax01
     Zeile2_y = yPos + 2*MSpace_h + 1*MZeile_h;
     Zeile3_y = yPos + 3*MSpace_h + 2*MZeile_h;
     Zeile4_y = yPos + 4*MSpace_h + 3*MZeile_h;
+    Zeile5_y = yPos + 5*MSpace_h + 4*MZeile_h;
     //Rezepte_w = 108;
 
-    Label_TitleName = new Label("CALIBRATION",MLinks_x,Zeile1_y,506*2,MZeile_h);
-    Label_TitleName->setFont(Globals::getFontButtonBig());
 
     snprintf(this->StepText,256,\
 	     "Move camera 1 X-Axis in zero position :");
     Label_Step = new Label(this->StepText,			\
-			   MLinks_x,Zeile2_y,506*2,MZeile_h);
+			   MLinks_x,Zeile1_y,506*2,MZeile_h);
+    Label_Step->setNormalColor(Parent->uiC_DialogNormal);
+    Label_Step->setMarkedColor(Parent->uiC_DialogMarked);
+    Label_Step->setFontColor(&Globals::GlobalSDL_Color3);//ein rot
+    Label_Step->setFont(Globals::getFontButtonBig());
 
     Label_ValueName = new Label(this->ValueName,			\
 				MLinks_x,Zeile3_y,			\
@@ -112,19 +115,35 @@ namespace EuMax01
 			    MLinks_x+506+MSpace_h,			\
 			    Zeile3_y,506-MSpace_h,			\
 			    MZeile_h);
+    Label_Value->setNormalColor(Parent->uiC_WerteNormal);
+    Label_Value->setMarkedColor(Parent->uiC_WerteMarked);
+    Label_Value->setFontColor(Parent->pC_WerteText);
+    Label_Value->setFont(Globals::getFontButtonBig());
+    Label_Value->setBorder(true);
+
+    Label_MenuTitle = new Label("Calibration",MLinks_x,Zeile5_y,150,MZeile_h);
+    Label_MenuTitle->setFont(Globals::getFontButtonBig());
+    Label_MenuTitle->setMarkedColor(Parent->uiC_MenuMarked);
+    Label_MenuTitle->setFontColor(Parent->pC_MenuText);
+    Label_MenuTitle->setFont(Globals::getFontButtonBig());
 
     snprintf(this->InfoText,256,				       \
 	     "RETURN : set zero position | "			       \
 	     "LEFT previous step | RIGHT next step");
-    Label_Menue = new Label(this->InfoText,			 \
-			    MLinks_x,Zeile4_y,			 \
-			    506*2,MZeile_h);
+    Label_Menu = new Label(this->InfoText,			 \
+			    MLinks_x+158,Zeile5_y,			 \
+			    1012-158,MZeile_h);
+    Label_Menu->setNormalColor(Parent->uiC_MenuNormal);
+    Label_Menu->setMarkedColor(Parent->uiC_MenuMarked);
+    Label_Menu->setFontColor(Parent->pC_MenuText);
+    Label_Menu->setFont(Globals::getFontButtonBig());
 
-    addEvtTarget(Label_TitleName);
+
     addEvtTarget(Label_Step);
     addEvtTarget(Label_ValueName);
     addEvtTarget(Label_Value);
-    addEvtTarget(Label_Menue);
+    addEvtTarget(Label_MenuTitle);
+    addEvtTarget(Label_Menu);
 
     this->pTSource = this;//EvtTarget Quelle setzen, damit der EvtListener die Quelle mitteilen kann
     this->setKeyboardUpEvtHandler(CalibrateDialogKeyListener);
@@ -204,8 +223,7 @@ namespace EuMax01
 		   "Move camera 1 X-Axis in zero position :");
 	  this->Label_Step->setText(this->StepText);
 
-	  snprintf(this->ValueName,16,"Q1");
-	  this->Label_ValueName->setText(this->ValueName);
+	  this->Label_ValueName->setText(Parent->TextCam1Xaxis);
 	  prt_sendmsg_uint(nPEC_GET_Q1,0x00);
 	  break;
 	}
@@ -555,8 +573,8 @@ namespace EuMax01
     uiC_DialogMarked = Globals::GlobalUint32Color2;
     pC_DialogText = &Globals::GlobalSDL_ColorBlack;
 
-    uiC_WerteNormal = Globals::GlobalUint32Color3;
-    uiC_WerteMarked = Globals::GlobalUint32Color4;
+    uiC_WerteNormal = Globals::GlobalUint32Color3;//ein rot
+    uiC_WerteMarked = Globals::GlobalUint32Color4;//orange
     pC_WerteText = &Globals::GlobalSDL_ColorBlack;
   }
 
