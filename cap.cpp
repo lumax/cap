@@ -650,7 +650,59 @@ void CamControl::pollTimerExpired(long us)
     }
 }
 
+static void showVideoMode()
+{
 
+  /*typedef struct{
+  Uint32 hw_available:1;
+  Uint32 wm_available:1;
+  Uint32 blit_hw:1;
+  Uint32 blit_hw_CC:1;
+  Uint32 blit_hw_A:1;
+  Uint32 blit_sw:1;
+  Uint32 blit_sw_CC:1;
+  Uint32 blit_sw_A:1;
+  Uint32 blit_fill;
+  Uint32 video_mem;
+  SDL_PixelFormat *vfmt;
+} SDL_VideoInfo;
+
+Structure Data
+
+hw_available	Is it possible to create hardware surfaces?
+wm_available	Is there a window manager available
+blit_hw	Are hardware to hardware blits accelerated?
+blit_hw_CC	Are hardware to hardware colorkey blits accelerated?
+blit_hw_A	Are hardware to hardware alpha blits accelerated?
+blit_sw	Are software to hardware blits accelerated?
+blit_sw_CC	Are software to hardware colorkey blits accelerated?
+blit_sw_A	Are software to hardware alpha blits accelerated?
+blit_fill	Are color fills accelerated?
+video_mem	Total amount of video memory in Kilobytes
+vfmt	Pixel format of the video device
+  */
+/*
+palette	Pointer to the palette, or NULL if the BitsPerPixel>8
+BitsPerPixel	The number of bits used to represent each pixel in a surface. Usually 8, 16, 24 or 32.
+BytesPerPixel	The number of bytes used to represent each pixel in a surface. Usually one to four.
+[RGBA]mask	Binary mask used to retrieve individual color values
+[RGBA]loss	Precision loss of each color component (2[RGBA]loss)
+[RGBA]shift	Binary left shift of each color component in the pixel value
+colorkey	Pixel value of transparent pixels
+alpha	Overall surface alpha value
+*/
+  const SDL_VideoInfo * info;
+  SDL_PixelFormat * pixFormat;
+  info = SDL_GetVideoInfo();
+  //pixFormat = info->vfmt;
+  if(info)
+    {
+      if(info->vfmt)
+	{
+	  printf("SDL_GetVideoFormat Pixelformat  BPP:%i \n",info->vfmt->BitsPerPixel);
+	}
+    }
+}
 
 const char * usage =				\
   "cap -xga for 1024x768 else PAL Widescreen with 1024*576\n"\
@@ -695,6 +747,8 @@ int main(int argc, char *argv[])
   char path[64];
   char confpath[96];
   char saveFilePath[96];
+
+  showVideoMode();
 
   if(Tool::getAppPath(argv[0],path,64))
     {
@@ -802,9 +856,9 @@ int main(int argc, char *argv[])
 
   props.width=sdlwidth;//1280;//720;
   props.height=sdlheight;//576;
-  props.bpp=0;
-  props.flags|=SDL_SWSURFACE;//SDL_HWSURFACE;//|SDL_DOUBLEBUF;
-  //props.flags|=SDL_ANYFORMAT;
+  props.bpp=32;
+  //props.flags|=SDL_SWSURFACE;//SDL_HWSURFACE;//|SDL_DOUBLEBUF;
+  props.flags|=SDL_ANYFORMAT;
 
   if(SDL_BYTEORDER==SDL_BIG_ENDIAN)
     {
@@ -821,7 +875,18 @@ int main(int argc, char *argv[])
     return -1;
   }
  
-
+  showVideoMode();
+  int suggestedbbp = SDL_VideoModeOK(props.width, props.height, props.bpp,props.flags);
+  if(suggestedbbp)
+    {
+      printf("SDL_VideoModeOK says: OK!, bbp=%i\n",suggestedbbp);
+    }
+  else
+    {
+      printf("SDL_VideoModeOK says: Mode not available.\n");
+      printf("Couldn't initialize SDL: %s\n", SDL_GetError());
+      exit(-1);
+    }
 
   theProtocol = MBProtocol();
 
