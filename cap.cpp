@@ -859,6 +859,7 @@ int main(int argc, char *argv[])
   props.bpp=32;
   //props.flags|=SDL_SWSURFACE;//SDL_HWSURFACE;//|SDL_DOUBLEBUF;
   props.flags|=SDL_ANYFORMAT;
+  props.flags|=SDL_NOFRAME;
 
   if(SDL_BYTEORDER==SDL_BIG_ENDIAN)
     {
