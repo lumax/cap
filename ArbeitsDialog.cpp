@@ -425,7 +425,7 @@ namespace EuMax01
     Cam1XaxisDif = Cam1XaxisCur - this->theRezept->getXPosition(0,RezeptNummer);
     thePosDialog->showDifferenceCam1(val,this->theRezept->getXPosition(0,RezeptNummer));
     
-    sprintf(this->thePosDialog->pcLabelCam1[PosDialog::iCurr],"%i",Cam1XaxisCur);
+    sprintf(this->thePosDialog->pcLabelCam1[PosDialog::iCurr],"%4.2f",(float)Cam1XaxisCur/100);
     thePosDialog->pLabelCam1[PosDialog::iCurr]->		\
       setText(thePosDialog->pcLabelCam1[PosDialog::iCurr]);
     Label::showLabel((void*)thePosDialog->pLabelCam1[PosDialog::iCurr],	\
@@ -438,7 +438,7 @@ namespace EuMax01
     Cam2XaxisDif = Cam2XaxisCur - this->theRezept->getXPosition(1,RezeptNummer);
     thePosDialog->showDifferenceCam2(val,this->theRezept->getXPosition(1,RezeptNummer));
     
-    sprintf(this->thePosDialog->pcLabelCam2[PosDialog::iCurr],"%i",Cam2XaxisCur);
+    sprintf(this->thePosDialog->pcLabelCam2[PosDialog::iCurr],"%4.2f",(float)Cam2XaxisCur/100);
     thePosDialog->pLabelCam2[PosDialog::iCurr]->		\
       setText(thePosDialog->pcLabelCam2[PosDialog::iCurr]);
     Label::showLabel((void*)thePosDialog->pLabelCam2[PosDialog::iCurr],	\
@@ -451,7 +451,7 @@ namespace EuMax01
     Cam1ZaxisDif = Cam1ZaxisCur - this->theRezept->getZPosition(RezeptNummer);
     thePosDialog->showDifferenceZ(val,this->theRezept->getZPosition(RezeptNummer));
     
-    sprintf(this->thePosDialog->pcLabelZ[PosDialog::iCurr],"%i",Cam1ZaxisCur);
+    sprintf(this->thePosDialog->pcLabelZ[PosDialog::iCurr],"%4.2f",(float)Cam1ZaxisCur/100);
     thePosDialog->pLabelZ[PosDialog::iCurr]->		\
       setText(thePosDialog->pcLabelZ[PosDialog::iCurr]);
     Label::showLabel((void*)thePosDialog->pLabelZ[PosDialog::iCurr],	\
@@ -476,17 +476,17 @@ namespace EuMax01
 	thePosDialog->showRecipeName(theRezept->Name);
 
 	sprintf(thePosDialog->pcLabelCam1[PosDialog::iStep],	\
-		"%i",theRezept->getXPosition(0,nummer));
+		"%4.2f",(float)theRezept->getXPosition(0,nummer)/100);
 	thePosDialog->pLabelCam1[PosDialog::iStep]->		\
 	  setText(thePosDialog->pcLabelCam1[PosDialog::iStep]);
 
 	sprintf(thePosDialog->pcLabelCam2[PosDialog::iStep],	\
-		"%i",theRezept->getXPosition(1,nummer));
+		"%4.2f",(float)theRezept->getXPosition(1,nummer)/100);
 	thePosDialog->pLabelCam2[PosDialog::iStep]->	\
 	  setText(thePosDialog->pcLabelCam2[PosDialog::iStep]);
 
 	sprintf(thePosDialog->pcLabelZ[PosDialog::iStep],	\
-		"%i",theRezept->getZPosition(nummer));
+		"%4.2f",(float)theRezept->getZPosition(nummer)/100);
 	thePosDialog->pLabelZ[PosDialog::iStep]->	\
 	  setText(thePosDialog->pcLabelZ[PosDialog::iStep]);
 
@@ -549,7 +549,7 @@ namespace EuMax01
 
   char * ArbeitsDialog::int2string(char * tar,int len,int data)
   {
-    snprintf(tar,len,"%i",data);
+    snprintf(tar,len,"%4.2f",(float)data/100);
     return tar;
   }
   

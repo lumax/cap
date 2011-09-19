@@ -299,7 +299,7 @@ namespace EuMax01
   {
     if(MyStep==this->ActualStep)
       {
-	sprintf(this->Value,"%i",dat);
+	sprintf(this->Value,"%4.2f",(float)dat/100);
 	this->Label_Value->setText(this->Value);
 	Label::showLabel((void*)this->Label_Value,		\
 			 this->Parent->theGUI->getMainSurface());
