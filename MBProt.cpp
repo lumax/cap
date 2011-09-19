@@ -19,6 +19,7 @@ Bastian Ruppert
 #include "Main.h"
 #include "Rezept.h"
 #include "Dialoge.h"
+#include "ArbeitsDialog.h"
 
 #include "Tools.h"
 #include "Protocol.h"

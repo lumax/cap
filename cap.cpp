@@ -18,6 +18,7 @@
 #include "Tools.h"
 #include "Rezept.h"
 #include "Dialoge.h"
+#include "ArbeitsDialog.h"
 #include "pec_cmd.h"
 #include "MBProt.h"
 #include <dsp_jpeg.h>
@@ -803,6 +804,7 @@ int main(int argc, char *argv[])
   props.height=sdlheight;//576;
   props.bpp=0;
   props.flags|=SDL_SWSURFACE;//SDL_HWSURFACE;//|SDL_DOUBLEBUF;
+  //props.flags|=SDL_ANYFORMAT;
 
   if(SDL_BYTEORDER==SDL_BIG_ENDIAN)
     {
