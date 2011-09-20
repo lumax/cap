@@ -66,7 +66,7 @@ static void evtExit(void * src,SDL_Event * evt){
 	target->Rezepte[i].cams[1].x_cross = source->Rezepte[i].cams[1].x_cross;
       }
 
-    for(i=0;i<9;i++)
+    for(i=0;i<Rezept::NameLength;i++)
       {
 	target->Name[i] = source->Name[i];
       }
@@ -163,7 +163,7 @@ static void evtExit(void * src,SDL_Event * evt){
 
     snprintf(tmpBuf,1024,"%s%s",FilePath,FileName);
 
-    for(int i=0;i<8;i++)
+    for(int i=0;i<Rezept::AnzahlRezepte;i++)
       {
 	sprintf(this->buf,"r%i_cam1_x_pos",i);
 	if(iniParser_getParam(tmpBuf,this->buf,tmp,64))
