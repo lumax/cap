@@ -120,7 +120,7 @@ namespace EuMax01
     Label_Value->setNormalColor(Parent->uiC_WerteNormal);
     Label_Value->setMarkedColor(Parent->uiC_WerteMarked);
     Label_Value->setFontColor(Parent->pC_WerteText);
-    Label_Value->setFont(Globals::getFontButtonBig());
+    Label_Value->setFont(Globals::getFontMono18());
     Label_Value->setBorder(true);
 
     Label_MenuTitle = new Label("Calibration",MLinks_x,Zeile5_y,150,MZeile_h);
@@ -299,7 +299,7 @@ namespace EuMax01
   {
     if(MyStep==this->ActualStep)
       {
-	sprintf(this->Value,"%4.2f",(float)dat/100);
+	sprintf(this->Value,"%7.2f",(float)dat/100);
 	this->Label_Value->setText(this->Value);
 	Label::showLabel((void*)this->Label_Value,		\
 			 this->Parent->theGUI->getMainSurface());
@@ -477,17 +477,17 @@ namespace EuMax01
 	    pLabelCam1[i]->setNormalColor(Parent->uiC_WerteNormal);
 	    pLabelCam1[i]->setMarkedColor(Parent->uiC_WerteMarked);
 	    pLabelCam1[i]->setFontColor(Parent->pC_WerteText);
-	    pLabelCam1[i]->setFont(Globals::getFontButtonBig());
+	    pLabelCam1[i]->setFont(Globals::getFontMono18());
 
 	    pLabelCam2[i]->setNormalColor(Parent->uiC_WerteNormal);
 	    pLabelCam2[i]->setMarkedColor(Parent->uiC_WerteMarked);
 	    pLabelCam2[i]->setFontColor(Parent->pC_WerteText);
-	    pLabelCam2[i]->setFont(Globals::getFontButtonBig());
+	    pLabelCam2[i]->setFont(Globals::getFontMono18());
 
 	    pLabelZ[i]->setNormalColor(Parent->uiC_WerteNormal);
 	    pLabelZ[i]->setMarkedColor(Parent->uiC_WerteMarked);
 	    pLabelZ[i]->setFontColor(Parent->pC_WerteText);
-	    pLabelZ[i]->setFont(Globals::getFontButtonBig());
+	    pLabelZ[i]->setFont(Globals::getFontMono18());
 	  }
       }
 
@@ -1166,12 +1166,12 @@ namespace EuMax01
 	LabelWerte[i]->setNormalColor(Parent->uiC_WerteNormal);
 	LabelWerte[i]->setMarkedColor(Parent->uiC_WerteMarked);
 	LabelWerte[i]->setFontColor(Parent->pC_WerteText);
-	LabelWerte[i]->setFont(Globals::getFontButtonBig());
+	LabelWerte[i]->setFont(Globals::getFontMono18());
 
 	LabelRezept[i]->setNormalColor(Parent->uiC_WerteNormal);
 	LabelRezept[i]->setMarkedColor(Parent->uiC_WerteMarked);
 	LabelRezept[i]->setFontColor(Parent->pC_WerteText);
-	LabelRezept[i]->setFont(Globals::getFontButtonBig());	
+	LabelRezept[i]->setFont(Globals::getFontMono18());	
       }
 
 
