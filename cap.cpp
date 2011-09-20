@@ -692,7 +692,7 @@ colorkey	Pixel value of transparent pixels
 alpha	Overall surface alpha value
 */
   const SDL_VideoInfo * info;
-  SDL_PixelFormat * pixFormat;
+  //SDL_PixelFormat * pixFormat;
   info = SDL_GetVideoInfo();
   //pixFormat = info->vfmt;
   if(info)
