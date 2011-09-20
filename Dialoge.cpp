@@ -9,6 +9,8 @@ Bastian Ruppert
 
 #include <string.h>
 
+#include <errno.h>
+
 #include <SDL/SDL_ttf.h>
 #include "LL.h"
 #include "Event.h"
@@ -724,6 +726,7 @@ namespace EuMax01
     this->ActiveSavePage = 0;
     this->MaxSavePages = 0;
     this->tmpRezept = new Rezept();
+    this->LoadMode = false;
 
     M_y = sdlh - yPos;
     if(M_y<=84)
@@ -749,8 +752,18 @@ namespace EuMax01
     Label_LadenName->setMarkedColor(Parent->uiC_MenuMarked);
     Label_LadenName->setFontColor(Parent->pC_MenuText);
     Label_LadenName->setFont(Globals::getFontButtonBig());
-
-    //Label_MenuText = new Label("F1 F2 usw",MLinks_x+158,MLoadName_y,1012-158,MZeile_h);
+    
+    Label_MenuText = new Label("PagegUp: previous page | "		\
+			       "PageDown: next page | "			\
+			       "ESC: cancel",				\
+			       MLinks_x+156,				\
+			       MLoadName_y,				\
+			       1024-156,				\
+			       MZeile_h);
+    Label_MenuText->setNormalColor(Parent->uiC_MenuNormal);
+    Label_MenuText->setMarkedColor(Parent->uiC_MenuMarked);
+    Label_MenuText->setFontColor(Parent->pC_MenuText);
+    Label_MenuText->setFont(Globals::getFontButtonBig());
 
     unsigned int ii = 0;
     char tmpc[16] = { 'x','X','x','x','x','x','x','x'};
@@ -774,14 +787,31 @@ namespace EuMax01
 	ii++;
 	this->addEvtTarget(pLabel_Rezepte[i]);
       }
-    //setActiveRecipe(10);
 
-    //this->addEvtTarget(Label_LadenName);
-    this->pTSource = this;//EvtTarget Quelle setzen, damit der EvtListener die Quelle mitteilen kann
+    this->setLoadMode(true);
+
+    this->pTSource = this;
     this->setKeyboardUpEvtHandler(LoadDialogKeyListener);
     this->addEvtTarget(this);//den Screen Key Listener bei sich selber anmelden!
 
     //MLabels_y = yPos + 2*MSpace_h + 1*MZeile_h;
+  }
+
+  void LoadDialog::setLoadMode(bool loadMode)
+  {
+    this->LoadMode=loadMode;
+    if(LoadMode)
+      {
+	Label_LadenName->setText("Load");
+      }
+    else
+      {
+	Label_LadenName->setText("Delete");
+      }
+    /*  TODO  if(this->LoadMode!=loadMode)
+      {
+	this->LoadMode = 
+	}*/
   }
 
   /* \brief Makiert das aktive Label und desmaskiert den Vorherigen.
@@ -842,8 +872,9 @@ namespace EuMax01
     this->addEvtTarget(this);      //den Screen Key Listener bei sich selber anmelden!
     this->Label_LadenName->Next = 0; //Laden Label anzeigen
     this->addEvtTarget(Label_LadenName);
-    //this->Label_MenuText->Next = 0; //Laden MenuText anzeigen
-    //this->addEvtTarget(Label_MenuText);
+    this->Label_MenuText->Next = 0; //Laden MenuText anzeigen
+    this->addEvtTarget(Label_MenuText);
+
     this->ActiveSavePage = page;
 
     n = scandir(dirName, &namelist, dirFilter, alphasort);
@@ -890,30 +921,49 @@ namespace EuMax01
   void LoadDialog::naviRight(){this->addToActiveRecipe(+1);}
   void LoadDialog::naviReturn()
   {
-    if(!tmpRezept->readFromFile(Parent->pcSaveFilePath,DateiNamen[ActiveRecipe]))
+    char tmpBuf[1024];
+    if(this->LoadMode)
       {
-	Rezept::copy(tmpRezept,Parent->theRezept);
-	//Rezept::copy();
-	Parent->showRezept(0);
-	Parent->showArbeitsDialog();
-	//printf("ArbeitsDialog Update Recipe Daten\n");
+	if(!tmpRezept->readFromFile(Parent->pcSaveFilePath,DateiNamen[ActiveRecipe]))
+	  {
+	    Rezept::copy(tmpRezept,Parent->theRezept);
+	    //Rezept::copy();
+	    Parent->showRezept(0);
+	    Parent->showArbeitsDialog();
+	    //printf("ArbeitsDialog Update Recipe Daten\n");
+	  }
+	else
+	  {
+	    this->Parent->showErrorDialog((char*)"Error Reading SaveFile");
+	  }
       }
-    else
+    else //delete Mode
       {
-	this->Parent->showErrorDialog((char*)"Error Reading SaveFile");
+	snprintf(tmpBuf,1024,"%s%s",\
+		 Parent->pcSaveFilePath,\
+		 DateiNamen[ActiveRecipe]);
+	if(remove(tmpBuf))
+	  {
+	    printf( "Error deleting file: %s\n", strerror( errno ) );
+	    this->Parent->showErrorDialog((char*)"Error Deleting Recipe File");
+	  }
+	else
+	  {
+	    this->Parent->showLoadDialog(0,false);
+	  }
       }
   }
 
   void LoadDialog::naviPageup()
   {
     if(this->ActiveSavePage>=1)
-      this->Parent->showLoadDialog(this->ActiveSavePage-1);
+      this->Parent->showLoadDialog(this->ActiveSavePage-1,this->LoadMode);
   }
 
   void LoadDialog::naviPagedown()
   {
     if(this->ActiveSavePage<this->MaxSavePages)
-      this->Parent->showLoadDialog(this->ActiveSavePage+1);
+      this->Parent->showLoadDialog(this->ActiveSavePage+1,this->LoadMode);
   }
   
   static char * NewDialogMainMenuText = (char*)"RETURN : take over | ESC : abort | " \

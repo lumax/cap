@@ -44,8 +44,7 @@ namespace EuMax01
       {
 	if(key->keysym.sym == SDLK_F1)
 	  {
-	    //ad->theGUI->activateScreen(ad->getLoadDialog());
-	    ad->showLoadDialog(0);
+	    ad->showLoadDialog(0,true);
 	  }
 	else if(key->keysym.sym == SDLK_F2)
 	  {
@@ -64,7 +63,7 @@ namespace EuMax01
 	  }
 	else if(key->keysym.sym == SDLK_F4)
 	  {
-	    printf("F4\n");
+	    ad->showLoadDialog(0,false);
 	  }
 	else if(key->keysym.sym == SDLK_F5||key->keysym.sym == SDLK_LEFT)
 	  {
@@ -249,8 +248,8 @@ namespace EuMax01
     LabelDialogName->setMarkedColor(ArbeitsDialog::uiC_MenuMarked);
     LabelDialogName->setFontColor(ArbeitsDialog::pC_MenuText);
 
-    LabelInfo = new Label("F1: load | F2: edit | F3: new | "		\
-			  "F5: prev step | F6: next step | "		\
+    LabelInfo = new Label("F1: load | F2: edit | F3: new | F4: delete |"\
+			  "F5: prev | F6: next | "		\
 			  "F7: calibrate | F12: exit",			\
 			  MInfoF2_x,					\
 			  MInfo_y,					\
@@ -306,11 +305,12 @@ namespace EuMax01
     pC_WerteText = &Globals::GlobalSDL_ColorBlack;
   }
 
-  void ArbeitsDialog::showLoadDialog(unsigned int page)
+  void ArbeitsDialog::showLoadDialog(unsigned int page,bool loadMode)
   {
     if(!useGUI)
       return;
     this->iActiveDialog = ArbeitsDialog::LoadDialogIsActive;
+    this->theLoadDialog->setLoadMode(loadMode);
     if(theLoadDialog->readSaveDirectory(pcSaveFilePath,page))
       {
 	showErrorDialog((char*)"Error reading save directory");

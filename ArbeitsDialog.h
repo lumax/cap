@@ -82,7 +82,7 @@ namespace EuMax01
     const char * TextCam2Xaxis;
     const char * TextZaxis;
     
-    void showLoadDialog(unsigned int page);
+    void showLoadDialog(unsigned int page,bool loadmode);
     void showArbeitsDialog();
     void showErrorDialog(char * errorMsg);
     void showNewDialog(char * MenuTitel);
