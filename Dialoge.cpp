@@ -279,29 +279,29 @@ namespace EuMax01
   
   void CalibrationDialog::setQ1(unsigned short dat)
   {
-    setXXData(dat,CalibrationDialog::iQ1);  
+    setXXData(dat,CalibrationDialog::iQ1,(char*)" mm");  
   }
 
   void CalibrationDialog::setQ2(unsigned short dat)
   {
-    setXXData(dat,CalibrationDialog::iQ2);    
+    setXXData(dat,CalibrationDialog::iQ2,(char*)" mm");    
   }
 
   void CalibrationDialog::setZ1(unsigned short dat)
   {
-    setXXData(dat,CalibrationDialog::iZ1);    
+    setXXData(dat,CalibrationDialog::iZ1,(char*)" ° ");    
   }
 
   void CalibrationDialog::setZ2(unsigned short dat)
   {
-     setXXData(dat,CalibrationDialog::iZ2);   
+    setXXData(dat,CalibrationDialog::iZ2,(char*)" ° ");   
   }
 
-  void CalibrationDialog::setXXData(unsigned short dat,int MyStep)
+  void CalibrationDialog::setXXData(unsigned short dat,int MyStep,char*suffix)
   {
     if(MyStep==this->ActualStep)
       {
-	sprintf(this->Value,"%7.2f",(float)dat/100);
+	sprintf(this->Value,"%7.2f%s",(float)dat/100,suffix);
 	this->Label_Value->setText(this->Value);
 	Label::showLabel((void*)this->Label_Value,		\
 			 this->Parent->theGUI->getMainSurface());
@@ -1220,7 +1220,7 @@ namespace EuMax01
 	LabelRezept[i]->setNormalColor(Parent->uiC_WerteNormal);
 	LabelRezept[i]->setMarkedColor(Parent->uiC_WerteMarked);
 	LabelRezept[i]->setFontColor(Parent->pC_WerteText);
-	LabelRezept[i]->setFont(Globals::getFontMono18());	
+	LabelRezept[i]->setFont(Globals::getFontMono18());
       }
 
 
@@ -1348,11 +1348,12 @@ namespace EuMax01
     return false;
   }
 
-  void NewDialog::setNewPositionValue(int pos, unsigned short value)
+  void NewDialog::setNewPositionValue(int pos, unsigned short value,char* suffix)
   {
     this->usWerte[pos] = value;
     this->LabelWerte[pos]->setText(this->Parent->int2string(this->pcWerte[pos],	\
-							    32,(int)value));
+							    32,(int)value,\
+							    suffix));
     //Label::showLabel((void*)this->LabelWerte[pos],this->Parent->theGUI->getMainSurface());
     this->show(Parent->theGUI->getMainSurface());
   }
@@ -1376,15 +1377,18 @@ namespace EuMax01
 
 	LabelRezept[NewDialog::iPosX1]->setText(		    \
 		Parent->int2string(pcRezept[NewDialog::iPosX1],64, \
-				   tmpRezept->Rezepte[rzpStep].cams[0].x_pos));
+				   tmpRezept->Rezepte[rzpStep].cams[0].x_pos,\
+				   (char*)" mm"));
 
 	LabelRezept[NewDialog::iPosZ]->setText(			\
 		 Parent->int2string(pcRezept[NewDialog::iPosZ],64, \
-				    tmpRezept->Rezepte[rzpStep].cams[0].z_pos));
+				    tmpRezept->Rezepte[rzpStep].cams[0].z_pos,\
+				    (char*)" ° "));
 
 	LabelRezept[NewDialog::iPosX2]->setText(			\
 		 Parent->int2string(pcRezept[NewDialog::iPosX2],64, \
-				    tmpRezept->Rezepte[rzpStep].cams[1].x_pos));
+				    tmpRezept->Rezepte[rzpStep].cams[1].x_pos,\
+				    (char*)" mm"));
       }
     else
       {

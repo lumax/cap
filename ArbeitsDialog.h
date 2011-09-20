@@ -45,7 +45,7 @@ namespace EuMax01
      *  \param data Das Datum welches in den String umgewandelt wird
      *  \returns den tar Puffer
      */
-    char * int2string(char * tar,int len,int data);
+    char * int2string(char * tar,int len,int data,char * suffix);
     //    void showRezept(Rezept * pRezept,int nummer);
     void showRezept(int nummer);
     void incRezeptNummer();

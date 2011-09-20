@@ -46,7 +46,7 @@ namespace EuMax01
     static const int iZ2 = 3;
 
     int ActualStep;
-    void setXXData(unsigned short dat,int MyStep);
+    void setXXData(unsigned short dat,int MyStep,char * suffix);
   };
 
   class PosDialog : public Screen
@@ -174,7 +174,7 @@ namespace EuMax01
 
     unsigned short usWerte[6];
 
-    void setNewPositionValue(int pos, unsigned short value);
+    void setNewPositionValue(int pos, unsigned short value,char * suffix);
     void copyValuesToRezept();
 
     Label * LabelRezept[3];
