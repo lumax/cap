@@ -578,7 +578,7 @@ namespace EuMax01
 
   void PosDialog::showRecipeName(char * text)
   {
-    snprintf(pcLabelRecipeName,64,"Name: %s",text);
+    snprintf(pcLabelRecipeName,64,"Name:%s",text);
     LabelRecipeName->setText(pcLabelRecipeName);
     Label::showLabel((void*)LabelRecipeName,		\
 		     Parent->theGUI->getMainSurface());
@@ -771,7 +771,6 @@ namespace EuMax01
 	pLabel_Rezepte[i]->setNormalColor(Parent->uiC_WerteNormal);
 	pLabel_Rezepte[i]->setMarkedColor(Parent->uiC_WerteMarked);
 	pLabel_Rezepte[i]->setFontColor(Parent->pC_WerteText);
-	pLabel_Rezepte[i]->setFont(Globals::getFontButton10());
 	ii++;
 	this->addEvtTarget(pLabel_Rezepte[i]);
       }
