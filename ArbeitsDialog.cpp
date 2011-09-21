@@ -29,6 +29,9 @@ Bastian Ruppert
 #include "Dialoge.h"
 #include "ArbeitsDialog.h"
 
+#include <unistd.h>
+
+
 namespace EuMax01
 {
 
@@ -160,29 +163,47 @@ namespace EuMax01
     this->TextCam2Xaxis = (char*)"Cam2 X-Axis";
     this->TextZaxis = (char*)"Z-Axis";
 
+    //wird in convertCamPos benötigt
+    if(sdlw/2>camw)
+      {
+	this->CamW_Sichtbar = camw;
+	this->CamW_Unsichtbar = 0;
+      }
+    else
+      {
+	this->CamW_Sichtbar = camw -(camw-sdlw/2);
+	this->CamW_Unsichtbar = camw-sdlw/2;
+      }
+
+    if(CamW_Sichtbar!=0)
+      CamPosConvertStep = 0x3ff/(double)CamW_Sichtbar;
+
+    MitteCrossCam1=(camw*2-sdlw)/2 + sdlw/4;//544
+    MitteCrossCam2=(camw*2-sdlw)/2+(3*sdlw/4);//256
+
     for(unsigned int i = 0;i<LoadDialog::MaxRezeptFileLaenge;i++)
       {
 	this->theRezept->Rezepte[i].cams[0].x_pos = 0;
 	this->theRezept->Rezepte[i].cams[1].x_pos = 0;
 	this->theRezept->Rezepte[i].cams[0].z_pos = 0;
 	this->theRezept->Rezepte[i].cams[1].z_pos = 0;
-	this->theRezept->Rezepte[i].cams[0].x_cross = ArbeitsDialog::MitteCrossCam1;
-	this->theRezept->Rezepte[i].cams[1].x_cross = ArbeitsDialog::MitteCrossCam2;
+	this->theRezept->Rezepte[i].cams[0].x_cross = MitteCrossCam1;
+	this->theRezept->Rezepte[i].cams[1].x_cross = MitteCrossCam2;
 
 	this->pNullRezept->Rezepte[i].cams[0].x_pos = 0;
 	this->pNullRezept->Rezepte[i].cams[1].x_pos = 0;
 	this->pNullRezept->Rezepte[i].cams[0].z_pos = 0;
 	this->pNullRezept->Rezepte[i].cams[1].z_pos = 0;
-	this->pNullRezept->Rezepte[i].cams[0].x_cross = ArbeitsDialog::MitteCrossCam1;
-	this->pNullRezept->Rezepte[i].cams[1].x_cross = ArbeitsDialog::MitteCrossCam2;
+	this->pNullRezept->Rezepte[i].cams[0].x_cross = MitteCrossCam1;
+	this->pNullRezept->Rezepte[i].cams[1].x_cross = MitteCrossCam2;
 	}
     theLoadDialog = new LoadDialog(sdlw,sdlh,camw,camh,yPos,this);
     theErrorDialog = new ErrorDialog(sdlw,sdlh,camw,camh,yPos,this);
     theNewDialog = new NewDialog(sdlw,sdlh,camw,camh,yPos,this);
     theCalDialog = new CalibrationDialog(sdlw,sdlh,camw,camh,yPos,this);
 
-    cap_cam_setCrossX(0,ArbeitsDialog::MitteCrossCam1);
-    cap_cam_setCrossX(1,ArbeitsDialog::MitteCrossCam2);
+    cap_cam_setCrossX(0,MitteCrossCam1);
+    cap_cam_setCrossX(1,MitteCrossCam2);
 
     MLinks_x = sdlw/2 - 506;
     MRechts_x = sdlw/2 + 6;
@@ -633,18 +654,18 @@ namespace EuMax01
   }
   void ArbeitsDialog::convertCamPos(int cam,unsigned short dat)
   {
-    int step,wert,camera;
-    step =  dat / 2; // (0x3ff / 512) = 1.99805
+    int wert,camera;
+    double step =  dat / CamPosConvertStep;//dat / 2; // (0x3ff / 512) = 1.99805
     if(cam) //Anzeigebereich von 0-512
       {
 	camera = 1;
-	wert = step;
+	wert = (int)step;
 	
       }
     else   //Anzeigebereich von 288-800
       {
 	camera = 0;
-	wert = step+288;
+	wert = (int)step+CamW_Unsichtbar;
       }
     if(wert%2)  //nur duch 2 teilbar zulassen
       {
@@ -652,6 +673,7 @@ namespace EuMax01
 	//printf("camera : %i , Wert: %i\n",camera,wert);
       }
     cap_cam_setCrossX(cam,wert);
+    printf("cam:%i dat:%i wert:%i\n",camera,dat,wert);
   }
   void ArbeitsDialog::FP1_evt(unsigned short dat)
   {
@@ -661,7 +683,7 @@ namespace EuMax01
   }
   void ArbeitsDialog::FP2_evt(unsigned short dat)
   {
-    convertCamPos(2,dat);
+    convertCamPos(1,dat);
     theNewDialog->getCam2CrossX();//hier werden die cross Daten zum abspeichern geholt
     //printf("ArbeitsDialog getFB2:%i\n",dat);
   }

@@ -75,8 +75,8 @@ namespace EuMax01
     MBProtocol * theProtocol;
     char * pcSaveFilePath;
 
-    static const int MitteCrossCam1 = 544;
-    static const int MitteCrossCam2 = 256;
+    int MitteCrossCam1;
+    int MitteCrossCam2;
 
     const char * TextCam1Xaxis;
     const char * TextCam2Xaxis;
@@ -112,6 +112,10 @@ namespace EuMax01
     void blankMenuArea();
 
   private:
+    int CamW_Sichtbar;
+    int CamW_Unsichtbar;
+    double CamPosConvertStep;
+
     Rezept * pNullRezept;
     EvtTarget ArbeitsDialogEvtTargets;
 
