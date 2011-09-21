@@ -673,7 +673,7 @@ namespace EuMax01
 	//printf("camera : %i , Wert: %i\n",camera,wert);
       }
     cap_cam_setCrossX(cam,wert);
-    printf("cam:%i dat:%i wert:%i\n",camera,dat,wert);
+    //printf("cam:%i dat:%i wert:%i\n",camera,dat,wert);
   }
   void ArbeitsDialog::FP1_evt(unsigned short dat)
   {
