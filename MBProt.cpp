@@ -140,15 +140,23 @@ namespace EuMax01
       MBProt_class->closeProtocol();
   }
 
-  int MBProtocol::initProtocol(GUI * pGUI,IMBProtListener * listener,char * device)
+  int MBProtocol::initProtocol(GUI * pGUI,			\
+			       IMBProtListener * listener,	\
+			       char * device,			\
+			       bool non_block)
   {
-
+    int flags = 0;
     PRTDISPATCHER = MBProt_dispatcher;
     PRTPUTCH = MBProt_putchar;
     prtmodule_init();
 
+    flags |= O_RDWR;
+
+    if(non_block)
+      flags |= O_NONBLOCK;
+
       // Open the tty:
-    fd = open(device, O_RDWR );//| O_NONBLOCK);
+    fd = open(device,flags);
     if (fd == -1)
     {
       return -1;

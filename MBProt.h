@@ -19,7 +19,10 @@ namespace EuMax01
     
     virtual void pollReadEvent(PollSource * s);
     virtual void pollTimerExpired(long us);
-    int initProtocol(GUI * pGUI,IMBProtListener * listener,char * device);
+    int initProtocol(GUI * pGUI,\
+		     IMBProtListener * listener,\
+		     char * device,\
+		     bool non_block);
     IMBProtListener * lis;
     void closeProtocol();
     int getQ1();

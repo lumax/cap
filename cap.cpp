@@ -743,6 +743,7 @@ int main(int argc, char *argv[])
   bool rgb_mode = false;
   int ButtonAreaHeight = 0;
   bool guiMode = false;
+  bool Com_NON_BLOCK = false;
   
   char path[64];
   char confpath[96];
@@ -831,6 +832,10 @@ int main(int argc, char *argv[])
     {
       props.flags|=SDL_FULLSCREEN;
     }
+   if(!iniParser_getParam(confpath,(char*)"Com_NON_BLOCK",tmp,64))
+    {
+      Com_NON_BLOCK = true;
+    }
   //das Muss der letzte Paramter sein der mit tmp geholt wird, da tmp 
   //später noch ausgewertet wird!
   if(iniParser_getParam(confpath,(char*)"usbDevice",tmp,64))
@@ -847,7 +852,7 @@ int main(int argc, char *argv[])
       tmp[9]='C';
       tmp[10]='M';
       tmp[11]='0';
-      tmp[12]='\0'; 
+      tmp[12]='\0';
     }
 
 
@@ -927,7 +932,7 @@ int main(int argc, char *argv[])
 				       guiMode);
   //thePositionDialog = new PositionDialog(sdlwidth/2-506,ButtonAreaHeight,506,100);
 
-  if(theProtocol.initProtocol(theGUI,theArbeitsDialog,tmp))
+  if(theProtocol.initProtocol(theGUI,theArbeitsDialog,tmp,Com_NON_BLOCK))
     printf("Uart communication failed\n");
 
  
