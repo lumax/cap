@@ -3,30 +3,28 @@
 
 function run_cap()
 {
-#  ./cap
-echo run_cap
+./cap
+#echo run_cap
 }
 
 function run_video()
 {
-    mplayer cube4.avi
+    mplayer -fs PlateExakt08.wmv
 }
 
-run_cap
-if [ $? -eq 0 ]
-then
-  run_video()
-  run_cap()
-else
-  exit
-fi
+export LD_LIBRARY_PATH+=:.
+ln -fs libdsp_jpeg.so.1.0 libdsp_jpeg.so
 
-#mplayer cube4.avi
-#rc=$?
-#if [[ $rc != 0 ]] ; then
-#    echo return ist ungleich null
-#    exit
-#fi
-
-
-echo return ist anscheinend gleich Null
+while true
+do
+    run_cap
+    rc=$?
+    if [ $rc -eq 11 ]
+    then
+	echo "cap returns 12! show video"
+	run_video
+    else
+	echo abschalten!
+	exit
+    fi
+done
