@@ -86,9 +86,13 @@ namespace EuMax01
 	  {
 	    ad->showCalibrationDialog();
 	  }
+	else if(key->keysym.sym == SDLK_F11)
+	  {
+	    //exit(11);
+	  }
 	else if(key->keysym.sym == SDLK_F12)
 	  {
-	    exit(0);
+	    exit(12);
 	  }
       }
   }
@@ -179,7 +183,11 @@ namespace EuMax01
       CamPosConvertStep = 0x3ff/(double)CamW_Sichtbar;
 
     MitteCrossCam1=(camw*2-sdlw)/2 + sdlw/4;//544
-    MitteCrossCam2=(camw*2-sdlw)/2+(3*sdlw/4);//256
+
+    if(sdlw/2<camw)
+      MitteCrossCam2=(camw-(camw-sdlw/2))/2;//256
+    else//sdlw/2>camw
+      MitteCrossCam2 = camw/2;
 
     for(unsigned int i = 0;i<LoadDialog::MaxRezeptFileLaenge;i++)
       {
@@ -683,7 +691,7 @@ namespace EuMax01
   }
   void ArbeitsDialog::FP2_evt(unsigned short dat)
   {
-    convertCamPos(1,dat);
+    convertCamPos(2,dat);
     theNewDialog->getCam2CrossX();//hier werden die cross Daten zum abspeichern geholt
     //printf("ArbeitsDialog getFB2:%i\n",dat);
   }
