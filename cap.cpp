@@ -748,6 +748,8 @@ int main(int argc, char *argv[])
   char confpath[96];
   char saveFilePath[96];
 
+
+
   showVideoMode();
 
   if(Tool::getAppPath(argv[0],path,64))
@@ -829,6 +831,25 @@ int main(int argc, char *argv[])
     {
       props.flags|=SDL_FULLSCREEN;
     }
+  //das Muss der letzte Paramter sein der mit tmp geholt wird, da tmp 
+  //später noch ausgewertet wird!
+  if(iniParser_getParam(confpath,(char*)"usbDevice",tmp,64))
+    {//"/dev/ttyACM0" ist Standart
+      tmp[0]='/'; 
+      tmp[1]='d';
+      tmp[2]='e';
+      tmp[3]='v';
+      tmp[4]='/';
+      tmp[5]='t';
+      tmp[6]='t';
+      tmp[7]='y';
+      tmp[8]='A';
+      tmp[9]='C';
+      tmp[10]='M';
+      tmp[11]='0';
+      tmp[12]='\0'; 
+    }
+
 
   argc--;
   while(argc)
@@ -906,7 +927,7 @@ int main(int argc, char *argv[])
 				       guiMode);
   //thePositionDialog = new PositionDialog(sdlwidth/2-506,ButtonAreaHeight,506,100);
 
-  if(theProtocol.initProtocol(theGUI,theArbeitsDialog))
+  if(theProtocol.initProtocol(theGUI,theArbeitsDialog,tmp))
     printf("Uart communication failed\n");
 
  

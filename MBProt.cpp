@@ -140,10 +140,10 @@ namespace EuMax01
       MBProt_class->closeProtocol();
   }
 
-  int MBProtocol::initProtocol(GUI * pGUI,IMBProtListener * listener)
+  int MBProtocol::initProtocol(GUI * pGUI,IMBProtListener * listener,char * device)
   {
       // Open the tty:
-    fd = open( "/dev/ttyACM0", O_RDWR );
+    fd = open(device, O_RDWR );
     if (fd == -1)
     {
       return -1;
