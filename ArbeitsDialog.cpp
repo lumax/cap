@@ -88,7 +88,7 @@ namespace EuMax01
 	  }
 	else if(key->keysym.sym == SDLK_F11)
 	  {
-	    //exit(11);
+	    exit(11);
 	  }
 	else if(key->keysym.sym == SDLK_F12)
 	  {
