@@ -143,7 +143,7 @@ namespace EuMax01
   int MBProtocol::initProtocol(GUI * pGUI,IMBProtListener * listener,char * device)
   {
       // Open the tty:
-    fd = open(device, O_RDWR );
+    fd = open(device, O_RDWR | O_NONBLOCK);
     if (fd == -1)
     {
       return -1;
