@@ -142,8 +142,13 @@ namespace EuMax01
 
   int MBProtocol::initProtocol(GUI * pGUI,IMBProtListener * listener,char * device)
   {
+
+    PRTDISPATCHER = MBProt_dispatcher;
+    PRTPUTCH = MBProt_putchar;
+    prtmodule_init();
+
       // Open the tty:
-    fd = open(device, O_RDWR | O_NONBLOCK);
+    fd = open(device, O_RDWR );//| O_NONBLOCK);
     if (fd == -1)
     {
       return -1;
@@ -177,9 +182,7 @@ namespace EuMax01
       }
     MBProt_class = this;
     this->lis = listener;
-    PRTDISPATCHER = MBProt_dispatcher;
-    PRTPUTCH = MBProt_putchar;
-    prtmodule_init();
+
     this->isInit = true;
     return 0;
   }
