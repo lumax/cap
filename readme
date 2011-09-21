@@ -1,0 +1,45 @@
+nach libsdl Paketen suchen:
+>apt-cache search libsdl 
+
+
+Pakete installieren:
+>sudo apt-get install libsdl-image....
+
+
+
+zu installierende Pakete:
+sudo apt-get install libsdl1.2debian
+sudo apt-get libsdl-image1.2
+sudo apt-get libsdl-ttf2.0
+
+
+TODO:
+-Video abspeilen und zu Programm zurück
+-FehlerDialog:"Name zu kurz" in SDLK_F10 NewDialogKeyListener
+-Abfrage ob Datei überschrieben werden soll (noch nicht gefordert)
+	 -Dateinamen durchsuchen
+-Versionsnummer anzeigen
+-git hashes in Quellcode als Version einbinden
+-Farbeffekte beim Laden der Applikation (show Funktionen)
+-Update System
+-Vernümftig aus dem Programm aussteigen, wenn eine Kamera abgezogen
+ wird usw. (ErrorMeldungen anzeigen)
+
+HOFFENTLICH ERLEDIGT
+-Farbschemata attraktiv gestalten
+
+ERLEDIGT:
+-Kommunikation zu Beginn unterbinden (protokoll init vor UART init)
+-Rezepte löschen
+-New Dialog : "Enter Name" und "Rezepte einstellen" uebersichtlicher
+-Fehlender Z-Achsen Wert (bru)
+-ArbeitsDialog:F2 von"save as" zu "edit" geändert	
+-CalibrationDialog: mit F7 zeigt den Wert nicht an
+-CalibrationDialog: Infozeile Weiss, Text Rot Text Größer
+-CalibrationDialog: in gleichem Schema wie der Hauptbildschirm
+-CalibrationDialog; Q1 usw. Texte gleich halten
+-Programmstart Fadenkreuz in die Mitte
+-F12: Exit Knopf im NoGUI Modus
+-Fullscreen in config
+-Filenamen mit 16 Zeichen
+-New Dialog umgestalten
