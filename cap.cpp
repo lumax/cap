@@ -21,7 +21,9 @@
 #include "ArbeitsDialog.h"
 #include "pec_cmd.h"
 #include "MBProt.h"
+#ifdef EUMAX01_MJPEG_SUPPORT
 #include <dsp_jpeg.h>
+#endif
 #include "v4l_capture.h"
 #include "iniParser.h"
 
@@ -158,7 +160,14 @@ static void processMJPEG(struct v4l_capture* cap,const void * p,int method,size_
 {
   static int counter =0;
   unsigned char *framebuffer;
+#ifdef EUMAX01_MJPEG_SUPPORT
   int i;
+#endif
+
+#ifndef EUMAX01_MJPEG_SUPPORT
+  printf("NO EUMAX01_MJPEG_SUPPORT\n");
+  return;
+#endif
   //if(cap->camnumber)
   //  return;
   if(counter<=50)
@@ -178,12 +187,13 @@ static void processMJPEG(struct v4l_capture* cap,const void * p,int method,size_
 	{
 	  framebuffer = camCtrl->framebuffer0;
 	}
+#ifdef EUMAX01_MJPEG_SUPPORT
       i = jpeg_decode(framebuffer,(unsigned char*)p,\
 		      &cap->camWidth,\
 		      &cap->camHeight);
       if(i)
 	printf("error jpeg_decode\n");
-
+#endif
       SDL_LockSurface(cap->mainSurface);
       SDL_LockYUVOverlay(cap->sdlOverlay);
 
@@ -275,6 +285,11 @@ static unsigned char getGfromTable(unsigned char Y,unsigned char U,unsigned char
 static unsigned char getBfromTable(unsigned char Y,unsigned char U);
 static void initRGBtables(void)
 {
+#ifndef EUMAX01_MJPEG_SUPPORT
+  printf("NO EUMAX01_MJPEG_SUPPORT\n");
+  return;
+#endif
+#ifdef EUMAX01_MJPEG_SUPPORT
   int i,ii,iii;
   for(i=0;i<256;i++)
     {
@@ -300,6 +315,7 @@ static void initRGBtables(void)
 	  Btable[i][ii]=B_FROMYU(i,ii);
 	}
     }
+#endif
 }
 static inline unsigned char getRfromTable(unsigned char Y,unsigned char V)
 {
@@ -409,7 +425,9 @@ static void processRGBImages(struct v4l_capture* cap,const void * p,int method,s
     {
       if(initNotDone)
 	{
+#ifdef EUMAX01_MJPEG_SUPPORT
 	  initLut();
+#endif
 	  printf("initRGBtables()...\n");
 	  initRGBtables();
 	  printf("initRGBtables() done!\n");

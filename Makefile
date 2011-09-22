@@ -18,11 +18,13 @@ CPPFLAGS+=-g -Wall -DFSGPP_SHOW_IMMEDIATELY
 LDFLAGS+=-lSDL -lSDL_ttf -lSDL_image
 #-wl, -Map,$(PROJECT_NAME).map
 #-lts
+ifdef MAKE_EUMAX01_MJPEG_SUPPORT
 ifdef CROSS_COMPILE
 LIBS+=../capture/libc6_dsp_jpeg.lib
 CPPFLAGS+= -DC6COMPILE
 else
 LDFLAGS+=-ldsp_jpeg
+endif
 endif
 
 OBJS+=v4l_capture.o LL.o Screen.o Main.o Tools.o Globals.o \
