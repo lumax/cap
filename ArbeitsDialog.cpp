@@ -104,13 +104,13 @@ namespace EuMax01
 
     if( key->type == SDL_KEYUP )
       {
-	if(key->keysym.sym == SDLK_F1)
+	if(key->keysym.sym == SDLK_F11)
 	  {
-
+	    exit(11);
 	  }
 	else if(key->keysym.sym == SDLK_F12)
 	  {
-	    exit(0);
+	    exit(12);
 	  }
       }
   }
