@@ -27,7 +27,7 @@ LDFLAGS+=-ldsp_jpeg
 endif
 endif
 
-OBJS+=v4l_capture.o LL.o Screen.o Main.o Tools.o Globals.o \
+OBJS+= Version.h v4l_capture.o LL.o Screen.o Main.o Tools.o Globals.o \
 	Event.o Button.o Poll.o iniParser.o dsp_color.o Label.o \
 	Dialoge.o Rezept.o MBProt.o Protocol.o ArbeitsDialog.o
 #dsp_jpeg.o
@@ -43,6 +43,9 @@ alles:	clean get_v4l_capture $(EXE)
 
 get_v4l_capture:
 	cp ../capture/v4l_capture.o .
+
+Version.h:
+	./makeVersion.sh
 
 public:
 	cp ${PROJECT_NAME} ${ELDK_FS}/usr/work/${PROJECT_NAME}/${PROJECT_NAME}

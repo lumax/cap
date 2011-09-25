@@ -24,6 +24,7 @@
 #ifdef EUMAX01_MJPEG_SUPPORT
 #include <dsp_jpeg.h>
 #endif
+#include "Version.h"
 #include "v4l_capture.h"
 #include "iniParser.h"
 
@@ -767,7 +768,9 @@ int main(int argc, char *argv[])
   char confpath[96];
   char saveFilePath[96];
 
-
+  printf("Version_A: %s",CAP_VERSION);
+  printf("Version_B: %s",FSGPP_VERSION);
+  printf("Version_C: %s",CAPTURE_VERSION);
 
   showVideoMode();
 
