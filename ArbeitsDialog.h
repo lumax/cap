@@ -96,19 +96,10 @@ namespace EuMax01
 
     NewDialog * theNewDialog;
 
-    void setColors();
+    ButtonSettings * MenuSet;
+    ButtonSettings * DialogSet;
+    ButtonSettings * WerteSet;
 
-    unsigned int uiC_MenuNormal;
-    unsigned int uiC_MenuMarked;
-    SDL_Color * pC_MenuText;
-
-    unsigned int uiC_DialogNormal;
-    unsigned int uiC_DialogMarked;
-    SDL_Color * pC_DialogText;
-
-    unsigned int uiC_WerteNormal;
-    unsigned int uiC_WerteMarked;
-    SDL_Color * pC_WerteText;
     void blankMenuArea();
 
   private:

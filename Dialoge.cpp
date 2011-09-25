@@ -103,11 +103,8 @@ namespace EuMax01
     snprintf(this->StepText,256,\
 	     "Move camera 1 X-Axis in zero position :");
     Label_Step = new Label(this->StepText,			\
-			   MLinks_x,Zeile1_y,506*2,MZeile_h);
-    Label_Step->setNormalColor(Parent->uiC_MenuNormal);
-    Label_Step->setMarkedColor(Parent->uiC_MenuMarked);
+			   MLinks_x,Zeile1_y,506*2,MZeile_h,Parent->MenuSet);
     Label_Step->setFontColor(&Globals::GlobalSDL_Color3);//ein rot
-    Label_Step->setFont(Globals::getFontButtonBig());
 
     Label_ValueName = new Label(this->ValueName,			\
 				MLinks_x,Zeile3_y,			\
@@ -118,30 +115,17 @@ namespace EuMax01
     Label_Value = new Label(Value,					\
 			    MLinks_x+506+MSpace_h,			\
 			    Zeile3_y,506-MSpace_h,			\
-			    MZeile_h);
-    Label_Value->setNormalColor(Parent->uiC_WerteNormal);
-    Label_Value->setMarkedColor(Parent->uiC_WerteMarked);
-    Label_Value->setFontColor(Parent->pC_WerteText);
-    Label_Value->setFont(Globals::getFontMono18());
+			    MZeile_h,Parent->WerteSet);
     Label_Value->setBorder(true);
 
-    Label_MenuTitle = new Label("Calibration",MLinks_x,Zeile5_y,150,MZeile_h);
-    Label_MenuTitle->setFont(Globals::getFontButtonBig());
-    Label_MenuTitle->setMarkedColor(Parent->uiC_MenuMarked);
-    Label_MenuTitle->setFontColor(Parent->pC_MenuText);
-    Label_MenuTitle->setFont(Globals::getFontButtonBig());
+    Label_MenuTitle = new Label("Calibration",MLinks_x,Zeile5_y,150,MZeile_h,Parent->MenuSet);
 
     snprintf(this->InfoText,256,				       \
 	     "RETURN : set zero position | "			       \
 	     "LEFT previous step | RIGHT next step");
     Label_Menu = new Label(this->InfoText,			 \
 			    MLinks_x+158,Zeile5_y,			 \
-			    1012-158,MZeile_h);
-    Label_Menu->setNormalColor(Parent->uiC_MenuNormal);
-    Label_Menu->setMarkedColor(Parent->uiC_MenuMarked);
-    Label_Menu->setFontColor(Parent->pC_MenuText);
-    Label_Menu->setFont(Globals::getFontButtonBig());
-
+			   1012-158,MZeile_h,Parent->MenuSet);
 
     addEvtTarget(Label_Step);
     addEvtTarget(Label_ValueName);
@@ -417,24 +401,12 @@ namespace EuMax01
     B3x = B1x + 2*Bw+2*x_space;
     B4x = B1x + 3*Bw+3*x_space;
 
-    LabelRecipeName = new Label("",B1x,Y1,Bw,MZeile_h);
-    LabelRecipeName->setNormalColor(Parent->uiC_DialogNormal);
-    LabelRecipeName->setMarkedColor(Parent->uiC_DialogMarked);
-    LabelRecipeName->setFontColor(Parent->pC_DialogText);
-    LabelRecipeName->setFont(Globals::getFontButtonBig());
+    LabelRecipeName = new Label("",B1x,Y1,Bw,MZeile_h,Parent->DialogSet);
 
-    LabelStep = new Label("Step 1",B4x,Y1,Bw,MZeile_h);
-    LabelStep->setNormalColor(Parent->uiC_DialogNormal);
-    LabelStep->setMarkedColor(Parent->uiC_DialogMarked);
-    LabelStep->setFontColor(Parent->pC_DialogText);
-    LabelStep->setFont(Globals::getFontButtonBig());
+    LabelStep = new Label("Step 1",B4x,Y1,Bw,MZeile_h,Parent->DialogSet);
 
     //difference
-    LabelActual = new Label("current position",B2x,Y1,Bw,MZeile_h);
-    LabelActual->setNormalColor(Parent->uiC_DialogNormal);
-    LabelActual->setMarkedColor(Parent->uiC_DialogMarked);
-    LabelActual->setFontColor(Parent->pC_DialogText);
-    LabelActual->setFont(Globals::getFontButtonBig());
+    LabelActual = new Label("current position",B2x,Y1,Bw,MZeile_h,Parent->DialogSet);
 
     pLabelCam1[PosDialog::iLabelName] = new Label(Parent->TextCam1Xaxis,\
 						  B1x,Y2,Bw,MZeile_h);
@@ -476,20 +448,20 @@ namespace EuMax01
       {
 	if(i!=PosDialog::iDiff)
 	  {
-	    pLabelCam1[i]->setNormalColor(Parent->uiC_WerteNormal);
-	    pLabelCam1[i]->setMarkedColor(Parent->uiC_WerteMarked);
-	    pLabelCam1[i]->setFontColor(Parent->pC_WerteText);
-	    pLabelCam1[i]->setFont(Globals::getFontMono18());
+	    pLabelCam1[i]->setNormalColor(Parent->WerteSet->getNormalColor());
+	    pLabelCam1[i]->setMarkedColor(Parent->WerteSet->getMarkedColor());
+	    pLabelCam1[i]->setFontColor(Parent->WerteSet->getFontColor());
+	    pLabelCam1[i]->setFont(Parent->WerteSet->getFont());
 
-	    pLabelCam2[i]->setNormalColor(Parent->uiC_WerteNormal);
-	    pLabelCam2[i]->setMarkedColor(Parent->uiC_WerteMarked);
-	    pLabelCam2[i]->setFontColor(Parent->pC_WerteText);
-	    pLabelCam2[i]->setFont(Globals::getFontMono18());
+	    pLabelCam2[i]->setNormalColor(Parent->WerteSet->getNormalColor());
+	    pLabelCam2[i]->setMarkedColor(Parent->WerteSet->getMarkedColor());
+	    pLabelCam2[i]->setFontColor(Parent->WerteSet->getFontColor());
+	    pLabelCam2[i]->setFont(Parent->WerteSet->getFont());
 
-	    pLabelZ[i]->setNormalColor(Parent->uiC_WerteNormal);
-	    pLabelZ[i]->setMarkedColor(Parent->uiC_WerteMarked);
-	    pLabelZ[i]->setFontColor(Parent->pC_WerteText);
-	    pLabelZ[i]->setFont(Globals::getFontMono18());
+	    pLabelZ[i]->setNormalColor(Parent->WerteSet->getNormalColor());
+	    pLabelZ[i]->setMarkedColor(Parent->WerteSet->getMarkedColor());
+	    pLabelZ[i]->setFontColor(Parent->WerteSet->getFontColor());
+	    pLabelZ[i]->setFont(Parent->WerteSet->getFont());
 	  }
       }
 
@@ -747,11 +719,7 @@ namespace EuMax01
     Rezepte_y = yPos + 1*MSpace_h + 0*MZeile_h;
     Rezepte_w = 125;
 
-    Label_LadenName = new Label("Load",MLinks_x,MLoadName_y,150,MZeile_h);
-    Label_LadenName->setNormalColor(Parent->uiC_MenuNormal);
-    Label_LadenName->setMarkedColor(Parent->uiC_MenuMarked);
-    Label_LadenName->setFontColor(Parent->pC_MenuText);
-    Label_LadenName->setFont(Globals::getFontButtonBig());
+    Label_LadenName = new Label("Load",MLinks_x,MLoadName_y,150,MZeile_h,Parent->MenuSet);
     
     Label_MenuText = new Label("PagegUp: previous page | "		\
 			       "PageDown: next page | "			\
@@ -759,15 +727,13 @@ namespace EuMax01
 			       MLinks_x+156,				\
 			       MLoadName_y,				\
 			       1024-156,				\
-			       MZeile_h);
-    Label_MenuText->setNormalColor(Parent->uiC_MenuNormal);
-    Label_MenuText->setMarkedColor(Parent->uiC_MenuMarked);
-    Label_MenuText->setFontColor(Parent->pC_MenuText);
-    Label_MenuText->setFont(Globals::getFontButtonBig());
+			       MZeile_h,\
+			       Parent->MenuSet);
 
     unsigned int ii = 0;
     char tmpc[16] = { 'x','X','x','x','x','x','x','x'};
     tmpc[15]='\0';
+    Globals* global = Globals::getInstance();
     for(unsigned int i=0;i<LoadDialog::RezepteLen;i++)
       {
 	if(ii>=LoadDialog::RezepteProZeile)
@@ -780,10 +746,9 @@ namespace EuMax01
 				      MLinks_x + ii*x_space + ii*Rezepte_w, \
 				      Rezepte_y,			\
 				      Rezepte_w,			\
-				      MZeile_h);
-	pLabel_Rezepte[i]->setNormalColor(Parent->uiC_WerteNormal);
-	pLabel_Rezepte[i]->setMarkedColor(Parent->uiC_WerteMarked);
-	pLabel_Rezepte[i]->setFontColor(Parent->pC_WerteText);
+				      MZeile_h,				\
+				      Parent->WerteSet);
+	pLabel_Rezepte[i]->setFont(global->getDefaultFont());
 	ii++;
 	this->addEvtTarget(pLabel_Rezepte[i]);
       }
@@ -1132,40 +1097,22 @@ namespace EuMax01
     Spalte3_x = Spalte1_x + 2*Button_w+2*x_space;
 
     //Label_NewName = new Label("NEW RECIPE",MLinks_x,Zeile1_y,506*2,MZeile_h);
-    Label_Name = new Label("---",Spalte1_x,Zeile1_y,Button_w,MZeile_h);
-    Label_Name->setNormalColor(Parent->uiC_MenuNormal);
-    Label_Name->setMarkedColor(Parent->uiC_MenuMarked);
-    Label_Name->setFontColor(Parent->pC_MenuText);
-    Label_Name->setFont(Globals::getFontButtonBig());
+    Label_Name = new Label("---",Spalte1_x,Zeile1_y,Button_w,MZeile_h,Parent->MenuSet);
 
-    Label_Info = new Label("Recipe Name",Spalte3_x,Zeile1_y,Button_w,MZeile_h);
+    Label_Info = new Label("Recipe Name",Spalte3_x,Zeile1_y,Button_w,MZeile_h,Parent->DialogSet);
     snprintf(this->InfoText,64,"Recipe Name");
     Label_Info->setText(this->InfoText);
-    Label_Info->setNormalColor(Parent->uiC_DialogNormal);
-    Label_Info->setMarkedColor(Parent->uiC_DialogMarked);
-    Label_Info->setFontColor(Parent->pC_DialogText);
-    Label_Info->setFont(Globals::getFontButtonBig());
 
-    Label_MenuTitle = new Label("New",Spalte1_x,Zeile5_y,150,MZeile_h);
-    Label_MenuTitle->setFont(Globals::getFontButtonBig());
-    Label_MenuTitle->setMarkedColor(Parent->uiC_MenuMarked);
-    Label_MenuTitle->setFontColor(Parent->pC_MenuText);
-    Label_MenuTitle->setFont(Globals::getFontButtonBig());
+    Label_MenuTitle = new Label("New",Spalte1_x,Zeile5_y,150,MZeile_h,Parent->MenuSet);
 
     Label_Menu = new Label(NewDialogMainMenuText,			\
-			   Spalte1_x+158,Zeile5_y,1012-158,MZeile_h);
-    Label_Menu->setNormalColor(Parent->uiC_MenuNormal);
-    Label_Menu->setMarkedColor(Parent->uiC_MenuMarked);
-    Label_Menu->setFontColor(Parent->pC_MenuText);
-    Label_Menu->setFont(Globals::getFontButtonBig());
+			   Spalte1_x+158,Zeile5_y,1012-158,MZeile_h,Parent->MenuSet);
 
     TextField_Name = new TextField(0,LoadDialog::MaxRezeptFileLaenge,	\
 				   Spalte2_x,				\
 				   Zeile1_y,Button_w,			\
-				   MZeile_h);
-    TextField_Name->setNormalColor(Parent->uiC_WerteNormal);
-    TextField_Name->setMarkedColor(Parent->uiC_WerteMarked);
-    TextField_Name->setFontColor(Parent->pC_WerteText);
+				   MZeile_h,				\
+				   Parent->WerteSet);
     TextField_Name->setFont(Globals::getFontButtonBig());
     TextField_Name->setActive(true);
 
@@ -1189,11 +1136,14 @@ namespace EuMax01
       }
 
     LabelWerte[NewDialog::iPosX1] = new Label(pcWerte[NewDialog::iPosX1],\
-			      Spalte2_x,Zeile2_y,Button_w,MZeile_h);
+					      Spalte2_x,Zeile2_y,Button_w,MZeile_h,\
+					      Parent->WerteSet);
     LabelWerte[NewDialog::iPosX2] = new Label(pcWerte[NewDialog::iPosX2],\
-			      Spalte2_x,Zeile3_y,Button_w,MZeile_h);
+			      Spalte2_x,Zeile3_y,Button_w,MZeile_h,\
+					      Parent->WerteSet);
     LabelWerte[NewDialog::iPosZ] = new Label(pcWerte[NewDialog::iPosZ],\
-			      Spalte2_x,Zeile4_y,Button_w,MZeile_h);
+			      Spalte2_x,Zeile4_y,Button_w,MZeile_h,\
+					      Parent->WerteSet);
 
     snprintf(pcRezept[NewDialog::iPosX1],64,"%i",			\
 	     tmpRezept->Rezepte[this->step].cams[0].x_pos);
@@ -1204,25 +1154,14 @@ namespace EuMax01
 	     tmpRezept->Rezepte[this->step].cams[1].x_pos);
 
     LabelRezept[NewDialog::iPosX1] = new Label(pcRezept[NewDialog::iPosX1],\
-			       Spalte3_x,Zeile2_y,Button_w,MZeile_h);
+			       Spalte3_x,Zeile2_y,Button_w,MZeile_h,\
+					      Parent->WerteSet);
     LabelRezept[NewDialog::iPosX2] = new Label(pcRezept[NewDialog::iPosX2],\
-			       Spalte3_x,Zeile3_y,Button_w,MZeile_h);
+			       Spalte3_x,Zeile3_y,Button_w,MZeile_h,\
+					      Parent->WerteSet);
     LabelRezept[NewDialog::iPosZ] = new Label(pcRezept[NewDialog::iPosZ], \
-			       Spalte3_x,Zeile4_y,Button_w,MZeile_h);
-
-    for(int i =0;i<3;i++)
-      {
-	LabelWerte[i]->setNormalColor(Parent->uiC_WerteNormal);
-	LabelWerte[i]->setMarkedColor(Parent->uiC_WerteMarked);
-	LabelWerte[i]->setFontColor(Parent->pC_WerteText);
-	LabelWerte[i]->setFont(Globals::getFontMono18());
-
-	LabelRezept[i]->setNormalColor(Parent->uiC_WerteNormal);
-	LabelRezept[i]->setMarkedColor(Parent->uiC_WerteMarked);
-	LabelRezept[i]->setFontColor(Parent->pC_WerteText);
-	LabelRezept[i]->setFont(Globals::getFontMono18());
-      }
-
+			       Spalte3_x,Zeile4_y,Button_w,MZeile_h,\
+					      Parent->WerteSet);
 
     this->pTSource = this;//EvtTarget Quelle setzen, damit der EvtListener die Quelle mitteilen kann
     this->setKeyboardUpEvtHandler(NewDialogKeyListener);

@@ -171,7 +171,6 @@ namespace EuMax01
     this->theProtocol = prot;
     this->pcSaveFilePath = saveFilePath;
     this->pNullRezept->Name[0]='\0';
-    this->setColors();
 
     this->TextCam1Xaxis =(char*)"Cam1 X-Axis";
     this->TextCam2Xaxis = (char*)"Cam2 X-Axis";
@@ -215,6 +214,22 @@ namespace EuMax01
 	this->pNullRezept->Rezepte[i].cams[0].x_cross = MitteCrossCam1;
 	this->pNullRezept->Rezepte[i].cams[1].x_cross = MitteCrossCam2;
 	}
+
+    MenuSet = new ButtonSettings(Globals::getFontButtonBig(),		\
+				 &Globals::GlobalSDL_Color2,		\
+				 Globals::GlobalUint32ColorDarkGray,	\
+				 Globals::GlobalUint32ColorDarkGray);
+
+    DialogSet = new ButtonSettings(Globals::getFontButtonBig(),		\
+				   &Globals::GlobalSDL_ColorBlack,	\
+				   Globals::GlobalUint32Color2,		\
+				   Globals::GlobalUint32Color2);
+
+    WerteSet = new ButtonSettings(Globals::getFontMono18(),		\
+				  &Globals::GlobalSDL_ColorBlack,	\
+				  Globals::GlobalUint32Color3,		\
+				  Globals::GlobalUint32Color4);
+
     theLoadDialog = new LoadDialog(sdlw,sdlh,camw,camh,yPos,this);
     theErrorDialog = new ErrorDialog(sdlw,sdlh,camw,camh,yPos,this);
     theNewDialog = new NewDialog(sdlw,sdlh,camw,camh,yPos,this);
@@ -281,11 +296,7 @@ namespace EuMax01
 
     thePosDialog = new PosDialog(theRezept->Name,sdlw,sdlh,camw,camh,yPos,this);
 
-    LabelDialogName = new Label("Recipe",MInfoF1_x,MInfo_y,MInfo_w,MZeile_h);
-    LabelDialogName->setFont(Globals::getFontButtonBig());
-    LabelDialogName->setNormalColor(ArbeitsDialog::uiC_MenuNormal);
-    LabelDialogName->setMarkedColor(ArbeitsDialog::uiC_MenuMarked);
-    LabelDialogName->setFontColor(ArbeitsDialog::pC_MenuText);
+    LabelDialogName = new Label("Recipe",MInfoF1_x,MInfo_y,MInfo_w,MZeile_h,ArbeitsDialog::MenuSet);
 
     LabelInfo = new Label("F1: load | F2: edit | F3: new | F4: delete |"\
 			  "F5: prev | F6: next | "		\
@@ -293,11 +304,8 @@ namespace EuMax01
 			  MInfoF2_x,					\
 			  MInfo_y,					\
 			  MInfo_w*7+6*MInfoSpace_w,			\
-			  MZeile_h);
-    LabelInfo->setNormalColor(ArbeitsDialog::uiC_MenuNormal);
-    LabelInfo->setMarkedColor(ArbeitsDialog::uiC_MenuMarked);
-    LabelInfo->setFontColor(ArbeitsDialog::pC_MenuText);
-    LabelInfo->setFont(Globals::getFontButtonBig());
+			  MZeile_h,\
+			  MenuSet);
 
     if(useGUI)
       {
@@ -327,21 +335,6 @@ namespace EuMax01
 	this->addEvtTarget(this);
 	this->addEvtTarget(LabelDialogName);
       }
-  }
-
-  void ArbeitsDialog::setColors()
-  {
-    uiC_MenuNormal = Globals::GlobalUint32ColorDarkGray;
-    uiC_MenuMarked = Globals::GlobalUint32ColorDarkGray;
-    pC_MenuText = &Globals::GlobalSDL_Color2;
-
-    uiC_DialogNormal = Globals::GlobalUint32Color2;
-    uiC_DialogMarked = Globals::GlobalUint32Color2;
-    pC_DialogText = &Globals::GlobalSDL_ColorBlack;
-
-    uiC_WerteNormal = Globals::GlobalUint32Color3;//ein rot
-    uiC_WerteMarked = Globals::GlobalUint32Color4;//orange
-    pC_WerteText = &Globals::GlobalSDL_ColorBlack;
   }
 
   void ArbeitsDialog::showLoadDialog(unsigned int page,bool loadMode)
