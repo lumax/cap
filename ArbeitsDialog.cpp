@@ -41,6 +41,7 @@ namespace EuMax01
   {
     ArbeitsDialog* ad = (ArbeitsDialog*)src;//KeyListener
     SDL_KeyboardEvent * key = (SDL_KeyboardEvent *)&evt->key;
+    SDLMod mod = key->keysym.mod;
     //char zeichen = 0;
 
     if( key->type == SDL_KEYUP )
@@ -93,6 +94,15 @@ namespace EuMax01
 	else if(key->keysym.sym == SDLK_F12)
 	  {
 	    exit(12);
+	  }
+	else if(key->keysym.sym == SDLK_q)
+	  {
+	    if((mod & KMOD_CTRL) &&		\
+	       (mod & KMOD_SHIFT)&&		\
+	       (mod & KMOD_ALT))
+	      {
+		printf("Service\n");
+	      }
 	  }
       }
   }
