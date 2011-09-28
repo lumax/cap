@@ -957,7 +957,7 @@ int main(int argc, char *argv[])
     printf("Uart communication failed\n");
 
  
-  theGUI->activateScreen(theArbeitsDialog);
+  //theGUI->activateScreen(theArbeitsDialog);//setActiveScreen wird im Konstruktor aufgerufen
 
   theGUI->eventLoop();
 }
