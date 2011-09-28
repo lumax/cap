@@ -29,6 +29,7 @@ Bastian Ruppert
 #include "MBProt.h"
 
 #include "ArbeitsDialog.h"
+#include "NewDirectDialog.h"
 #include "Dialoge.h"
 
 namespace EuMax01
@@ -966,6 +967,10 @@ namespace EuMax01
 		if(ad->getStep()<8)
 		  ad->incStep();
 	      }
+	    else if(key->keysym.sym == SDLK_F8)
+	      {
+		ad->preparePhaseNewDirect();
+	      }
 	    else if(key->keysym.sym == SDLK_F10)
 	      {
 		if(ad->verifyName())//Prüfen und 
@@ -1071,6 +1076,7 @@ namespace EuMax01
     this->step = 0;
     this->theMenuModus = iMainMenu;
     this->tmpRezept = new Rezept();
+    this->newDirect = new NewDirectDialog(sdlw,sdlh,camw,camh,yPos,this);
     Rezept::copy(Parent->getNullRezept(),tmpRezept);
 
     M_y = sdlh - yPos;
@@ -1271,6 +1277,16 @@ namespace EuMax01
     this->LabelWerte[NewDialog::iPosZ]->Next = LabelRezept[NewDialog::iPosX1];
     this->LabelRezept[NewDialog::iPosX1]->Next = LabelRezept[NewDialog::iPosX2];
     this->LabelRezept[NewDialog::iPosX2]->Next = LabelRezept[NewDialog::iPosZ];    
+  }
+
+  void NewDialog::preparePhaseNewDirect()
+  {
+    resetEvtTargets();
+    //this->pTSource = newDirect;
+    this->EvtTargets.Next = newDirect->EvtTargets.Next;
+    Parent->theGUI->activateScreen(newDirect);
+    //this->setKeyboardUpEvtHandler((void(*)(void*,SDL_Event*))newDirect->getKeyListener());
+    newDirect->useNewDirectDialog(0);
   }
 
   LL * NewDialog::getDialogsEvtTargets()

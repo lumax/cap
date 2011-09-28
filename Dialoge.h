@@ -151,7 +151,7 @@ namespace EuMax01
     char DateiNamen[LoadDialog::RezepteLen][32];
   };
 
-
+  class NewDirectDialog;
   class NewDialog : public Screen
   {
   public:
@@ -196,6 +196,9 @@ namespace EuMax01
     Rezept * tmpRezept;
     
     LL * getDialogsEvtTargets();
+    NewDirectDialog * newDirect;
+
+    void preparePhaseNewDirect();
   private:
     //Label * Label_NewName;
     Label * Label_Name;
