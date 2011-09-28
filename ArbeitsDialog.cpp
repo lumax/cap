@@ -321,7 +321,7 @@ namespace EuMax01
     
     this->ArbeitsDialogEvtTargets.Next = this->EvtTargets.Next;//EvtTargets fuer spaeter sichern
     this->showCalibrationDialog();
-    this->showRezept(0);
+    //this->showRezept(0);
       }
     else
       {
@@ -349,9 +349,8 @@ namespace EuMax01
 	return;
       }
 
-    this->EvtTargets.Next = this->theLoadDialog->EvtTargets.Next;
     this->blankMenuArea();
-    this->show(this->theGUI->getMainSurface());
+    this->theGUI->activateScreen(theLoadDialog);
   }
 
   void ArbeitsDialog::showArbeitsDialog()
@@ -359,9 +358,8 @@ namespace EuMax01
     if(!useGUI)
       return;
     this->iActiveDialog = ArbeitsDialog::ArbeitsDialogIsActive;
-    this->EvtTargets.Next = this->ArbeitsDialogEvtTargets.Next;
     this->blankMenuArea();
-    this->show(this->theGUI->getMainSurface());
+    this->theGUI->activateScreen(this);
     this->showRezept(0);
     prt_sendmsg_uint(nPEC_GET_Q1,0x00);
     prt_sendmsg_uint(nPEC_GET_Q2,0x00);
@@ -375,9 +373,8 @@ namespace EuMax01
       return;
     this->iActiveDialog = ArbeitsDialog::ErrorDialogIsActive;
     this->theErrorDialog->setErrorMsg(msg);
-    this->EvtTargets.Next = this->theErrorDialog->EvtTargets.Next;
     this->blankMenuArea();
-    this->show(this->theGUI->getMainSurface());
+    this->theGUI->activateScreen(this->theErrorDialog);
   }
 
   void ArbeitsDialog::showNewDialog(char * MenuTitel)
@@ -385,9 +382,8 @@ namespace EuMax01
     if(!useGUI)
       return;
     this->iActiveDialog = ArbeitsDialog::NewDialogIsActive;
-    this->EvtTargets.Next = this->theNewDialog->getDialogsEvtTargets();
     this->blankMenuArea();
-    this->show(this->theGUI->getMainSurface());
+    this->theGUI->activateScreen(theNewDialog);
     	prt_sendmsg_uint(nPEC_GET_Q1,0x00);
 	prt_sendmsg_uint(nPEC_GET_Q2,0x00);
 	prt_sendmsg_uint(nPEC_GET_Z1,0x00);
@@ -413,10 +409,8 @@ namespace EuMax01
       return;
     this->iActiveDialog = ArbeitsDialog::CalDialogIsActive;
     this->sendProtocolMsg(nPEC_GET_Q1);
-    this->EvtTargets.Next = this->theCalDialog->EvtTargets.Next;
     this->blankMenuArea();
-    this->show(this->theGUI->getMainSurface());
-    //this->theCalDialog->incStep();
+    this->theGUI->activateScreen(theCalDialog);
   }
 
   void ArbeitsDialog::blankMenuArea()
