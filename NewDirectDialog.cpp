@@ -42,17 +42,17 @@ namespace EuMax01
 
     if( key->type == SDL_KEYUP )
       {
-	printf("NewDirectKeyListener\n");
-	/*	if(key->keysym.sym == SDLK_ESCAPE)
+	if(key->keysym.sym == SDLK_ESCAPE)
 	  {
-	    ad->Parent->Parent->showArbeitsDialog();
+	    printf("NewDirectKeyListener ESCAPE\n");
+	    ad->Parent->newDirectReturn(0);
 	  }
 	else if(key->keysym.sym == SDLK_RETURN)
 	  {
-	    ad->resetStepValue();
-	    ad->incStep();
+	    //ad->resetStepValue();
+	    //ad->incStep();
 	  }
-	else */if(key->keysym.sym == SDLK_LEFT)
+	else if(key->keysym.sym == SDLK_LEFT)
 	  {
 	    ad->decEingabeSchritt();
 	  }
@@ -62,11 +62,6 @@ namespace EuMax01
 	    ad->incEingabeSchritt();
 	    }
       }
-  }
-
-  void* NewDirectDialog::getKeyListener()
-  {
-    return (void*)NewDirectKeyListener;
   }
 
   NewDirectDialog::~NewDirectDialog(){};
@@ -87,12 +82,18 @@ namespace EuMax01
 
     this->Parent = parent;
     this->ActualStep = 0;
+    this->thePosSet.cams[0].x_pos = 0;
+    this->thePosSet.cams[0].z_pos = 0;
+    this->thePosSet.cams[0].x_cross = 0;
+    this->thePosSet.cams[1].x_pos = 0;
+    this->thePosSet.cams[1].z_pos = 0;
+    this->thePosSet.cams[1].x_cross = 0;
 
-    SchrittTexte[0] = (char *)"Schritt1";
-    SchrittTexte[1] = (char *)"Schritt2";
-    SchrittTexte[2] = (char *)"Schritt3";
-    SchrittTexte[3] = (char *)"Schritt4";
-    SchrittTexte[4] = (char *)"Schritt5";
+    SchrittTexte[0] = (char *)"Enter x-axis position for cam 1:";
+    SchrittTexte[1] = (char *)"Enter x-axis position for cam 2:";
+    SchrittTexte[2] = (char *)"Enter z-axis position:";
+    SchrittTexte[3] = (char *)"Enter crossair position in percent:";
+    SchrittTexte[4] = (char *)"Enter crossair position in percent:";
     
 
     M_y = sdlh - yPos;
@@ -121,7 +122,6 @@ namespace EuMax01
 	     "Move camera 1 X-Axis in zero position :");
     Label_Step = new Label(this->StepText,			\
 			   MLinks_x,Zeile1_y,506*2,MZeile_h,Parent->Parent->MenuSet);
-    Label_Step->setFontColor(&Globals::GlobalSDL_Color3);//ein rot
 
     Label_ValueName = new Label(this->ValueName,			\
 				MLinks_x,Zeile3_y,			\
@@ -135,10 +135,11 @@ namespace EuMax01
 			    MZeile_h,Parent->Parent->WerteSet);
     TF_Value->setBorder(true);
 
-    Label_MenuTitle = new Label("Calibration",MLinks_x,Zeile5_y,150,MZeile_h,Parent->Parent->MenuSet);
+    Label_MenuTitle = new Label("Direct Input",MLinks_x,Zeile5_y,150,MZeile_h,Parent->Parent->MenuSet);
 
     snprintf(this->InfoText,256,				       \
-	     "RETURN : set zero position | "			       \
+	     "ESC : cancel"
+	     "RETURN : confirm value | "			       \
 	     "LEFT previous step | RIGHT next step");
     Label_Menu = new Label(this->InfoText,			 \
 			    MLinks_x+158,Zeile5_y,			 \
@@ -168,6 +169,10 @@ namespace EuMax01
   void NewDirectDialog::useNewDirectDialog(PositionSet * thePositionSet)
   {
     this->ActualStep = 0;
+    printf("vor memcpy 0\n");
+    if(thePositionSet)
+      memcpy(&this->thePosSet,thePositionSet,sizeof(PositionSet));
+    printf("nach memcpy 0\n");
     this->showEingabeSchritt();
   }
 

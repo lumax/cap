@@ -27,8 +27,6 @@ namespace EuMax01
     void showEingabeSchritt();
     void useNewDirectDialog(PositionSet * thePositionSet);
     
-    void * getKeyListener();
-
   private:
     static const int AnzahlEingabeSchritte = 5;//camx1,camx2,z,cross1,cross2
     char * SchrittTexte[NewDirectDialog::AnzahlEingabeSchritte];
@@ -55,6 +53,7 @@ namespace EuMax01
     static const int iZ2 = 3;
 
     int ActualStep;
+    PositionSet thePosSet;
     void setXXData(unsigned short dat,int MyStep,char * suffix);
   };
   

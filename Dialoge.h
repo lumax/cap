@@ -161,6 +161,7 @@ namespace EuMax01
     void incStep();
     void decStep();
     int getStep();
+    void newDirectReturn(PositionSet * Set);
     Label * Label_MenuTitle;
     TextField * TextField_Name;
     Label * LabelWerte[3];

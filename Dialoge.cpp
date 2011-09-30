@@ -938,7 +938,7 @@ namespace EuMax01
   static char * NewDialogCrossMenuText = (char*)"CAM1 F1: << "\
     "| F2: < | F3: > | F4: >> || "	\
     "CAM2 F5: << | F6: < | F7: > | F8: >> | ";
-  
+
   static void NewDialogKeyListener(void * src, SDL_Event * evt)
   {
     NewDialog* ad = (NewDialog*)src;//KeyListener
@@ -1282,10 +1282,7 @@ namespace EuMax01
   void NewDialog::preparePhaseNewDirect()
   {
     resetEvtTargets();
-    //this->pTSource = newDirect;
-    this->EvtTargets.Next = newDirect->EvtTargets.Next;
     Parent->theGUI->activateScreen(newDirect);
-    //this->setKeyboardUpEvtHandler((void(*)(void*,SDL_Event*))newDirect->getKeyListener());
     newDirect->useNewDirectDialog(0);
   }
 
@@ -1445,5 +1442,15 @@ namespace EuMax01
   int NewDialog::getStep()
   {
     return this->step;
+  }
+
+  void NewDialog::newDirectReturn(PositionSet * Set)
+  {
+    if(Set)
+      {
+	//copy PositionSet to Actual PositionSet in NewDialog
+      }
+    preparePhaseRecipeSteps();
+    Parent->theGUI->activateScreen(this);//Parent->theNewDialog);
   }
 }
