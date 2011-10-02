@@ -57,9 +57,10 @@ namespace EuMax01
 	  }
 	else if(key->keysym.sym == SDLK_RETURN)
 	  {
+	    printf("value = %f\n",atof(ad->TF_Value->getText()));
 	    ad->confirmValue(atof(ad->TF_Value->getText()));
-	    ad->incEingabeSchritt();
-	    //ad->showEingabeSchritt();
+	    //ad->incEingabeSchritt();
+	    ad->showEingabeSchritt();
 	  }
 	else if(key->keysym.sym == SDLK_LEFT)
 	  {
@@ -256,14 +257,26 @@ namespace EuMax01
   {
     if(0==this->ActualStep)
       {
+	if(val<0)
+	  val = 0;
+	if(val>0xffff)
+	  val=0xffff;
 	thePosSet.cams[0].x_pos = val;
       }
     else if(1==this->ActualStep)
       {
+	if(val<0)
+	  val = 0;
+	if(val>0xffff)
+	  val=0xffff;
 	thePosSet.cams[1].x_pos = val;
       }
     else if(2==this->ActualStep)
       {
+	if(val<0)
+	  val = 0;
+	if(val>0xffff)
+	  val=0xffff;
 	thePosSet.cams[0].z_pos = val;
       }
     else if(3==this->ActualStep)
