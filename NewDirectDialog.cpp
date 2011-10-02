@@ -39,17 +39,8 @@ namespace EuMax01
   {
     NewDirectDialog* ad = (NewDirectDialog*)src;//KeyListener
     SDL_KeyboardEvent * key = (SDL_KeyboardEvent *)&evt->key;
-    char zeichen;
     if( key->type == SDL_KEYUP )
       {
-	zeichen = Tool::getIntegerNumeric_Char(key);
-	if(ad->JungfreulicheEingabe&&zeichen!=0)
-	  {
-	    ad->TF_Value->setText((char *)"");
-	    ad->TF_Value->addChar(zeichen);
-	    ad->JungfreulicheEingabe = false;
-	  }
-
 	if(key->keysym.sym == SDLK_ESCAPE)
 	  {
 	    printf("NewDirectKeyListener ESCAPE\n");
@@ -57,7 +48,6 @@ namespace EuMax01
 	  }
 	else if(key->keysym.sym == SDLK_RETURN)
 	  {
-	    printf("value = %f\n",atof(ad->TF_Value->getText()));
 	    ad->confirmValue(atof(ad->TF_Value->getText()));
 	    //ad->incEingabeSchritt();
 	    ad->showEingabeSchritt();
@@ -88,7 +78,7 @@ namespace EuMax01
     unsigned short MZeile_h;
     //unsigned short Rezepte_y;
     //short Rezepte_w;
-    short Zeile1_y,Zeile2_y,Zeile3_y,Zeile4_y,Zeile5_y;
+    short Zeile1_y,Zeile2_y,Zeile3_y,Zeile4_y,Zeile5_y,x1,x2,x3,x_space,button_breit,button_schmal;
 
     this->Parent = parent;
     this->ActualStep = 0;
@@ -98,7 +88,6 @@ namespace EuMax01
     this->thePosSet.cams[1].x_pos = 0;
     this->thePosSet.cams[1].z_pos = 0;
     this->thePosSet.cams[1].x_cross = 0;
-    JungfreulicheEingabe = true;
 
     SchrittTexte[0] = (char *)"Enter x-axis position for cam 1:";
     SchrittTexte[1] = (char *)"Enter x-axis position for cam 2:";
@@ -127,6 +116,12 @@ namespace EuMax01
     Zeile5_y = yPos + 5*MSpace_h + 4*MZeile_h;
     //Rezepte_w = 108;
 
+    button_breit = 400;
+    button_schmal = 200;
+    x_space = 6;
+    x1 = MLinks_x;
+    x2 = x1 + button_breit + x_space;
+    x3 = x2 + button_schmal + x_space;
 
     snprintf(this->StepText,256,\
 	     "Move camera 1 X-Axis in zero position :");
@@ -134,18 +129,24 @@ namespace EuMax01
 			   MLinks_x,Zeile1_y,506*2,MZeile_h,Parent->Parent->MenuSet);
 
     Label_ValueName = new Label(this->ValueName,			\
-				MLinks_x,Zeile3_y,			\
-				506-MSpace_h,MZeile_h);  
+				x1,Zeile3_y,				\
+				button_breit,MZeile_h);  
     Label_ValueName->setText(Parent->Parent->TextCam1Xaxis);
 
-    snprintf(this->Value,64," ");
-    TF_Value = new TextField(Value,TF_Len,				\
-			    MLinks_x+506+MSpace_h,			\
-			    Zeile3_y,506-MSpace_h,			\
-			    MZeile_h,Parent->Parent->WerteSet);
+    TF_Value = new TextField("",TF_Len,					\
+			     x2,					\
+			     Zeile3_y,button_schmal,			\
+			     MZeile_h,Parent->Parent->WerteSet);
     TF_Value->activateKeyListener(TextField::IntegerNumericChar);
     TF_Value->setBorder(true);
     TF_Value->setActive(true);
+
+    Label_OldValue = new Label(" -- ",			\
+			       x3,			\
+			       Zeile3_y,		\
+			       button_breit,		\
+			       MZeile_h,		\
+			       Parent->Parent->WerteSet);
 
     Label_MenuTitle = new Label("Direct Input",MLinks_x,Zeile5_y,150,MZeile_h,Parent->Parent->MenuSet);
 
@@ -164,6 +165,7 @@ namespace EuMax01
     addEvtTarget(Label_Step);
     addEvtTarget(Label_ValueName);
     addEvtTarget(TF_Value);
+    addEvtTarget(Label_OldValue);
     addEvtTarget(Label_MenuTitle);
     addEvtTarget(Label_Menu);
   }
@@ -295,10 +297,13 @@ namespace EuMax01
 
   void NewDirectDialog::showEingabeSchritt()
   {
-    JungfreulicheEingabe = true;
-    getSchritteValues(this->Value,64);
-    this->TF_Value->setText(this->Value);
+    TF_Value->setText((char *)"");
     Label::showLabel((void*)this->TF_Value,			\
+		     this->Parent->Parent->theGUI->getMainSurface()); 
+   
+    getSchritteValues(this->OldValue,64);
+    this->Label_OldValue->setText(this->OldValue);
+    Label::showLabel((void*)this->Label_OldValue,			\
 		     this->Parent->Parent->theGUI->getMainSurface());
 
     this->Label_Step->setText(SchrittTexte[this->ActualStep]);

@@ -42,6 +42,9 @@ namespace EuMax01
     Label * Label_ValueName;
     char ValueName[16];
 
+    Label * Label_OldValue;
+    char OldValue[64];
+
     TextField * TF_Value;
     const int TF_Len; 
     char Value[64];
@@ -59,7 +62,6 @@ namespace EuMax01
     int ActualStep;
     PositionSet thePosSet;
     void setXXData(unsigned short dat,int MyStep,char * suffix);
-    bool JungfreulicheEingabe;
     void confirmValue(int val);
   };
   
