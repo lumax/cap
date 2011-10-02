@@ -35,7 +35,7 @@ Bastian Ruppert
 namespace EuMax01
 {
 
-  static void NewDirectKeyListener(void * src, SDL_Event * evt)
+  void NewDirectDialog::NewDirectKeyListener(void * src, SDL_Event * evt)
   {
     NewDirectDialog* ad = (NewDirectDialog*)src;//KeyListener
     SDL_KeyboardEvent * key = (SDL_KeyboardEvent *)&evt->key;
@@ -51,6 +51,7 @@ namespace EuMax01
 	  {
 	    //ad->resetStepValue();
 	    //ad->incStep();
+	    printf("Eingegebener Wert: %7.2f\n",atof(ad->TF_Value->getText()));
 	  }
 	else if(key->keysym.sym == SDLK_LEFT)
 	  {
@@ -128,12 +129,14 @@ namespace EuMax01
 				506-MSpace_h,MZeile_h);  
     Label_ValueName->setText(Parent->Parent->TextCam1Xaxis);
 
-    snprintf(this->Value,64,"---");
+    snprintf(this->Value,64,"");
     TF_Value = new TextField(Value,TF_Len,				\
 			    MLinks_x+506+MSpace_h,			\
 			    Zeile3_y,506-MSpace_h,			\
 			    MZeile_h,Parent->Parent->WerteSet);
+    TF_Value->activateKeyListener(TextField::IntegerNumericChar);
     TF_Value->setBorder(true);
+    TF_Value->setActive(true);
 
     Label_MenuTitle = new Label("Direct Input",MLinks_x,Zeile5_y,150,MZeile_h,Parent->Parent->MenuSet);
 
@@ -145,15 +148,17 @@ namespace EuMax01
 			    MLinks_x+158,Zeile5_y,			 \
 			   1012-158,MZeile_h,Parent->Parent->MenuSet);
 
+    this->pTSource = this;//EvtTarget Quelle setzen, damit der EvtListener die Quelle mitteilen kann
+    this->setKeyboardUpEvtHandler(NewDirectKeyListener);
+    this->addEvtTarget(this);//den Screen Key Listener bei sich selber anmelden!
+
     addEvtTarget(Label_Step);
     addEvtTarget(Label_ValueName);
     addEvtTarget(TF_Value);
     addEvtTarget(Label_MenuTitle);
     addEvtTarget(Label_Menu);
 
-    this->pTSource = this;//EvtTarget Quelle setzen, damit der EvtListener die Quelle mitteilen kann
-    this->setKeyboardUpEvtHandler(NewDirectKeyListener);
-    this->addEvtTarget(this);//den Screen Key Listener bei sich selber anmelden!
+
   }
 
   void NewDirectDialog::incEingabeSchritt()
