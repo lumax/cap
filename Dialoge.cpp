@@ -1452,6 +1452,9 @@ namespace EuMax01
 	//copy PositionSet to Actual PositionSet in NewDialog
       }
     preparePhaseRecipeSteps();
+    while(getStep()>0)//zurück zur Nameneingabe
+      decStep();
+    incStep();
     Parent->theGUI->activateScreen(this);//Parent->theNewDialog);
   }
 }
