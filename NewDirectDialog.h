@@ -33,7 +33,9 @@ namespace EuMax01
     static const int AnzahlEingabeSchritte = 5;//camx1,camx2,z,cross1,cross2
     char * SchrittTexte[NewDirectDialog::AnzahlEingabeSchritte];
 
-    PositionSet * thePositionSet;
+    void getSchritteValueNames(char * buf,int len);
+    void getSchritteValues(char * buf,int len);
+    //PositionSet * thePositionSet;
     Label * Label_Step;
     char StepText[256];
 

@@ -933,7 +933,7 @@ namespace EuMax01
   }
   
   static char * NewDialogMainMenuText = (char*)"RETURN : take over | ESC : abort | " \
-    "F10 save | F12 Cross Menu";
+    "F8 direct input | F10 save | F12 Cross Menu";
   //LEFT prev step | RIGHT next step | 
   static char * NewDialogCrossMenuText = (char*)"CAM1 F1: << "\
     "| F2: < | F3: > | F4: >> || "	\
@@ -1281,9 +1281,10 @@ namespace EuMax01
 
   void NewDialog::preparePhaseNewDirect()
   {
+    int rzpStep = this->step - 1;
     resetEvtTargets();
     Parent->theGUI->activateScreen(newDirect);
-    newDirect->useNewDirectDialog(0);
+    newDirect->useNewDirectDialog(&this->tmpRezept->Rezepte[rzpStep]);
   }
 
   LL * NewDialog::getDialogsEvtTargets()

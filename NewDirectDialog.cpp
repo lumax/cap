@@ -96,7 +96,6 @@ namespace EuMax01
     SchrittTexte[3] = (char *)"Enter crossair position in percent:";
     SchrittTexte[4] = (char *)"Enter crossair position in percent:";
     
-
     M_y = sdlh - yPos;
     if(M_y<=84)
       {
@@ -129,7 +128,7 @@ namespace EuMax01
 				506-MSpace_h,MZeile_h);  
     Label_ValueName->setText(Parent->Parent->TextCam1Xaxis);
 
-    snprintf(this->Value,64,"");
+    snprintf(this->Value,64," ");
     TF_Value = new TextField(Value,TF_Len,				\
 			    MLinks_x+506+MSpace_h,			\
 			    Zeile3_y,506-MSpace_h,			\
@@ -157,16 +156,14 @@ namespace EuMax01
     addEvtTarget(TF_Value);
     addEvtTarget(Label_MenuTitle);
     addEvtTarget(Label_Menu);
-
-
   }
 
   void NewDirectDialog::incEingabeSchritt()
   {
-    ActualStep++;
-    if(ActualStep>=NewDirectDialog::AnzahlEingabeSchritte)
+    this->ActualStep++;
+    if(this->ActualStep>=NewDirectDialog::AnzahlEingabeSchritte)
       {
-	ActualStep = NewDirectDialog::AnzahlEingabeSchritte-1;
+	this->ActualStep = NewDirectDialog::AnzahlEingabeSchritte-1;
       }
     this->showEingabeSchritt();
   }
@@ -183,25 +180,81 @@ namespace EuMax01
 
   void NewDirectDialog::decEingabeSchritt()
   {
-    if(ActualStep>0)
+    if(this->ActualStep>0)
       {
-	ActualStep--;
+	this->ActualStep--;
       }
     this->showEingabeSchritt();
   }
 
+  void NewDirectDialog::getSchritteValueNames(char * buf,int len)
+  {
+    printf("this->ActualStep = %i\n",this->ActualStep);
+    if(0==this->ActualStep)
+      {
+	snprintf(buf,len,"Cam 1 X-axis");
+      }
+    else if(1==this->ActualStep)
+      {
+	snprintf(buf,len,"Cam 2 X-axis");
+      }
+    else if(2==this->ActualStep)
+      {
+	snprintf(buf,len,"Z-axis");
+      }
+    else if(3==this->ActualStep)
+      {
+	snprintf(buf,len,"Cam 1 cross");
+      }
+    else if(4==this->ActualStep)
+      {
+	snprintf(buf,len,"Cam 2 cross");
+      }
+    else
+      {
+	snprintf(buf,len,"N/A");
+      }
+  }
+
+  void NewDirectDialog::getSchritteValues(char * buf,int len)
+  {
+    printf("this->ActualStep = %i\n",this->ActualStep);
+    if(0==this->ActualStep)
+      {
+	snprintf(buf,len,"%7.2f mm",(float)thePosSet.cams[0].x_pos/100);
+      }
+    else if(1==this->ActualStep)
+      {
+	snprintf(buf,len,"%7.2f mm",(float)thePosSet.cams[1].x_pos/100);
+      }
+    else if(2==this->ActualStep)
+      {
+	snprintf(buf,len,"%7.2f °",(float)thePosSet.cams[0].z_pos/100);
+      }
+    else if(3==this->ActualStep)
+      {
+	snprintf(buf,len,"%i",thePosSet.cams[0].x_cross);
+      }
+    else if(4==this->ActualStep)
+      {
+	snprintf(buf,len,"%i",thePosSet.cams[1].x_cross);
+      }
+    else
+      {
+	snprintf(buf,len,"N/A");
+      }
+  }
+
   void NewDirectDialog::showEingabeSchritt()
   {
-    
-    //Wert Anzeige resetten
-    snprintf(this->Value,64,"---");
+    getSchritteValues(this->Value,64);
     this->TF_Value->setText(this->Value);
     Label::showLabel((void*)this->TF_Value,			\
 		     this->Parent->Parent->theGUI->getMainSurface());
 
-    this->Label_Step->setText(SchrittTexte[ActualStep]);
+    this->Label_Step->setText(SchrittTexte[this->ActualStep]);
 
-    snprintf(this->ValueName,16,"Z2");
+    this->getSchritteValueNames(this->ValueName,16);
     this->Label_ValueName->setText(this->ValueName);
     
     Label::showLabel((void*)this->Label_Step,			\
