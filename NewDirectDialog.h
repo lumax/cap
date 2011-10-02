@@ -59,6 +59,8 @@ namespace EuMax01
     int ActualStep;
     PositionSet thePosSet;
     void setXXData(unsigned short dat,int MyStep,char * suffix);
+    bool JungfreulicheEingabe;
+    void confirmValue(int val);
   };
   
 #endif /* __NEWDIRECTDIALOGE_H__*/

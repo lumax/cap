@@ -39,9 +39,17 @@ namespace EuMax01
   {
     NewDirectDialog* ad = (NewDirectDialog*)src;//KeyListener
     SDL_KeyboardEvent * key = (SDL_KeyboardEvent *)&evt->key;
-
+    char zeichen;
     if( key->type == SDL_KEYUP )
       {
+	zeichen = Tool::getIntegerNumeric_Char(key);
+	if(ad->JungfreulicheEingabe&&zeichen!=0)
+	  {
+	    ad->TF_Value->setText((char *)"");
+	    ad->TF_Value->addChar(zeichen);
+	    ad->JungfreulicheEingabe = false;
+	  }
+
 	if(key->keysym.sym == SDLK_ESCAPE)
 	  {
 	    printf("NewDirectKeyListener ESCAPE\n");
@@ -49,9 +57,9 @@ namespace EuMax01
 	  }
 	else if(key->keysym.sym == SDLK_RETURN)
 	  {
-	    //ad->resetStepValue();
-	    //ad->incStep();
-	    printf("Eingegebener Wert: %7.2f\n",atof(ad->TF_Value->getText()));
+	    ad->confirmValue(atof(ad->TF_Value->getText()));
+	    ad->incEingabeSchritt();
+	    //ad->showEingabeSchritt();
 	  }
 	else if(key->keysym.sym == SDLK_LEFT)
 	  {
@@ -71,7 +79,7 @@ namespace EuMax01
 				   int camw,				\
 				   int camh,				\
 				   int yPos,NewDialog * parent):Screen(), \
-								TF_Len(6)
+								TF_Len(24)
   {
     short M_y;
     short MLinks_x;
@@ -89,6 +97,7 @@ namespace EuMax01
     this->thePosSet.cams[1].x_pos = 0;
     this->thePosSet.cams[1].z_pos = 0;
     this->thePosSet.cams[1].x_cross = 0;
+    JungfreulicheEingabe = true;
 
     SchrittTexte[0] = (char *)"Enter x-axis position for cam 1:";
     SchrittTexte[1] = (char *)"Enter x-axis position for cam 2:";
@@ -189,7 +198,6 @@ namespace EuMax01
 
   void NewDirectDialog::getSchritteValueNames(char * buf,int len)
   {
-    printf("this->ActualStep = %i\n",this->ActualStep);
     if(0==this->ActualStep)
       {
 	snprintf(buf,len,"Cam 1 X-axis");
@@ -218,7 +226,6 @@ namespace EuMax01
 
   void NewDirectDialog::getSchritteValues(char * buf,int len)
   {
-    printf("this->ActualStep = %i\n",this->ActualStep);
     if(0==this->ActualStep)
       {
 	snprintf(buf,len,"%7.2f mm",(float)thePosSet.cams[0].x_pos/100);
@@ -245,8 +252,37 @@ namespace EuMax01
       }
   }
 
+  void NewDirectDialog::confirmValue(int val)
+  {
+    if(0==this->ActualStep)
+      {
+	thePosSet.cams[0].x_pos = val;
+      }
+    else if(1==this->ActualStep)
+      {
+	thePosSet.cams[1].x_pos = val;
+      }
+    else if(2==this->ActualStep)
+      {
+	thePosSet.cams[0].z_pos = val;
+      }
+    else if(3==this->ActualStep)
+      {
+	thePosSet.cams[0].x_cross = val;
+      }
+    else if(4==this->ActualStep)
+      {
+	thePosSet.cams[1].x_cross = val;
+      }
+    else
+      {
+
+      }
+  }
+
   void NewDirectDialog::showEingabeSchritt()
   {
+    JungfreulicheEingabe = true;
     getSchritteValues(this->Value,64);
     this->TF_Value->setText(this->Value);
     Label::showLabel((void*)this->TF_Value,			\
