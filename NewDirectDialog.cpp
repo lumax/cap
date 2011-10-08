@@ -56,10 +56,10 @@ namespace EuMax01
 	  }
 	else if(key->keysym.sym == SDLK_RETURN)
 	  {
-	    //TODO: den muell hier unten auskommentieren und ad->Parent->newDirectReturn(&thePosSet) aufrufen
-	    ad->confirmValue(atof(ad->TF_Value->getText()));
-	    //ad->incEingabeSchritt();
-	    ad->showEingabeSchritt();
+	    if(ad->getEingabeSchritt()==NewDirectDialog::AnzahlEingabeSchritte-1)
+	      ad->Parent->newDirectReturn(ad->getPositionSet());
+	    else
+	      ad->incEingabeSchritt();
 	  }
 	else if(key->keysym.sym == SDLK_LEFT)
 	  {
@@ -179,6 +179,11 @@ namespace EuMax01
     addEvtTarget(Label_Menu);
   }
 
+  PositionSet * NewDirectDialog::getPositionSet()
+  {
+    return &thePosSet;
+  }
+
   void NewDirectDialog::incEingabeSchritt()
   {
     if(this->ActualStep<NewDirectDialog::AnzahlEingabeSchritte-1)
@@ -187,6 +192,11 @@ namespace EuMax01
 	TF_Value->setText((char *)"");//hidden TextField reset	
       }
     this->showEingabeSchritt();
+  }
+
+  int NewDirectDialog::getEingabeSchritt()
+  {
+    return this->ActualStep;
   }
 
   void NewDirectDialog::useNewDirectDialog(PositionSet * thePositionSet)

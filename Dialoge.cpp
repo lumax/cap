@@ -1282,6 +1282,10 @@ namespace EuMax01
   void NewDialog::preparePhaseNewDirect()
   {
     int rzpStep = this->step - 1;
+    if(rzpStep<0)
+      {
+	rzpStep = 0;
+      }
     resetEvtTargets();
     Parent->theGUI->activateScreen(newDirect);
     newDirect->useNewDirectDialog(&this->tmpRezept->Rezepte[rzpStep]);
@@ -1447,9 +1451,11 @@ namespace EuMax01
 
   void NewDialog::newDirectReturn(PositionSet * Set)
   {
+    int rzpStep = this->step - 1;
     if(Set)
       {
 	//copy PositionSet to Actual PositionSet in NewDialog
+	memcpy(&this->tmpRezept->Rezepte[rzpStep],Set,sizeof(PositionSet));
       }
     preparePhaseRecipeSteps();
     while(getStep()>0)//zurück zur Nameneingabe

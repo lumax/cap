@@ -24,7 +24,9 @@ namespace EuMax01
     //void resetStepValue();
     void incEingabeSchritt();
     void decEingabeSchritt();
+    int getEingabeSchritt();
     void showEingabeSchritt();
+    PositionSet * getPositionSet();
     void useNewDirectDialog(PositionSet * thePositionSet);
 
     static void NewDirectKeyListener(void * src, SDL_Event * evt);
