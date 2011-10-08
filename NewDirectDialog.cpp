@@ -39,15 +39,24 @@ namespace EuMax01
   {
     NewDirectDialog* ad = (NewDirectDialog*)src;//KeyListener
     SDL_KeyboardEvent * key = (SDL_KeyboardEvent *)&evt->key;
+    char zeichen = 0;
+
     if( key->type == SDL_KEYUP )
       {
+	zeichen = Tool::getIntegerNumeric_Char(key);
+	if(key->keysym.sym == SDLK_BACKSPACE||zeichen!=0)
+	  {
+	    ad->confirmValue(atof(ad->TF_Value->getText()));
+	    ad->getSchritteValues(ad->OldValue,64);
+	    ad->Label_OldValue->setText(ad->OldValue);
+	  }
 	if(key->keysym.sym == SDLK_ESCAPE)
 	  {
-	    printf("NewDirectKeyListener ESCAPE\n");
 	    ad->Parent->newDirectReturn(0);
 	  }
 	else if(key->keysym.sym == SDLK_RETURN)
 	  {
+	    //TODO: den muell hier unten auskommentieren und ad->Parent->newDirectReturn(&thePosSet) aufrufen
 	    ad->confirmValue(atof(ad->TF_Value->getText()));
 	    //ad->incEingabeSchritt();
 	    ad->showEingabeSchritt();
@@ -58,9 +67,8 @@ namespace EuMax01
 	  }
 	else if(key->keysym.sym == SDLK_RIGHT)
 	  {
-
 	    ad->incEingabeSchritt();
-	    }
+	  }
       }
   }
 
@@ -70,7 +78,7 @@ namespace EuMax01
 				   int camw,				\
 				   int camh,				\
 				   int yPos,NewDialog * parent):Screen(), \
-								TF_Len(24)
+								TF_Len(5)
   {
     short M_y;
     short MLinks_x;
@@ -138,7 +146,8 @@ namespace EuMax01
 			     Zeile3_y,button_schmal,			\
 			     MZeile_h,Parent->Parent->WerteSet);
     TF_Value->activateKeyListener(TextField::IntegerNumericChar);
-    TF_Value->setBorder(true);
+    TF_Value->setBorder(false);
+    TF_Value->hide(true);
     TF_Value->setActive(true);
 
     Label_OldValue = new Label(" -- ",			\
@@ -172,10 +181,10 @@ namespace EuMax01
 
   void NewDirectDialog::incEingabeSchritt()
   {
-    this->ActualStep++;
-    if(this->ActualStep>=NewDirectDialog::AnzahlEingabeSchritte)
+    if(this->ActualStep<NewDirectDialog::AnzahlEingabeSchritte-1)
       {
-	this->ActualStep = NewDirectDialog::AnzahlEingabeSchritte-1;
+	this->ActualStep++;
+	TF_Value->setText((char *)"");//hidden TextField reset	
       }
     this->showEingabeSchritt();
   }
@@ -183,10 +192,9 @@ namespace EuMax01
   void NewDirectDialog::useNewDirectDialog(PositionSet * thePositionSet)
   {
     this->ActualStep = 0;
-    printf("vor memcpy 0\n");
+    TF_Value->setText((char *)"");//hidden TextField reset
     if(thePositionSet)
       memcpy(&this->thePosSet,thePositionSet,sizeof(PositionSet));
-    printf("nach memcpy 0\n");
     this->showEingabeSchritt();
   }
 
@@ -195,6 +203,7 @@ namespace EuMax01
     if(this->ActualStep>0)
       {
 	this->ActualStep--;
+	TF_Value->setText((char *)"");//hidden TextField reset
       }
     this->showEingabeSchritt();
   }
@@ -297,10 +306,10 @@ namespace EuMax01
 
   void NewDirectDialog::showEingabeSchritt()
   {
-    TF_Value->setText((char *)"");
+    /*    TF_Value->setText((char *)"");
     Label::showLabel((void*)this->TF_Value,			\
 		     this->Parent->Parent->theGUI->getMainSurface()); 
-   
+    */
     getSchritteValues(this->OldValue,64);
     this->Label_OldValue->setText(this->OldValue);
     Label::showLabel((void*)this->Label_OldValue,			\
