@@ -15,7 +15,7 @@ sudo apt-get libsdl-ttf2.0
 
 TODO:
 -Poll segfault mit Kommunikation am AMC beim Systemstart
--Video abspeilen und zu Programm zurück
+-Video abspielen und zu Programm zurück
 -FehlerDialog:"Name zu kurz" in SDLK_F10 NewDialogKeyListener
 -Abfrage ob Datei überschrieben werden soll (noch nicht gefordert)
 	 -Dateinamen durchsuchen
@@ -28,7 +28,6 @@ TODO:
 -Bedienung des Messsystems über Maus
 -Zählrichtung änderbar
 -Eingabe des Zylinderumfangs zur Berechnung der Startposition in mm anstatt °
--F12 Cross Menue: Position speichern kriege ich nicht hin
 -Drehwinkelgeber für die Fadenkreuze
 -Video endlos
 -Fadenfarbe ist wirklich nicht schön
@@ -37,6 +36,13 @@ HOFFENTLICH ERLEDIGT
 -Farbschemata attraktiv gestalten
 
 ERLEDIGT:
+-Tastatureingabe von den Achsenwerten mit F8 im New oder SaveAs Dialog.
+-F12 Cross Menue: Position speichern kriege ich nicht hin:
+     Es musste in der Fadenkreuzeingabe mit Enter bestätigt werden,
+     und dann im nächsten Dialog nocheinmal Enter, damit das Faden-
+     kreuz übernommen und in den nächsten step gewechselt wurde.
+     Jetzt reicht ein Enter im Fadenkreuzdialog um die Werte zu
+     übernehmen.
 -git hashes in Quellcode als Version einbinden
 -Kommunikation zu Beginn unterbinden (protokoll init vor UART init)
 -Rezepte löschen
