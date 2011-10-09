@@ -67,6 +67,7 @@ namespace EuMax01
 	       (mod & KMOD_ALT))
 	      {
 		ad->bPaintRequest = true;
+		ad->Parent->showCalibrationDialog();
 		printf("set paintRequest\n");
 	      }
 	  }
