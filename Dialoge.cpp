@@ -1006,6 +1006,8 @@ namespace EuMax01
 	      }
 	    else if(key->keysym.sym == SDLK_F12)
 	      {
+		if(ad->getStep()==0)
+		  ad->incStep();
 		ad->theMenuModus=NewDialog::iCrossaireMenu;
 		ad->Label_Menu->setText(NewDialogCrossMenuText);
 		Label::showLabel((void*)ad->Label_Menu,ad->Parent->theGUI->getMainSurface());
@@ -1016,11 +1018,24 @@ namespace EuMax01
       {
 	if( key->type == SDL_KEYUP )
 	  {
-	    if(key->keysym.sym == SDLK_ESCAPE||key->keysym.sym == SDLK_RETURN)
+	    if(key->keysym.sym == SDLK_ESCAPE)
+	      {
+		ad->decStep();
+		ad->incStep();//Anzeige "durchspülen"
+
+		ad->theMenuModus=NewDialog::iMainMenu;
+		ad->Label_Menu->setText(NewDialogMainMenuText);
+		Label::showLabel((void*)ad->Label_Menu,ad->Parent->theGUI->getMainSurface());
+	      }
+	    else if(key->keysym.sym == SDLK_RETURN)
 	      {
 		ad->theMenuModus=NewDialog::iMainMenu;
 		ad->Label_Menu->setText(NewDialogMainMenuText);
 		Label::showLabel((void*)ad->Label_Menu,ad->Parent->theGUI->getMainSurface());
+
+		ad->copyValuesToRezept();
+		if(ad->getStep()<8)
+		  ad->incStep();
 	      }
 	    else if(key->keysym.sym == SDLK_F1)
 	      {
