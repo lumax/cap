@@ -22,7 +22,7 @@ Bastian Ruppert
 #include "Screen.h"
 #include "Main.h"
 
-//#include "v4l_capture.h"
+#include "v4l_capture.h"
 #include "Rezept.h"
 //#include "Protocol.h"
 //#include "pec_cmd.h"
@@ -39,6 +39,7 @@ namespace EuMax01
   {
     NewDirectDialog* ad = (NewDirectDialog*)src;//KeyListener
     SDL_KeyboardEvent * key = (SDL_KeyboardEvent *)&evt->key;
+    SDLMod mod = key->keysym.mod;
     char zeichen = 0;
 
     if( key->type == SDL_KEYUP )
@@ -63,14 +64,31 @@ namespace EuMax01
 	  }
 	else if(key->keysym.sym == SDLK_LEFT)
 	  {
-	    ad->decEingabeSchritt();
+	    if((mod & KMOD_SHIFT) || (mod & KMOD_ALT))
+	      {
+		ad->crosshairsKeyListener(key);
+	      }
+	    else
+	      {
+		ad->decEingabeSchritt();
+	      }
 	  }
 	else if(key->keysym.sym == SDLK_RIGHT)
 	  {
-	    ad->incEingabeSchritt();
+	    if((mod & KMOD_SHIFT) || (mod & KMOD_ALT))
+	      {
+		ad->crosshairsKeyListener(key);
+	      }
+	    else
+	      {
+		ad->incEingabeSchritt();
+	      }
 	  }
       }
   }
+
+  static char * MenuAxisText = (char*)"ESC : cancel | RET : OK | LEFT prev | RIGHT next";
+  static char * MenuCrossText = (char*)"ESC : cancel | RET : OK | LEFT prev | RIGHT next | Ctrl/Alt LEFT/RIGHT cross";
 
   NewDirectDialog::~NewDirectDialog(){};
   NewDirectDialog::NewDirectDialog(int sdlw,				\
@@ -159,13 +177,10 @@ namespace EuMax01
 
     Label_MenuTitle = new Label("Direct Input",MLinks_x,Zeile5_y,150,MZeile_h,Parent->Parent->MenuSet);
 
-    snprintf(this->InfoText,256,				       \
-	     "ESC : cancel"
-	     "RETURN : confirm value | "			       \
-	     "LEFT previous step | RIGHT next step");
-    Label_Menu = new Label(this->InfoText,			 \
+    Label_Menu = new Label(" ",						\
 			    MLinks_x+158,Zeile5_y,			 \
 			   1012-158,MZeile_h,Parent->Parent->MenuSet);
+    Label_Menu->setText(MenuAxisText);
 
     this->pTSource = this;//EvtTarget Quelle setzen, damit der EvtListener die Quelle mitteilen kann
     this->setKeyboardUpEvtHandler(NewDirectKeyListener);
@@ -262,11 +277,14 @@ namespace EuMax01
       }
     else if(3==this->ActualStep)
       {
-	snprintf(buf,len,"%i",thePosSet.cams[0].x_cross);
+	//printf("Cam1 thePosSet.cams[0].x_cross %i\n",thePosSet.cams[0].x_cross);
+	//printf("Cam2 thePosSet.cams[1].x_cross %i\n",thePosSet.cams[1].x_cross);
+	//snprintf(buf,len,"%i",Parent->Parent->getCrossInPercent(0,thePosSet.cams[0].x_cross));
       }
     else if(4==this->ActualStep)
       {
-	snprintf(buf,len,"%i",thePosSet.cams[1].x_cross);
+	//snprintf(buf,len,"%i",thePosSet.cams[1].x_cross);
+	//snprintf(buf,len,"%i",Parent->Parent->getCrossInPercent(1,thePosSet.cams[1].x_cross));
       }
     else
       {
@@ -302,11 +320,17 @@ namespace EuMax01
       }
     else if(3==this->ActualStep)
       {
-	thePosSet.cams[0].x_cross = val;
+	/*	if(val<=0)
+	  val=0;
+	if(val>=100)
+	  val=100;
+	cap_cam_setCrossX(0,val);
+	thePosSet.cams[0].x_cross = cap_cam_getCrossX(0);*/
       }
     else if(4==this->ActualStep)
       {
-	thePosSet.cams[1].x_cross = val;
+	/*	cap_cam_setCrossX(1,val);
+		thePosSet.cams[1].x_cross = cap_cam_getCrossX(1);*/
       }
     else
       {
@@ -316,41 +340,32 @@ namespace EuMax01
 
   void NewDirectDialog::showEingabeSchritt()
   {
-    /*    TF_Value->setText((char *)"");
-    Label::showLabel((void*)this->TF_Value,			\
-		     this->Parent->Parent->theGUI->getMainSurface()); 
-    */
-    getSchritteValues(this->OldValue,64);
-    this->Label_OldValue->setText(this->OldValue);
-    Label::showLabel((void*)this->Label_OldValue,			\
-		     this->Parent->Parent->theGUI->getMainSurface());
-
+    if(this->ActualStep==3||this->ActualStep==4)//cross_x hat kein TextFeld
+      {
+	Label_Menu->setText(MenuCrossText);
+	this->Label_OldValue->hide(true);
+	this->Parent->Parent->blankButton(Label_OldValue);
+      }
+    else
+      {
+	Label_Menu->setText(MenuAxisText);
+	this->Label_OldValue->hide(false);
+	getSchritteValues(this->OldValue,64);
+	this->Label_OldValue->setText(this->OldValue);
+	Label::showLabel((void*)this->Label_OldValue,			\
+			 this->Parent->Parent->theGUI->getMainSurface());
+      }
     this->Label_Step->setText(SchrittTexte[this->ActualStep]);
 
     this->getSchritteValueNames(this->ValueName,16);
     this->Label_ValueName->setText(this->ValueName);
     
-    Label::showLabel((void*)this->Label_Step,			\
+    Label::showLabel((void*)this->Label_Step,				\
 		     this->Parent->Parent->theGUI->getMainSurface());
-    Label::showLabel((void*)this->Label_ValueName,		\
+    Label::showLabel((void*)this->Label_ValueName,			\
 		     this->Parent->Parent->theGUI->getMainSurface());
-  }
-  
-  /*  void NewDirectDialog::setQ1(unsigned short dat)
-  {
-    setXXData(dat,NewDirectDialog::iQ1,(char*)" mm");  
   }
 
-  void NewDirectDialog::setQ2(unsigned short dat)
-  {
-    setXXData(dat,NewDirectDialog::iQ2,(char*)" mm");    
-  }
-
-  void NewDirectDialog::setZ1(unsigned short dat)
-  {
-    setXXData(dat,NewDirectDialog::iZ1,(char*)" ° ");    
-  }
-  */
   void NewDirectDialog::setXXData(unsigned short dat,int MyStep,char*suffix)
   {
     if(MyStep==this->ActualStep)
@@ -362,5 +377,48 @@ namespace EuMax01
       }
   }
 
+  void NewDirectDialog::crosshairsKeyListener(SDL_KeyboardEvent * key)
+  {
+    SDLMod mod = key->keysym.mod;
+    int cam = 0;
+
+    if(this->ActualStep==3)
+      cam = 0;
+    else if(this->ActualStep==4)
+      cam = 1;
+    else
+      return;//kein cross-Eingabe Dialog
+
+    if(key->keysym.sym == SDLK_LEFT)
+      {
+	if((mod & KMOD_SHIFT)&&(mod & KMOD_ALT))
+	  {
+	    cap_cam_addCrossX(cam,-100);
+	  }
+	else if((mod & KMOD_SHIFT))
+	  {
+	    cap_cam_addCrossX(cam,-10);
+	  }
+	else if((mod & KMOD_ALT))
+	  {
+	    cap_cam_addCrossX(cam,-2);
+	  }
+      }
+    else if(key->keysym.sym == SDLK_RIGHT)
+      {
+	if((mod & KMOD_SHIFT)&&(mod & KMOD_ALT))
+	  {
+	    cap_cam_addCrossX(cam,100);
+	  }
+	else if((mod & KMOD_SHIFT))
+	  {
+	    cap_cam_addCrossX(cam,10);
+	  }
+	else if((mod & KMOD_ALT))
+	  {
+	    cap_cam_addCrossX(cam,2);
+	  }
+      }
+  }
 
 }
