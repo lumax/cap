@@ -1465,13 +1465,19 @@ namespace EuMax01
     int rzpStep = this->step - 1;
     if(Set)
       {
+	if(rzpStep<0)
+	  rzpStep=0;
 	//copy PositionSet to Actual PositionSet in NewDialog
 	memcpy(&this->tmpRezept->Rezepte[rzpStep],Set,sizeof(PositionSet));
       }
     preparePhaseRecipeSteps();
-    while(getStep()>0)//zurück zur Nameneingabe
-      decStep();
-    incStep();
+    if(getStep()==0)
+      incStep();
+    else
+      {
+	decStep();
+	incStep();
+      }
     Parent->theGUI->activateScreen(this);//Parent->theNewDialog);
   }
 }
