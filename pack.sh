@@ -1,7 +1,6 @@
 #!/bin/bash
 
 mkdir cap_test
-cp ../../stage/x86/usr/local/lib/libdsp_jpeg.so.1.0 cap_test/
 cp cap cap_test
 cp cap.conf cap_test
 cp aispec.ttf cap_test
