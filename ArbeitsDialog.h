@@ -101,6 +101,7 @@ namespace EuMax01
     ButtonSettings * WerteSet;
 
     void blankMenuArea();
+    void blankButton(Button * b);
 
   private:
     int CamW_Sichtbar;

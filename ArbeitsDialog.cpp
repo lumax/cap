@@ -426,6 +426,25 @@ namespace EuMax01
 		   this->Area.h);
   }
 
+  void ArbeitsDialog::blankButton(Button * b)
+  {
+    SDL_Rect tmpRect;
+    tmpRect.x = b->PosDimRect.x;
+    tmpRect.y = b->PosDimRect.y;
+    tmpRect.w = b->PosDimRect.w;
+    tmpRect.h = b->PosDimRect.h;
+
+    Tool::blankSurface(this->theGUI->getMainSurface(),	\
+		       FSG_BACKGROUND,			\
+		       &tmpRect);//TODO Rückgabewert
+
+    SDL_UpdateRect(this->theGUI->getMainSurface(),	\
+		   tmpRect.x,			\
+		   tmpRect.y,			\
+		   tmpRect.w,			\
+		   tmpRect.h);
+  }
+
   void ArbeitsDialog::incRezeptNummer()
   {
     this->RezeptNummer++;
