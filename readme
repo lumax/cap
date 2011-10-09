@@ -20,16 +20,24 @@ TODO:
 -Abfrage ob Datei überschrieben werden soll (noch nicht gefordert)
 	 -Dateinamen durchsuchen
 -Versionsnummer anzeigen
--git hashes in Quellcode als Version einbinden
 -Farbeffekte beim Laden der Applikation (show Funktionen)
 -Update System
 -Vernümftig aus dem Programm aussteigen, wenn eine Kamera abgezogen
  wird usw. (ErrorMeldungen anzeigen)
 
+-Bedienung des Messsystems über Maus
+-Zählrichtung änderbar
+-Eingabe des Zylinderumfangs zur Berechnung der Startposition in mm anstatt °
+-F12 Cross Menue: Position speichern kriege ich nicht hin
+-Drehwinkelgeber für die Fadenkreuze
+-Video endlos
+-Fadenfarbe ist wirklich nicht schön
+
 HOFFENTLICH ERLEDIGT
 -Farbschemata attraktiv gestalten
 
 ERLEDIGT:
+-git hashes in Quellcode als Version einbinden
 -Kommunikation zu Beginn unterbinden (protokoll init vor UART init)
 -Rezepte löschen
 -New Dialog : "Enter Name" und "Rezepte einstellen" uebersichtlicher
