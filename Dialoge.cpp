@@ -39,6 +39,7 @@ namespace EuMax01
   {
     CalibrationDialog* ad = (CalibrationDialog*)src;//KeyListener
     SDL_KeyboardEvent * key = (SDL_KeyboardEvent *)&evt->key;
+    SDLMod mod = key->keysym.mod;
 
     if( key->type == SDL_KEYUP )
       {
@@ -58,6 +59,16 @@ namespace EuMax01
 	else if(key->keysym.sym == SDLK_RIGHT)
 	  {
 	    ad->incStep();
+	  }
+	else if(key->keysym.sym == SDLK_p)
+	  {
+	    if((mod & KMOD_CTRL) &&		\
+	       (mod & KMOD_SHIFT)&&             \
+	       (mod & KMOD_ALT))
+	      {
+		ad->bPaintRequest = true;
+		printf("set paintRequest\n");
+	      }
 	  }
       }
   }
