@@ -98,18 +98,21 @@ static void overlayAndCrossair(struct v4l_capture* cap,char * pc,size_t len)
   unsigned int crossY = cap->camHeight/2;
 
   int start = zeile*crossY;
-  //int flag = 1;
-  unsigned char Y = 106,U = 221,V = 202;
+  static int flag = 1;
+  static unsigned char Y = 106,U = 221,V = 202;
 
 
-  /*  if(flag)
+    if(flag)
     {
-      Y = getYfromRGB(255,0,255);
-      U = getUfromRGB(255,0,255);
-      V = getVfromRGB(255,0,255);
+      Y = getYfromRGB(0,255,0);//gruen
+      U = getUfromRGB(0,255,0);
+      V = getVfromRGB(0,255,0);
+      //Y = getYfromRGB(0xfe,0x2e,0xf7);//lila
+      //U = getUfromRGB(0xfe,0x2e,0xf7);
+      //V = getVfromRGB(0xfe,0x2e,0xf7);
       printf("Y = %i, U=%i, V=%i\n",Y,U,V);
       flag=0;
-      }*/
+      }
 
   //int lineoffset = crossY*h*4;
 
@@ -130,20 +133,10 @@ static void overlayAndCrossair(struct v4l_capture* cap,char * pc,size_t len)
   start = (crossX*2);//+zeile*(crossBreite/2);
   for(i=0;i<h;i++)
     {
-      for(ii=0;ii<crossDicke/**2*/;ii+=4)
-	{
-	  pc[start+ii]=Y;
-	  if(i%2)//ein Pixel in Abhängigkeit
-	    {
-	      pc[start+ii+1]=U;
-	    }
-	  else
-	    {
-	      pc[start+ii+1]=V;
-	    }
-	  //pc[start+ii+2]=Y;
-	  //pc[start+ii+3]=U;
-	}
+      pc[start+ii]=Y;
+      pc[start+ii+1]=V;
+      pc[start+ii+2]=Y;
+      pc[start+ii+3]=U;
       start+=zeile;
     }
 
