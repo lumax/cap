@@ -29,13 +29,13 @@ TODO:
 -Zählrichtung änderbar
 -Eingabe des Zylinderumfangs zur Berechnung der Startposition in mm anstatt °
 -Drehwinkelgeber für die Fadenkreuze
--Video endlos
--Fadenfarbe ist wirklich nicht schön
 
 HOFFENTLICH ERLEDIGT
 -Farbschemata attraktiv gestalten
 
 ERLEDIGT:
+-Video endlos
+-Fadenfarbe ist wirklich nicht schön
 -Tastatureingabe von den Achsenwerten mit F8 im New oder SaveAs Dialog.
 -F12 Cross Menue: Position speichern kriege ich nicht hin:
      Es musste in der Fadenkreuzeingabe mit Enter bestätigt werden,

@@ -9,7 +9,7 @@ function run_cap()
 
 function run_video()
 {
-    mplayer -fs PlateExakt08.wmv
+    mplayer -loop 0 -fs PlateExakt08.wmv
 }
 
 export LD_LIBRARY_PATH+=:.
