@@ -5,17 +5,9 @@
 # script mit popen aus c-Programm aufrufen um auf die Ausgaben zugreifen zu können
 
 # Global definitions
-TMPDIR=/tmpfs/tmp
-FIFO=${TMPDIR}/fifo.$$
-UPD_ROOTFS="image.ubi"
-UPD_MD5SUMS="md5sums"
-UPD_IMAGESIZE="ubiImageSize"
-TMP_MD5SUMS="${TMPDIR}/md5sums"
-TMP_IMAGESIZE=""
-COMPONENTS="${UPD_ROOTFS}"
-ACTIVE_SET=""
-MTD_ROOTFS=""
 VERSION="2.0"
+INSTALL_DIR="/opt/"
+TMP_USBSTICK=""
 
 
 UBITOOLS="/opt/app/mtd-utils/ubi-utils"
@@ -129,25 +121,80 @@ stage_flipboot()
     exit $RETURNVAL
 }
 
-# Update file is mandatory argument
-if [ $# -lt 2 ]; then
-    die
-fi
+stage_search_stick2()
+{
+for file in "/dev/disk/by-label"
+do
+#echo $file
+#echo
+  ls -l $file | awk '{ print $8 "         file size: " $5 }'  # Print 2 fields.
+#  whatis `basename $file`   # File info.
+  # Note that the whatis database needs to have been set up for this to work.
+  # To do this, as root run /usr/bin/makewhatis.
+#  echo
+done 
+}
 
-update_file=$1
-shift
+
+REGEXP='[0-9]\{12\}_capmb.tar.gz$'
+
+stage_search_stick()
+{
+let num=0
+ls -1 "/media/SWAP/" | while read file
+do
+    filelen=${#file}
+    reg_match=`expr match "$file" $REGEXP` 
+    if [[  filelen -eq 25 && reg_match -eq 25 ]]
+	then echo $file
+    fi
+done 
+echo `expr match "$file" $REGEXP`
+}
+
+stage_search1()
+{
+    let cnt=0
+    ls /dev | while read line && [[ $line != end ]] #while read line
+    do
+	cnt=$(( $cnt + 1 ))
+	echo $cnt $line $?
+	arr[$cnt]="$line"
+    done
+    echo $line $arr[0]
+    echo $cnt
+}
+
+stage_search2()
+{
+    echo "searching"
+    #TMP_USBSTICK=`ls /dev/disk/by-label`
+ls /dev/
+ # | while read blah
+#do
+ # process lines.
+echo huhu $? 
+#done
+#"/media/"`ls /dev/disk/by-label | awk '/'"${UPD_ROOTFS}"'/ { print $3; }'`
+}
+
+# Update file is mandatory argument
+#if [ $# -lt 2 ]; then
+#    die
+#fi
+
+#update_file=$1
+#shift
 
 # When no stage is specified, do all of them
 if [ $# -eq 0 ]; then
-    set -- validate copy verify flipboot
+    echo "stage needed!"
+    exit -1
 fi
-
-cd $TMPDIR || die "Directory $TMPDIR does not exist"
-mkfifo $FIFO
 
 while [ $# -gt 0 ]; do
     case $1 in
-		 validate|copy|verify|flipboot)
+		 search_stick|search_updatefile|verify|copy)
 		     eval "stage_$1"
 		     ;;
 		 *)
