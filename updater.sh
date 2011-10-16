@@ -137,46 +137,91 @@ done
 
 
 REGEXP='[0-9]\{12\}_capmb.tar.gz$'
+UPD_FILE_LEN=25
+UPD_DIR_LEN=18
+COMPONENTS="cap cap.conf v4l_capture.o appcontroller.sh"
+UPD_FILE="" #/media/SWAP/111016114939_capmb.tar.gz"
+UPD_DISK="/media/"
+UPD_DIR_NAME=""
+UPDATE_STEPS="stage_search_stick stage_search_updatefile stage_check_updatefile"
+
+stage_update()
+{
+    echo "try to update the system"
+    for func in ${UPDATE_STEPS}; do
+	#echo "eval $func"
+	eval "$func"
+	if [[ $? -ne 0 ]]
+	then
+	    echo "no update done, $func retuned value $returnval"
+	    return 1
+	fi
+    done
+    echo "DISK = $UPD_DISK"
+    echo "update file  = $UPD_FILE"
+    echo "update dirname = $UPD_DIR_NAME"
+    echo "update done!"
+    return 0
+}
+
+stage_copy_update()
+{
+    tar xfz ${UPD_FILE}
+}
+
+stage_check_updatefile()
+{
+#echo "stage_check_updatefile() hat tar: write errors"
+retval=0
+    for file in ${COMPONENTS}; do
+	#echo $file
+	tar tf ${UPD_FILE} | grep -q $file || retval=1 #echo "needed component '$file' not found in ${UPD_FILE}"
+    done
+    return $retval;
+}
 
 stage_search_stick()
 {
-let num=0
-ls -1 "/media/SWAP/" | while read file
+retval=1
+line=`ls -1 /dev/disk/by-label`
+for file in $line
+do
+    retval=0
+    UPD_DISK=$UPD_DISK$line"/"
+done
+return $retval
+}
+
+stage_search_updatefile()
+{
+retval=1
+line=`ls -1 $UPD_DISK`
+for file in $line
 do
     filelen=${#file}
-    reg_match=`expr match "$file" $REGEXP` 
-    if [[  filelen -eq 25 && reg_match -eq 25 ]]
-	then echo $file
+    reg_match=`expr match "$file" $REGEXP`
+    if [[  filelen -eq $UPD_FILE_LEN && reg_match -eq $UPD_FILE_LEN ]]
+    then
+	retval=0
+	#echo $file  
+	UPD_FILE=$UPD_DISK$file
+	UPD_DIR_NAME=${file:0:$UPD_DIR_LEN}
     fi
-done 
-echo `expr match "$file" $REGEXP`
+done
+return $retval
 }
 
-stage_search1()
-{
-    let cnt=0
-    ls /dev | while read line && [[ $line != end ]] #while read line
-    do
-	cnt=$(( $cnt + 1 ))
-	echo $cnt $line $?
-	arr[$cnt]="$line"
-    done
-    echo $line $arr[0]
-    echo $cnt
-}
 
-stage_search2()
-{
-    echo "searching"
-    #TMP_USBSTICK=`ls /dev/disk/by-label`
-ls /dev/
- # | while read blah
-#do
- # process lines.
-echo huhu $? 
-#done
-#"/media/"`ls /dev/disk/by-label | awk '/'"${UPD_ROOTFS}"'/ { print $3; }'`
-}
+
+stage_update
+retvalue=$?
+if [[ $retvalue -ne 0 ]]
+then 
+    echo "stage_update failed $retvalue"
+    OK=0
+fi
+echo "execute normal programm"
+exit 0
 
 # Update file is mandatory argument
 #if [ $# -lt 2 ]; then
@@ -186,6 +231,52 @@ echo huhu $?
 #update_file=$1
 #shift
 
+
+
+
+
+
+
+
+
+
+
+OK=1
+
+if [[ $OK -ne 0 ]]
+    then
+    stage_search_stick
+    retvalue=$?
+    if [[ $retvalue -ne 0 ]]
+    then 
+	echo "stage_search_stick failed $retvalue"
+	OK=0
+    fi
+fi
+
+if [[ $OK -ne 0 ]]
+    then
+    stage_search_updatefile
+    retvalue=$?
+    if [[ $retvalue -ne 0 ]]
+    then 
+	echo "stage_search_updatefile failed $retvalue"
+	OK=0
+    fi   
+fi
+
+if [[ $OK -ne 0 ]]
+    then
+    stage_check_updatefile
+    retvalue=$?
+    if [[ $retvalue -ne 0 ]]
+    then 
+	echo "check_updatefile failed $retvalue"
+	OK=0
+    fi   
+fi
+exit
+
 # When no stage is specified, do all of them
 if [ $# -eq 0 ]; then
     echo "stage needed!"
@@ -194,7 +285,7 @@ fi
 
 while [ $# -gt 0 ]; do
     case $1 in
-		 search_stick|search_updatefile|verify|copy)
+		 search_stick|search_updatefile|check_updatefile|copy_update|verify|copy)
 		     eval "stage_$1"
 		     ;;
 		 *)
