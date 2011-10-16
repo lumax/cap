@@ -161,12 +161,18 @@ stage_update()
     echo "update file  = $UPD_FILE"
     echo "update dirname = $UPD_DIR_NAME"
     echo "update done!"
+    #reboot
     return 0
 }
 
 stage_copy_update()
 {
     tar xfz ${UPD_FILE}
+#entpacken in pwd/../
+#link erzeugen in pwd/../
+#reboot oder script verlassen wenn das script mit respawn aufgerufen wird, dann muss allerdings
+# geprüft werden, ob das update neuer ist als das aktuell laufende Programm!!!
+# also ein reboot !
 }
 
 stage_check_updatefile()
