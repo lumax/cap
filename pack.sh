@@ -1,15 +1,17 @@
 #!/bin/bash
+appname=capmb
+datum=`date +"%y%m%d%H%M%S"`
 
-mkdir cap_test
-cp cap cap_test
-cp cap.conf cap_test
-cp aispec.ttf cap_test
-cp LiberationMono-Regular.ttf cap_test
-cp v4l_capture.o cap_test
-cp start_cap.sh cap_test
-cp readme cap_test
-cp appcontroller.sh cap_test
+mkdir ${datum}_${appname}
+cp cap ${datum}_${appname}
+cp cap.conf ${datum}_${appname}
+cp aispec.ttf ${datum}_${appname}
+cp LiberationMono-Regular.ttf ${datum}_${appname}
+cp v4l_capture.o ${datum}_${appname}
+cp start_cap.sh ${datum}_${appname}
+cp readme ${datum}_${appname}
+cp appcontroller.sh ${datum}_${appname}
 
 
-tar cfz `date +"%y%m%d%H%M%S"`_cap.tar.gz cap_test
-rm -R cap_test
+tar cfz ${datum}_${appname}.tar.gz ${datum}_${appname}
+rm -R ${datum}_${appname}

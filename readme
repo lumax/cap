@@ -1,21 +1,12 @@
-nach libsdl Paketen suchen:
->apt-cache search libsdl 
+I  : TODO`s
+II : Installationsanweisungen
 
 
-Pakete installieren:
->sudo apt-get install libsdl-image....
-
-
-
-zu installierende Pakete:
-sudo apt-get install libsdl1.2debian
-sudo apt-get libsdl-image1.2
-sudo apt-get libsdl-ttf2.0
+I: TODO`s 
 
 
 TODO:
 -Poll segfault mit Kommunikation am AMC beim Systemstart
--Video abspielen und zu Programm zurück
 -FehlerDialog:"Name zu kurz" in SDLK_F10 NewDialogKeyListener
 -Abfrage ob Datei überschrieben werden soll (noch nicht gefordert)
 	 -Dateinamen durchsuchen
@@ -24,7 +15,6 @@ TODO:
 -Update System
 -Vernümftig aus dem Programm aussteigen, wenn eine Kamera abgezogen
  wird usw. (ErrorMeldungen anzeigen)
-
 -Bedienung des Messsystems über Maus
 -Zählrichtung änderbar
 -Eingabe des Zylinderumfangs zur Berechnung der Startposition in mm anstatt °
@@ -34,6 +24,7 @@ HOFFENTLICH ERLEDIGT
 -Farbschemata attraktiv gestalten
 
 ERLEDIGT:
+-Video abspielen und zu Programm zurück
 -Video endlos
 -Fadenfarbe ist wirklich nicht schön
 -Tastatureingabe von den Achsenwerten mit F8 im New oder SaveAs Dialog.
@@ -58,3 +49,64 @@ ERLEDIGT:
 -Fullscreen in config
 -Filenamen mit 16 Zeichen
 -New Dialog umgestalten
+
+
+II : Installationsanweisungen
+Diese Installationsanweisungen sollten einmal befolgt werden, damit 
+dann mit dieser Installation ein Image für alle Geräte erstellt werden 
+kann.
+
+-nach libsdl Paketen suchen:
+#bash> apt-cache search libsdl 
+
+-Pakete installieren:
+#bash> sudo apt-get install libsdl1.2debian
+#bash> sudo apt-get libsdl-image1.2
+#bash> sudo apt-get libsdl-ttf2.0
+
+-das Verzeichnis /opt für den Benutzer nutzbar machen:
+#bash> sudo chown -R <user>:<user> /opt
+
+-Das Verzeichnis /opt/capmb_data erstellen
+#bash> mkdir /opt/capmb_data
+
+-Das Verzeichnis /opt/video erstellen
+ und die Datei PlateExakt08.wmv in das Verzeichnis kopieren.
+#bash> mkdir /opt/video
+
+-Die aktuelle Version des Programms in dem /opt Verzeichnis entpacken, 
+ sodaß der Inhalt von opt in etwa so aussieht:
+#bash> ls /opt
+video capmb_data 111030125900_capmb
+
+-Einen symbolischen Link auf das Verzeichnis mit der aktuellen Version 
+ des Programms erzeugen. In diesem Fall:
+#bash> cd /opt
+#bash> ln -fs 111030125900_capmb capmb
+
+-Damit der User das System herunterfahren kann muss folgender Befehl
+ ausgeführt werden:
+#bash> sudo chmod +s /sbin/reboot
+
+-Damit der User das System herunterfahren kann muss folgender Befehl
+ ausgeführt werden:
+#bash> sudo chmod +s /sbin/halt
+
+
+
+Update:
+
+-das Datenverzeichnis muss sich außerhalb des Programmverzeichnisses
+ befinden, damit die Rezepte nach einem Update weiter zur Verfügung 
+ stehen.
+
+ Das Verzeichnis ist in der cap.conf einzustellen: 
+ /opt/capmb_data
+ und muss vorhanden sein, sonst kommt es zu einem Absturz. 
+ (mkdir /opt/capmb_data)
+
+ Es muss neben den Verzeichnissen der Programmversionen (z.B. :
+ 111030135900_capmb ) das Verzeichnis video existieren, in diesem 
+ viedo-Verzeichnis muss sich die Datei PlateExakt08.wmv befinden.
+
+ Nach einem Update ist die cap.conf Datei überschrieben worden.
