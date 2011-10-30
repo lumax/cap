@@ -18,7 +18,7 @@ UPDATE_STEPS="stage_search_stick stage_search_updatefile stage_check_updatefile 
 PROGRAMS_ROOT=""
 
 
-stage_update()
+function stage_update()
 {
     echo "try to update the system"
     for func in ${UPDATE_STEPS}; do
@@ -38,7 +38,7 @@ stage_update()
     return 0
 }
 
-stage_copy_update()
+function stage_copy_update()
 {
     retval=0
     tar xfz ${UPD_FILE}
@@ -49,7 +49,7 @@ stage_copy_update()
 	echo "stage_copy_update: unpack update failed $retvalue"
 	return $retval;
     fi
-echo ln -fns ${PROGRAMS_ROOT}/${UPD_DIR_NAME} ${PROGRAMS_ROOT}/${EXEC_DIR_LINK}
+#echo ln -fns ${PROGRAMS_ROOT}/${UPD_DIR_NAME} ${PROGRAMS_ROOT}/${EXEC_DIR_LINK}
     ln -fns ${PROGRAMS_ROOT}/${UPD_DIR_NAME} ${PROGRAMS_ROOT}/${EXEC_DIR_LINK}
     retvalue=$?
     if [[ $retvalue -ne 0 ]]
@@ -60,7 +60,7 @@ echo ln -fns ${PROGRAMS_ROOT}/${UPD_DIR_NAME} ${PROGRAMS_ROOT}/${EXEC_DIR_LINK}
     return $retval
 }
 
-stage_check_updatefile()
+function stage_check_updatefile()
 {
 #echo "stage_check_updatefile() hat tar: write errors"
 retval=0
@@ -71,7 +71,7 @@ retval=0
     return $retval;
 }
 
-stage_check_current_version()
+function stage_check_current_version()
 {
 retval=0
 
@@ -103,7 +103,7 @@ fi
 return $retval;
 }
 
-stage_search_stick()
+function stage_search_stick()
 {
 retval=1
 line=`ls -1 /dev/disk/by-label`
@@ -115,7 +115,7 @@ done
 return $retval
 }
 
-stage_search_updatefile()
+function stage_search_updatefile()
 {
 retval=1
 line=`ls -1 $UPD_DISK`
