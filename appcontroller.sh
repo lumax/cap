@@ -154,7 +154,7 @@ retvalue=$?
 if [[ $retvalue -eq 0 ]]
 then 
     echo "reboot"
-    #reboot
+    reboot
     exit 0
 fi
 echo "stage_update failed $retvalue"
@@ -171,7 +171,7 @@ do
 	run_video
     else
 	echo abschalten!
-	halt
+	shutdown -h now
 	exit
     fi
 done

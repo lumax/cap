@@ -90,7 +90,7 @@ video capmb_data 111030125900_capmb
 
 -Damit der User das System herunterfahren kann muss folgender Befehl
  ausgeführt werden:
-#bash> sudo chmod +s /sbin/halt
+#bash> sudo chmod +s /sbin/shutdown
 
 
 
