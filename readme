@@ -1,5 +1,6 @@
 I  : TODO`s
 II : Installationsanweisungen
+III: Update
 
 
 I: TODO`s 
@@ -94,7 +95,7 @@ video capmb_data 111030125900_capmb
 
 
 
-Update:
+III Update:
 
 -das Datenverzeichnis muss sich außerhalb des Programmverzeichnisses
  befinden, damit die Rezepte nach einem Update weiter zur Verfügung 
@@ -107,6 +108,20 @@ Update:
 
  Es muss neben den Verzeichnissen der Programmversionen (z.B. :
  111030135900_capmb ) das Verzeichnis video existieren, in diesem 
- viedo-Verzeichnis muss sich die Datei PlateExakt08.wmv befinden.
+ video-Verzeichnis muss sich die Datei PlateExakt08.wmv befinden.
+
+ Die Verzeichnisstruktur für das Programm sieht dann in etwa so aus:
+
+ /opt/111030150057_capmb
+ /opt/capmb --> link auf /opt/111030150057_capmb
+ /opt/capmb_data
+ /opt/video
 
  Nach einem Update ist die cap.conf Datei überschrieben worden.
+
+ Ist eine Version erst einmal auf diese Weise erstellt, dann sollte 
+ ein erneutes Update automatisch erfolgen. Das geschieht wenn 
+ EIN USB-Stick mit einem aktuellerem Tarball Rootverzeichnis 
+ eingesteckt ist. Das Script "appcontroller.sh" sucht nach dem Start nach 
+ derartigen USB-Sticks, kopiert ggf. das Update und setzt den Link neu.
+ Danach wird der Computer neu gebootet (so soll es zumindest sein!).
