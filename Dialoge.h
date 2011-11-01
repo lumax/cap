@@ -102,20 +102,6 @@ namespace EuMax01
     unsigned int printDifference(char target[64],int aktuell,int rezept);
   };
 
-  class ErrorDialog : public Screen
-  {
-  public:
-    ErrorDialog(int sdlw,int sdlh, int camw,int camh,int yPos,	\
-		ArbeitsDialog * parent);
-    ArbeitsDialog * Parent;
-    void setErrorMsg(char * Message);
-  private:
-    Label * Label_Error;
-    Label * Label_Info;
-    Label * Label_OK;
-    //    Label * Label_Abbruch;
-  };
-
   class LoadDialog : public Screen
   {
   public:

@@ -27,6 +27,7 @@ Bastian Ruppert
 #include "MBProt.h"
 
 #include "Dialoge.h"
+#include "ErrorDialog.h"
 #include "ArbeitsDialog.h"
 
 #include <unistd.h>
