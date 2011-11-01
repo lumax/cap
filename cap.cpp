@@ -761,9 +761,9 @@ int main(int argc, char *argv[])
   char confpath[96];
   char saveFilePath[96];
 
-  printf("Version_A: %s",CAP_VERSION);
-  printf("Version_B: %s",FSGPP_VERSION);
-  printf("Version_C: %s",CAPTURE_VERSION);
+  printf("Version_A: %s\n",CAP_VERSION);
+  printf("Version_B: %s\n",FSGPP_VERSION);
+  printf("Version_C: %s\n",CAPTURE_VERSION);
 
   showVideoMode();
 
