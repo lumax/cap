@@ -93,6 +93,10 @@ video capmb_data 111030125900_capmb
  ausgeführt werden:
 #bash> sudo chmod +s /sbin/shutdown
 
+-öffnen des Dateibrowsers nach eingestecktem USB-Stick unterbinden:
+1. Terminal öffnen
+2. gconf-editor eingeben
+3. /apps/nautilus/preferences/media_automount_open abschalten
 
 
 III Update:
