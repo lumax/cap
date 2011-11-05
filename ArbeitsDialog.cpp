@@ -94,7 +94,8 @@ namespace EuMax01
 	  }
 	else if(key->keysym.sym == SDLK_F12)
 	  {
-	    exit(12);
+	    //exit(12);
+	    ad->showConfirmDialog((char *)"Exit Programm");
 	  }
 	else if(key->keysym.sym == SDLK_q)
 	  {
@@ -110,7 +111,7 @@ namespace EuMax01
 
   static void ArbeitsDialogNoGUIKeyListener(void * src, SDL_Event * evt)
   {
-    //ArbeitsDialog* ad = (ArbeitsDialog*)src;//KeyListener
+    ArbeitsDialog* ad = (ArbeitsDialog*)src;//KeyListener
     SDL_KeyboardEvent * key = (SDL_KeyboardEvent *)&evt->key;
 
     if( key->type == SDL_KEYUP )
@@ -121,7 +122,8 @@ namespace EuMax01
 	  }
 	else if(key->keysym.sym == SDLK_F12)
 	  {
-	    exit(12);
+	    //exit(12);
+	    ad->showConfirmDialog((char *)"Exit Programm");
 	  }
       }
   }
@@ -233,6 +235,7 @@ namespace EuMax01
 
     theLoadDialog = new LoadDialog(sdlw,sdlh,camw,camh,yPos,this);
     theErrorDialog = new ErrorDialog(sdlw,sdlh,camw,camh,yPos,this);
+    theConfirmDialog = new ConfirmDialog(sdlw,sdlh,camw,camh,yPos,this);
     theNewDialog = new NewDialog(sdlw,sdlh,camw,camh,yPos,this);
     theCalDialog = new CalibrationDialog(sdlw,sdlh,camw,camh,yPos,this);
 
@@ -376,6 +379,16 @@ namespace EuMax01
     this->theErrorDialog->setErrorMsg(msg);
     this->blankMenuArea();
     this->theGUI->activateScreen(this->theErrorDialog);
+  }
+
+  void ArbeitsDialog::showConfirmDialog(char * msg)
+  {
+    if(!useGUI)//TODO errors im BlindMode evtl. zulassen
+      return;
+    this->iActiveDialog = ArbeitsDialog::ConfirmDialogIsActive;
+    this->theConfirmDialog->setConfirmMsg(msg);
+    this->blankMenuArea();
+    this->theGUI->activateScreen(this->theConfirmDialog);
   }
 
   void ArbeitsDialog::showNewDialog(char * MenuTitel)

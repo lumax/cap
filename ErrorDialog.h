@@ -23,6 +23,20 @@ namespace EuMax01
     Label * Label_OK;
     //    Label * Label_Abbruch;
   };
+
+  class ConfirmDialog : public Screen
+  {
+  public:
+    ConfirmDialog(int sdlw,int sdlh, int camw,int camh,int yPos,	\
+		ArbeitsDialog * parent);
+    ArbeitsDialog * Parent;
+    void setConfirmMsg(char * Message);
+  private:
+    Label * Label_MenuTitle;
+    Label * Label_Menu;
+    Label * Label_Info;
+    //    Label * Label_Abbruch;
+  };
  
 #endif /* __ERRORDIALOG_H__*/
 }//end namespace

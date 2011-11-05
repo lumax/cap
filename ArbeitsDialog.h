@@ -11,6 +11,7 @@ namespace EuMax01
   class CalibrationDialog;
   class PosDialog;
   class ErrorDialog;
+  class ConfirmDialog;
   class LoadDialog;
   class NewDialog;
   class MBProtocol;
@@ -85,6 +86,7 @@ namespace EuMax01
     void showLoadDialog(unsigned int page,bool loadmode);
     void showArbeitsDialog();
     void showErrorDialog(char * errorMsg);
+    void showConfirmDialog(char * msg);
     void showNewDialog(char * MenuTitel);
     void showCalibrationDialog();
 
@@ -139,9 +141,11 @@ namespace EuMax01
     static const int NewDialogIsActive = 3;
     static const int CalDialogIsActive = 4;
     static const int NoGUIModeIsActive = 5;
+    static const int ConfirmDialogIsActive = 6;
 
     LoadDialog * theLoadDialog;
     ErrorDialog * theErrorDialog;
+    ConfirmDialog * theConfirmDialog;
     CalibrationDialog * theCalDialog;
 
     void convertCamPos(int cam,unsigned short dat);
