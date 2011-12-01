@@ -44,7 +44,7 @@ namespace EuMax01
     InfoDialog* ad = (InfoDialog*)src;//KeyListener
     SDL_KeyboardEvent * key = (SDL_KeyboardEvent *)&evt->key;
 
-    ad->Gamma->keyEventOccured(key);
+    ad->Gamma0->keyEventOccured(key);
 
     if( key->type == SDL_KEYUP )
       {
@@ -54,11 +54,19 @@ namespace EuMax01
 	  }
 	else if(key->keysym.sym == SDLK_F1)
 	  {
-	    ad->Gamma->setFocus(true);
+	    ad->refreshAll();
 	  }
 	else if(key->keysym.sym == SDLK_RETURN)
 	  {
 	    //exit(12);
+	  }
+	else if(key->keysym.sym == SDLK_LEFT)
+	  {
+	    ad->left();
+	  }
+	else if(key->keysym.sym == SDLK_RIGHT)
+	  {
+	    ad->right();
 	  }
       }
   }
@@ -81,6 +89,12 @@ namespace EuMax01
     short x_space = 8;
 
     this->Parent = parent;
+    this->aktCamCtrl = 1;
+
+    for(int i = 0;i < InfoDialog::CamCtrlContLen; i++)
+      {
+	CamCtrlContainer[i] = 0;
+      }
 
     M_y = sdlh - yPos;
 
@@ -106,7 +120,24 @@ namespace EuMax01
     Spalte2_x = Spalte1_x + 1*Button_w+1*x_space;
     Spalte3_x = Spalte1_x + 2*Button_w+2*x_space;
 
-    Gamma = new CamCtrl((int)Spalte1_x,(int)Zeile3_y,(int)MZeile_h,cap_cam_getFd(0),(char*)"gamma",V4L2_CID_GAMMA,parent);
+    Gamma1 = new CamCtrl((int)sdlw/2,\
+			(int)Zeile3_y,\
+			(int)MZeile_h,\
+			1,\
+			(char*)"gamma rechts",\
+			V4L2_CID_GAMMA,\
+			parent);
+
+    Gamma0 = new CamCtrl((int)Spalte1_x,	\
+			     (int)Zeile3_y,	\
+			     (int)MZeile_h,	\
+			     0,			\
+			     (char*)"gamma links",	\
+			     V4L2_CID_GAMMA,	\
+			     parent);
+
+    CamCtrlContainer[0] = Gamma0;
+    CamCtrlContainer[1] = Gamma1;
 
     Label_MenuTitle = new Label("Info",Spalte1_x,Zeile5_y,150,MZeile_h,Parent->MenuSet);
 
@@ -120,13 +151,78 @@ namespace EuMax01
 			   MZeile_h,\
 			   Parent->DialogSet);
 
+    refreshAll();
+
     this->pTSource = this;//EvtTarget Quelle setzen
     this->setKeyboardUpEvtHandler(InfoDialogKeyListener);
     this->addEvtTarget(this);//den Screen Key Listener bei sich selber anmelden!
     this->addEvtTarget(Label_MenuTitle);
     this->addEvtTarget(Label_Menu);
     this->addEvtTarget(Label_Info);
-    Gamma->addToEvtTarget(this);
+    for(int i = 0;i < InfoDialog::CamCtrlContLen; i++)
+      {
+	if(CamCtrlContainer[i]!=0)
+	  {
+	    CamCtrlContainer[i]->addToEvtTarget(this);
+	  }
+      }
   }
 
+  void InfoDialog::refreshAll()
+  {
+     for(int i = 0;i < InfoDialog::CamCtrlContLen; i++)
+      {
+	if(CamCtrlContainer[i]!=0)
+	  {
+	    CamCtrlContainer[i]->setFocus(false);
+	    CamCtrlContainer[i]->refreshValues();	    
+	  }
+      }
+     if(CamCtrlContainer[aktCamCtrl]!=0)
+       CamCtrlContainer[aktCamCtrl]->setFocus(true);
+  }
+
+  /*
+    0  |  1
+    2  |  3
+    4  |  5
+   */
+
+  void InfoDialog::left()
+  {
+    int tmp = 0;
+    if(aktCamCtrl%2==1)//ungerade gerade
+      {
+	tmp = aktCamCtrl-1;
+	if(tmp>=0&&tmp<=InfoDialog::CamCtrlContLen-1)
+	  {
+	    if(CamCtrlContainer[tmp]!=0)
+	      {
+		CamCtrlContainer[aktCamCtrl]->setFocus(false);
+		aktCamCtrl = tmp;
+		CamCtrlContainer[aktCamCtrl]->setFocus(true);
+		CamCtrlContainer[aktCamCtrl]->refreshValues();	
+	      }
+	  }
+      }
+  }
+
+  void InfoDialog::right()
+  {
+    int tmp = 0;
+    if(aktCamCtrl%2==0)//ungerade gerade
+      {
+	tmp = aktCamCtrl+1;
+	if(tmp>=0&&tmp<=InfoDialog::CamCtrlContLen-1)
+	  {
+	    if(CamCtrlContainer[tmp]!=0)
+	      {
+		CamCtrlContainer[aktCamCtrl]->setFocus(false);
+		aktCamCtrl = tmp;
+		CamCtrlContainer[aktCamCtrl]->setFocus(true);
+		CamCtrlContainer[aktCamCtrl]->refreshValues();	
+	      }
+	  }
+      }
+  }
 }
