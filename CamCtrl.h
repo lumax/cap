@@ -24,6 +24,7 @@ namespace EuMax01
 
     void addToEvtTarget(EvtTarget* theTarget);
     void setFocus(bool focus);
+    void refreshValues();
     void keyEventOccured(SDL_KeyboardEvent * key);
 
     void up();
@@ -49,7 +50,6 @@ namespace EuMax01
     char pcMax[CamCtrl::charBufLen];
     char pcAkt[CamCtrl::charBufLen];
     void setValue(int wert);
-    void refreshValues();
   };
   
 #endif /* __CAMCTRL_H__*/

@@ -44,7 +44,7 @@ namespace EuMax01
     InfoDialog* ad = (InfoDialog*)src;//KeyListener
     SDL_KeyboardEvent * key = (SDL_KeyboardEvent *)&evt->key;
 
-    ad->Gamma0->keyEventOccured(key);
+    ad->CamCtrlContainer[ad->aktCamCtrl]->keyEventOccured(key);
 
     if( key->type == SDL_KEYUP )
       {
@@ -67,6 +67,14 @@ namespace EuMax01
 	else if(key->keysym.sym == SDLK_RIGHT)
 	  {
 	    ad->right();
+	  }
+	else if(key->keysym.sym == SDLK_UP)
+	  {
+	    ad->up();
+	  }
+	else if(key->keysym.sym == SDLK_DOWN)
+	  {
+	    ad->down();
 	  }
       }
   }
@@ -136,8 +144,24 @@ namespace EuMax01
 			     V4L2_CID_GAMMA,	\
 			     parent);
 
-    CamCtrlContainer[0] = Gamma0;
-    CamCtrlContainer[1] = Gamma1;
+    CamCtrlContainer[2] = Gamma0;
+    CamCtrlContainer[3] = Gamma1;
+
+    CamCtrlContainer[0] = new CamCtrl((int)Spalte1_x,	\
+				      (int)Zeile2_y,	\
+				      (int)MZeile_h,	\
+				      0,		\
+				      (char*)"Brightness",	\
+				      V4L2_CID_BRIGHTNESS,		\
+				      parent);
+
+    CamCtrlContainer[1] = new CamCtrl((int)sdlw/2,	\
+				      (int)Zeile2_y,	\
+				      (int)MZeile_h,	\
+				      1,		\
+				      (char*)"Brightness",	\
+				      V4L2_CID_BRIGHTNESS,		\
+				      parent);
 
     Label_MenuTitle = new Label("Info",Spalte1_x,Zeile5_y,150,MZeile_h,Parent->MenuSet);
 
@@ -214,6 +238,44 @@ namespace EuMax01
       {
 	tmp = aktCamCtrl+1;
 	if(tmp>=0&&tmp<=InfoDialog::CamCtrlContLen-1)
+	  {
+	    if(CamCtrlContainer[tmp]!=0)
+	      {
+		CamCtrlContainer[aktCamCtrl]->setFocus(false);
+		aktCamCtrl = tmp;
+		CamCtrlContainer[aktCamCtrl]->setFocus(true);
+		CamCtrlContainer[aktCamCtrl]->refreshValues();	
+	      }
+	  }
+      }
+  }
+
+  void InfoDialog::up()
+  {
+    int tmp = 0;
+    if(aktCamCtrl>1)
+      {
+	tmp = aktCamCtrl - 2;
+	if(tmp>=0&&tmp<=InfoDialog::CamCtrlContLen-1)
+	  {
+	    if(CamCtrlContainer[tmp]!=0)
+	      {
+		CamCtrlContainer[aktCamCtrl]->setFocus(false);
+		aktCamCtrl = tmp;
+		CamCtrlContainer[aktCamCtrl]->setFocus(true);
+		CamCtrlContainer[aktCamCtrl]->refreshValues();	
+	      }
+	  }
+      }
+  }
+
+  void InfoDialog::down()
+  {
+    int tmp = 0;
+    if(aktCamCtrl<InfoDialog::CamCtrlContLen-2)
+      {
+	tmp = aktCamCtrl + 2;
+		if(tmp>=0&&tmp<=InfoDialog::CamCtrlContLen-1)
 	  {
 	    if(CamCtrlContainer[tmp]!=0)
 	      {

@@ -103,7 +103,7 @@ namespace EuMax01
     LAkt->activateKeyListener(TextField::IntegerNumericChar);
     LAkt->setBorder(false);
     //LAkt->hide(true);
-    LAkt->setActive(true);
+    LAkt->setActive(false);
 
     LMax = new Label(this->pcMax,				\
 		     x4,yPos,					\
@@ -163,7 +163,7 @@ namespace EuMax01
       }
     else
       {
-	this->LAkt->setText("error");
+	this->LAkt->setText((char *)"");
       }
   }
 
@@ -171,12 +171,14 @@ namespace EuMax01
   {
     if(focus)
       {
+	this->refreshValues();
 	this->LAkt->setBorder(true);
-	refreshValues();
+	this->LAkt->setActive(true);
       }
     else
       {
 	this->LAkt->setBorder(false);
+	this->LAkt->setActive(false);
       }
   }
 
@@ -185,7 +187,7 @@ namespace EuMax01
     setV4L2_Value(cap_cam_getFd(this->camNumber),this->v4l_id,wert);
     if(getV4L2_Value(cap_cam_getFd(this->camNumber),this->v4l_id,&this->value))
       {
-	this->LAkt->setText("error");
+	this->LAkt->setText((char *)"error");
       }
     else
       {

@@ -22,12 +22,12 @@ namespace EuMax01
     CamCtrl * CamCtrlContainer[InfoDialog::CamCtrlContLen];
     CamCtrl * Gamma0;
     CamCtrl * Gamma1;
-    //    CamCtrl * Bright0;
-    //CamCtrl * Bright1;
 
     void refreshAll();
     void left();
     void right();
+    void up();
+    void down();
   private:
     Label * Label_MenuTitle;
     Label * Label_Menu;
