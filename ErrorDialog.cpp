@@ -114,7 +114,7 @@ namespace EuMax01
 
   static void ConfirmDialogKeyListener(void * src, SDL_Event * evt)
   {
-    ErrorDialog* ad = (ErrorDialog*)src;//KeyListener
+    ConfirmDialog* ad = (ConfirmDialog*)src;//KeyListener
     SDL_KeyboardEvent * key = (SDL_KeyboardEvent *)&evt->key;
 
     if( key->type == SDL_KEYUP )
