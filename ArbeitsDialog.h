@@ -15,6 +15,7 @@ namespace EuMax01
   class LoadDialog;
   class NewDialog;
   class MBProtocol;
+  class InfoDialog;
   //class IMBProtListener;
 
   class IMBProtListener
@@ -89,6 +90,7 @@ namespace EuMax01
     void showConfirmDialog(char * msg);
     void showNewDialog(char * MenuTitel);
     void showCalibrationDialog();
+    void showInfoDialog();
 
 
     /*! gibt ein "frisches Rezept zurück
@@ -142,11 +144,13 @@ namespace EuMax01
     static const int CalDialogIsActive = 4;
     static const int NoGUIModeIsActive = 5;
     static const int ConfirmDialogIsActive = 6;
+    static const int InfoDialogIsActive = 7;
 
     LoadDialog * theLoadDialog;
     ErrorDialog * theErrorDialog;
     ConfirmDialog * theConfirmDialog;
     CalibrationDialog * theCalDialog;
+    InfoDialog * theInfoDialog;
 
     void convertCamPos(int cam,unsigned short dat);
 

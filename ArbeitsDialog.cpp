@@ -28,6 +28,7 @@ Bastian Ruppert
 
 #include "Dialoge.h"
 #include "ErrorDialog.h"
+#include "InfoDialog.h"
 #include "ArbeitsDialog.h"
 
 #include <unistd.h>
@@ -87,6 +88,10 @@ namespace EuMax01
 	else if(key->keysym.sym == SDLK_F7)
 	  {
 	    ad->showCalibrationDialog();
+	  }
+	else if(key->keysym.sym == SDLK_F10)
+	  {
+	    ad->showInfoDialog();
 	  }
 	else if(key->keysym.sym == SDLK_F11)
 	  {
@@ -238,6 +243,7 @@ namespace EuMax01
     theConfirmDialog = new ConfirmDialog(sdlw,sdlh,camw,camh,yPos,this);
     theNewDialog = new NewDialog(sdlw,sdlh,camw,camh,yPos,this);
     theCalDialog = new CalibrationDialog(sdlw,sdlh,camw,camh,yPos,this);
+    theInfoDialog = new InfoDialog(sdlw,sdlh,camw,camh,yPos,this);
 
     cap_cam_setCrossX(0,MitteCrossCam1);
     cap_cam_setCrossX(1,MitteCrossCam2);
@@ -389,6 +395,15 @@ namespace EuMax01
     this->theConfirmDialog->setConfirmMsg(msg);
     this->blankMenuArea();
     this->theGUI->activateScreen(this->theConfirmDialog);
+  }
+
+  void ArbeitsDialog::showInfoDialog()
+  {
+    if(!useGUI)//TODO errors im BlindMode evtl. zulassen
+      return;
+    this->iActiveDialog = ArbeitsDialog::InfoDialogIsActive;
+    this->blankMenuArea();
+    this->theGUI->activateScreen(this->theInfoDialog);
   }
 
   void ArbeitsDialog::showNewDialog(char * MenuTitel)
