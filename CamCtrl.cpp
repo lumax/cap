@@ -95,9 +95,16 @@ namespace EuMax01
     LMin = new Label(this->pcMin,				\
 		     x2,yPos,					\
 		     wButton,height);  
-    LAkt = new Label(this->pcAkt,				\
-		     x3,yPos,					\
-		     wButton,height,Parent->DialogSet);  
+
+    LAkt = new TextField("---",CamCtrl::charBufLen,			\
+			 x3,						\
+			 yPos,wButton,			\
+			 height,Parent->WerteSet);
+    LAkt->activateKeyListener(TextField::IntegerNumericChar);
+    LAkt->setBorder(false);
+    //LAkt->hide(true);
+    LAkt->setActive(true);
+
     LMax = new Label(this->pcMax,				\
 		     x4,yPos,					\
 		     wButton,height);  
@@ -128,44 +135,44 @@ namespace EuMax01
 
   void CamCtrl::refreshValues()
   {
-
+    struct v4l2_queryctrl queryctrl;
+    if(!getV4L2QueryCtrl(cap_cam_getFd(this->camNumber),this->v4l_id,&queryctrl))
+      {
+	/*
+	  printf("\tminmum : %i\n",queryctrl.minimum);
+	  printf("\tmaximum : %i\n",queryctrl.maximum);
+	  printf("\tstep : %i\n",queryctrl.step);
+	*/
+	this->step = queryctrl.step;
+	this->min = queryctrl.minimum;
+	this->max = queryctrl.maximum;
+	snprintf(this->pcMin,CamCtrl::charBufLen,"%i",this->min);
+	this->LMin->setText(this->pcMin);
+	snprintf(this->pcMax,CamCtrl::charBufLen,"%i",this->max);
+	this->LMax->setText(this->pcMax);
+      }
+    else
+      {
+	this->LMin->setText("error");
+	this->LMax->setText("error");
+      }
+    if(!getV4L2_Value(cap_cam_getFd(this->camNumber),this->v4l_id,&this->value))
+      {
+	snprintf(this->pcAkt,CamCtrl::charBufLen,"%i",this->value);
+	this->LAkt->setText(this->pcAkt);
+      }
+    else
+      {
+	this->LAkt->setText("error");
+      }
   }
 
   void CamCtrl::setFocus(bool focus)
   {
-    struct v4l2_queryctrl queryctrl;
     if(focus)
       {
 	this->LAkt->setBorder(true);
-	if(!getV4L2QueryCtrl(cap_cam_getFd(this->camNumber),this->v4l_id,&queryctrl))
-	  {
-	    /*
-	      printf("\tminmum : %i\n",queryctrl.minimum);
-	      printf("\tmaximum : %i\n",queryctrl.maximum);
-	      printf("\tstep : %i\n",queryctrl.step);
-	    */
-	    this->step = queryctrl.step;
-	    this->min = queryctrl.minimum;
-	    this->max = queryctrl.maximum;
-	    snprintf(this->pcMin,CamCtrl::charBufLen,"%i",this->min);
-	    this->LMin->setText(this->pcMin);
-	    snprintf(this->pcMax,CamCtrl::charBufLen,"%i",this->max);
-	    this->LMax->setText(this->pcMax);
-	  }
-	else
-	  {
-	    this->LMin->setText("error");
-	    this->LMax->setText("error");
-	  }
-	if(!getV4L2_Value(cap_cam_getFd(this->camNumber),this->v4l_id,&this->value))
-	  {
-	    snprintf(this->pcAkt,CamCtrl::charBufLen,"%i",this->value);
-	    this->LAkt->setText(this->pcAkt);
-	  }
-	else
-	  {
-	    this->LAkt->setText("error");
-	  }
+	refreshValues();
       }
     else
       {
@@ -196,5 +203,34 @@ namespace EuMax01
   {
     setValue(this->value - this->step);    
   }
-  
+
+  void CamCtrl::keyEventOccured(SDL_KeyboardEvent * key)
+  {
+    char zeichen = 0;
+    int tf_value;
+    if( key->type == SDL_KEYUP )
+      {
+	zeichen = Tool::getIntegerNumeric_Char(key);
+	//if(key->keysym.sym == SDLK_BACKSPACE||zeichen!=0)
+	//  {  }
+	//else 
+	if(key->keysym.sym == SDLK_RETURN)
+	  {
+	    tf_value = atof(LAkt->getText());
+	    if(tf_value<this->min)
+	      {
+		tf_value = this->min;
+		snprintf(this->pcAkt,CamCtrl::charBufLen,"%i",tf_value);
+		this->LAkt->setText(this->pcAkt);
+	      }
+	    else if(tf_value > this->max)
+	      {
+		tf_value = this->max;
+		snprintf(this->pcAkt,CamCtrl::charBufLen,"%i",tf_value);
+		this->LAkt->setText(this->pcAkt);
+	      }
+	    setValue(tf_value);
+	  }
+      }
+  }
 }

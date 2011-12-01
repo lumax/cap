@@ -24,6 +24,7 @@ namespace EuMax01
 
     void addToEvtTarget(EvtTarget* theTarget);
     void setFocus(bool focus);
+    void keyEventOccured(SDL_KeyboardEvent * key);
 
     void up();
     void down();
@@ -43,7 +44,7 @@ namespace EuMax01
     Label * LName;
     Label * LMin;
     Label * LMax;
-    Label * LAkt;
+    TextField * LAkt;
     char pcMin[CamCtrl::charBufLen];
     char pcMax[CamCtrl::charBufLen];
     char pcAkt[CamCtrl::charBufLen];
