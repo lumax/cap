@@ -13,18 +13,21 @@ TODO:
 	 -Dateinamen durchsuchen
 -Versionsnummer anzeigen
 -Farbeffekte beim Laden der Applikation (show Funktionen)
--Update System
 -Vernümftig aus dem Programm aussteigen, wenn eine Kamera abgezogen
  wird usw. (ErrorMeldungen anzeigen)
 -Bedienung des Messsystems über Maus
 -Zählrichtung änderbar
 -Eingabe des Zylinderumfangs zur Berechnung der Startposition in mm anstatt °
 -Drehwinkelgeber für die Fadenkreuze
+-zu hohe Geschwindigkeit der Drehgeber erkennen und behandeln
 
 HOFFENTLICH ERLEDIGT
 -Farbschemata attraktiv gestalten
+-Update System
 
 ERLEDIGT:
+-CamInfo Dialog über F10 im ArbeitsDialog erreichbar, um einige Werte der Kamera
+ ausprobieren zu können.
 -Video abspielen und zu Programm zurück
 -Video endlos
 -Fadenfarbe ist wirklich nicht schön
