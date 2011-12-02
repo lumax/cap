@@ -97,7 +97,7 @@ namespace EuMax01
     short x_space = 8;
 
     this->Parent = parent;
-    this->aktCamCtrl = 1;
+    this->aktCamCtrl = 0;
 
     for(int i = 0;i < InfoDialog::CamCtrlContLen; i++)
       {
@@ -128,52 +128,98 @@ namespace EuMax01
     Spalte2_x = Spalte1_x + 1*Button_w+1*x_space;
     Spalte3_x = Spalte1_x + 2*Button_w+2*x_space;
 
-    Gamma1 = new CamCtrl((int)sdlw/2,\
-			(int)Zeile3_y,\
-			(int)MZeile_h,\
-			1,\
-			(char*)"gamma rechts",\
-			V4L2_CID_GAMMA,\
-			parent);
-
-    Gamma0 = new CamCtrl((int)Spalte1_x,	\
-			     (int)Zeile3_y,	\
-			     (int)MZeile_h,	\
-			     0,			\
-			     (char*)"gamma links",	\
-			     V4L2_CID_GAMMA,	\
-			     parent);
-
-    CamCtrlContainer[2] = Gamma0;
-    CamCtrlContainer[3] = Gamma1;
-
-    CamCtrlContainer[0] = new CamCtrl((int)Spalte1_x,	\
-				      (int)Zeile2_y,	\
-				      (int)MZeile_h,	\
-				      0,		\
-				      (char*)"Brightness",	\
+    /*
+      Control Brightness
+      Control Contrast
+      Control Saturation
+      Control Hue
+      Control White Balance Temperature, Auto
+      Control Gamma
+      Control Gain
+      Control Power Line Frequency
+      Menu items:
+      Disabled
+      50 Hz
+      60 Hz
+      Control White Balance Temperature
+      Control Sharpness
+      Control Backlight Compensation
+     */
+    CamCtrlContainer[0] = new CamCtrl((int)Spalte1_x,			\
+				      (int)Zeile1_y,			\
+				      (int)MZeile_h,			\
+				      0,				\
+				      (char*)"Gain",		\
+				      V4L2_CID_GAIN,		\
+				      parent);
+    
+    CamCtrlContainer[1] = new CamCtrl((int)sdlw/2+6,			\
+				      (int)Zeile1_y,			\
+				      (int)MZeile_h,			\
+				      0,				\
+				      (char*)"Sharpness",		\
+				      V4L2_CID_SHARPNESS,		\
+				      parent);
+    
+    CamCtrlContainer[2] = new CamCtrl((int)Spalte1_x,			\
+				      (int)Zeile2_y,			\
+				      (int)MZeile_h,			\
+				      0,				\
+				      (char*)"Brightness",		\
 				      V4L2_CID_BRIGHTNESS,		\
 				      parent);
+    
+    CamCtrlContainer[3] = new CamCtrl((int)sdlw/2+6,			\
+				      (int)Zeile2_y,			\
+				      (int)MZeile_h,			\
+				      0,				\
+				      (char*)"Contrast",		\
+				      V4L2_CID_CONTRAST,		\
+				      parent);
 
-    CamCtrlContainer[1] = new CamCtrl((int)sdlw/2,	\
-				      (int)Zeile2_y,	\
+    CamCtrlContainer[4] = new CamCtrl((int)Spalte1_x,	\
+				      (int)Zeile3_y,	\
 				      (int)MZeile_h,	\
-				      1,		\
-				      (char*)"Brightness",	\
-				      V4L2_CID_BRIGHTNESS,		\
+				      0,		\
+				      (char*)"Hue",	\
+				      V4L2_CID_HUE,	\
+				      parent);
+
+    CamCtrlContainer[5] = new CamCtrl((int)sdlw/2+6,	\
+				      (int)Zeile3_y,	\
+				      (int)MZeile_h,	\
+				      0,		\
+				      (char*)"Saturation",	\
+				      V4L2_CID_SATURATION,	\
+				      parent);
+
+    CamCtrlContainer[6] = new CamCtrl((int)Spalte1_x,		\
+				      (int)Zeile4_y,		\
+				      (int)MZeile_h,		\
+				      0,			\
+				      (char*)"Gamma",	\
+				      V4L2_CID_GAMMA,	\
+				      parent);
+
+    CamCtrlContainer[7] = new CamCtrl((int)sdlw/2+6,			\
+				      (int)Zeile4_y,			\
+				      (int)MZeile_h,			\
+				      0,				\
+				      (char*)"Backlight Compensation",	\
+				      V4L2_CID_BACKLIGHT_COMPENSATION,	\
 				      parent);
 
     Label_MenuTitle = new Label("Info",Spalte1_x,Zeile5_y,150,MZeile_h,Parent->MenuSet);
 
-    Label_Menu = new Label("ESC : cancel | ENTER : exit programm",		\
+    Label_Menu = new Label(" ",		\
 			   Spalte1_x+158,Zeile5_y,1012-158,MZeile_h,Parent->MenuSet);
 
-    Label_Info = new Label("INFO",\
+    /*Label_Info = new Label("INFO",		\
 			   Spalte1_x,\
 			   Zeile1_y,\
 			   506*2,\
 			   MZeile_h,\
-			   Parent->DialogSet);
+			   Parent->DialogSet);*/
 
     refreshAll();
 
@@ -182,7 +228,7 @@ namespace EuMax01
     this->addEvtTarget(this);//den Screen Key Listener bei sich selber anmelden!
     this->addEvtTarget(Label_MenuTitle);
     this->addEvtTarget(Label_Menu);
-    this->addEvtTarget(Label_Info);
+    //this->addEvtTarget(Label_Info);
     for(int i = 0;i < InfoDialog::CamCtrlContLen; i++)
       {
 	if(CamCtrlContainer[i]!=0)

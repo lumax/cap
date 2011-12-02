@@ -17,11 +17,9 @@ namespace EuMax01
     InfoDialog(int sdlw,int sdlh, int camw,int camh,int yPos,	\
 		ArbeitsDialog * parent);
     ArbeitsDialog * Parent;
-    static const int CamCtrlContLen = 6;
+    static const int CamCtrlContLen = 8;
     int aktCamCtrl;
     CamCtrl * CamCtrlContainer[InfoDialog::CamCtrlContLen];
-    CamCtrl * Gamma0;
-    CamCtrl * Gamma1;
 
     void refreshAll();
     void left();
@@ -31,8 +29,7 @@ namespace EuMax01
   private:
     Label * Label_MenuTitle;
     Label * Label_Menu;
-    Label * Label_Info;
-    //    Label * Label_Abbruch;
+    //Label * Label_Info;
   };
  
 #endif /* __ERRORDIALOG_H__*/

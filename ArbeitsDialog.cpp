@@ -403,6 +403,7 @@ namespace EuMax01
       return;
     this->iActiveDialog = ArbeitsDialog::InfoDialogIsActive;
     this->blankMenuArea();
+    this->theInfoDialog->refreshAll();
     this->theGUI->activateScreen(this->theInfoDialog);
   }
 

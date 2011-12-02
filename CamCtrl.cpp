@@ -77,7 +77,7 @@ namespace EuMax01
     pcMax[2] = '-';
     pcAkt[2] = '-';   
 
-    x_space = 6;
+    x_space = 10;
     wAll = 506;
     wName = 233;
     wButton = 79;
@@ -208,14 +208,9 @@ namespace EuMax01
 
   void CamCtrl::keyEventOccured(SDL_KeyboardEvent * key)
   {
-    char zeichen = 0;
     int tf_value;
     if( key->type == SDL_KEYUP )
       {
-	zeichen = Tool::getIntegerNumeric_Char(key);
-	//if(key->keysym.sym == SDLK_BACKSPACE||zeichen!=0)
-	//  {  }
-	//else 
 	if(key->keysym.sym == SDLK_RETURN)
 	  {
 	    tf_value = atof(LAkt->getText());
