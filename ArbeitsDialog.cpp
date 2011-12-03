@@ -29,6 +29,7 @@ Bastian Ruppert
 #include "Dialoge.h"
 #include "ErrorDialog.h"
 #include "InfoDialog.h"
+#include "MenuBar.h"
 #include "ArbeitsDialog.h"
 
 #include <unistd.h>
@@ -317,6 +318,18 @@ namespace EuMax01
 			  MZeile_h,\
 			  MenuSet);
 
+    MenuPunkte[0]=(char *)"F1 load";
+    MenuPunkte[1]=(char *)"F2 edit";
+    MenuPunkte[2]=(char *)"F3 new";
+    MenuPunkte[3]=(char *)"F4 delete";
+    MenuPunkte[4]=(char *)"F5 prev";
+    MenuPunkte[5]=(char *)"F6 next";
+    MenuPunkte[6]=(char *)"F7 calibrate";
+    MenuPunkte[7]=(char *)"F12 exit";
+
+
+    theMenu = new MenuBar(MInfoF1_x,MInfo_y,MZeile_h,"Recipe",this->MenuPunkte,this);
+
     if(useGUI)
       {
       printf("guiMode true \n");
@@ -326,8 +339,9 @@ namespace EuMax01
     this->addEvtTarget(this);//den Screen Key Listener bei sich selber anmelden!
     
     this->addEvtTarget(&thePosDialog->EvtTargets);
-    this->addEvtTarget(LabelDialogName);
-    this->addEvtTarget(LabelInfo);
+    //this->addEvtTarget(LabelDialogName);
+    //this->addEvtTarget(LabelInfo);
+    theMenu->addToEvtTarget(this);
     
     this->ArbeitsDialogEvtTargets.Next = this->EvtTargets.Next;//EvtTargets fuer spaeter sichern
     this->showCalibrationDialog();
@@ -344,6 +358,8 @@ namespace EuMax01
 	this->setKeyboardUpEvtHandler(ArbeitsDialogNoGUIKeyListener);
 	this->addEvtTarget(this);
 	this->addEvtTarget(LabelDialogName);
+	//this->blankMenuArea();
+	this->theGUI->activateScreen(this);
       }
   }
 
@@ -365,11 +381,13 @@ namespace EuMax01
 
   void ArbeitsDialog::showArbeitsDialog()
   {
-    if(!useGUI)
-      return;
     this->iActiveDialog = ArbeitsDialog::ArbeitsDialogIsActive;
     this->blankMenuArea();
     this->theGUI->activateScreen(this);
+    if(!useGUI)
+      {
+	return;
+      }
     this->showRezept(0);
     prt_sendmsg_uint(nPEC_GET_Q1,0x00);
     prt_sendmsg_uint(nPEC_GET_Q2,0x00);
@@ -389,8 +407,8 @@ namespace EuMax01
 
   void ArbeitsDialog::showConfirmDialog(char * msg)
   {
-    if(!useGUI)//TODO errors im BlindMode evtl. zulassen
-      return;
+    //    if(!useGUI)//TODO errors im BlindMode evtl. zulassen
+    //  return;
     this->iActiveDialog = ArbeitsDialog::ConfirmDialogIsActive;
     this->theConfirmDialog->setConfirmMsg(msg);
     this->blankMenuArea();

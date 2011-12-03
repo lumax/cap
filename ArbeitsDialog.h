@@ -17,6 +17,7 @@ namespace EuMax01
   class MBProtocol;
   class InfoDialog;
   //class IMBProtListener;
+  class MenuBar;
 
   class IMBProtListener
   {
@@ -158,6 +159,8 @@ namespace EuMax01
     
     Label * LabelDialogName;
     Label * LabelInfo;
+    char * MenuPunkte[8];
+    MenuBar * theMenu;
   };
 
 #endif /* __ARBEITSDIALOG_H__*/
