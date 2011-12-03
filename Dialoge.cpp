@@ -306,6 +306,57 @@ namespace EuMax01
       }
   }
 
+  ForceCalDialog::ForceCalDialog(int sdlw,		\
+				 int sdlh,		\
+				 int camw,			\
+				 int camh,				\
+				 int yPos,ArbeitsDialog * parent)	\
+    :CalibrationDialog(sdlw,sdlh,camw,camh,yPos,parent)
+  {
+    pLastActiveScreen = 0;
+    bQ1OverflowPending = false;
+    bQ2OverflowPending = false;
+    bZ1OverflowPending = false;
+    bZ2OverflowPending = false;
+  }
+
+  void ForceCalDialog::showForceCalDialog(int problemSource,Screen* pLastActiveScreen)
+  {
+    //Parent iActiveDialog sichern, damit der Zustand später wieder hergestellt werden kann
+    //Parent iActiveDialog = ForceCalDialog setzten, und damit die AchsenEvents umleiten
+    //Kommen nun weitere "SyncLostEvents" also zu schnell an den Achsen gedreht, dann muss das Ereignis
+    //mit einem Flag festgehalten werden, sofern es sich nicht um die aktuell behandelte Achse handelt, 
+    //damit diese "neue" Achse danach auch behandelt werden kann.
+    //
+
+    //if(Parent->iActiveDialog != ArbeitsDialog::ForceCalDialog)
+    //   this->last_ActiveScreen = pLastActiveScreen; //Das ist der Screen bevor das Overflow Evt kam
+    //   this->last_iActiveDialog = Parent->iActiveDialog;
+    //   Parent->iActiveDialog = ArbeitsDialog::ForceCalDialog;
+    //else //wir sind schon in ForceCalDialog, und es kommt ein weiteres Event, was nur von einer weiteren Quelle 
+    //kommen kann
+    //  Andere ProblemSourcen als die Aktuelle merken
+    switch(problemSource)
+      {
+      case iQ1:
+	{
+	  bQ1OverflowPending = true;
+	}
+      case iQ2:
+	{
+	  bQ2OverflowPending = true;
+	}
+      case iZ1:
+	{
+	  bZ1OverflowPending = true;
+	}
+      case iZ2:
+	{
+	  bZ2OverflowPending = true;
+	}
+      }
+  }
+
   PosDialog::~PosDialog(){}
   PosDialog::PosDialog(char* text,		\
 		       int sdlw,		\

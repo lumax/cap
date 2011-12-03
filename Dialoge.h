@@ -40,13 +40,28 @@ namespace EuMax01
     
     Label * Label_MenuTitle;
 
+    int ActualStep;
+    void setXXData(unsigned short dat,int MyStep,char * suffix);
+
+  protected:
     static const int iQ1 = 0;
     static const int iQ2 = 1;
     static const int iZ1 = 2;
     static const int iZ2 = 3;
+  };
 
-    int ActualStep;
-    void setXXData(unsigned short dat,int MyStep,char * suffix);
+  class ForceCalDialog : public CalibrationDialog
+  {
+  public:
+    ForceCalDialog(int sdlw,int sdlh, int camw,int camh,int yPos,	\
+		   ArbeitsDialog * parent);
+    void showForceCalDialog(int problemSource,Screen* pLastActiveScreen);
+  private:
+    Screen * pLastActiveScreen;
+    bool bQ1OverflowPending;
+    bool bQ2OverflowPending;
+    bool bZ1OverflowPending;
+    bool bZ2OverflowPending;
   };
 
   class PosDialog : public Screen
