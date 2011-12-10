@@ -18,6 +18,7 @@
 #include "Tools.h"
 #include "Rezept.h"
 #include "Dialoge.h"
+#include "MenuBar.h"
 #include "ArbeitsDialog.h"
 #include "pec_cmd.h"
 #include "MBProt.h"

@@ -29,6 +29,7 @@ Bastian Ruppert
 
 #include "Dialoge.h"
 #include "ErrorDialog.h"
+#include "MenuBar.h"
 #include "ArbeitsDialog.h"
 
 #include <linux/videodev.h>

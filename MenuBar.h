@@ -10,12 +10,7 @@ namespace EuMax01
 
   class ArbeitsDialog;
   //static const int MenuBar::LabelBufLen;
-
-  struct MenuBarEvtHandler
-  {
-    char * ButtonName;
-    //function pointer
-  };
+  struct t_MenuBarSettings;
 
   class MenuBar
   {
@@ -24,16 +19,23 @@ namespace EuMax01
 	    int yPos,					\
 	    int height,					\
 	    char * Name,				\
-	    char * LabelTexte[8],	\
+	    struct t_MenuBarSettings * settings,	\
 	    ArbeitsDialog * Parent);
     ~MenuBar();
 
+    static const int MenuPunkte = 8;
     void addToEvtTarget(EvtTarget* theTarget);
 
   private:
-    static const int MenuPunkte = 8;
     Label * LName;
     Button * lbuf[MenuBar::MenuPunkte];
+  };
+
+  struct t_MenuBarSettings
+  {
+    char * Text[MenuBar::MenuPunkte];
+    
+    //function pointer
   };
   
 #endif /* __MENUBAR_H__*/

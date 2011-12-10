@@ -318,17 +318,18 @@ namespace EuMax01
 			  MZeile_h,\
 			  MenuSet);
 
-    MenuPunkte[0]=(char *)"F1 load";
-    MenuPunkte[1]=(char *)"F2 edit";
-    MenuPunkte[2]=(char *)"F3 new";
-    MenuPunkte[3]=(char *)"F4 delete";
-    MenuPunkte[4]=(char *)"F5 prev";
-    MenuPunkte[5]=(char *)"F6 next";
-    MenuPunkte[6]=(char *)"F7 calibrate";
-    MenuPunkte[7]=(char *)"F12 exit";
+    theMenuBarSettings.Text[0]=(char *)"F1 load";
+    theMenuBarSettings.Text[1]=(char *)"F2 edit";
+    theMenuBarSettings.Text[2]=(char *)"F3 new";
+    theMenuBarSettings.Text[3]=(char *)"F4 delete";
+    theMenuBarSettings.Text[4]=(char *)"F5 prev";
+    theMenuBarSettings.Text[5]=(char *)"F6 next";
+    theMenuBarSettings.Text[6]=(char *)"F7 calibrate";
+    theMenuBarSettings.Text[7]=(char *)"F12 exit";
 
 
-    theMenu = new MenuBar(MInfoF1_x,MInfo_y,MZeile_h,"Recipe",this->MenuPunkte,this);
+    theMenu = new MenuBar(MInfoF1_x,MInfo_y,MZeile_h,(char*)"Recipe",	\
+			  &this->theMenuBarSettings,this);
 
     if(useGUI)
       {

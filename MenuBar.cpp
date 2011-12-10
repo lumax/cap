@@ -31,9 +31,8 @@ Bastian Ruppert
 
 //#include "Dialoge.h"
 //#include "ErrorDialog.h"
-#include "ArbeitsDialog.h"
-
 #include "MenuBar.h"
+#include "ArbeitsDialog.h"
 
 namespace EuMax01
 {
@@ -43,7 +42,7 @@ namespace EuMax01
 		   int yPos,					\
 		   int height,					\
 		   char * Name,					\
-		   char * LabelTexte[MenuBar::MenuPunkte],	\
+		   struct t_MenuBarSettings * settings,		\
 		   ArbeitsDialog * Parent)
   {
     //short xPos[MenuBar::LabelBufLen];
@@ -66,9 +65,9 @@ namespace EuMax01
 			    wButton,				\
 			    height,				\
 			    Parent->MenuSet);			
-	if(0!=LabelTexte[i])
+	if(0!=settings->Text[i])
 	  {
-	    lbuf[i]->setText(LabelTexte[i]);
+	    lbuf[i]->setText(settings->Text[i]);
 	  }
       }
 

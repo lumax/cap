@@ -28,6 +28,7 @@ Bastian Ruppert
 #include "pec_cmd.h"
 #include "MBProt.h"
 
+#include "MenuBar.h"
 #include "ArbeitsDialog.h"
 #include "NewDirectDialog.h"
 #include "ErrorDialog.h"

@@ -159,7 +159,7 @@ namespace EuMax01
     
     Label * LabelDialogName;
     Label * LabelInfo;
-    char * MenuPunkte[8];
+    struct t_MenuBarSettings theMenuBarSettings;
     MenuBar * theMenu;
   };
 
