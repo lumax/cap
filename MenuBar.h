@@ -33,7 +33,7 @@ namespace EuMax01
   private:
     static const int MenuPunkte = 8;
     Label * LName;
-    Label * lbuf[MenuBar::MenuPunkte];
+    Button * lbuf[MenuBar::MenuPunkte];
   };
   
 #endif /* __MENUBAR_H__*/

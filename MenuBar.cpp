@@ -60,7 +60,7 @@ namespace EuMax01
     for(int i = 0;i<MenuBar::MenuPunkte;i++)
       {
 	
-	lbuf[i] = new Label(" ",				\
+	lbuf[i] = new Button(" ",				\
 			    x1Button+wButton*i+x_space*i,	\
 			    yPos,				\
 			    wButton,				\
