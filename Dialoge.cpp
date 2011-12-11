@@ -213,8 +213,7 @@ namespace EuMax01
     //Wert Anzeige resetten
     snprintf(this->Value,64,"---");
     this->Label_Value->setText(this->Value);
-    Label::showLabel((void*)this->Label_Value,			\
-		     this->Parent->theGUI->getMainSurface());
+    this->Label_Value->show(this->Parent->theGUI->getMainSurface());
 
     switch(theStep)
       {
@@ -270,10 +269,8 @@ namespace EuMax01
 	  break;
 	}
       }
-    Label::showLabel((void*)this->Label_Step,			\
-		     this->Parent->theGUI->getMainSurface());
-    Label::showLabel((void*)this->Label_ValueName,		\
-		     this->Parent->theGUI->getMainSurface());
+    this->Label_Step->show(this->Parent->theGUI->getMainSurface());
+    this->Label_ValueName->show(this->Parent->theGUI->getMainSurface());
   }
   
   void CalibrationDialog::setQ1(unsigned short dat)
@@ -302,8 +299,7 @@ namespace EuMax01
       {
 	sprintf(this->Value,"%7.2f%s",(float)dat/100,suffix);
 	this->Label_Value->setText(this->Value);
-	Label::showLabel((void*)this->Label_Value,		\
-			 this->Parent->theGUI->getMainSurface());
+	this->Label_Value->show(this->Parent->theGUI->getMainSurface());
       }
   }
 
@@ -550,8 +546,7 @@ namespace EuMax01
     e=printDifference(pcLabelCam1[PosDialog::iDiff],aktuell,rezept);
     pLabelCam1[PosDialog::iDiff]->setMarkedColor(DiffFarben[e]);
     pLabelCam1[PosDialog::iDiff]->setText(pcLabelCam1[PosDialog::iDiff]);
-    Label::showLabel((void*)pLabelCam1[PosDialog::iDiff],	\
-		     Parent->theGUI->getMainSurface());
+    pLabelCam1[PosDialog::iDiff]->show(Parent->theGUI->getMainSurface());
   }
   
   void PosDialog::showDifferenceCam2(int aktuell,int rezept)
@@ -560,8 +555,7 @@ namespace EuMax01
     e=printDifference(pcLabelCam2[PosDialog::iDiff],aktuell,rezept);
     pLabelCam2[PosDialog::iDiff]->setMarkedColor(DiffFarben[e]);
     pLabelCam2[PosDialog::iDiff]->setText(pcLabelCam2[PosDialog::iDiff]);
-    Label::showLabel((void*)pLabelCam2[PosDialog::iDiff],	\
-		     Parent->theGUI->getMainSurface());
+    pLabelCam2[PosDialog::iDiff]->show(Parent->theGUI->getMainSurface());
   }
   
   void PosDialog::showDifferenceZ(int aktuell,int rezept)
@@ -570,8 +564,7 @@ namespace EuMax01
     e=printDifference(pcLabelZ[PosDialog::iDiff],aktuell,rezept);
     pLabelZ[PosDialog::iDiff]->setMarkedColor(DiffFarben[e]);
     pLabelZ[PosDialog::iDiff]->setText(pcLabelZ[PosDialog::iDiff]);
-    Label::showLabel((void*)pLabelZ[PosDialog::iDiff],	\
-		     Parent->theGUI->getMainSurface());
+    pLabelZ[PosDialog::iDiff]->show(Parent->theGUI->getMainSurface());
   }
 
   unsigned int PosDialog::printDifference(char * target,int aktuell,int rezept)
@@ -620,8 +613,7 @@ namespace EuMax01
   {
     snprintf(pcLabelRecipeName,64,"Name:%s",text);
     LabelRecipeName->setText(pcLabelRecipeName);
-    Label::showLabel((void*)LabelRecipeName,		\
-		     Parent->theGUI->getMainSurface());
+    LabelRecipeName->show(Parent->theGUI->getMainSurface());
   }
 
   static void LoadDialogKeyListener(void * src, SDL_Event * evt)
@@ -987,7 +979,7 @@ namespace EuMax01
 		  ad->incStep();
 		ad->theMenuModus=NewDialog::iCrossaireMenu;
 		ad->Label_Menu->setText(NewDialogCrossMenuText);
-		Label::showLabel((void*)ad->Label_Menu,ad->Parent->theGUI->getMainSurface());
+		ad->Label_Menu->show(ad->Parent->theGUI->getMainSurface());
 	      }
 	  }
       }
@@ -1002,13 +994,13 @@ namespace EuMax01
 
 		ad->theMenuModus=NewDialog::iMainMenu;
 		ad->Label_Menu->setText(NewDialogMainMenuText);
-		Label::showLabel((void*)ad->Label_Menu,ad->Parent->theGUI->getMainSurface());
+		ad->Label_Menu->show(ad->Parent->theGUI->getMainSurface());
 	      }
 	    else if(key->keysym.sym == SDLK_RETURN)
 	      {
 		ad->theMenuModus=NewDialog::iMainMenu;
 		ad->Label_Menu->setText(NewDialogMainMenuText);
-		Label::showLabel((void*)ad->Label_Menu,ad->Parent->theGUI->getMainSurface());
+		ad->Label_Menu->show(ad->Parent->theGUI->getMainSurface());
 
 		ad->copyValuesToRezept();
 		if(ad->getStep()<8)

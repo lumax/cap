@@ -184,6 +184,7 @@ namespace EuMax01
     Label_Menu->setText(MenuAxisText);
 
     this->pTSource = this;//EvtTarget Quelle setzen, damit der EvtListener die Quelle mitteilen kann
+    this->EvtTargetID=(char*)"NewDirectDialog";
     this->setKeyboardUpEvtHandler(NewDirectKeyListener);
     this->addEvtTarget(this);//den Screen Key Listener bei sich selber anmelden!
 
@@ -353,18 +354,15 @@ namespace EuMax01
 	this->Label_OldValue->hide(false);
 	getSchritteValues(this->OldValue,64);
 	this->Label_OldValue->setText(this->OldValue);
-	Label::showLabel((void*)this->Label_OldValue,			\
-			 this->Parent->Parent->theGUI->getMainSurface());
+	this->Label_OldValue->show(this->Parent->Parent->theGUI->getMainSurface());
       }
     this->Label_Step->setText(SchrittTexte[this->ActualStep]);
 
     this->getSchritteValueNames(this->ValueName,16);
     this->Label_ValueName->setText(this->ValueName);
     
-    Label::showLabel((void*)this->Label_Step,				\
-		     this->Parent->Parent->theGUI->getMainSurface());
-    Label::showLabel((void*)this->Label_ValueName,			\
-		     this->Parent->Parent->theGUI->getMainSurface());
+    this->Label_Step->show(this->Parent->Parent->theGUI->getMainSurface());
+    this->Label_ValueName->show(this->Parent->Parent->theGUI->getMainSurface());
   }
 
   void NewDirectDialog::setXXData(unsigned short dat,int MyStep,char*suffix)
@@ -373,8 +371,7 @@ namespace EuMax01
       {
 	sprintf(this->Value,"%7.2f%s",(float)dat/100,suffix);
 	this->TF_Value->setText(this->Value);
-	Label::showLabel((void*)this->TF_Value,		\
-			 this->Parent->Parent->theGUI->getMainSurface());
+	this->TF_Value->show(this->Parent->Parent->theGUI->getMainSurface());
       }
   }
 

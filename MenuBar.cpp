@@ -69,6 +69,11 @@ namespace EuMax01
 	  {
 	    lbuf[i]->setText(settings->Text[i]);
 	  }
+	if(0!=settings->evtFnks[i])
+	  {
+	    lbuf[i]->setLMButtonUpEvtHandler(settings->evtFnks[i]);//,settings->evtSource);
+	  }
+	lbuf[i]->pTSource = settings->evtSource;
       }
 
   }

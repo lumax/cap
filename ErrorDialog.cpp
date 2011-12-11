@@ -101,6 +101,7 @@ namespace EuMax01
 			 506,MZeile_h);
     
     this->pTSource = this;//EvtTarget Quelle setzen
+    this->EvtTargetID=(char*)"ErrorDialog";
     this->setKeyboardUpEvtHandler(ErrorDialogKeyListener);
     this->addEvtTarget(this);//den Screen Key Listener bei sich selber anmelden!
     this->addEvtTarget(Label_Error);
@@ -187,6 +188,7 @@ namespace EuMax01
 			   Parent->DialogSet);
 
     this->pTSource = this;//EvtTarget Quelle setzen
+    this->EvtTargetID=(char*)"ConfirmDialog";
     this->setKeyboardUpEvtHandler(ConfirmDialogKeyListener);
     this->addEvtTarget(this);//den Screen Key Listener bei sich selber anmelden!
     this->addEvtTarget(Label_MenuTitle);

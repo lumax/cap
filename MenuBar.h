@@ -33,7 +33,11 @@ namespace EuMax01
 
   struct t_MenuBarSettings
   {
+    //Dieser Pointer wird bei den Button Events ausgewertet
+    //Die Funktionen in evtFnks nutzen diesen Pointer
+    void * evtSource;
     char * Text[MenuBar::MenuPunkte];
+    void (*evtFnks[MenuBar::MenuPunkte])(void *,SDL_Event * evt);
     
     //function pointer
   };

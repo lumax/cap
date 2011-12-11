@@ -120,6 +120,7 @@ namespace EuMax01
     TF_Value->setActive(true);
     */
     //this->pTSource = this;//EvtTarget Quelle setzen, damit der EvtListener die Quelle mitteilen kann
+    //this->bHide = true;
     //this->setKeyboardUpEvtHandler(NewDirectKeyListener);
     //this->addEvtTarget(this);//den Screen Key Listener bei sich selber anmelden!
     //addEvtTarget(Label_Menu);

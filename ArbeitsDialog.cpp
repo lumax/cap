@@ -40,9 +40,71 @@ namespace EuMax01
 
   /*  ArbeitsDialog */
 
+  static void F1_ListenerArbeitsDialog(void * src, SDL_Event * evt)
+  {
+    ArbeitsDialog* ad = (ArbeitsDialog*)src;
+    ad->showLoadDialog(0,true);
+  }
+
+  static void F2_ListenerArbeitsDialog(void * src, SDL_Event * evt)
+  {
+    ArbeitsDialog* ad = (ArbeitsDialog*)src;
+    Rezept::copy(ad->theRezept,ad->theNewDialog->tmpRezept);
+    ad->showNewDialog((char*)"Edit");
+  }
+
+  static void F3_ListenerArbeitsDialog(void * src, SDL_Event * evt)
+  {
+    ArbeitsDialog* ad = (ArbeitsDialog*)src;
+    Rezept::copy(ad->getNullRezept(),ad->theNewDialog->tmpRezept);
+    ad->showNewDialog((char*)"New");
+  }
+
+  static void F4_ListenerArbeitsDialog(void * src, SDL_Event * evt)
+  {
+    ArbeitsDialog* ad = (ArbeitsDialog*)src;
+    ad->showLoadDialog(0,false);
+  }
+
+  static void F5_ListenerArbeitsDialog(void * src, SDL_Event * evt)
+  {
+    ArbeitsDialog* ad = (ArbeitsDialog*)src;
+    ad->decRezeptNummer();
+    ad->showRezept(ad->getRezeptNummer());
+  }
+
+  static void F6_ListenerArbeitsDialog(void * src, SDL_Event * evt)
+  {
+    ArbeitsDialog* ad = (ArbeitsDialog*)src;
+    ad->incRezeptNummer();
+    ad->showRezept(ad->getRezeptNummer());
+  }
+
+  static void F7_ListenerArbeitsDialog(void * src, SDL_Event * evt)
+  {
+    ArbeitsDialog* ad = (ArbeitsDialog*)src;
+    ad->showCalibrationDialog();
+  }
+
+  static void F10_ListenerArbeitsDialog(void * src, SDL_Event * evt)
+  {
+    ArbeitsDialog* ad = (ArbeitsDialog*)src;
+    ad->showInfoDialog();
+  }
+
+  static void F11_ListenerArbeitsDialog(void * src, SDL_Event * evt)
+  {
+    exit(11);
+  }
+
+  static void F12_ListenerArbeitsDialog(void * src, SDL_Event * evt)
+  {
+    ArbeitsDialog* ad = (ArbeitsDialog*)src;
+    ad->showConfirmDialog((char *)"Exit Programm");
+  }
+
   static void ArbeitsDialogKeyListener(void * src, SDL_Event * evt)
   {
-    ArbeitsDialog* ad = (ArbeitsDialog*)src;//KeyListener
     SDL_KeyboardEvent * key = (SDL_KeyboardEvent *)&evt->key;
     SDLMod mod = key->keysym.mod;
     //char zeichen = 0;
@@ -51,57 +113,44 @@ namespace EuMax01
       {
 	if(key->keysym.sym == SDLK_F1)
 	  {
-	    ad->showLoadDialog(0,true);
+	    F1_ListenerArbeitsDialog(src,evt);
 	  }
 	else if(key->keysym.sym == SDLK_F2)
 	  {
-	    //printf("F2\n");
-	    //	    printf("ad->theProtocol->enableAuto(); returns: %i\n", 
-	    //   ad->theProtocol->enableAuto());
-	    //prt_sendmsg_uint(nPEC_RESET_Q1,0x00);
-	    //prt_sendmsg_uint(nPEC_GET_Q1,0x00);
-	    Rezept::copy(ad->theRezept,ad->theNewDialog->tmpRezept);
-	    ad->showNewDialog((char*)"Edit");
+	    F2_ListenerArbeitsDialog(src,evt);
 	  }
 	else if(key->keysym.sym == SDLK_F3)
 	  {
-	    Rezept::copy(ad->getNullRezept(),ad->theNewDialog->tmpRezept);
-	    ad->showNewDialog((char*)"New");
+	    F3_ListenerArbeitsDialog(src,evt);
 	  }
 	else if(key->keysym.sym == SDLK_F4)
 	  {
-	    ad->showLoadDialog(0,false);
+	    F4_ListenerArbeitsDialog(src,evt);
 	  }
 	else if(key->keysym.sym == SDLK_F5||key->keysym.sym == SDLK_LEFT)
 	  {
-	    ad->decRezeptNummer();
-	    ad->showRezept(ad->getRezeptNummer());
-	    //ad->setCross1Ref();
-	    //ad->setCross2Ref();
+	    F5_ListenerArbeitsDialog(src,evt);
 	  }
 	else if(key->keysym.sym == SDLK_F6||key->keysym.sym == SDLK_RIGHT)
 	  {
-	    ad->incRezeptNummer();
-	    ad->showRezept(ad->getRezeptNummer());
-	    //ad->setCross1Ref();
-	    //ad->setCross2Ref();
+	    F6_ListenerArbeitsDialog(src,evt);
 	  }
 	else if(key->keysym.sym == SDLK_F7)
 	  {
-	    ad->showCalibrationDialog();
+	    F7_ListenerArbeitsDialog(src,evt);
 	  }
 	else if(key->keysym.sym == SDLK_F10)
 	  {
-	    ad->showInfoDialog();
+	    F10_ListenerArbeitsDialog(src,evt);
 	  }
 	else if(key->keysym.sym == SDLK_F11)
 	  {
-	    exit(11);
+	    F11_ListenerArbeitsDialog(src,evt);
 	  }
 	else if(key->keysym.sym == SDLK_F12)
 	  {
 	    //exit(12);
-	    ad->showConfirmDialog((char *)"Exit Programm");
+	    F12_ListenerArbeitsDialog(src,evt);
 	  }
 	else if(key->keysym.sym == SDLK_q)
 	  {
@@ -327,6 +376,16 @@ namespace EuMax01
     theMenuBarSettings.Text[6]=(char *)"F7 calibrate";
     theMenuBarSettings.Text[7]=(char *)"F12 exit";
 
+    theMenuBarSettings.evtSource = (void*)this;
+
+    theMenuBarSettings.evtFnks[0]=F1_ListenerArbeitsDialog;
+    theMenuBarSettings.evtFnks[1]=F2_ListenerArbeitsDialog;
+    theMenuBarSettings.evtFnks[2]=F3_ListenerArbeitsDialog;
+    theMenuBarSettings.evtFnks[3]=F4_ListenerArbeitsDialog;
+    theMenuBarSettings.evtFnks[4]=F5_ListenerArbeitsDialog;
+    theMenuBarSettings.evtFnks[5]=F6_ListenerArbeitsDialog;
+    theMenuBarSettings.evtFnks[6]=F7_ListenerArbeitsDialog;
+    theMenuBarSettings.evtFnks[7]=F12_ListenerArbeitsDialog;
 
     theMenu = new MenuBar(MInfoF1_x,MInfo_y,MZeile_h,(char*)"Recipe",	\
 			  &this->theMenuBarSettings,this);
@@ -336,6 +395,7 @@ namespace EuMax01
       printf("guiMode true \n");
 
     this->pTSource = this; //EvtTarget Quelle setzen, damit der EvtListener die Quelle mitteilen kann
+    this->EvtTargetID=(char*)"ArbeitsDialog";
     this->setKeyboardUpEvtHandler(ArbeitsDialogKeyListener);
     this->addEvtTarget(this);//den Screen Key Listener bei sich selber anmelden!
     
@@ -356,6 +416,7 @@ namespace EuMax01
 	LabelDialogName->setText("F12: Exit");
 
 	this->pTSource = this; //EvtTarget Quelle setzenfür den EvtListener
+	this->EvtTargetID=(char*)"ArbeitsDialog";
 	this->setKeyboardUpEvtHandler(ArbeitsDialogNoGUIKeyListener);
 	this->addEvtTarget(this);
 	this->addEvtTarget(LabelDialogName);
@@ -522,8 +583,7 @@ namespace EuMax01
     sprintf(this->thePosDialog->pcLabelCam1[PosDialog::iCurr],"%7.2f mm",(float)Cam1XaxisCur/100);
     thePosDialog->pLabelCam1[PosDialog::iCurr]->		\
       setText(thePosDialog->pcLabelCam1[PosDialog::iCurr]);
-    Label::showLabel((void*)thePosDialog->pLabelCam1[PosDialog::iCurr],	\
-		     this->theGUI->getMainSurface());
+    thePosDialog->pLabelCam1[PosDialog::iCurr]->show(this->theGUI->getMainSurface());
   }
 
   void ArbeitsDialog::setCam2XaxisCur(int val)
@@ -535,8 +595,7 @@ namespace EuMax01
     sprintf(this->thePosDialog->pcLabelCam2[PosDialog::iCurr],"%7.2f mm",(float)Cam2XaxisCur/100);
     thePosDialog->pLabelCam2[PosDialog::iCurr]->		\
       setText(thePosDialog->pcLabelCam2[PosDialog::iCurr]);
-    Label::showLabel((void*)thePosDialog->pLabelCam2[PosDialog::iCurr],	\
-		     this->theGUI->getMainSurface());
+    thePosDialog->pLabelCam2[PosDialog::iCurr]->show(this->theGUI->getMainSurface());
   }
 
   void ArbeitsDialog::setCam1ZaxisCur(int val)
@@ -548,8 +607,7 @@ namespace EuMax01
     sprintf(this->thePosDialog->pcLabelZ[PosDialog::iCurr],"%7.2f ° ",(float)Cam1ZaxisCur/100);
     thePosDialog->pLabelZ[PosDialog::iCurr]->		\
       setText(thePosDialog->pcLabelZ[PosDialog::iCurr]);
-    Label::showLabel((void*)thePosDialog->pLabelZ[PosDialog::iCurr],	\
-		     this->theGUI->getMainSurface());
+    thePosDialog->pLabelZ[PosDialog::iCurr]->show(this->theGUI->getMainSurface());
   }
 
   void ArbeitsDialog::setCam2ZaxisCur(int val)

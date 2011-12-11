@@ -225,6 +225,7 @@ namespace EuMax01
     refreshAll();
 
     this->pTSource = this;//EvtTarget Quelle setzen
+    this->EvtTargetID=(char*)"InfoDialog";
     this->setKeyboardUpEvtHandler(InfoDialogKeyListener);
     this->addEvtTarget(this);//den Screen Key Listener bei sich selber anmelden!
     this->addEvtTarget(Label_MenuTitle);
