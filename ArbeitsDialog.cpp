@@ -358,15 +358,6 @@ namespace EuMax01
 
     LabelDialogName = new Label("Recipe",MInfoF1_x,MInfo_y,MInfo_w,MZeile_h,ArbeitsDialog::MenuSet);
 
-    LabelInfo = new Label("F1: load | F2: edit | F3: new | F4: delete |"\
-			  "F5: prev | F6: next | "		\
-			  "F7: calibrate | F12: exit",			\
-			  MInfoF2_x,					\
-			  MInfo_y,					\
-			  MInfo_w*7+6*MInfoSpace_w,			\
-			  MZeile_h,\
-			  MenuSet);
-
     theMenuBarSettings.Text[0]=(char *)"F1 load";
     theMenuBarSettings.Text[1]=(char *)"F2 edit";
     theMenuBarSettings.Text[2]=(char *)"F3 new";
