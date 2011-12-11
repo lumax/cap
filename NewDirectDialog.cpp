@@ -220,7 +220,7 @@ namespace EuMax01
     theMenuBarSettings.Text[4]=(char *)"RIGHT";
     theMenuBarSettings.Text[5]=0;
     theMenuBarSettings.Text[6]=0;
-    theMenuBarSettings.Text[7]=(char *)"ENTER";
+    theMenuBarSettings.Text[7]=(char *)"RETURN";
 
     theMenuBarSettings.evtSource = (void*)this;
 
