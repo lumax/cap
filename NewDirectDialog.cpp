@@ -36,11 +36,56 @@ Bastian Ruppert
 namespace EuMax01
 {
 
+  void NewDirectDialog::escape_listener(void * src, SDL_Event * evt)
+  {
+    NewDirectDialog* ad = (NewDirectDialog*)src;//KeyListener
+    ad->Parent->newDirectReturn(0);
+  }
+
+  void NewDirectDialog::left_listener(void * src, SDL_Event * evt)
+  {
+    NewDirectDialog* ad = (NewDirectDialog*)src;//KeyListener
+    /*    SDL_KeyboardEvent * key = (SDL_KeyboardEvent *)&evt->key;
+    SDLMod mod = key->keysym.mod;
+    if((mod & KMOD_SHIFT) || (mod & KMOD_ALT))
+      {
+	ad->crosshairsKeyListener(key);
+      }
+    else
+    {*/
+    ad->decEingabeSchritt();
+	// }
+  }
+
+  void NewDirectDialog::right_listener(void * src, SDL_Event * evt)
+  {
+    NewDirectDialog* ad = (NewDirectDialog*)src;//KeyListener
+    /*    SDL_KeyboardEvent * key = (SDL_KeyboardEvent *)&evt->key;
+    SDLMod mod = key->keysym.mod;
+    if((mod & KMOD_SHIFT) || (mod & KMOD_ALT))
+      {
+	ad->crosshairsKeyListener(key);
+      }
+    else
+    {*/
+    ad->incEingabeSchritt();
+	// }
+  }
+  
+  void NewDirectDialog::return_listener(void * src, SDL_Event * evt)
+  {
+    NewDirectDialog* ad = (NewDirectDialog*)src;//KeyListener
+    if(ad->getEingabeSchritt()==NewDirectDialog::AnzahlEingabeSchritte-1)
+      ad->Parent->newDirectReturn(ad->getPositionSet());
+    else
+      ad->incEingabeSchritt();
+  }
+
   void NewDirectDialog::NewDirectKeyListener(void * src, SDL_Event * evt)
   {
     NewDirectDialog* ad = (NewDirectDialog*)src;//KeyListener
     SDL_KeyboardEvent * key = (SDL_KeyboardEvent *)&evt->key;
-    SDLMod mod = key->keysym.mod;
+    //SDLMod mod = key->keysym.mod;
     char zeichen = 0;
 
     if( key->type == SDL_KEYUP )
@@ -54,42 +99,26 @@ namespace EuMax01
 	  }
 	if(key->keysym.sym == SDLK_ESCAPE)
 	  {
-	    ad->Parent->newDirectReturn(0);
+	    ad->escape_listener(src,evt);
 	  }
 	else if(key->keysym.sym == SDLK_RETURN)
 	  {
-	    if(ad->getEingabeSchritt()==NewDirectDialog::AnzahlEingabeSchritte-1)
-	      ad->Parent->newDirectReturn(ad->getPositionSet());
-	    else
-	      ad->incEingabeSchritt();
+	    ad->return_listener(src,evt);
 	  }
 	else if(key->keysym.sym == SDLK_LEFT)
 	  {
-	    if((mod & KMOD_SHIFT) || (mod & KMOD_ALT))
-	      {
-		ad->crosshairsKeyListener(key);
-	      }
-	    else
-	      {
-		ad->decEingabeSchritt();
-	      }
+	    ad->left_listener(src,evt);
 	  }
 	else if(key->keysym.sym == SDLK_RIGHT)
 	  {
-	    if((mod & KMOD_SHIFT) || (mod & KMOD_ALT))
-	      {
-		ad->crosshairsKeyListener(key);
-	      }
-	    else
-	      {
-		ad->incEingabeSchritt();
-	      }
+	    ad->right_listener(src,evt);
 	  }
       }
   }
 
-  static char * MenuAxisText = (char*)"ESC : cancel | RET : OK | LEFT prev | RIGHT next";
-  static char * MenuCrossText = (char*)"ESC : cancel | RET : OK | LEFT prev | RIGHT next | Ctrl/Alt LEFT/RIGHT cross";
+  //static char * MenuAxisText = (char*)"ESC : cancel | RET : OK | LEFT prev | RIGHT next";
+  //Dieser Text wird zur Zeit nicht erreicht, da AnzahlEingabeSchritte auf 3 begrenzt ist
+  //static char * MenuCrossText = (char*)"ESC : cancel | RET : OK | LEFT prev | RIGHT next | Ctrl/Alt LEFT/RIGHT cross";
 
   NewDirectDialog::~NewDirectDialog(){};
   NewDirectDialog::NewDirectDialog(int sdlw,				\
@@ -176,12 +205,36 @@ namespace EuMax01
 			       MZeile_h,		\
 			       Parent->Parent->WerteSet);
 
-    Label_MenuTitle = new Label("Direct Input",MLinks_x,Zeile5_y,150,MZeile_h,Parent->Parent->MenuSet);
+    //Label_MenuTitle = new Label("Direct Input",MLinks_x,Zeile5_y,150,MZeile_h,Parent->Parent->MenuSet);
 
-    Label_Menu = new Label(" ",						\
+    /*Label_Menu = new Label(" ",					\
 			    MLinks_x+158,Zeile5_y,			 \
 			   1012-158,MZeile_h,Parent->Parent->MenuSet);
     Label_Menu->setText(MenuAxisText);
+    */
+
+    theMenuBarSettings.Text[0]=(char *)"ESC";
+    theMenuBarSettings.Text[1]=0;
+    theMenuBarSettings.Text[2]=0;
+    theMenuBarSettings.Text[3]=(char *)"LEFT";
+    theMenuBarSettings.Text[4]=(char *)"RIGHT";
+    theMenuBarSettings.Text[5]=0;
+    theMenuBarSettings.Text[6]=0;
+    theMenuBarSettings.Text[7]=(char *)"ENTER";
+
+    theMenuBarSettings.evtSource = (void*)this;
+
+    theMenuBarSettings.evtFnks[0]=escape_listener;
+    theMenuBarSettings.evtFnks[1]=0;
+    theMenuBarSettings.evtFnks[2]=0;
+    theMenuBarSettings.evtFnks[3]=left_listener;
+    theMenuBarSettings.evtFnks[4]=right_listener;
+    theMenuBarSettings.evtFnks[5]=0;
+    theMenuBarSettings.evtFnks[6]=0;
+    theMenuBarSettings.evtFnks[7]=return_listener;
+
+    theMenu = new MenuBar((int)MLinks_x,(int)Zeile5_y,(int)MZeile_h,(char*)"Direct Input", \
+			  &this->theMenuBarSettings,Parent->Parent);
 
     this->pTSource = this;//EvtTarget Quelle setzen, damit der EvtListener die Quelle mitteilen kann
     this->EvtTargetID=(char*)"NewDirectDialog";
@@ -192,8 +245,9 @@ namespace EuMax01
     addEvtTarget(Label_ValueName);
     addEvtTarget(TF_Value);
     addEvtTarget(Label_OldValue);
-    addEvtTarget(Label_MenuTitle);
-    addEvtTarget(Label_Menu);
+    //addEvtTarget(Label_MenuTitle);
+    //addEvtTarget(Label_Menu);
+    theMenu->addToEvtTarget(this);
   }
 
   PositionSet * NewDirectDialog::getPositionSet()
@@ -342,20 +396,20 @@ namespace EuMax01
 
   void NewDirectDialog::showEingabeSchritt()
   {
-    if(this->ActualStep==3||this->ActualStep==4)//cross_x hat kein TextFeld
+    /*    if(this->ActualStep==3||this->ActualStep==4)//cross_x hat kein TextFeld
       {
 	Label_Menu->setText(MenuCrossText);
 	this->Label_OldValue->hide(true);
 	this->Parent->Parent->blankButton(Label_OldValue);
       }
     else
-      {
-	Label_Menu->setText(MenuAxisText);
+    {*/
+    //Label_Menu->setText(MenuAxisText);
 	this->Label_OldValue->hide(false);
 	getSchritteValues(this->OldValue,64);
 	this->Label_OldValue->setText(this->OldValue);
 	this->Label_OldValue->show(this->Parent->Parent->theGUI->getMainSurface());
-      }
+	//}
     this->Label_Step->setText(SchrittTexte[this->ActualStep]);
 
     this->getSchritteValueNames(this->ValueName,16);
@@ -375,7 +429,7 @@ namespace EuMax01
       }
   }
 
-  void NewDirectDialog::crosshairsKeyListener(SDL_KeyboardEvent * key)
+  /*  void NewDirectDialog::crosshairsKeyListener(SDL_KeyboardEvent * key)
   {
     SDLMod mod = key->keysym.mod;
     int cam = 0;
@@ -417,6 +471,6 @@ namespace EuMax01
 	    cap_cam_addCrossX(cam,2);
 	  }
       }
-  }
+      }*/
 
 }

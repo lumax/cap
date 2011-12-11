@@ -30,7 +30,12 @@ namespace EuMax01
     void useNewDirectDialog(PositionSet * thePositionSet);
 
     static void NewDirectKeyListener(void * src, SDL_Event * evt);
-    void crosshairsKeyListener(SDL_KeyboardEvent * key);
+    //void crosshairsKeyListener(SDL_KeyboardEvent * key);
+
+    static void escape_listener(void * src, SDL_Event * evt);
+    static void left_listener(void * src, SDL_Event * evt);
+    static void right_listener(void * src, SDL_Event * evt);
+    static void return_listener(void * src, SDL_Event * evt);
 
   private:
     static const int AnzahlEingabeSchritte = 3;//camx1,camx2,z,/*cross1,cross2*/
@@ -51,9 +56,9 @@ namespace EuMax01
     const int TF_Len; 
     char Value[64];
 
-    Label * Label_Menu;
+    //Label * Label_Menu;
     
-    Label * Label_MenuTitle;
+    //Label * Label_MenuTitle;
 
     static const int iQ1 = 0;
     static const int iQ2 = 1;
@@ -64,6 +69,8 @@ namespace EuMax01
     PositionSet thePosSet;
     void setXXData(unsigned short dat,int MyStep,char * suffix);
     void confirmValue(int val);
+    struct t_MenuBarSettings theMenuBarSettings;
+    MenuBar * theMenu;
   };
   
 #endif /* __NEWDIRECTDIALOGE_H__*/
