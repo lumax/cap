@@ -37,6 +37,31 @@ Bastian Ruppert
 namespace EuMax01
 {
 
+  void CalibrationDialog::escape_listener(void * src, SDL_Event * evt)
+  {
+    CalibrationDialog* ad = (CalibrationDialog*)src;//KeyListener
+    ad->Parent->showArbeitsDialog();
+  }
+
+  void CalibrationDialog::left_listener(void * src, SDL_Event * evt)
+  {
+    CalibrationDialog* ad = (CalibrationDialog*)src;//KeyListener
+    ad->decStep();
+  }
+
+  void CalibrationDialog::right_listener(void * src, SDL_Event * evt)
+  {
+     CalibrationDialog* ad = (CalibrationDialog*)src;//KeyListener
+     ad->incStep();
+  }
+  
+  void CalibrationDialog::return_listener(void * src, SDL_Event * evt)
+  {
+    CalibrationDialog* ad = (CalibrationDialog*)src;//KeyListener
+    ad->resetStepValue();
+    ad->incStep();
+  }
+
   static void CalibrateDialogKeyListener(void * src, SDL_Event * evt)
   {
     CalibrationDialog* ad = (CalibrationDialog*)src;//KeyListener
@@ -47,20 +72,19 @@ namespace EuMax01
       {
 	if(key->keysym.sym == SDLK_ESCAPE)
 	  {
-	    ad->Parent->showArbeitsDialog();
+	    ad->escape_listener(src,evt);
 	  }
 	else if(key->keysym.sym == SDLK_RETURN)
 	  {
-	    ad->resetStepValue();
-	    ad->incStep();
+	    ad->return_listener(src,evt);
 	  }
 	else if(key->keysym.sym == SDLK_LEFT)
 	  {
-	    ad->decStep();
+	    ad->left_listener(src,evt);
 	  }
 	else if(key->keysym.sym == SDLK_RIGHT)
 	  {
-	    ad->incStep();
+	    ad->right_listener(src,evt);
 	  }
 	else if(key->keysym.sym == SDLK_p)
 	  {
@@ -133,20 +157,33 @@ namespace EuMax01
 			    MZeile_h,Parent->WerteSet);
     Label_Value->setBorder(true);
 
-    Label_MenuTitle = new Label("Calibration",MLinks_x,Zeile5_y,150,MZeile_h,Parent->MenuSet);
+    theMenuBarSettings.Text[0]=(char *)"ESC";
+    theMenuBarSettings.Text[1]=0;
+    theMenuBarSettings.Text[2]=0;
+    theMenuBarSettings.Text[3]=(char *)"LEFT";
+    theMenuBarSettings.Text[4]=(char *)"RIGHT";
+    theMenuBarSettings.Text[5]=0;
+    theMenuBarSettings.Text[6]=0;
+    theMenuBarSettings.Text[7]=(char *)"RETURN";
 
-    snprintf(this->InfoText,256,				       \
-	     "RETURN : set zero position | "			       \
-	     "LEFT previous step | RIGHT next step");
-    Label_Menu = new Label(this->InfoText,			 \
-			    MLinks_x+158,Zeile5_y,			 \
-			   1012-158,MZeile_h,Parent->MenuSet);
+    theMenuBarSettings.evtSource = (void*)this;
+
+    theMenuBarSettings.evtFnks[0]=escape_listener;
+    theMenuBarSettings.evtFnks[1]=0;
+    theMenuBarSettings.evtFnks[2]=0;
+    theMenuBarSettings.evtFnks[3]=left_listener;
+    theMenuBarSettings.evtFnks[4]=right_listener;
+    theMenuBarSettings.evtFnks[5]=0;
+    theMenuBarSettings.evtFnks[6]=0;
+    theMenuBarSettings.evtFnks[7]=return_listener;
+
+    theMenu = new MenuBar((int)MLinks_x,(int)Zeile5_y,(int)MZeile_h,(char*)"Calibration", \
+			  &this->theMenuBarSettings,Parent);
 
     addEvtTarget(Label_Step);
     addEvtTarget(Label_ValueName);
     addEvtTarget(Label_Value);
-    addEvtTarget(Label_MenuTitle);
-    addEvtTarget(Label_Menu);
+    theMenu->addToEvtTarget(this);
 
     this->pTSource = this;//EvtTarget Quelle setzen, damit der EvtListener die Quelle mitteilen kann
     this->setKeyboardUpEvtHandler(CalibrateDialogKeyListener);

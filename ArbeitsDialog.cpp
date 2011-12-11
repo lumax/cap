@@ -26,10 +26,10 @@ Bastian Ruppert
 #include "pec_cmd.h"
 #include "MBProt.h"
 
+#include "MenuBar.h"
 #include "Dialoge.h"
 #include "ErrorDialog.h"
 #include "InfoDialog.h"
-#include "MenuBar.h"
 #include "ArbeitsDialog.h"
 
 #include <unistd.h>

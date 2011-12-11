@@ -25,6 +25,11 @@ namespace EuMax01
     void decStep();
     void showStep(int theNewStep);
 
+    static void escape_listener(void * src, SDL_Event * evt);
+    static void left_listener(void * src, SDL_Event * evt);
+    static void right_listener(void * src, SDL_Event * evt);
+    static void return_listener(void * src, SDL_Event * evt);
+
   private:
     Label * Label_Step;
     char StepText[256];
@@ -35,13 +40,11 @@ namespace EuMax01
     Label * Label_Value;
     char Value[64];
 
-    Label * Label_Menu;
-    char InfoText[256];
-    
-    Label * Label_MenuTitle;
-
     int ActualStep;
     void setXXData(unsigned short dat,int MyStep,char * suffix);
+
+    struct t_MenuBarSettings theMenuBarSettings;
+    MenuBar * theMenu;
 
   protected:
     static const int iQ1 = 0;

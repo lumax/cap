@@ -18,8 +18,8 @@ Bastian Ruppert
 #include "Poll.h"
 #include "Main.h"
 #include "Rezept.h"
-#include "Dialoge.h"
 #include "MenuBar.h"
+#include "Dialoge.h"
 #include "ArbeitsDialog.h"
 
 #include "Tools.h"
