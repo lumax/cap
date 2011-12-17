@@ -120,6 +120,12 @@ namespace EuMax01
     unsigned int printDifference(char target[64],int aktuell,int rezept);
   };
 
+  struct t_LoadDialogButtonEventContainer
+  {
+    void * theLoadDialog;
+    unsigned int index;
+  };
+
   class LoadDialog : public Screen
   {
   public:
@@ -142,17 +148,27 @@ namespace EuMax01
     void setLoadMode(bool loadMode);
 
     Rezept * tmpRezept;
+
+    static void escape_listener(void * src, SDL_Event * evt);
+    static void pgup_listener(void * src, SDL_Event * evt);
+    static void pgdown_listener(void * src, SDL_Event * evt);
+    static void return_listener(void * src, SDL_Event * evt);
+    
+    unsigned int getMaxRecipesToDisplay();
+    unsigned int getActiveRecipe();
   private:
     bool LoadMode;
-    int ActiveRecipe;
+    unsigned int ActiveRecipe;
     unsigned int MaxRecipesToDisplay;
     int ActiveSavePage;
     int MaxSavePages;
     void addToActiveRecipe(int summand);
-    Label * Label_LadenName;
-    Label * Label_MenuText;
     Label * pLabel_Rezepte[LoadDialog::RezepteLen];
+    struct t_LoadDialogButtonEventContainer LabelEvtContainers[LoadDialog::RezepteLen];
     char DateiNamen[LoadDialog::RezepteLen][32];
+    char * blankText;
+    struct t_MenuBarSettings theMenuBarSettings;
+    MenuBar * theMenu;
   };
 
   class NewDirectDialog;

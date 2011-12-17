@@ -653,6 +653,30 @@ namespace EuMax01
     LabelRecipeName->show(Parent->theGUI->getMainSurface());
   }
 
+  void LoadDialog::escape_listener(void * src, SDL_Event * evt)
+  {
+    LoadDialog* ad = (LoadDialog*)src;//KeyListener
+    ad->Parent->showArbeitsDialog();
+  }
+
+  void LoadDialog::pgup_listener(void * src, SDL_Event * evt)
+  {
+    LoadDialog* ad = (LoadDialog*)src;//KeyListener
+    ad->naviPageup();
+  }
+
+  void LoadDialog::pgdown_listener(void * src, SDL_Event * evt)
+  {
+    LoadDialog* ad = (LoadDialog*)src;//KeyListener
+    ad->naviPagedown();
+  }
+
+  void LoadDialog::return_listener(void * src, SDL_Event * evt)
+  {
+    LoadDialog* ad = (LoadDialog*)src;//KeyListener
+    ad->naviReturn();
+  }
+
   static void LoadDialogKeyListener(void * src, SDL_Event * evt)
   {
     LoadDialog* ad = (LoadDialog*)src;//KeyListener
@@ -662,7 +686,7 @@ namespace EuMax01
       {
 	if(key->keysym.sym == SDLK_ESCAPE)
 	  {
-	    ad->Parent->showArbeitsDialog();
+	    ad->escape_listener(src,evt);
 	  }
 	else if(key->keysym.sym == SDLK_UP)
 	  {
@@ -682,19 +706,38 @@ namespace EuMax01
 	  }
 	else if(key->keysym.sym == SDLK_RETURN)
 	  {
-	    ad->naviReturn();
+	    ad->return_listener(src,evt);
 	  }
 	else if(key->keysym.sym == SDLK_PAGEDOWN)
 	  {
-	    ad->naviPagedown();
+	    ad->pgdown_listener(src,evt);
 	  }
 	else if(key->keysym.sym == SDLK_PAGEUP)
 	  {
-	    ad->naviPageup();
+	    ad->pgup_listener(src,evt);
 	  }
       }
   }
-
+  
+  static void LabelMouseUpListener(void * src, SDL_Event * evt)
+  {
+    struct t_LoadDialogButtonEventContainer * lc;
+    LoadDialog * ld;
+    lc =(struct t_LoadDialogButtonEventContainer *)src;
+    ld = (LoadDialog *)lc->theLoadDialog;
+    
+    if(lc->index==ld->getActiveRecipe())
+      {
+	ld->naviReturn();
+	return;
+      }
+    
+    if(lc->index < ld->getMaxRecipesToDisplay())
+      {
+	ld->setActiveRecipe(lc->index);
+      }
+  }
+    
   LoadDialog::LoadDialog(int sdlw,		\
 			 int sdlh,		\
 			 int camw,		\
@@ -737,20 +780,34 @@ namespace EuMax01
     Rezepte_y = yPos + 1*MSpace_h + 0*MZeile_h;
     Rezepte_w = 125;
 
-    Label_LadenName = new Label("Load",MLinks_x,MLoadName_y,150,MZeile_h,Parent->MenuSet);
-    
-    Label_MenuText = new Label("PagegUp: previous page | "		\
-			       "PageDown: next page | "			\
-			       "ESC: cancel",				\
-			       MLinks_x+156,				\
-			       MLoadName_y,				\
-			       1024-156,				\
-			       MZeile_h,\
-			       Parent->MenuSet);
+    theMenuBarSettings.Text[0]=(char *)"ESC";
+    theMenuBarSettings.Text[1]=0;
+    theMenuBarSettings.Text[2]=0;
+    theMenuBarSettings.Text[3]=(char *)"PgUp";
+    theMenuBarSettings.Text[4]=(char *)"PgDown";
+    theMenuBarSettings.Text[5]=0;
+    theMenuBarSettings.Text[6]=0;
+    theMenuBarSettings.Text[7]=(char *)"ENTER";
+
+    theMenuBarSettings.evtSource = (void*)this;
+
+    theMenuBarSettings.evtFnks[0]=escape_listener;
+    theMenuBarSettings.evtFnks[1]=0;
+    theMenuBarSettings.evtFnks[2]=0;
+    theMenuBarSettings.evtFnks[3]=pgup_listener;
+    theMenuBarSettings.evtFnks[4]=pgdown_listener;
+    theMenuBarSettings.evtFnks[5]=0;
+    theMenuBarSettings.evtFnks[6]=0;
+    theMenuBarSettings.evtFnks[7]=return_listener;
+
+    theMenu = new MenuBar((int)MLinks_x,(int)MLoadName_y,(int)MZeile_h,	\
+			  (char*)"Load",			\
+			  &this->theMenuBarSettings,Parent);
 
     unsigned int ii = 0;
-    char tmpc[16] = { 'x','X','x','x','x','x','x','x'};
-    tmpc[15]='\0';
+    //char tmpc[16] = { ' '};
+    //tmpc[15]='\0';
+    blankText = (char *)" ";
     Globals* global = Globals::getInstance();
     for(unsigned int i=0;i<LoadDialog::RezepteLen;i++)
       {
@@ -759,14 +816,17 @@ namespace EuMax01
 	    ii=0;
 	    Rezepte_y += 1*MSpace_h + 1*MZeile_h;
 	  }
-	sprintf(DateiNamen[i],"%s",tmpc);                   //Text Buffer füllen
-	pLabel_Rezepte[i] = new Label(DateiNamen[i],			\
+	//	sprintf(DateiNamen[i],"%s",tmpc);                   //Text Buffer füllen
+	pLabel_Rezepte[i] = new Label(blankText,			\
 				      MLinks_x + ii*x_space + ii*Rezepte_w, \
 				      Rezepte_y,			\
 				      Rezepte_w,			\
 				      MZeile_h,				\
 				      Parent->WerteSet);
 	pLabel_Rezepte[i]->setFont(global->getDefaultFont());
+	LabelEvtContainers[i].theLoadDialog = (void *)this;
+	LabelEvtContainers[i].index = i;
+	pLabel_Rezepte[i]->setLMButtonUpEvtHandler(LabelMouseUpListener,(void*)&LabelEvtContainers[i]);
 	ii++;
 	this->addEvtTarget(pLabel_Rezepte[i]);
       }
@@ -776,8 +836,17 @@ namespace EuMax01
     this->pTSource = this;
     this->setKeyboardUpEvtHandler(LoadDialogKeyListener);
     this->addEvtTarget(this);//den Screen Key Listener bei sich selber anmelden!
+    theMenu->addToEvtTarget(this);
+  }
 
-    //MLabels_y = yPos + 2*MSpace_h + 1*MZeile_h;
+  unsigned int LoadDialog::getMaxRecipesToDisplay()
+  {
+    return this->MaxRecipesToDisplay;
+  }
+
+  unsigned int LoadDialog::getActiveRecipe()
+  {
+    return this->ActiveRecipe;
   }
 
   void LoadDialog::setLoadMode(bool loadMode)
@@ -785,11 +854,11 @@ namespace EuMax01
     this->LoadMode=loadMode;
     if(LoadMode)
       {
-	Label_LadenName->setText("Load");
+	theMenu->setMenuName((char*)"Load");
       }
     else
       {
-	Label_LadenName->setText("Delete");
+	theMenu->setMenuName((char*)"Delete");
       }
     /*  TODO  if(this->LoadMode!=loadMode)
       {
@@ -797,11 +866,12 @@ namespace EuMax01
 	}*/
   }
 
-  /* \brief Makiert das aktive Label und desmaskiert den Vorherigen.
+  /* \brief Makiert das aktive Label und demaskiert den Vorherigen.
    */ 
   void LoadDialog::setActiveRecipe(unsigned int nr)
   {
     pLabel_Rezepte[ActiveRecipe]->setBorder(false);
+    pLabel_Rezepte[ActiveRecipe]->repaint();
     
     if(nr<0)                     //Begrenzungen
       nr=0;
@@ -817,6 +887,7 @@ namespace EuMax01
 
     ActiveRecipe = nr;
     pLabel_Rezepte[ActiveRecipe]->setBorder(true);
+    pLabel_Rezepte[ActiveRecipe]->repaint();
     this->show(this->Parent->theGUI->getMainSurface());
   }
 
@@ -850,13 +921,15 @@ namespace EuMax01
     unsigned int n;
     unsigned int fileToShow;
 
-    this->EvtTargets.Next = 0;     //alle FileLabels deaktivieren
-    this->Next = 0;                //alles nach dem Keylistener = 0
-    this->addEvtTarget(this);      //den Screen Key Listener bei sich selber anmelden!
-    this->Label_LadenName->Next = 0; //Laden Label anzeigen
+    //this->EvtTargets.Next = 0;     //alle FileLabels deaktivieren
+    //this->Next = 0;                //alles nach dem Keylistener = 0
+    //this->addEvtTarget(this);      //den Screen Key Listener bei sich selber anmelden!
+    /*    this->Label_LadenName->Next = 0; //Laden Label anzeigen
     this->addEvtTarget(Label_LadenName);
     this->Label_MenuText->Next = 0; //Laden MenuText anzeigen
     this->addEvtTarget(Label_MenuText);
+    */
+    //theMenu->addToEvtTarget(this);
 
     this->ActiveSavePage = page;
 
@@ -872,6 +945,11 @@ namespace EuMax01
 	ii-=LoadDialog::RezepteLen;
       }
 
+    for(unsigned int i=0;i<LoadDialog::RezepteLen;i++)
+      {
+	pLabel_Rezepte[i]->setText(blankText);
+      }
+
     fileToShow = page * LoadDialog::RezepteLen;
     if(fileToShow<=n)
       {
@@ -882,9 +960,8 @@ namespace EuMax01
 	  {
 	    strncpy(DateiNamen[/*tmp*/i2],namelist[i]->d_name,LoadDialog::MaxRezeptFileLaenge);
 	    pLabel_Rezepte[i2]->setText(DateiNamen[i2]); //neuen Text setzen
-	    pLabel_Rezepte[i2]->Next = 0;  // alles hinter diesem Label = 0
-	    this->addEvtTarget(pLabel_Rezepte[i2]);
-	    //tmp++;
+	    //pLabel_Rezepte[i2]->Next = 0;  // alles hinter diesem Label = 0
+	    //this->addEvtTarget(pLabel_Rezepte[i2]);
 	    MaxRecipesToDisplay = i2+1;
 	  }
       }
