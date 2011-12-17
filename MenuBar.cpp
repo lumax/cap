@@ -87,4 +87,12 @@ namespace EuMax01
       }
   }
 
+  void MenuBar::setMenuName(char * theName)
+  {
+    if(0!=theName)
+      {
+	LName->setText(theName);
+      }
+  }
+
 }

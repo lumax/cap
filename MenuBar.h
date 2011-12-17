@@ -25,6 +25,7 @@ namespace EuMax01
 
     static const int MenuPunkte = 8;
     void addToEvtTarget(EvtTarget* theTarget);
+    void setMenuName(char * theName);
 
   private:
     Label * LName;
