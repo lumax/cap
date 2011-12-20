@@ -101,7 +101,7 @@ namespace EuMax01
 	  {
 	    ad->escape_listener(src,evt);
 	  }
-	else if(key->keysym.sym == SDLK_RETURN)
+	else if(key->keysym.sym == SDLK_RETURN || key->keysym.sym == SDLK_KP_ENTER)
 	  {
 	    ad->return_listener(src,evt);
 	  }
