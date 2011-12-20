@@ -364,7 +364,7 @@ namespace EuMax01
     theMenuBarSettings.Text[3]=(char *)"F4 delete";
     theMenuBarSettings.Text[4]=(char *)"F5 prev";
     theMenuBarSettings.Text[5]=(char *)"F6 next";
-    theMenuBarSettings.Text[6]=(char *)"F7 calibrate";
+    theMenuBarSettings.Text[6]=(char *)"F7 calib.";
     theMenuBarSettings.Text[7]=(char *)"F12 exit";
 
     theMenuBarSettings.evtSource = (void*)this;
