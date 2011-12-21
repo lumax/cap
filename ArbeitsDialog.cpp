@@ -492,11 +492,8 @@ namespace EuMax01
 	//prt_sendmsg_uint(nPEC_GET_FP1,0x00);
 	//prt_sendmsg_uint(nPEC_GET_FP2,0x00);
 	theNewDialog->TextField_Name->setText(theNewDialog->tmpRezept->Name);
-	/*	Label::showLabel((void*)theNewDialog->TextField_Name,	\
-		theGUI->getMainSurface());*/
-	theNewDialog->Label_MenuTitle->setText(MenuTitel);
-	/*	Label::showLabel((void*)theNewDialog->Label_MenuTitle,	\
-		theGUI->getMainSurface());*/
+	//theNewDialog->Label_MenuTitle->setText(MenuTitel);
+	theNewDialog->theMenu->setMenuName(MenuTitel);
 	while(this->theNewDialog->getStep()>0)
 	  {
 	    //step zurückspulen

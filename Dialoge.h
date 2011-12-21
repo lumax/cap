@@ -182,7 +182,7 @@ namespace EuMax01
     void decStep();
     int getStep();
     void newDirectReturn(PositionSet * Set);
-    Label * Label_MenuTitle;
+    //Label * Label_MenuTitle;
     TextField * TextField_Name;
     Label * LabelWerte[3];
     char pcWerte[3][32];
@@ -201,7 +201,7 @@ namespace EuMax01
     Label * LabelRezept[3];
     char pcRezept[3][64];
 
-    Label * Label_Menu;
+    //Label * Label_Menu;
 
     static const int iMainMenu = 0;
     static const int iCrossaireMenu = 1;
@@ -220,6 +220,9 @@ namespace EuMax01
     NewDirectDialog * newDirect;
 
     void preparePhaseNewDirect();
+    void setMenuBarForNewMain();
+    void setMenuBarForNewCross();
+    MenuBar * theMenu;
   private:
     //Label * Label_NewName;
     Label * Label_Name;
@@ -239,6 +242,7 @@ namespace EuMax01
     void resetEvtTargets();
     void preparePhaseEnterName();
     void preparePhaseRecipeSteps();
+    struct t_MenuBarSettings theMenuBarSettings;
   };
   
 #endif /* __CAPDIALOGE_H__*/
