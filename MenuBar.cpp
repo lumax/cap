@@ -95,4 +95,19 @@ namespace EuMax01
       }
   }
 
+  void MenuBar::updateSettings(struct t_MenuBarSettings * settings)
+  {
+    for(int i = 0;i<MenuBar::MenuPunkte;i++)
+      {
+	if(0!=settings->Text[i])
+	  {
+	    lbuf[i]->setText(settings->Text[i]);
+	  }
+	else
+	  {
+	    lbuf[i]->setText(" ");	    
+	  }
+	lbuf[i]->setLMButtonUpEvtHandler(settings->evtFnks[i]);//,settings->evtSource);
+      }
+  }
 }

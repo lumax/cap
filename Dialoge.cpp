@@ -1366,11 +1366,11 @@ namespace EuMax01
     LabelRezept[NewDialog::iPosZ] = new Label(pcRezept[NewDialog::iPosZ], \
 			       Spalte3_x,Zeile4_y,Button_w,MZeile_h,\
 					      Parent->WerteSet);
-    this->setMenuBarForNewMain();
     theMenuBarSettings.evtSource = (void*)this;
 
     theMenu = new MenuBar((int)Spalte1_x,(int)Zeile5_y,(int)MZeile_h,(char*)"New", \
 			  &this->theMenuBarSettings,Parent);
+    this->setMenuBarForNewMain();
 
     this->pTSource = this;//EvtTarget Quelle setzen, damit der EvtListener die Quelle mitteilen kann
     this->setKeyboardUpEvtHandler(NewDialogKeyListener);
@@ -1433,6 +1433,7 @@ namespace EuMax01
     theMenuBarSettings.evtFnks[5]=NewMainF8;
     theMenuBarSettings.evtFnks[6]=NewMainF10;
     theMenuBarSettings.evtFnks[7]=NewMainF12;
+    theMenu->updateSettings(&this->theMenuBarSettings);
   }
 
   void NewDialog::setMenuBarForNewCross()
@@ -1455,6 +1456,7 @@ namespace EuMax01
     theMenuBarSettings.evtFnks[5]=NewCrossF6;
     theMenuBarSettings.evtFnks[6]=NewCrossF7;
     theMenuBarSettings.evtFnks[7]=NewCrossF8;
+    theMenu->updateSettings(&this->theMenuBarSettings);
   }
 
   void NewDialog::resetEvtTargets()
