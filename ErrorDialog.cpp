@@ -114,20 +114,30 @@ namespace EuMax01
     this->Label_Info->setText(Message);
   }
 
+  static void ConfirmEnter(void * src, SDL_Event * evt)
+  {
+    exit(12);
+  }
+  
+  static void ConfirmEscape(void * src, SDL_Event * evt)
+  {
+    ConfirmDialog* ad = (ConfirmDialog*)src;
+    ad->Parent->showArbeitsDialog();
+  }
+
   static void ConfirmDialogKeyListener(void * src, SDL_Event * evt)
   {
-    ConfirmDialog* ad = (ConfirmDialog*)src;//KeyListener
     SDL_KeyboardEvent * key = (SDL_KeyboardEvent *)&evt->key;
 
     if( key->type == SDL_KEYUP )
       {
 	if(key->keysym.sym == SDLK_ESCAPE)
 	  {
-	    ad->Parent->showArbeitsDialog();
+	    ConfirmEscape(src,evt);
 	  }
 	else if(key->keysym.sym == SDLK_RETURN)
 	  {
-	    exit(12);
+	    ConfirmEnter(src,evt);
 	  }
       }
   }
@@ -175,11 +185,6 @@ namespace EuMax01
     Spalte2_x = Spalte1_x + 1*Button_w+1*x_space;
     Spalte3_x = Spalte1_x + 2*Button_w+2*x_space;
 
-    Label_MenuTitle = new Label("QUIT",Spalte1_x,Zeile5_y,150,MZeile_h,Parent->MenuSet);
-
-    Label_Menu = new Label("ESC : cancel | ENTER : exit programm",		\
-			   Spalte1_x+158,Zeile5_y,1012-158,MZeile_h,Parent->MenuSet);
-
     Label_Info = new Label("---",\
 			   Spalte1_x,\
 			   Zeile1_y,\
@@ -187,12 +192,34 @@ namespace EuMax01
 			   MZeile_h,\
 			   Parent->DialogSet);
 
+    theMenuBarSettings.Text[0]=0;
+    theMenuBarSettings.Text[1]=0;
+    theMenuBarSettings.Text[2]=0;
+    theMenuBarSettings.Text[3]=(char *)"ENTER";
+    theMenuBarSettings.Text[4]=0;
+    theMenuBarSettings.Text[5]=0;
+    theMenuBarSettings.Text[6]=0;
+    theMenuBarSettings.Text[7]=(char *)"ESC";
+
+    theMenuBarSettings.evtSource = (void*)this;
+
+    theMenuBarSettings.evtFnks[0]=0;
+    theMenuBarSettings.evtFnks[1]=0;
+    theMenuBarSettings.evtFnks[2]=0;
+    theMenuBarSettings.evtFnks[3]=ConfirmEnter;
+    theMenuBarSettings.evtFnks[4]=0;
+    theMenuBarSettings.evtFnks[5]=0;
+    theMenuBarSettings.evtFnks[6]=0;
+    theMenuBarSettings.evtFnks[7]=ConfirmEscape;
+
+    theMenu = new MenuBar(Spalte1_x,Zeile5_y,MZeile_h,(char*)"Quit",	\
+			  &this->theMenuBarSettings,parent);
+
     this->pTSource = this;//EvtTarget Quelle setzen
     this->EvtTargetID=(char*)"ConfirmDialog";
     this->setKeyboardUpEvtHandler(ConfirmDialogKeyListener);
     this->addEvtTarget(this);//den Screen Key Listener bei sich selber anmelden!
-    this->addEvtTarget(Label_MenuTitle);
-    this->addEvtTarget(Label_Menu);
+    theMenu->addToEvtTarget(this);
     this->addEvtTarget(Label_Info);
   }
 
