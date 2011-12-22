@@ -1438,22 +1438,23 @@ namespace EuMax01
 
   void NewDialog::setMenuBarForNewMain()
   {
-    theMenuBarSettings.Text[0]=(char *)"LEFT";
-    theMenuBarSettings.Text[1]=(char *)"RIGHT";
-    theMenuBarSettings.Text[2]=(char *)"RETURN";
+
+    theMenuBarSettings.Text[0]=(char *)"F8 direct";
+    theMenuBarSettings.Text[1]=(char *)"F10 cross";
+    theMenuBarSettings.Text[2]=(char *)"F12 save";
     theMenuBarSettings.Text[3]= 0;
-    theMenuBarSettings.Text[4]=(char *)"F8 direct";
-    theMenuBarSettings.Text[5]=(char *)"F10 cross";
-    theMenuBarSettings.Text[6]=(char *)"F12 save";
+    theMenuBarSettings.Text[4]=(char *)"LEFT";
+    theMenuBarSettings.Text[5]=(char *)"RIGHT";
+    theMenuBarSettings.Text[6]=(char *)"RETURN";
     theMenuBarSettings.Text[7]=(char *)"ESC";
 
-    theMenuBarSettings.evtFnks[0]=NewMainLeft;
-    theMenuBarSettings.evtFnks[1]=NewMainRight;
-    theMenuBarSettings.evtFnks[2]=NewMainReturn;
+    theMenuBarSettings.evtFnks[0]=NewMainF8;
+    theMenuBarSettings.evtFnks[1]=NewMainF10;
+    theMenuBarSettings.evtFnks[2]=NewMainF12;
     theMenuBarSettings.evtFnks[3]=0;
-    theMenuBarSettings.evtFnks[4]=NewMainF8;
-    theMenuBarSettings.evtFnks[5]=NewMainF10;
-    theMenuBarSettings.evtFnks[6]=NewMainF12;
+    theMenuBarSettings.evtFnks[4]=NewMainLeft;
+    theMenuBarSettings.evtFnks[5]=NewMainRight;
+    theMenuBarSettings.evtFnks[6]=NewMainReturn;
     theMenuBarSettings.evtFnks[7]=NewMainEscape;
     theMenu->updateSettings(&this->theMenuBarSettings);
   }
