@@ -1025,13 +1025,7 @@ namespace EuMax01
     if(this->ActiveSavePage<this->MaxSavePages)
       this->Parent->showLoadDialog(this->ActiveSavePage+1,this->LoadMode);
   }
-  
-  /*  static char * NewDialogMainMenuText = (char*)"RETURN : take over | ESC : abort | " \
-    "F8 direct input | F10 save | F12 Cross Menu";
-  //LEFT prev step | RIGHT next step | 
-  static char * NewDialogCrossMenuText = (char*)"CAM1 F1: << "\
-    "| F2: < | F3: > | F4: >> || "	\
-    "CAM2 F5: << | F6: < | F7: > | F8: >> | ";*/
+
   static void NewCrossEscape(void * src, SDL_Event * evt)
   {
     NewDialog* ad = (NewDialog*)src;
@@ -1136,6 +1130,16 @@ namespace EuMax01
   static void NewMainF10(void * src, SDL_Event * evt)
   {
     NewDialog* ad = (NewDialog*)src;
+    if(ad->getStep()==0)
+      ad->incStep();
+    ad->theMenuModus=NewDialog::iCrossaireMenu;
+    ad->setMenuBarForNewCross();
+    //ad->Label_Menu->setText(NewDialogCrossMenuText);
+    //ad->Label_Menu->show(ad->Parent->theGUI->getMainSurface());
+  }
+  static void NewMainF12(void * src, SDL_Event * evt)
+  {
+    NewDialog* ad = (NewDialog*)src;
     if(ad->verifyName())//Prüfen und 
       {
 	printf("error Name ist zu kurz oder zu lang\n");
@@ -1156,15 +1160,48 @@ namespace EuMax01
 	  }
       }
   }
-  static void NewMainF12(void * src, SDL_Event * evt)
+
+  static void NewMouseCrossaireListener(void * src, SDL_Event * evt)
   {
+    SDL_MouseButtonEvent * mb = (SDL_MouseButtonEvent *)evt;
     NewDialog* ad = (NewDialog*)src;
-    if(ad->getStep()==0)
-      ad->incStep();
-    ad->theMenuModus=NewDialog::iCrossaireMenu;
-    ad->setMenuBarForNewCross();
-    //ad->Label_Menu->setText(NewDialogCrossMenuText);
-    //ad->Label_Menu->show(ad->Parent->theGUI->getMainSurface());
+    int cam = 0;
+    int wert = 0;
+    /*
+      typedef struct{
+      Uint8 type;
+      Uint8 button;
+      Uint8 state;
+      Uint16 x, y;
+      } SDL_MouseButtonEvent;
+    */
+    /*
+      this->MouseCrossaire->PosDimRect.x = sdlw/2-camw;
+      this->MouseCrossaire->PosDimRect.y = 0;
+      this->MouseCrossaire->PosDimRect.w = camw*2;
+      this->MouseCrossaire->PosDimRect.h = camh;
+    */
+    //printf("NewMouseCrossaireListener x:%i y:%i\n",mb->x,mb->y);
+    if(mb->x > ad->MouseCrossaire->PosDimRect.w/2)
+      {
+	cam = 1;
+	wert = mb->x - (ad->MouseCrossaire->PosDimRect.w/2);
+      }
+    else
+      {
+	cam = 0;
+	wert = mb->x;	
+      }
+
+    if(1==wert%2)
+      wert++;
+
+    cap_cam_setCrossX(cam,wert);
+
+    if(1==cam)
+      ad->getCam2CrossX();
+    else
+      ad->getCam1CrossX();
   }
 
   static void NewDialogKeyListener(void * src, SDL_Event * evt)
@@ -1300,18 +1337,12 @@ namespace EuMax01
     Spalte2_x = Spalte1_x + 1*Button_w+1*x_space;
     Spalte3_x = Spalte1_x + 2*Button_w+2*x_space;
 
-    //Label_NewName = new Label("NEW RECIPE",MLinks_x,Zeile1_y,506*2,MZeile_h);
     Label_Name = new Label("---",Spalte1_x,Zeile1_y,Button_w,MZeile_h,Parent->MenuSet);
 
     Label_Info = new Label("Recipe Name",Spalte3_x,Zeile1_y,Button_w,MZeile_h,Parent->DialogSet);
     snprintf(this->InfoText,64,"Recipe Name");
     Label_Info->setText(this->InfoText);
 
-    /*    Label_MenuTitle = new Label("New",Spalte1_x,Zeile5_y,150,MZeile_h,Parent->MenuSet);
-
-        Label_Menu = new Label(NewDialogMainMenuText,			\
-    			   Spalte1_x+158,Zeile5_y,1012-158,MZeile_h,Parent->MenuSet);
-    */
     TextField_Name = new TextField(0,LoadDialog::MaxRezeptFileLaenge,	\
 				   Spalte2_x,				\
 				   Zeile1_y,Button_w,			\
@@ -1372,6 +1403,13 @@ namespace EuMax01
 			  &this->theMenuBarSettings,Parent);
     this->setMenuBarForNewMain();
 
+    this->MouseCrossaire = new EvtTarget();
+    this->MouseCrossaire->PosDimRect.x = sdlw/2-camw;
+    this->MouseCrossaire->PosDimRect.y = 0;
+    this->MouseCrossaire->PosDimRect.w = camw*2;
+    this->MouseCrossaire->PosDimRect.h = camh;
+    this->MouseCrossaire->setLMButtonUpEvtHandler(NewMouseCrossaireListener,this);
+
     this->pTSource = this;//EvtTarget Quelle setzen, damit der EvtListener die Quelle mitteilen kann
     this->setKeyboardUpEvtHandler(NewDialogKeyListener);
 
@@ -1380,6 +1418,7 @@ namespace EuMax01
     theMenu->addToEvtTarget(this);
     this->addEvtTarget(Label_Info);
     this->addEvtTarget(TextField_Name);
+    this->addEvtTarget(MouseCrossaire);
     //this->addEvtTarget(this->Label_MenuTitel);
 
     //Enter Name
@@ -1394,45 +1433,28 @@ namespace EuMax01
     LabelXaxisText->addEvtTarget(LabelRezept[NewDialog::iPosX1]);
     LabelXaxisText->addEvtTarget(LabelRezept[NewDialog::iPosX2]);
     LabelXaxisText->addEvtTarget(LabelRezept[NewDialog::iPosZ]);
-
-    /*    theEvtTargets[0]=this;
-    //theEvtTargets[1]=Label_Name;
-    //theEvtTargets[2]=Label_MenuTitle;
-    theEvtTargets[3]=TextField_Name;
-    theEvtTargets[4]=Label_Info;
-    //theEvtTargets[5]=Label_Menu;
-    theEvtTargets[6]=LabelXaxisText;
-    theEvtTargets[7]=LabelZaxisText;
-    theEvtTargets[8]=LabelCrossText;
-    theEvtTargets[9]=LabelWerte[NewDialog::iPosX1];
-    theEvtTargets[10]=LabelWerte[NewDialog::iPosX2];
-    theEvtTargets[11]=LabelWerte[NewDialog::iPosZ];
-    theEvtTargets[12]=LabelRezept[NewDialog::iPosX1];
-    theEvtTargets[13]=LabelRezept[NewDialog::iPosX2];
-    theEvtTargets[14]=LabelRezept[NewDialog::iPosZ];
-    */
     preparePhaseEnterName();
   }
 
   void NewDialog::setMenuBarForNewMain()
   {
-    theMenuBarSettings.Text[0]=(char *)"ESC";
-    theMenuBarSettings.Text[1]=(char *)"RETURN";
-    theMenuBarSettings.Text[2]=(char *)"LEFT";
-    theMenuBarSettings.Text[3]=(char *)"RIGHT";
-    theMenuBarSettings.Text[4]= 0;
-    theMenuBarSettings.Text[5]=(char *)"F8 direct";
-    theMenuBarSettings.Text[6]=(char *)"F10 save";
-    theMenuBarSettings.Text[7]=(char *)"F12 cross";
+    theMenuBarSettings.Text[0]=(char *)"LEFT";
+    theMenuBarSettings.Text[1]=(char *)"RIGHT";
+    theMenuBarSettings.Text[2]=(char *)"RETURN";
+    theMenuBarSettings.Text[3]= 0;
+    theMenuBarSettings.Text[4]=(char *)"F8 direct";
+    theMenuBarSettings.Text[5]=(char *)"F10 cross";
+    theMenuBarSettings.Text[6]=(char *)"F12 save";
+    theMenuBarSettings.Text[7]=(char *)"ESC";
 
-    theMenuBarSettings.evtFnks[0]=NewMainEscape;
-    theMenuBarSettings.evtFnks[1]=NewMainReturn;
-    theMenuBarSettings.evtFnks[2]=NewMainLeft;
-    theMenuBarSettings.evtFnks[3]=NewMainRight;
-    theMenuBarSettings.evtFnks[4]=0;
-    theMenuBarSettings.evtFnks[5]=NewMainF8;
-    theMenuBarSettings.evtFnks[6]=NewMainF10;
-    theMenuBarSettings.evtFnks[7]=NewMainF12;
+    theMenuBarSettings.evtFnks[0]=NewMainLeft;
+    theMenuBarSettings.evtFnks[1]=NewMainRight;
+    theMenuBarSettings.evtFnks[2]=NewMainReturn;
+    theMenuBarSettings.evtFnks[3]=0;
+    theMenuBarSettings.evtFnks[4]=NewMainF8;
+    theMenuBarSettings.evtFnks[5]=NewMainF10;
+    theMenuBarSettings.evtFnks[6]=NewMainF12;
+    theMenuBarSettings.evtFnks[7]=NewMainEscape;
     theMenu->updateSettings(&this->theMenuBarSettings);
   }
 
@@ -1460,93 +1482,22 @@ namespace EuMax01
   }
 
   void NewDialog::resetEvtTargets()
-  {
-    /* EvtTarget * n = (EvtTarget*)this->EvtTargets.Next;
-    while(n)
-      {
-	n = (EvtTarget*)n->Next;
-	n->Next = 0;
-	}*/
-    /*    this->EvtTargets.Next = 0;
-    for(int i=0;i<NewDialog::EvtTargetsLen;i++)
-      {
-	theEvtTargets[i]->Next=0;
-      }
-    */   
+  {   
     Parent->blankMenuArea();
   }
-
-  /* void NewDialog::prepareAll()
-  {
-    resetEvtTargets();
-    this->EvtTargets.Next = this;//KeyListener
-    this->Next = Label_Name;
-    this->Label_Name->Next = Label_MenuTitle;
-    this->Label_MenuTitle->Next = TextField_Name;
-    this->TextField_Name->Next = Label_Info;
-    this->Label_Info->Next = Label_Menu;
-    this->Label_Menu->Next = LabelXaxisText;
-    this->LabelXaxisText->Next = LabelZaxisText;
-    this->LabelZaxisText->Next = LabelCrossText;
-    this->LabelCrossText->Next = LabelWerte[NewDialog::iPosX1];
-    this->LabelWerte[NewDialog::iPosX1]->Next = LabelWerte[NewDialog::iPosX2];
-    this->LabelWerte[NewDialog::iPosX2]->Next = LabelWerte[NewDialog::iPosZ];
-    this->LabelWerte[NewDialog::iPosZ]->Next = LabelRezept[NewDialog::iPosX1];
-    this->LabelRezept[NewDialog::iPosX1]->Next = LabelRezept[NewDialog::iPosX2];
-    this->LabelRezept[NewDialog::iPosX2]->Next = LabelRezept[NewDialog::iPosZ];
-  }*/
 
   void NewDialog::preparePhaseEnterName()
   {
     resetEvtTargets();
-
     Label_Name->setText("Enter filename :");
-
-
-    this->Label_Name->Next = 0;//this->TextField_Name;
-
-    /*    //Überall gleich
-    this->EvtTargets.Next = this;//KeyListener
-    //this->Next = Label_MenuTitle;
-    //Label_MenuTitle->Next = Label_Menu;
-    //Label_Menu->Next = Label_Name;
-
-    this->Next = Label_Name;
-    Label_Name->Next = TextField_Name;
-    theMenuBarSettings.evtSource = (void*)this;
-    this->preparePhaseEnterName();*/
+    this->Label_Name->Next = 0;
   }
 
   void NewDialog::preparePhaseRecipeSteps()
   {
     resetEvtTargets();
-
     Label_Name->setText("adjust recipe steps :");
-
     this->Label_Name->Next = this->LabelXaxisText;
-
-      /*    //Überall gleich
-    this->EvtTargets.Next = this;//KeyListener
-    //    this->Next = Label_MenuTitle;
-    //    Label_MenuTitle->Next = Label_Menu;
-    //    Label_Menu->Next = Label_Name;
-
-    this->Next = Label_Name;
-    Label_Name->Next = TextField_Name;
-
-    //PhaseRezeptSteps only
-    this->TextField_Name->Next = Label_Info;
-    this->Label_Info->Next = LabelXaxisText;
-    this->LabelXaxisText->Next = LabelZaxisText;
-    this->LabelZaxisText->Next = LabelCrossText;
-    this->LabelCrossText->Next = LabelWerte[NewDialog::iPosX1];
-    this->LabelWerte[NewDialog::iPosX1]->Next = LabelWerte[NewDialog::iPosX2];
-    this->LabelWerte[NewDialog::iPosX2]->Next = LabelWerte[NewDialog::iPosZ];
-    this->LabelWerte[NewDialog::iPosZ]->Next = LabelRezept[NewDialog::iPosX1];
-    this->LabelRezept[NewDialog::iPosX1]->Next = LabelRezept[NewDialog::iPosX2];
-    this->LabelRezept[NewDialog::iPosX2]->Next = LabelRezept[NewDialog::iPosZ];
-    theMenuBarSettings.evtSource = (void*)this;
-    this->preparePhaseEnterName();*/
   }
 
   void NewDialog::preparePhaseNewDirect()
@@ -1588,8 +1539,6 @@ namespace EuMax01
   void NewDialog::updateRezeptData()
   {
     int rzpStep = this->step - 1;
-//TextField_Name->setText(tmpRezept->Name);
-//Label::showLabel((void*)this->TextField_Name,this->Parent->theGUI->getMainSurface());
 
     if(this->step)
       {
@@ -1644,21 +1593,11 @@ namespace EuMax01
   void NewDialog::getCam1CrossX()
   {
     usWerte[NewDialog::iPosFP1] = cap_cam_getCrossX(0);
-    /*
-    LabelWerte[2]->setText(Parent->int2string(pcWerte[NewDialog::iPosFP1], \
-					      64,cap_cam_getCrossX(0)));
-    Label::showLabel((void*)LabelWerte[2],Parent->theGUI->getMainSurface());
-    */
   }
 
   void NewDialog::getCam2CrossX()
   {
     usWerte[NewDialog::iPosFP2] = cap_cam_getCrossX(1);
-    /*
-    LabelWerte[5]->setText(Parent->int2string(pcWerte[NewDialog::iPosFP2], \
-					      64,cap_cam_getCrossX(1)));
-    Label::showLabel((void*)LabelWerte[5],Parent->theGUI->getMainSurface());
-    */
   }
 
   void NewDialog::incStep()

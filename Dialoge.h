@@ -182,7 +182,6 @@ namespace EuMax01
     void decStep();
     int getStep();
     void newDirectReturn(PositionSet * Set);
-    //Label * Label_MenuTitle;
     TextField * TextField_Name;
     Label * LabelWerte[3];
     char pcWerte[3][32];
@@ -223,8 +222,8 @@ namespace EuMax01
     void setMenuBarForNewMain();
     void setMenuBarForNewCross();
     MenuBar * theMenu;
+    EvtTarget * MouseCrossaire;
   private:
-    //Label * Label_NewName;
     Label * Label_Name;
 
     Label * Label_Info;
