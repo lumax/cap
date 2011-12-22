@@ -12,10 +12,8 @@ TODO:
 -Abfrage ob Datei überschrieben werden soll (noch nicht gefordert)
 	 -Dateinamen durchsuchen
 -Versionsnummer anzeigen
--Farbeffekte beim Laden der Applikation (show Funktionen)
 -Vernümftig aus dem Programm aussteigen, wenn eine Kamera abgezogen
  wird usw. (ErrorMeldungen anzeigen)
--Bedienung des Messsystems über Maus
 -Zählrichtung änderbar
 -Eingabe des Zylinderumfangs zur Berechnung der Startposition in mm anstatt °
 -Drehwinkelgeber für die Fadenkreuze
@@ -26,8 +24,11 @@ HOFFENTLICH ERLEDIGT
 -Update System
 
 ERLEDIGT:
+-Bedienung des Messsystems über Maus Version 1.0
+-Keypad Direkteingabe möglich
 -CamInfo Dialog über F10 im ArbeitsDialog erreichbar, um einige Werte der Kamera
  ausprobieren zu können.
+-Farbeffekte beim Laden der Applikation (show Funktionen)
 -Video abspielen und zu Programm zurück
 -Video endlos
 -Fadenfarbe ist wirklich nicht schön
