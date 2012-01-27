@@ -918,8 +918,8 @@ namespace EuMax01
   int LoadDialog::readSaveDirectory(char * dirName,unsigned int page)
   {
     struct dirent **namelist;
-    unsigned int n;
-    unsigned int fileToShow;
+    int n;
+    int fileToShow;
 
     //this->EvtTargets.Next = 0;     //alle FileLabels deaktivieren
     //this->Next = 0;                //alles nach dem Keylistener = 0
@@ -934,8 +934,11 @@ namespace EuMax01
     this->ActiveSavePage = page;
 
     n = scandir(dirName, &namelist, dirFilter, alphasort);
+
     if (n < 0)
       return -1;
+    if (0==n)
+      return 1;
 
     unsigned int ii = n;
     this->MaxSavePages = 0;
@@ -954,11 +957,11 @@ namespace EuMax01
     if(fileToShow<=n)
       {
 	//int tmp = 0;
-	unsigned int i = 0;
+	int i = 0;
 	unsigned int i2 = 0;
 	for(i=fileToShow,i2=0;i<n&&i2<LoadDialog::RezepteLen;i++,i2++)
 	  {
-	    strncpy(DateiNamen[/*tmp*/i2],namelist[i]->d_name,LoadDialog::MaxRezeptFileLaenge);
+	    strncpy(DateiNamen[i2],namelist[i]->d_name,LoadDialog::MaxRezeptFileLaenge);
 	    pLabel_Rezepte[i2]->setText(DateiNamen[i2]); //neuen Text setzen
 	    //pLabel_Rezepte[i2]->Next = 0;  // alles hinter diesem Label = 0
 	    //this->addEvtTarget(pLabel_Rezepte[i2]);

@@ -418,18 +418,26 @@ namespace EuMax01
 
   void ArbeitsDialog::showLoadDialog(unsigned int page,bool loadMode)
   {
+    int ret=0;
     if(!useGUI)
       return;
-    this->iActiveDialog = ArbeitsDialog::LoadDialogIsActive;
-    this->theLoadDialog->setLoadMode(loadMode);
-    if(theLoadDialog->readSaveDirectory(pcSaveFilePath,page))
+    ret = theLoadDialog->readSaveDirectory(pcSaveFilePath,page);
+    if(1==ret)//keine Files vorhanden
+      {
+	return;
+      }
+    else if(-1==ret)//Fehler
       {
 	showErrorDialog((char*)"Error reading save directory");
 	return;
       }
-
-    this->blankMenuArea();
-    this->theGUI->activateScreen(theLoadDialog);
+    else
+      {
+	this->iActiveDialog = ArbeitsDialog::LoadDialogIsActive;
+	this->theLoadDialog->setLoadMode(loadMode);
+	this->blankMenuArea();
+	this->theGUI->activateScreen(theLoadDialog);
+      }
   }
 
   void ArbeitsDialog::showArbeitsDialog()
