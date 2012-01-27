@@ -91,7 +91,7 @@ video capmb_data 111030125900_capmb
 
 -Damit der User das System herunterfahren kann muss folgender Befehl
  ausgeführt werden:
-#bash> sudo chmod +s /sbin/reboot
+#bash> sudo chmod +s /sbin/halt
 
 -Damit der User das System herunterfahren kann muss folgender Befehl
  ausgeführt werden:
@@ -101,6 +101,57 @@ video capmb_data 111030125900_capmb
 1. Terminal öffnen
 2. gconf-editor eingeben
 3. /apps/nautilus/preferences/media_automount_open abschalten
+
+-Applikation automatisch starten:
+ Das appcontroller.sh Script kann nicht direkt über die Startprogramm
+ Einstellungen gestartet werden, da die Applikation in dem Fall 
+ anscheinend kein X-Window zur Verfügung hat. Außerdem benötigt der
+ USB-Uart Konverter einige Zeit bis er Bereit ist.
+ Das Script appcontroller.sh wird beim öffnen eines Terminals aufgerufen!
+
+1. Das File .bashrc im Homeverzeichnis um folgende Zeilen erweitern:
+
+# .bashrc appcontroller.sh Erweiterung Anfang:
+cd /opt/capmb
+sleep 2
+echo waiting for usb-serial interface:
+sleep 1
+echo .
+sleep 1
+echo .
+sleep 1
+echo .
+sleep 1
+echo .
+sleep 1
+echo .
+sleep 1
+echo .
+sleep 1
+echo .
+sleep 1
+echo .
+sleep 1
+echo .
+sleep 1
+echo .
+sleep 1
+echo .
+sleep 1
+echo .
+sleep 1
+echo .
+sleep 1
+echo .
+./appcontroller.sh &
+# .bashrc appcontroller.sh Erweiterung Ende!
+
+2. Im Gnome Autostart automatisch das Terminal starten:
+2.1 Zusätzliches Startprogramm Hinzufügen:
+2.2 Name: capmb terminal
+2.3 Befehl: gnome-terminal
+2.4 Kommentar: terminal mit cap in .bashrc
+2.5 speichern!
 
 
 III Update:

@@ -92,7 +92,7 @@ echo $cur_number
 echo $upd_number
 if [ $upd_number -gt $cur_number ]
 then
-    echo found update ${upd_number} which is newer then ${cur_number}
+    echo found update ${upd_number} which is newer than ${cur_number}
     return 0
 else
     echo no newer update found
@@ -153,8 +153,15 @@ stage_update
 retvalue=$?
 if [[ $retvalue -eq 0 ]]
 then 
-    echo "reboot"
-    reboot
+    echo "shutdown system in 3 seconds!"
+    sleep 3
+    echo "3"
+    sleep 1
+    echo "2"
+    sleep 1
+    echo "1"
+    sleep 1
+    halt
     exit 0
 fi
 echo "stage_update failed $retvalue"
@@ -170,8 +177,15 @@ do
 	echo "cap returns 11! show video"
 	run_video
     else
-	echo abschalten!
-	shutdown -h now
+	echo "shutdown system in 3 seconds!"
+	sleep 3
+	echo "3"
+	sleep 1
+	echo "2"
+	sleep 1
+	echo "1"
+	sleep 1
+	halt
 	exit
     fi
 done
