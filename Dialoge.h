@@ -191,6 +191,8 @@ namespace EuMax01
     static const int iPosFP1 = 3;
     static const int iPosZ2 = 4;
     static const int iPosFP2 = 5;
+    int sdlw;
+    int camw;
 
     unsigned short usWerte[6];
 

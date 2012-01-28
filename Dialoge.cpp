@@ -1170,32 +1170,22 @@ namespace EuMax01
     NewDialog* ad = (NewDialog*)src;
     int cam = 0;
     int wert = 0;
-    /*
-      typedef struct{
-      Uint8 type;
-      Uint8 button;
-      Uint8 state;
-      Uint16 x, y;
-      } SDL_MouseButtonEvent;
-    */
-    /*
-      this->MouseCrossaire->PosDimRect.x = sdlw/2-camw;
-      this->MouseCrossaire->PosDimRect.y = 0;
-      this->MouseCrossaire->PosDimRect.w = camw*2;
-      this->MouseCrossaire->PosDimRect.h = camh;
-    */
+
     //printf("NewMouseCrossaireListener x:%i y:%i\n",mb->x,mb->y);
-    if(mb->x > ad->MouseCrossaire->PosDimRect.w/2)
+    if(mb->x > ad->sdlw/2)
       {
 	cam = 1;
-	wert = mb->x - (ad->MouseCrossaire->PosDimRect.w/2);
+	wert = mb->x - (ad->sdlw/2);
       }
     else
       {
 	cam = 0;
-	wert = mb->x;	
+	if(ad->sdlw>=2*ad->camw)
+	  wert = mb->x - (ad->sdlw/2 - ad->camw);
+	else
+	  wert = ad->camw - ad->sdlw/2 + mb->x;
       }
-
+    //printf("wert:%i\n",wert);
     if(1==wert%2)
       wert++;
 
@@ -1313,6 +1303,8 @@ namespace EuMax01
     this->Parent = parent;
     this->step = 0;
     this->theMenuModus = iMainMenu;
+    this->sdlw = sdlw;
+    this->camw = camw;
     this->tmpRezept = new Rezept();
     this->newDirect = new NewDirectDialog(sdlw,sdlh,camw,camh,yPos,this);
     Rezept::copy(Parent->getNullRezept(),tmpRezept);
