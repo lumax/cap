@@ -177,6 +177,9 @@ do
 	echo "cap returns 11! show video"
 	run_video
     else
+	cd ..
+	PROGRAMS_ROOT=`pwd`
+	stage_update
 	echo "shutdown system in 3 seconds!"
 	sleep 3
 	echo "3"

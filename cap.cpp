@@ -741,6 +741,14 @@ const char * usage =				\
     }
     }*/
 
+static void onExit(int i,void* pv)
+{
+  printf("Version_A: %s\n",CAP_VERSION);
+  printf("Version_B: %s\n",FSGPP_VERSION);
+  printf("Version_C: %s\n",CAPTURE_VERSION);
+  printf("Programm Version: %s\n",CAPCOMPILEDATE);
+}
+
 ArbeitsDialog * theArbeitsDialog;
 //PositionDialog * thePositionDialog;
 MBProtocol theProtocol;
@@ -765,7 +773,8 @@ int main(int argc, char *argv[])
   printf("Version_A: %s\n",CAP_VERSION);
   printf("Version_B: %s\n",FSGPP_VERSION);
   printf("Version_C: %s\n",CAPTURE_VERSION);
-
+  printf("Programm Version: %s\n",CAPCOMPILEDATE);
+  on_exit(onExit,0);
   showVideoMode();
 
   if(Tool::getAppPath(argv[0],path,64))

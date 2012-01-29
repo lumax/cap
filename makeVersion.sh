@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo `date +"%y%m%d%H%M%S"` > CapCompileDate
+CAPCOMPILEDATE=`cat CapCompileDate`
 CAP_DIR=`pwd`
 XENVLUMAX_DIR=$CAP_DIR/../..
 FSGPP_DIR=$XENVLUMAX_DIR/src/fsgpp
@@ -27,6 +29,7 @@ echo " " >> Version.h
 echo "static const char * CAP_VERSION =\"${CAP_HASH}\";" >> Version.h
 echo "static const char * FSGPP_VERSION =\"${FSGPP_HASH}\";" >> Version.h
 echo "static const char * CAPTURE_VERSION =\"${CAPTURE_HASH}\";" >> Version.h
+echo "static const char * CAPCOMPILEDATE =\"${CAPCOMPILEDATE}\";" >> Version.h
 echo " " >> Version.h
 echo " " >> Version.h
 echo "#endif /* __VERSION_H__ */" >> Version.h

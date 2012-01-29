@@ -29,3 +29,5 @@ Poll.h
 v4l_capture.c
 v4l_capture.h
 aispec.ttf
+CapCompileDate
+Version.h
