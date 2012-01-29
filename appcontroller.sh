@@ -20,6 +20,9 @@ PROGRAMS_ROOT=""
 
 function stage_update()
 {
+    echo " "
+    echo " "
+    echo "############################################################"
     echo "try to update the system"
     for func in ${UPDATE_STEPS}; do
 	#echo "eval $func"
@@ -146,27 +149,27 @@ function run_video()
     mplayer -loop 0 -fs ../video/PlateExakt08.wmv
 }
 
-cd ..
-PROGRAMS_ROOT=`pwd`
+#cd ..
+#PROGRAMS_ROOT=`pwd`
 
-stage_update
-retvalue=$?
-if [[ $retvalue -eq 0 ]]
-then 
-    echo "shutdown system in 3 seconds!"
-    sleep 3
-    echo "3"
-    sleep 1
-    echo "2"
-    sleep 1
-    echo "1"
-    sleep 1
-    halt
-    exit 0
-fi
-echo "stage_update failed $retvalue"
-echo "execute normal programm"
-cd ${EXEC_DIR_LINK}
+#stage_update
+#retvalue=$?
+#if [[ $retvalue -eq 0 ]]
+#then
+#    echo "shutdown system in 3 seconds!"
+#    sleep 3
+#    echo "3"
+#    sleep 1
+#    echo "2"
+#    sleep 1
+#    echo "1"
+#    sleep 1
+#    halt
+#    exit 0
+#fi
+#echo "stage_update failed $retvalue"
+#echo "execute normal programm"
+#cd ${EXEC_DIR_LINK}
 
 while true
 do
