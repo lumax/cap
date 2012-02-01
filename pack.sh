@@ -3,6 +3,8 @@ appname=capmb
 datum=`cat CapCompileDate`
 #`date +"%y%m%d%H%M%S"`
 
+git checkout cap.conf
+
 mkdir ${datum}_${appname}
 cp cap ${datum}_${appname}
 cp cap.conf ${datum}_${appname}
