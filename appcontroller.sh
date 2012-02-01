@@ -29,7 +29,8 @@ function stage_update()
 	eval "$func"
 	if [[ $? -ne 0 ]]
 	then
-	    echo "no update done, $func returned non zero value"
+	    #echo "no update done, $func returned non zero value"
+	    echo "no update done"
 	    return 1
 	fi
     done

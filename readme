@@ -7,6 +7,7 @@ I: TODO`s
 
 
 TODO:
+-appcontroller line 96 kann keine links mit / am Ende vertragen
 -Poll segfault mit Kommunikation am AMC beim Systemstart
 -FehlerDialog:"Name zu kurz" in SDLK_F10 NewDialogKeyListener
 -Abfrage ob Datei überschrieben werden soll (noch nicht gefordert)
