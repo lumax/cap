@@ -663,47 +663,46 @@ void CamControl::pollTimerExpired(long us)
     }
 }
 
+/*
 static void showVideoMode()
 {
+  //  typedef struct{
+  //  Uint32 hw_available:1;
+  //  Uint32 wm_available:1;
+  //  Uint32 blit_hw:1;
+  //  Uint32 blit_hw_CC:1;
+  //  Uint32 blit_hw_A:1;
+  //  Uint32 blit_sw:1;
+  //  Uint32 blit_sw_CC:1;
+  //  Uint32 blit_sw_A:1;
+  //  Uint32 blit_fill;
+  //  Uint32 video_mem;
+  //  SDL_PixelFormat *vfmt;
+  //} SDL_VideoInfo;
 
-  /*typedef struct{
-  Uint32 hw_available:1;
-  Uint32 wm_available:1;
-  Uint32 blit_hw:1;
-  Uint32 blit_hw_CC:1;
-  Uint32 blit_hw_A:1;
-  Uint32 blit_sw:1;
-  Uint32 blit_sw_CC:1;
-  Uint32 blit_sw_A:1;
-  Uint32 blit_fill;
-  Uint32 video_mem;
-  SDL_PixelFormat *vfmt;
-} SDL_VideoInfo;
+//Structure Data
 
-Structure Data
+//hw_available	Is it possible to create hardware surfaces?
+//wm_available	Is there a window manager available
+//blit_hw	Are hardware to hardware blits accelerated?
+//blit_hw_CC	Are hardware to hardware colorkey blits accelerated?
+//blit_hw_A	Are hardware to hardware alpha blits accelerated?
+//blit_sw	Are software to hardware blits accelerated?
+//blit_sw_CC	Are software to hardware colorkey blits accelerated?
+//blit_sw_A	Are software to hardware alpha blits accelerated?
+//blit_fill	Are color fills accelerated?
+//video_mem	Total amount of video memory in Kilobytes
+//vfmt	Pixel format of the video device
 
-hw_available	Is it possible to create hardware surfaces?
-wm_available	Is there a window manager available
-blit_hw	Are hardware to hardware blits accelerated?
-blit_hw_CC	Are hardware to hardware colorkey blits accelerated?
-blit_hw_A	Are hardware to hardware alpha blits accelerated?
-blit_sw	Are software to hardware blits accelerated?
-blit_sw_CC	Are software to hardware colorkey blits accelerated?
-blit_sw_A	Are software to hardware alpha blits accelerated?
-blit_fill	Are color fills accelerated?
-video_mem	Total amount of video memory in Kilobytes
-vfmt	Pixel format of the video device
-  */
-/*
-palette	Pointer to the palette, or NULL if the BitsPerPixel>8
-BitsPerPixel	The number of bits used to represent each pixel in a surface. Usually 8, 16, 24 or 32.
-BytesPerPixel	The number of bytes used to represent each pixel in a surface. Usually one to four.
-[RGBA]mask	Binary mask used to retrieve individual color values
-[RGBA]loss	Precision loss of each color component (2[RGBA]loss)
-[RGBA]shift	Binary left shift of each color component in the pixel value
-colorkey	Pixel value of transparent pixels
-alpha	Overall surface alpha value
-*/
+//palette	Pointer to the palette, or NULL if the BitsPerPixel>8
+//BitsPerPixel	The number of bits used to represent each pixel in a surface. Usually 8, 16, 24 or 32.
+//BytesPerPixel	The number of bytes used to represent each pixel in a surface. Usually one to four.
+//[RGBA]mask	Binary mask used to retrieve individual color values
+//[RGBA]loss	Precision loss of each color component (2[RGBA]loss)
+//[RGBA]shift	Binary left shift of each color component in the pixel value
+//colorkey	Pixel value of transparent pixels
+//alpha	Overall surface alpha value
+
   const SDL_VideoInfo * info;
   //SDL_PixelFormat * pixFormat;
   info = SDL_GetVideoInfo();
@@ -715,31 +714,12 @@ alpha	Overall surface alpha value
 	  printf("SDL_GetVideoFormat Pixelformat  BPP:%i \n",info->vfmt->BitsPerPixel);
 	}
     }
-}
+    }*/
 
 const char * usage =				\
   "cap -xga for 1024x768 else PAL Widescreen with 1024*576\n"\
   "    -fullscreen for Fullscreen\n"\
   "    -m for MJPEG (normally use RAW\n";
-
-/*static void theSecondaryEvtHandling(SDL_Event * theEvent)
-{
-  switch(theEvent->type)
-    {
-    case (SDL_ACTIVEEVENT):
-      {
-	printf("---\n");
-	printf("SDL_ACTIVEEVENT type %i,\n",theEvent->type);
-	printf("SDL_ACTIVEEVENT gain %i,\n",theEvent->active.gain);
-	printf("SDL_ACTIVEEVENT type %i,\n",theEvent->active.state);
-	break;
-      }
-    default:
-      {
-	printf("eventType %i,\n",theEvent->type);
-      }
-    }
-    }*/
 
 static void onExit(int i,void* pv)
 {
@@ -750,7 +730,6 @@ static void onExit(int i,void* pv)
 }
 
 ArbeitsDialog * theArbeitsDialog;
-//PositionDialog * thePositionDialog;
 MBProtocol theProtocol;
 Rezept theRezept;
 
@@ -765,17 +744,17 @@ int main(int argc, char *argv[])
   int ButtonAreaHeight = 0;
   bool guiMode = false;
   bool Com_NON_BLOCK = false;
-  
+
   char path[64];
   char confpath[96];
   char saveFilePath[96];
+  bool FullScreenMode = false;
 
   printf("Version_A: %s\n",CAP_VERSION);
   printf("Version_B: %s\n",FSGPP_VERSION);
   printf("Version_C: %s\n",CAPTURE_VERSION);
   printf("Programm Version: %s\n",CAPCOMPILEDATE);
   on_exit(onExit,0);
-  showVideoMode();
 
   if(Tool::getAppPath(argv[0],path,64))
     {
@@ -790,9 +769,6 @@ int main(int argc, char *argv[])
   props.height=0;
   props.bpp=0;
   props.flags=0;
-
-  //camwidth = 640;//352;//800;
-  //camheight = 480;//288;//600
 
   if(!iniParser_getParam(confpath,(char*)"sdlwidth",tmp,64))
     {
@@ -855,6 +831,7 @@ int main(int argc, char *argv[])
   if(!iniParser_getParam(confpath,(char*)"Fullscreen",tmp,64))
     {
       props.flags|=SDL_FULLSCREEN;
+      FullScreenMode = true;
     }
    if(!iniParser_getParam(confpath,(char*)"Com_NON_BLOCK",tmp,64))
     {
@@ -909,7 +886,6 @@ int main(int argc, char *argv[])
   props.bpp=32;
   //props.flags|=SDL_SWSURFACE;//SDL_HWSURFACE;//|SDL_DOUBLEBUF;
   props.flags|=SDL_ANYFORMAT;
-  //props.flags|=SDL_NOFRAME;
 
   if(SDL_BYTEORDER==SDL_BIG_ENDIAN)
     {
@@ -920,13 +896,13 @@ int main(int argc, char *argv[])
       printf("SDL_BYTEORDER==SDL_LIL_ENDIAN\n");
     }
 
-  theGUI=GUI::getInstance(&props,/*theSecondaryEvtHandling*/0);
+  theGUI=GUI::getInstance(&props,/*theSecondaryEvtHandling*/0,FullScreenMode);
   if(!theGUI){
-    printf("failure GUI::getInstance()\n");
+    printf("GUI::getInstance failed\n");
     return -1;
   }
  
-  showVideoMode();
+  /*  showVideoMode();
   int suggestedbbp = SDL_VideoModeOK(props.width, props.height, props.bpp,props.flags);
   if(suggestedbbp)
     {
@@ -937,14 +913,14 @@ int main(int argc, char *argv[])
       printf("SDL_VideoModeOK says: Mode not available.\n");
       printf("Couldn't initialize SDL: %s\n", SDL_GetError());
       exit(-1);
-    }
+      }*/
 
   theProtocol = MBProtocol();
 
 
   ButtonAreaHeight = sdlheight - 168;
   camCtrl = new CamControl(theGUI,Pixelformat,rgb_mode,ButtonAreaHeight);
-  //theMainDialog = new MainDialog(sdlwidth,sdlheight,camwidth,camheight,ButtonAreaHeight);
+
   theArbeitsDialog = new ArbeitsDialog(theGUI,			\
 				       &theProtocol,		\
 				       sdlwidth,		\
@@ -954,13 +930,9 @@ int main(int argc, char *argv[])
 				       ButtonAreaHeight,	\
 				       saveFilePath,\
 				       guiMode);
-  //thePositionDialog = new PositionDialog(sdlwidth/2-506,ButtonAreaHeight,506,100);
 
   if(theProtocol.initProtocol(theGUI,theArbeitsDialog,tmp,Com_NON_BLOCK))
     printf("Uart communication failed\n");
-
- 
-  //theGUI->activateScreen(theArbeitsDialog);//setActiveScreen wird im Konstruktor aufgerufen
 
   theGUI->eventLoop();
 }
