@@ -176,11 +176,8 @@ while true
 do
     run_cap
     rc=$?
-    if [ $rc -eq 11 ]
+    if [ $rc -eq 12 ]
     then
-	echo "cap returns 11! show video"
-	run_video
-    else
 	cd ..
 	PROGRAMS_ROOT=`pwd`
 	stage_update
@@ -193,6 +190,14 @@ do
 	echo "1"
 	sleep 1
 	halt
+	exit
+    fi
+    if [ $rc -eq 11 ]
+    then
+	echo "cap returns 11! show video"
+	run_video
+    else
+	echo "cap returns in Service Mode"
 	exit
     fi
 done

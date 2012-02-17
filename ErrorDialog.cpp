@@ -118,6 +118,11 @@ namespace EuMax01
   {
     exit(12);
   }
+
+  static void ConfirmService(void * src, SDL_Event * evt)
+  {
+    exit(42);
+  }
   
   static void ConfirmEscape(void * src, SDL_Event * evt)
   {
@@ -138,6 +143,10 @@ namespace EuMax01
 	else if(key->keysym.sym == SDLK_RETURN)
 	  {
 	    ConfirmEnter(src,evt);
+	  }
+	else if(key->keysym.sym == SDLK_F1)
+	  {
+	    ConfirmService(src,evt);
 	  }
       }
   }
@@ -192,7 +201,7 @@ namespace EuMax01
 			   MZeile_h,\
 			   Parent->DialogSet);
 
-    theMenuBarSettings.Text[0]=0;
+    theMenuBarSettings.Text[0]=(char *)"F1Service";
     theMenuBarSettings.Text[1]=0;
     theMenuBarSettings.Text[2]=0;
     theMenuBarSettings.Text[3]=(char *)"ENTER";
@@ -203,7 +212,7 @@ namespace EuMax01
 
     theMenuBarSettings.evtSource = (void*)this;
 
-    theMenuBarSettings.evtFnks[0]=0;
+    theMenuBarSettings.evtFnks[0]=ConfirmService;
     theMenuBarSettings.evtFnks[1]=0;
     theMenuBarSettings.evtFnks[2]=0;
     theMenuBarSettings.evtFnks[3]=ConfirmEnter;

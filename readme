@@ -25,6 +25,7 @@ HOFFENTLICH ERLEDIGT
 -Update System
 
 ERLEDIGT:
+-Service Exit mit F1. Bei einem Fehler wird der Service Exit gewählt.
 -Bedienung des Messsystems über Maus Version 1.0
 -Keypad Direkteingabe möglich
 -CamInfo Dialog über F10 im ArbeitsDialog erreichbar, um einige Werte der Kamera
