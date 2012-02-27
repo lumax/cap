@@ -57,7 +57,7 @@ namespace EuMax01
 	  {
 	    ad->refreshAll();
 	  }
-	else if(key->keysym.sym == SDLK_RETURN)
+	else if(key->keysym.sym == SDLK_RETURN || key->keysym.sym == SDLK_KP_ENTER)
 	  {
 	    //exit(12);
 	  }

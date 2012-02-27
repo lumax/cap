@@ -74,7 +74,7 @@ namespace EuMax01
 	  {
 	    ad->escape_listener(src,evt);
 	  }
-	else if(key->keysym.sym == SDLK_RETURN)
+	else if(key->keysym.sym == SDLK_RETURN || key->keysym.sym == SDLK_KP_ENTER)
 	  {
 	    ad->return_listener(src,evt);
 	  }
@@ -704,7 +704,7 @@ namespace EuMax01
 	  {
 	    ad->naviLeft();
 	  }
-	else if(key->keysym.sym == SDLK_RETURN)
+	else if(key->keysym.sym == SDLK_RETURN || key->keysym.sym == SDLK_KP_ENTER)
 	  {
 	    ad->return_listener(src,evt);
 	  }
@@ -1209,7 +1209,7 @@ namespace EuMax01
 	      {
 		NewMainEscape(src,evt);
 	      }
-	    else if(key->keysym.sym == SDLK_RETURN)
+	    else if(key->keysym.sym == SDLK_RETURN || key->keysym.sym == SDLK_KP_ENTER)
 	      {
 		NewMainReturn(src,evt);
 	      }
@@ -1243,7 +1243,7 @@ namespace EuMax01
 	      {
 		NewCrossEscape(src,evt);
 	      }
-	    else if(key->keysym.sym == SDLK_RETURN)
+	    else if(key->keysym.sym == SDLK_RETURN || key->keysym.sym == SDLK_KP_ENTER)
 	      {
 		NewCrossEnter(src,evt);
 	      }
