@@ -19,6 +19,8 @@ TODO:
 -Eingabe des Zylinderumfangs zur Berechnung der Startposition in mm anstatt °
 -Drehwinkelgeber für die Fadenkreuze
 -zu hohe Geschwindigkeit der Drehgeber erkennen und behandeln
+-update Script für Space sicher machen:
+ line=`ls -1 /dev/disk/by-label | sed 's/\\x20/ /g'`
 
 HOFFENTLICH ERLEDIGT
 -Farbschemata attraktiv gestalten
