@@ -88,7 +88,7 @@ then
     return $retval;
 fi
 
-cur_filename=`ls -l ${PROGRAMS_ROOT}/${EXEC_DIR_LINK} | awk '{ print $10; }' ${cur_filename} `
+cur_filename=`ls -l --time-style=long-iso ${PROGRAMS_ROOT}/${EXEC_DIR_LINK} | awk '{ print $10; }' ${cur_filename} `
 cur_number=${cur_filename:${#cur_filename}-${UPD_DIR_LEN}:12}
 upd_number=${UPD_DIR_NAME:0:12}
 echo $cur_filename
