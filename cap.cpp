@@ -750,20 +750,42 @@ int main(int argc, char *argv[])
   char saveFilePath[96];
   bool FullScreenMode = false;
 
-  printf("Version_A: %s\n",CAP_VERSION);
-  printf("Version_B: %s\n",FSGPP_VERSION);
-  printf("Version_C: %s\n",CAPTURE_VERSION);
-  printf("Programm Version: %s\n",CAPCOMPILEDATE);
-  on_exit(onExit,0);
+  FILE *fp;
 
   if(Tool::getAppPath(argv[0],path,64))
     {
       perror("can`t get application path\n");
     }
-  if(snprintf(confpath,96,"%scap.conf",path)<0)
+  if(snprintf(confpath,96,"%s../cap.conf",path)<0)
     {
       perror("can`t create config file path\n");
     }
+  
+  fp = fopen(confpath,"r");
+  if(fp)
+    {
+      // exists
+      fclose(fp);
+    } 
+  else 
+    {
+      // doesnt exist
+      printf("\n");
+      printf("Cannot find config file : %s\n",confpath);
+      printf("The config file cap.conf is needed to run and could not be found!\n");
+      printf("If this is a new installation try to use the BEISPIEL.cap.conf\n");
+      printf("\n");
+      printf("cp BEISPIEL.cap.conf ../cap.conf\n");
+      printf("\n");
+      printf("... edit cap.conf and try again.\n");
+      return -1;
+    }
+
+  printf("Version_A: %s\n",CAP_VERSION);
+  printf("Version_B: %s\n",FSGPP_VERSION);
+  printf("Version_C: %s\n",CAPTURE_VERSION);
+  printf("Programm Version: %s\n",CAPCOMPILEDATE);
+  on_exit(onExit,0);
 
   props.width=0;
   props.height=0;

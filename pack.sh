@@ -3,11 +3,11 @@ appname=capmb
 datum=`cat CapCompileDate`
 #`date +"%y%m%d%H%M%S"`
 
-git checkout cap.conf
+git checkout BEISPIEL.cap.conf
 
 mkdir ${datum}_${appname}
 cp cap ${datum}_${appname}
-cp cap.conf ${datum}_${appname}
+cp BEISPIEL.cap.conf ${datum}_${appname}
 cp aispec.ttf ${datum}_${appname}
 cp LiberationMono-Regular.ttf ${datum}_${appname}
 cp v4l_capture.o ${datum}_${appname}
