@@ -9,7 +9,8 @@ sudo dpkg-reconfigure keyboard-configuration
 
 #uncomment swap
 sudo nano /etc/fstab
-noatime
+#rename UUID to /dev/sda and add "noatime"
+
 
 #xorg
 sudo apt-get install xorg xserver-xorg-video-v4l
