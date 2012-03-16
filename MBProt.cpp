@@ -169,6 +169,8 @@ namespace EuMax01
     if(tcgetattr( fd, &termOptions ))
       perror("error on tcgetattr\n");
 
+    cfmakeraw(&termOptions);
+
     // Set the input/output speed to 921.6kbps
     cfsetispeed( &termOptions, B57600 );
     cfsetospeed( &termOptions, B57600 );
