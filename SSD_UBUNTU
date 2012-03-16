@@ -1,0 +1,88 @@
+#ubuntu 11.04 alternate: geht nicht, nicht genug Platz
+#ubuntu 11.04 server;
+
+geführt, gesamte Festplatte (partition 1 = /, partition 5 = swap)
+installiert linux-image-2.6.38-8-generic-pae
+
+#keyboard layout ändern
+sudo dpkg-reconfigure keyboard-configuration
+
+#uncomment swap
+sudo nano /etc/fstab
+noatime
+
+#xorg
+sudo apt-get install xorg xserver-xorg-video-v4l
+sudo apt-get install xserver-xorg-video-fbdev
+sudo apt-get install xserver-xorg-video-vesa
+sudo apt-get install xserver-xorg-video-intel
+
+startx
+
+##xrandr --output VGA1 --mode 1366x768
+xrandr --output VGA1 --auto
+
+sudo apt-get install libsdl1.2debian
+sudo apt-get install libsdl-ttf2.0-0
+sudo apt-get install libsdl-image1.2
+
+#add user to group video
+gpasswd -a [user] [group]
+
+sudo chmod 666 /dev/video0
+
+#install login manager
+sudo apt-get install slim
+##nano /etc/slim.conf
+...
+halt_cmd	/sbin/halt
+reboot_cmd	/sbin/halt
+...
+default_user	plateexact
+auto_login	yes
+current_theme	debian-moreblue
+
+##end slim.conf
+
+sudo chmod +s /sbin/halt
+
+#install nfs-common for mount -f nfs server:/path /mountpount
+
+
+##mount under /media; use partition label if present
+#/etc/udev/rules.d/11-media-by-label-auto-mount.rules :
+
+# Start at sdb to avoid system harddrive. 
+KERNEL!="sd[b-z][0-9]", GOTO="media_by_label_auto_mount_end"
+
+# Import FS infos
+IMPORT{program}="/sbin/blkid -o udev -p %N"
+
+# Get a label if present, otherwise specify one
+ENV{ID_FS_LABEL}!="", ENV{dir_name}="%E{ID_FS_LABEL}"
+ENV{ID_FS_LABEL}=="", ENV{dir_name}="usbhd-%k"
+
+# Global mount options
+ACTION=="add", ENV{mount_options}="relatime"
+# Filesystem-specific mount options
+ACTION=="add", ENV{ID_FS_TYPE}=="vfat|ntfs", ENV{mount_options}="$env{mount_options},utf8,gid=100,umask=002"
+
+# Mount the device
+ACTION=="add", RUN+="/bin/mkdir -p /media/%E{dir_name}", RUN+="/bin/mount -o $env{mount_options} /dev/%k /media/%E{dir_name}"
+
+# Clean up after removal
+ACTION=="remove", ENV{dir_name}!="", RUN+="/bin/umount -l /media/%E{dir_name}", RUN+="/bin/rmdir /media/%E{dir_name}"
+
+# Exit
+LABEL="media_by_label_auto_mount_end"
+
+###End media by label
+
+##edit ~/.xinitrc
+#!/bin/sh
+
+xrand script
+
+exec xterm -geometry 140x50+10+10 -gb darkslategray -fg white
+#end .xinitrc
+
