@@ -129,3 +129,8 @@ Installation von capmb:
  /opt/capmb_data
  /opt/video
  /opt/cap.conf
+
+Erzeugen eines Images mit dd:
+Auf dem Zielsystem:
+sudo mount -t nfs <nfs-server-ip>:/pfad/zu/nfs /mnt/nfs
+sudo dd if=/dev/sda of=/mnt/nfs/usr/work/capmbImage_<datum>.img
