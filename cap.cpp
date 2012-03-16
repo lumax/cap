@@ -749,6 +749,7 @@ int main(int argc, char *argv[])
   char confpath[96];
   char saveFilePath[96];
   bool FullScreenMode = false;
+  bool HideMouseCursor = false;
 
   FILE *fp;
 
@@ -859,6 +860,10 @@ int main(int argc, char *argv[])
     {
       Com_NON_BLOCK = true;
     }
+   if(!iniParser_getParam(confpath,(char*)"HIDE_MOUSE_CURSOR",tmp,64))
+    {
+      HideMouseCursor=true;
+    }
   //das Muss der letzte Paramter sein der mit tmp geholt wird, da tmp 
   //später noch ausgewertet wird!
   if(iniParser_getParam(confpath,(char*)"usbDevice",tmp,64))
@@ -923,7 +928,10 @@ int main(int argc, char *argv[])
     printf("GUI::getInstance failed\n");
     return -1;
   }
- 
+  if(HideMouseCursor)
+    {
+      SDL_ShowCursor(SDL_DISABLE);
+    }
   /*  showVideoMode();
   int suggestedbbp = SDL_VideoModeOK(props.width, props.height, props.bpp,props.flags);
   if(suggestedbbp)
