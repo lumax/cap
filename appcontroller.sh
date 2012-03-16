@@ -189,7 +189,7 @@ do
 	sleep 1
 	echo "1"
 	sleep 1
-	halt
+	/sbin/halt
 	exit
     fi
     if [ $rc -eq 11 ]
