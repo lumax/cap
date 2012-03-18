@@ -39,6 +39,8 @@ sudo apt-get install slim
 halt_cmd	/sbin/halt
 reboot_cmd	/sbin/halt
 ...
+login_cmd	exec /bin/sh - ~/.xinitrc %session
+...
 default_user	plateexact
 auto_login	yes
 current_theme	debian-moreblue
