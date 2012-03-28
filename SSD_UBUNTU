@@ -11,8 +11,19 @@ sudo dpkg-reconfigure keyboard-configuration
 sudo nano /etc/fstab
 #rename UUID to /dev/sda and add "noatime"
 
+#set accounts inactivity to INACTIVE
+sudo chage -I -1 plateexact
+
+#evtl folgendes ausprobieren um unsichere Passworte 
+#zuzulassen:
+#1. Run the command: sudo pam-auth-update --force
+#2. Use tab/spacebar/arrows to navigate the menu, and disable the "passwdqc password strength enforcement" option. Click on OK to save the changes.
+#3. Run the password command as root and I can set the password to whatever I want: sudo passwd <username>
+
+
 
 #xorg
+sudo apt-get update
 sudo apt-get install xorg xserver-xorg-video-v4l
 sudo apt-get install xserver-xorg-video-fbdev
 sudo apt-get install xserver-xorg-video-vesa
@@ -26,31 +37,38 @@ xrandr --output VGA1 --auto
 sudo apt-get install libsdl1.2debian
 sudo apt-get install libsdl-ttf2.0-0
 sudo apt-get install libsdl-image1.2
+sudo apt-get install mplayer
 
 #add user to group video
-gpasswd -a [user] [group]
+sudo gpasswd -a [user] [group]
 
 sudo chmod 666 /dev/video0
 
 #install login manager
-sudo apt-get install slim
+##sudo apt-get install slim
 ##nano /etc/slim.conf
-...
-halt_cmd	/sbin/halt
-reboot_cmd	/sbin/halt
-...
-login_cmd	exec /bin/sh - ~/.xinitrc %session
-...
-default_user	plateexact
-auto_login	yes
-current_theme	debian-moreblue
-
+##...
+##halt_cmd	/sbin/halt
+##reboot_cmd	/sbin/halt
+##...
+##login_cmd	exec /bin/sh - ~/.xinitrc %session
+##...
+##default_user	plateexact
+##auto_login	yes
+##current_theme	debian-moreblue
+##
 ##end slim.conf
 
 sudo chmod +s /sbin/halt
 
-#install nfs-common for mount -f nfs server:/path /mountpount
+sudo chown -R plateexact:plateexact /opt
 
+mkdir /opt/video
+mkdir /opt/capmb_data
+
+cp PlateExact08.wmv /opt/video/.
+tar xfz <version>_capmb.tar.gz /opt/.
+ln -s <version>_capmb capmb
 
 ##mount under /media; use partition label if present
 #/etc/udev/rules.d/11-media-by-label-auto-mount.rules :
@@ -81,11 +99,29 @@ LABEL="media_by_label_auto_mount_end"
 
 ###End media by label
 
+
+
+
+
+
+
+Fehlerbeseitigungsversuche:
+sudo apt-get remove slim
+sudo apt-get install rungetty
+
+sudo nano /etc/init/tty1.conf
+
+exec /sbin/rungetty --autologin BENUTZERNAME tty1
+
+in .bashrc:
+startx
+
 ##edit ~/.xinitrc
 #!/bin/sh
+xrandr --output VGA1 --auto
+cd /opt/capmb
 
-xrand script
+#exec xterm -geometry 140x50+10+10 -gb darkslategray -fg white
+exec ./appcontroller.sh
 
-exec xterm -geometry 140x50+10+10 -gb darkslategray -fg white
-#end .xinitrc
-
+###xterm -e /bin/bash -l -c "mplayer -loop 0 -fs /opt/video/PlateExakt08.wmv" 
