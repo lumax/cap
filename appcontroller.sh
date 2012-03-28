@@ -147,30 +147,8 @@ function run_cap()
 
 function run_video()
 {
-    mplayer -loop 0 -fs ../video/PlateExakt08.wmv
+    xterm -e "mplayer -loop 0 -fs ../video/PlateExakt08.wmv"
 }
-
-#cd ..
-#PROGRAMS_ROOT=`pwd`
-
-#stage_update
-#retvalue=$?
-#if [[ $retvalue -eq 0 ]]
-#then
-#    echo "shutdown system in 3 seconds!"
-#    sleep 3
-#    echo "3"
-#    sleep 1
-#    echo "2"
-#    sleep 1
-#    echo "1"
-#    sleep 1
-#    halt
-#    exit 0
-#fi
-#echo "stage_update failed $retvalue"
-#echo "execute normal programm"
-#cd ${EXEC_DIR_LINK}
 
 while true
 do
@@ -181,14 +159,7 @@ do
 	cd ..
 	PROGRAMS_ROOT=`pwd`
 	stage_update
-	echo "shutdown system in 3 seconds!"
-	sleep 3
-	echo "3"
-	sleep 1
-	echo "2"
-	sleep 1
-	echo "1"
-	sleep 1
+	echo "shutdown system!"
 	/sbin/halt
 	exit
     fi
