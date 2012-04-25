@@ -23,5 +23,14 @@
 #define nPEC_RESET 		0x50	// System Reset
 #define nPEC_SWVERSION	0x51	// Softwareversion int16
 #define nPEC_HWVERSION	0x52	// Hardwareversion int16
+#define nPEC_NAME       0x53
+
+#define nPEC_SETQMAX1   0x60
+#define nPEC_SETQMAX2   0x61
+#define nPEC_GETQMAX1   0x62
+#define nPEC_GETQMAX2   0x63
+
+#define nPEC_LIGHTON    0x64
+#define nPEC_LIGHTOFF   0x65
 
 #endif

@@ -62,6 +62,7 @@ namespace EuMax01
     void setCross2Ref();
     //void showRecipe(Rezept * rez);
     void sendProtocolMsg(char cmd);
+    void sendProtocolMsg(char cmd,int val);
 
     void Q1_evt(unsigned short dat);
     void Q2_evt(unsigned short dat);

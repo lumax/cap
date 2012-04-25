@@ -835,4 +835,11 @@ namespace EuMax01
 	prt_sendmsg_uint(cmd,0x00);
   }
 
+  void ArbeitsDialog::sendProtocolMsg(char cmd,int val)
+  {
+    if(theProtocol)
+      if(theProtocol->isInitialised())
+	prt_sendmsg_uint(cmd,val);
+  }
+
 }//end Namespace

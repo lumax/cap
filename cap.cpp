@@ -964,5 +964,10 @@ int main(int argc, char *argv[])
   if(theProtocol.initProtocol(theGUI,theArbeitsDialog,tmp,Com_NON_BLOCK))
     printf("Uart communication failed\n");
 
+
+  theArbeitsDialog->sendProtocolMsg(nPEC_SETQMAX1,(int)0x3ff);
+  theArbeitsDialog->sendProtocolMsg(nPEC_SETQMAX2,(int)0x3ff);
+  theArbeitsDialog->sendProtocolMsg(nPEC_LIGHTON);
+
   theGUI->eventLoop();
 }
