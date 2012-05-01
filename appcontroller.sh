@@ -147,7 +147,7 @@ function run_cap()
 
 function run_video()
 {
-    xterm -e "mplayer -loop 0 -fs ../video/PlateExakt08.wmv"
+    xterm -e "mplayer -loop 1 -fs ../video/PlateExakt08.wmv"
 }
 
 while true
