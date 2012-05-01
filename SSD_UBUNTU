@@ -44,6 +44,7 @@ sudo gpasswd -a [user] [group]
 
 sudo chmod 666 /dev/video0
 
+
 #install login manager
 ##sudo apt-get install slim
 ##nano /etc/slim.conf
@@ -124,4 +125,19 @@ cd /opt/capmb
 #exec xterm -geometry 140x50+10+10 -gb darkslategray -fg white
 exec ./appcontroller.sh
 
-###xterm -e /bin/bash -l -c "mplayer -loop 0 -fs /opt/video/PlateExakt08.wmv" 
+
+##Debug cap im Service Mode:
+~/.xinitrc editieren:
+exec xterm -geometry 140x50+10+10 -gb darkslategray -fg white
+#exec ./appcontroller.sh
+
+startx
+
+ctrl-c um in die xterm Eingabe zu gelangen
+
+gdbserver 192.168.2.20:12345 cap
+und auf dem EW-Rechner:
+gdb cap
+target remote 192.168.2.20:12345
+c
+##end Debug cap im Service Mode
