@@ -34,6 +34,8 @@
 using namespace std;
 using namespace EuMax01;
 
+static void oneSecondTimer(void);
+
 class CamControl:IPollTimerListener,IPollReadListener
 {
 public:
@@ -608,7 +610,7 @@ void CamControl::pollTimerExpired(long us)
 	{
 	  printf("add cam0 to PollManager\n");
 	  this->cam0ready = true;
-	  this->pPollReaderCam0->setReadSource(camfd);
+	  this->pPollReaderCam0->setReadSource(camfd,(char *)"cam0");
 	  if(this->ptheGUI->addPollReader(pPollReaderCam0)!=0)
 	    printf("addPollReader failed\n");
 	  if(cap_cam_enable50HzFilter(camfd))
@@ -643,7 +645,7 @@ void CamControl::pollTimerExpired(long us)
 	{
 	  printf("add cam1 to PollManager\n");
 	  this->cam1ready = true;
-	  this->pPollReaderCam1->setReadSource(camfd);
+	  this->pPollReaderCam1->setReadSource(camfd,(char*)"cam1");
 	  if(this->ptheGUI->addPollReader(pPollReaderCam1)!=0)
 	    printf("addPollReader failed\n");
 	  if(cap_cam_enable50HzFilter(camfd))
@@ -655,12 +657,13 @@ void CamControl::pollTimerExpired(long us)
     }
   if(again)
     {
-      printf("try to find camera again...\n");
+      //printf("try to find camera again...\n");
     }
   else
     {
       //printf("TODO remove PollTimer\n");
     }
+  oneSecondTimer();
 }
 
 /*
@@ -733,17 +736,39 @@ ArbeitsDialog * theArbeitsDialog;
 MBProtocol theProtocol;
 Rezept theRezept;
 
+  GUI* theGUI;
+  char tmp[64];
+  bool Com_NON_BLOCK = false;
+
+static void oneSecondTimer(void)
+{
+  static bool serialCommClosed = true;
+
+  if(serialCommClosed)
+    {
+      if(theProtocol.initProtocol(theGUI,theArbeitsDialog,tmp,Com_NON_BLOCK))
+	{
+	  printf("Uart communication failed, trying again in one second\n");
+	}
+      else
+	{
+	  serialCommClosed = false;
+	  theArbeitsDialog->sendProtocolMsg(nPEC_SETQMAX1,(int)0x3ff);
+	  theArbeitsDialog->sendProtocolMsg(nPEC_SETQMAX2,(int)0x3ff);
+	  theArbeitsDialog->sendProtocolMsg(nPEC_LIGHTON);
+	}
+    }
+}
+
 int main(int argc, char *argv[])
 {
   //SDL_version compile_version;
-  GUI* theGUI;
+
   GUI_Properties props;
   int Pixelformat = 0;//0 = normal, 1 = MJPEG, 2 = RGB
-  char tmp[64];
   bool rgb_mode = false;
   int ButtonAreaHeight = 0;
   bool guiMode = false;
-  bool Com_NON_BLOCK = false;
 
   char path[64];
   char confpath[96];
@@ -961,13 +986,6 @@ int main(int argc, char *argv[])
 				       saveFilePath,\
 				       guiMode);
 
-  if(theProtocol.initProtocol(theGUI,theArbeitsDialog,tmp,Com_NON_BLOCK))
-    printf("Uart communication failed\n");
-
-
-  theArbeitsDialog->sendProtocolMsg(nPEC_SETQMAX1,(int)0x3ff);
-  theArbeitsDialog->sendProtocolMsg(nPEC_SETQMAX2,(int)0x3ff);
-  theArbeitsDialog->sendProtocolMsg(nPEC_LIGHTON);
 
   theGUI->eventLoop();
 }

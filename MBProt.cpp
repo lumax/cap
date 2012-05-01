@@ -64,6 +64,7 @@ namespace EuMax01
   {
     static unsigned int counter = 0;
     unsigned short datum = 0;
+    //printf("dispatcher ucDat: %i 0x%x %c\n",ucDat,ucDat,ucDat);
     switch(ucDat)
       {
       case nPEC_GET_Q1:
@@ -122,9 +123,26 @@ namespace EuMax01
 	    MBProt_class->lis->HWVersion_evt(datum);
 	  break;
 	}
+      case 0x01://schwarzer Knopf
+	{
+	  exit(11);//video
+	  //datum = getProtocol_UI16();
+	  //if(MBProt_class->lis)
+	  // MBProt_class->lis->HWVersion_evt(datum);
+	  break;
+	}
+      case 0x02://roter Knopf
+	{
+	  exit(12);//shutdown
+	  //datum = getProtocol_UI16();
+	  //if(MBProt_class->lis)
+	  //  MBProt_class->lis->HWVersion_evt(datum);
+	  break;
+	}
       default:
 	{
 	  counter++;
+	  //printf("dispatcher ucDat: %i 0x%x %c\n",ucDat,ucDat,ucDat);
 	}
       }
   }
@@ -184,7 +202,7 @@ namespace EuMax01
     pPollTimer = new PollTimer(100,this);
     pPollIncoming = new PollReader(this);
     pGUI->addPollTimer(this->pPollTimer);
-    this->pPollIncoming->setReadSource(fd);
+    this->pPollIncoming->setReadSource(fd,(char*)"MBProt");
     if(pGUI->addPollReader(pPollIncoming)!=0)
       {
 	printf("addPollReader failed\n");
