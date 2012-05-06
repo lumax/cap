@@ -33,4 +33,6 @@
 #define nPEC_LIGHTON    0x64
 #define nPEC_LIGHTOFF   0x65
 
+#define nPEC_KEYON      0x66
+#define nPEC_KEYHELP    0x67
 #endif

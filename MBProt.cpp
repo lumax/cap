@@ -123,20 +123,14 @@ namespace EuMax01
 	    MBProt_class->lis->HWVersion_evt(datum);
 	  break;
 	}
-      case 0x01://schwarzer Knopf
-	{
-	  exit(11);//video
-	  //datum = getProtocol_UI16();
-	  //if(MBProt_class->lis)
-	  // MBProt_class->lis->HWVersion_evt(datum);
-	  break;
-	}
-      case 0x02://roter Knopf
+      case nPEC_KEYON://schwarzer Knopf
 	{
 	  exit(12);//shutdown
-	  //datum = getProtocol_UI16();
-	  //if(MBProt_class->lis)
-	  //  MBProt_class->lis->HWVersion_evt(datum);
+	  break;
+	}
+      case nPEC_KEYHELP://roter Knopf
+	{
+	  exit(11);//video
 	  break;
 	}
       default:
