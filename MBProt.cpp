@@ -98,6 +98,7 @@ namespace EuMax01
       case nPEC_GET_FP1:
 	{
 	  datum = getProtocol_UI16();
+	  //printf("dispatcher: id :%x %i\n",ucDat,datum);
 	  if(MBProt_class->lis)
 	    MBProt_class->lis->FP1_evt(datum);
 	  break;
