@@ -159,9 +159,6 @@ namespace EuMax01
 			       bool non_block)
   {
     int flags = 0;
-    PRTDISPATCHER = MBProt_dispatcher;
-    PRTPUTCH = MBProt_putchar;
-    prtmodule_init();
 
     flags |= O_RDWR;
 
@@ -190,6 +187,13 @@ namespace EuMax01
     // Now set the term options (set immediately)
     tcsetattr( fd, TCSANOW, &termOptions );
 
+    usleep(500);
+    tcflush(MBProt_fd,TCIFLUSH);
+
+    PRTDISPATCHER = MBProt_dispatcher;
+    PRTPUTCH = MBProt_putchar;
+    prtmodule_init();
+
     if(on_exit(the_on_exit_fnc,0))
        perror("MBProt set function on_exit failed!\n");
 
@@ -197,12 +201,14 @@ namespace EuMax01
     pPollIncoming = new PollReader(this);
     pGUI->addPollTimer(this->pPollTimer);
     this->pPollIncoming->setReadSource(fd,(char*)"MBProt");
+
     if(pGUI->addPollReader(pPollIncoming)!=0)
       {
 	printf("addPollReader failed\n");
 	close(fd);
 	return -1;
       }
+
     MBProt_class = this;
     this->lis = listener;
 
@@ -238,19 +244,6 @@ namespace EuMax01
 
   void MBProtocol::pollTimerExpired(long us)
   {
-    static int once = 0;
-    if(!once)
-      {
-	once=1;
-	if(enableAuto())
-	  {
-	    printf("Protocoll enableAuto failed\n");
-	  }
-	prt_sendmsg_uint(nPEC_SWVERSION,0x00);
-	prt_sendmsg_uint(nPEC_HWVERSION,0x00);
-	prt_sendmsg_uint(nPEC_GET_Q1,0x00);//für den CalDialog
-      }
-    //printf("MBProtocoll Timer Expired\n");
     prt_timer();
   }
 
