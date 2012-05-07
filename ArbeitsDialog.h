@@ -159,6 +159,7 @@ namespace EuMax01
     PosDialog * thePosDialog;
     
     Label * LabelDialogName;
+    char pcNoGuiVersion[1024];
     struct t_MenuBarSettings theMenuBarSettings;
     MenuBar * theMenu;
   };

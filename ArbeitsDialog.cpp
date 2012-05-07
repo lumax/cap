@@ -30,6 +30,8 @@ Bastian Ruppert
 #include "Dialoge.h"
 #include "ErrorDialog.h"
 #include "InfoDialog.h"
+#include "Version.h"
+
 #include "ArbeitsDialog.h"
 
 #include <unistd.h>
@@ -356,8 +358,6 @@ namespace EuMax01
 
     thePosDialog = new PosDialog(theRezept->Name,sdlw,sdlh,camw,camh,yPos,this);
 
-    LabelDialogName = new Label("Recipe",MInfoF1_x,MInfo_y,MInfo_w,MZeile_h,ArbeitsDialog::MenuSet);
-
     theMenuBarSettings.Text[0]=(char *)"F1 load";
     theMenuBarSettings.Text[1]=(char *)"F2 edit";
     theMenuBarSettings.Text[2]=(char *)"F3 new";
@@ -380,6 +380,10 @@ namespace EuMax01
 
     theMenu = new MenuBar(MInfoF1_x,MInfo_y,MZeile_h,(char*)"Recipe",	\
 			  &this->theMenuBarSettings,this);
+
+    LabelDialogName = new Label("Version ....",(sdlw/2)-((MInfo_w*2)/2),MInfo_y,MInfo_w*2, \
+				MZeile_h,				\
+				ArbeitsDialog::MenuSet);
 
     if(useGUI)
       {
@@ -404,7 +408,13 @@ namespace EuMax01
 	printf("guiMode false \n");
 	iActiveDialog = ArbeitsDialog::NoGUIModeIsActive;
 
-	LabelDialogName->setText("F12: Exit");
+	//to get rid of compiler warning:
+	sprintf(this->pcNoGuiVersion,"%s",CAP_VERSION);
+	sprintf(this->pcNoGuiVersion,"%s",FSGPP_VERSION);
+	sprintf(this->pcNoGuiVersion,"%s",CAPTURE_VERSION);
+	sprintf(this->pcNoGuiVersion,"Version: %s",CAPCOMPILEDATE);
+
+	LabelDialogName->setText(pcNoGuiVersion);//"F12: Exit");
 
 	this->pTSource = this; //EvtTarget Quelle setzenfür den EvtListener
 	this->EvtTargetID=(char*)"ArbeitsDialog";
