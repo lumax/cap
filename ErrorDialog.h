@@ -35,6 +35,21 @@ namespace EuMax01
     struct t_MenuBarSettings theMenuBarSettings;
     MenuBar * theMenu;
   };
+
+  class SplashScreen : public Screen
+  {
+  public:
+    SplashScreen(int sdlw,int sdlh, int camw,int camh,int yPos,	\
+		ArbeitsDialog * parent);
+    ~SplashScreen();
+    ArbeitsDialog * Parent;
+  private:
+    Label * Label_Info;
+    Button * pButtonLogo;
+    SDL_Surface * pLogo;
+    int loadImage(char * path);
+    char Versionsnummer[1024];
+  };
  
 #endif /* __ERRORDIALOG_H__*/
 }//end namespace

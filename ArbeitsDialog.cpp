@@ -30,7 +30,6 @@ Bastian Ruppert
 #include "Dialoge.h"
 #include "ErrorDialog.h"
 #include "InfoDialog.h"
-#include "Version.h"
 
 #include "ArbeitsDialog.h"
 
@@ -166,25 +165,6 @@ namespace EuMax01
       }
   }
 
-  static void ArbeitsDialogNoGUIKeyListener(void * src, SDL_Event * evt)
-  {
-    ArbeitsDialog* ad = (ArbeitsDialog*)src;//KeyListener
-    SDL_KeyboardEvent * key = (SDL_KeyboardEvent *)&evt->key;
-
-    if( key->type == SDL_KEYUP )
-      {
-	if(key->keysym.sym == SDLK_F11)
-	  {
-	    exit(11);
-	  }
-	else if(key->keysym.sym == SDLK_F12)
-	  {
-	    //exit(12);
-	    ad->showConfirmDialog((char *)"Exit Programm");
-	  }
-      }
-  }
-
   ArbeitsDialog::~ArbeitsDialog(){}
   ArbeitsDialog::ArbeitsDialog(GUI * pGUI,		\
 			       MBProtocol *prot,	\
@@ -293,6 +273,7 @@ namespace EuMax01
     theLoadDialog = new LoadDialog(sdlw,sdlh,camw,camh,yPos,this);
     theErrorDialog = new ErrorDialog(sdlw,sdlh,camw,camh,yPos,this);
     theConfirmDialog = new ConfirmDialog(sdlw,sdlh,camw,camh,yPos,this);
+    theSplashScreen = new SplashScreen(sdlw,sdlh,camw,camh,yPos,this);
     theNewDialog = new NewDialog(sdlw,sdlh,camw,camh,yPos,this);
     theCalDialog = new CalibrationDialog(sdlw,sdlh,camw,camh,yPos,this);
     theInfoDialog = new InfoDialog(sdlw,sdlh,camw,camh,yPos,this);
@@ -395,34 +376,19 @@ namespace EuMax01
     this->addEvtTarget(this);//den Screen Key Listener bei sich selber anmelden!
     
     this->addEvtTarget(&thePosDialog->EvtTargets);
-    //this->addEvtTarget(LabelDialogName);
-    //this->addEvtTarget(LabelInfo);
     theMenu->addToEvtTarget(this);
     
     this->ArbeitsDialogEvtTargets.Next = this->EvtTargets.Next;//EvtTargets fuer spaeter sichern
-    this->showCalibrationDialog();
-    //this->showRezept(0);
+    //this->showCalibrationDialog();
+    this->showSplashScreen();
       }
     else
       {
 	printf("guiMode false \n");
-	iActiveDialog = ArbeitsDialog::NoGUIModeIsActive;
-
-	//to get rid of compiler warning:
-	sprintf(this->pcNoGuiVersion,"%s",CAP_VERSION);
-	sprintf(this->pcNoGuiVersion,"%s",FSGPP_VERSION);
-	sprintf(this->pcNoGuiVersion,"%s",CAPTURE_VERSION);
-	sprintf(this->pcNoGuiVersion,"Version: %s",CAPCOMPILEDATE);
-
-	LabelDialogName->setText(pcNoGuiVersion);//"F12: Exit");
-
 	this->pTSource = this; //EvtTarget Quelle setzenfür den EvtListener
 	this->EvtTargetID=(char*)"ArbeitsDialog";
-	this->setKeyboardUpEvtHandler(ArbeitsDialogNoGUIKeyListener);
 	this->addEvtTarget(this);
-	this->addEvtTarget(LabelDialogName);
-	//this->blankMenuArea();
-	this->theGUI->activateScreen(this);
+	this->showSplashScreen();
       }
   }
 
@@ -484,6 +450,15 @@ namespace EuMax01
     this->theConfirmDialog->setConfirmMsg(msg);
     this->blankMenuArea();
     this->theGUI->activateScreen(this->theConfirmDialog);
+  }
+
+  void ArbeitsDialog::showSplashScreen()
+  {
+    //    if(!useGUI)//TODO errors im BlindMode evtl. zulassen
+    //  return;
+    this->iActiveDialog = ArbeitsDialog::SplashScreenIsActive;
+    this->blankMenuArea();
+    this->theGUI->activateScreen(this->theSplashScreen);
   }
 
   void ArbeitsDialog::showInfoDialog()

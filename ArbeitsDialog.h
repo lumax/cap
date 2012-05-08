@@ -12,6 +12,7 @@ namespace EuMax01
   class PosDialog;
   class ErrorDialog;
   class ConfirmDialog;
+  class SplashScreen;
   class LoadDialog;
   class NewDialog;
   class MBProtocol;
@@ -90,6 +91,7 @@ namespace EuMax01
     void showArbeitsDialog();
     void showErrorDialog(char * errorMsg);
     void showConfirmDialog(char * msg);
+    void showSplashScreen();
     void showNewDialog(char * MenuTitel);
     void showCalibrationDialog();
     void showInfoDialog();
@@ -147,10 +149,12 @@ namespace EuMax01
     static const int NoGUIModeIsActive = 5;
     static const int ConfirmDialogIsActive = 6;
     static const int InfoDialogIsActive = 7;
+    static const int SplashScreenIsActive = 8;
 
     LoadDialog * theLoadDialog;
     ErrorDialog * theErrorDialog;
     ConfirmDialog * theConfirmDialog;
+    SplashScreen * theSplashScreen;
     CalibrationDialog * theCalDialog;
     InfoDialog * theInfoDialog;
 
@@ -159,7 +163,6 @@ namespace EuMax01
     PosDialog * thePosDialog;
     
     Label * LabelDialogName;
-    char pcNoGuiVersion[1024];
     struct t_MenuBarSettings theMenuBarSettings;
     MenuBar * theMenu;
   };

@@ -54,6 +54,9 @@ TODO:
 -update Script für Space sicher machen:
  line=`ls -1 /dev/disk/by-label | sed 's/\\x20/ /g'`
 
+-PlateExact Vxxxxx
+ © 2012 raantec GmbH & C0. KG, Nienkamp 21, 33829 Borgholzhausen 
+
 HOFFENTLICH ERLEDIGT
 -Farbschemata attraktiv gestalten
 -Update System

@@ -12,6 +12,7 @@ Bastian Ruppert
 #include <errno.h>
 
 #include <SDL/SDL_ttf.h>
+#include <SDL/SDL_image.h>
 #include "LL.h"
 #include "Event.h"
 #include "Tools.h"
@@ -31,6 +32,8 @@ Bastian Ruppert
 #include "MenuBar.h"
 #include "ArbeitsDialog.h"
 #include "NewDirectDialog.h"
+#include "Version.h"
+
 #include "ErrorDialog.h"
 
 namespace EuMax01
@@ -236,4 +239,158 @@ namespace EuMax01
   {
     this->Label_Info->setText(Message);
   }
+
+  static void SplashF11(void * src, SDL_Event * evt)
+  {
+    //printf("SplashF11\n");
+    exit(11);
+  }
+
+  static void SplashEnter(void * src, SDL_Event * evt)
+  {
+    SplashScreen* ad = (SplashScreen*)src;
+    //printf("SplashEnter\n");
+    ad->Parent->showCalibrationDialog();
+  }
+
+  static void SplashF12(void * src, SDL_Event * evt)
+  {
+    SplashScreen* ad = (SplashScreen*)src;
+    //printf("SplashF12\n");
+    ad->Parent->showConfirmDialog((char *)"Exit Programm");
+  }
+
+  static void SplashScreenKeyListener(void * src, SDL_Event * evt)
+  {
+    SDL_KeyboardEvent * key = (SDL_KeyboardEvent *)&evt->key;
+
+    if( key->type == SDL_KEYUP )
+      {
+	if(key->keysym.sym == SDLK_F11)
+	  {
+	    SplashF11(src,evt);
+	  }
+	else if(key->keysym.sym == SDLK_RETURN || key->keysym.sym == SDLK_KP_ENTER)
+	  {
+	    SplashEnter(src,evt);
+	  }
+	else if(key->keysym.sym == SDLK_F12)
+	  {
+	    SplashF12(src,evt);
+	  }
+      }
+  }
+
+  SplashScreen::~SplashScreen(){}
+  SplashScreen::SplashScreen(int sdlw,		\
+			     int sdlh,					\
+			     int camw,					\
+			     int camh,					\
+			     int yPos,ArbeitsDialog * parent):Screen()
+  {
+    short M_y;
+    unsigned short MSpace_h;
+    unsigned short MZeile_h;
+    //unsigned short Rezepte_y;
+    //short Rezepte_w;
+    short Zeile1_y,Zeile2_y,Zeile3_y,Zeile4_y,Zeile5_y;
+    short Spalte1_x, Spalte2_x, Spalte3_x;
+
+    short Button_w = 332;
+    short x_space = 8;
+
+    this->Parent = parent;
+    this->pLogo = 0;
+    this->pButtonLogo = 0;
+
+    M_y = sdlh - yPos;
+
+    if(M_y<=84)
+      {
+	MSpace_h = 2;
+	MZeile_h = 18;
+      }
+    else
+      {
+	MSpace_h = 5;
+	MZeile_h = 28;
+      }
+
+    Zeile1_y = yPos + 1*MSpace_h + 0*MZeile_h;
+    Zeile2_y = yPos + 2*MSpace_h + 1*MZeile_h;
+    Zeile3_y = yPos + 3*MSpace_h + 2*MZeile_h;
+    Zeile4_y = yPos + 4*MSpace_h + 3*MZeile_h;
+    Zeile5_y = yPos + 5*MSpace_h + 4*MZeile_h;
+    //Rezepte_w = 108;
+
+    Spalte1_x = sdlw/2 - 506;
+    Spalte2_x = Spalte1_x + 1*Button_w+1*x_space;
+    Spalte3_x = Spalte1_x + 2*Button_w+2*x_space;
+
+    //to get rid of compiler warning:
+    sprintf(this->Versionsnummer,"%s",CAP_VERSION);
+    sprintf(this->Versionsnummer,"%s",FSGPP_VERSION);
+    sprintf(this->Versionsnummer,"%s",CAPTURE_VERSION);
+    sprintf(this->Versionsnummer,\
+	    "PlateExact V%s © 2012 raantec GmbH & C0. KG, Nienkamp 21, 33829 Borgholzhausen", \
+	    CAPCOMPILEDATE);
+
+    Label_Info = new Label(Versionsnummer,\
+			   Spalte1_x,\
+			   Zeile5_y,\
+			   506*2,\
+			   MZeile_h,\
+			   Parent->DialogSet);
+
+
+    this->loadImage((char*)"RaLogo.png");
+    if(0==pLogo)
+      {
+	printf("SplashScreen: error loading Logo\n");
+      }
+    else
+      {
+	pButtonLogo = new Button(" ",					\
+				 (sdlw/2)-(pLogo->w/2),			\
+				 yPos+4,				\
+				 pLogo->w,				\
+				 pLogo->h,				\
+				 Parent->MenuSet);
+	if(0==pButtonLogo)
+	  {
+	    printf("SplashScreen: error creating LogoButton\n");
+	  }
+	else
+	  {
+	    pButtonLogo->setImages(pLogo,pLogo);
+	  }
+      }
+
+    this->pTSource = this;//EvtTarget Quelle setzen
+    this->EvtTargetID=(char*)"SplashScreen";
+    this->setKeyboardUpEvtHandler(SplashScreenKeyListener);
+    this->addEvtTarget(this);//den Screen Key Listener bei sich selber anmelden!
+    this->addEvtTarget(Label_Info);
+    this->addEvtTarget(pButtonLogo);
+  }
+
+  int SplashScreen::loadImage(char * path)
+  {
+    SDL_Surface * tmp = 0;
+    //normal
+    tmp = IMG_Load(path);
+    if(!tmp)
+      {
+	return -1;
+      }
+    this->pLogo = SDL_DisplayFormatAlpha(tmp);
+    if(!this->pLogo)
+      {
+	SDL_FreeSurface(tmp);
+	return -1;
+      }
+    SDL_FreeSurface(tmp);
+    return 0;
+  }
+
 }

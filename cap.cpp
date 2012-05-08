@@ -740,10 +740,12 @@ Rezept theRezept;
   GUI* theGUI;
   char tmp[64];
   bool Com_NON_BLOCK = false;
+  bool guiMode = false;
 
 static void oneSecondTimer(void)
 {
   static bool serialCommClosed = true;
+  static int SplashScreenTimer = 0;
 
   if(serialCommClosed)
     {
@@ -766,6 +768,20 @@ static void oneSecondTimer(void)
 	  theArbeitsDialog->sendProtocolMsg(nPEC_LIGHTON);
 	}
     }
+
+  if(SplashScreenTimer<3)
+    {
+      SplashScreenTimer++;
+    }
+  else if(SplashScreenTimer==3)
+    {
+      SplashScreenTimer++;
+      if(guiMode)
+	{
+	  theArbeitsDialog->showCalibrationDialog();
+	}
+    }
+
 }
 
 int main(int argc, char *argv[])
@@ -776,7 +792,6 @@ int main(int argc, char *argv[])
   int Pixelformat = 0;//0 = normal, 1 = MJPEG, 2 = RGB
   bool rgb_mode = false;
   int ButtonAreaHeight = 0;
-  bool guiMode = false;
 
   char path[64];
   char confpath[96];
