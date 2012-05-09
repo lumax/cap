@@ -196,26 +196,26 @@ namespace EuMax01
       {
       case CalibrationDialog::iQ1:
 	{
-	  prt_sendmsg_uint(nPEC_RESET_Q1,0x00);
-	  prt_sendmsg_uint(nPEC_GET_Q1,0x00);
+	  this->Parent->sendProtocolMsg(nPEC_RESET_Q1);
+	  this->Parent->sendProtocolMsg(nPEC_GET_Q1);
 	  break;
 	}
       case CalibrationDialog::iQ2:
 	{
-	  prt_sendmsg_uint(nPEC_RESET_Q2,0x00);
-	  prt_sendmsg_uint(nPEC_GET_Q2,0x00);
+	  this->Parent->sendProtocolMsg(nPEC_RESET_Q2);
+	  this->Parent->sendProtocolMsg(nPEC_GET_Q2);
 	  break;
 	}
       case CalibrationDialog::iZ1:
 	{
-	  prt_sendmsg_uint(nPEC_RESET_Z1,0x00);
-	  prt_sendmsg_uint(nPEC_GET_Z1,0x00);
+	  this->Parent->sendProtocolMsg(nPEC_RESET_Z1);
+	  this->Parent->sendProtocolMsg(nPEC_GET_Z1);
 	  break;
 	}
       case CalibrationDialog::iZ2:
 	{
-	  prt_sendmsg_uint(nPEC_RESET_Z2,0x00);
-	  prt_sendmsg_uint(nPEC_GET_Z2,0x00);
+	  this->Parent->sendProtocolMsg(nPEC_RESET_Z2);
+	  this->Parent->sendProtocolMsg(nPEC_GET_Z2);
 	  break;
 	}
       }
@@ -263,7 +263,7 @@ namespace EuMax01
 	  this->Label_Step->setText(this->StepText);
 
 	  this->Label_ValueName->setText(Parent->TextCam1Xaxis);
-	  prt_sendmsg_uint(nPEC_GET_Q1,0x00);
+	  this->Parent->sendProtocolMsg(nPEC_GET_Q1);
 	  break;
 	}
       case CalibrationDialog::iQ2:
@@ -276,7 +276,7 @@ namespace EuMax01
 
 
 	  this->Label_ValueName->setText(Parent->TextCam2Xaxis);
-	  prt_sendmsg_uint(nPEC_GET_Q2,0x00);
+	  this->Parent->sendProtocolMsg(nPEC_GET_Q2);
 	  break;
 	}
       case CalibrationDialog::iZ1:
@@ -288,7 +288,7 @@ namespace EuMax01
 	  this->Label_Step->setText(this->StepText);
 
 	  this->Label_ValueName->setText(Parent->TextZaxis);
-	  prt_sendmsg_uint(nPEC_GET_Z1,0x00);
+	  this->Parent->sendProtocolMsg(nPEC_GET_Z1);
 	  break;
 	}
       case CalibrationDialog::iZ2:
@@ -302,7 +302,7 @@ namespace EuMax01
 
 	  snprintf(this->ValueName,16,"Z2");
 	  this->Label_ValueName->setText(this->ValueName);
-	  prt_sendmsg_uint(nPEC_GET_Z2,0x00);
+	  this->Parent->sendProtocolMsg(nPEC_GET_Z2);
 	  break;
 	}
       }

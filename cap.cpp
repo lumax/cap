@@ -760,9 +760,9 @@ static void oneSecondTimer(void)
 	    {
 	      printf("Protocoll enableAuto failed\n");
 	    }
-	  prt_sendmsg_uint(nPEC_SWVERSION,0x00);
-	  prt_sendmsg_uint(nPEC_HWVERSION,0x00);
-	  prt_sendmsg_uint(nPEC_GET_Q1,0x00);//für den CalDialog
+	  theArbeitsDialog->sendProtocolMsg(nPEC_SWVERSION);
+	  theArbeitsDialog->sendProtocolMsg(nPEC_HWVERSION);
+	  theArbeitsDialog->sendProtocolMsg(nPEC_GET_Q1);//für den CalDialog
 	  theArbeitsDialog->sendProtocolMsg(nPEC_SETQMAX1,(int)0x3ff);
 	  theArbeitsDialog->sendProtocolMsg(nPEC_SETQMAX2,(int)0x3ff);
 	  theArbeitsDialog->sendProtocolMsg(nPEC_LIGHTON);
