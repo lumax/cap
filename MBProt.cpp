@@ -148,6 +148,8 @@ namespace EuMax01
       {
 	if(MBProtocol::disableAuto())
 	  perror("MBProtocoll::disableAuto failed on_exit\n");
+	prt_sendmsg_int(nPEC_LIGHTOFF,0x0000);
+	usleep(500000);
       }
       
     if(MBProt_class!=0)
