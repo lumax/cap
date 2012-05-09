@@ -28,6 +28,8 @@
 #endif
 #include "Version.h"
 #include "v4l_capture.h"
+#include <linux/videodev.h>
+#include "V4L2_utils.h"
 #include "iniParser.h"
 
 //#include "dsp_color.h"
@@ -619,6 +621,10 @@ void CamControl::pollTimerExpired(long us)
 	      printf("enable50HzFilter failed\n");
 	    }
 	  cap_cam_setOverlayBottomSide(this->yBottomSide);
+	  if(setV4L2_Value(camfd,V4L2_CID_BACKLIGHT_COMPENSATION,2))
+	    {
+	      printf("set V4L2_CID_BACKLIGHT_COMPENSATION 2 failed for cam0\n");
+	    }
 	}
     }
 
@@ -654,6 +660,10 @@ void CamControl::pollTimerExpired(long us)
 	      printf("enable50HzFilter failed\n");
 	    }
 	  cap_cam_setOverlayBottomSide(this->yBottomSide);
+	  if(setV4L2_Value(camfd,V4L2_CID_BACKLIGHT_COMPENSATION,2))
+	    {
+	      printf("set V4L2_CID_BACKLIGHT_COMPENSATION 2 failed for cam1\n");
+	    }
 	}
     }
   if(again)
