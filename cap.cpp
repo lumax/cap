@@ -1005,8 +1005,8 @@ int main(int argc, char *argv[])
 
   theProtocol = MBProtocol();
 
-
-  ButtonAreaHeight = props.height - 168;
+  //ButtonAreaHeight = props.height - 168;
+  ButtonAreaHeight = camheight;
   camCtrl = new CamControl(theGUI,Pixelformat,rgb_mode,ButtonAreaHeight);
 
   theArbeitsDialog = new ArbeitsDialog(theGUI,			\
