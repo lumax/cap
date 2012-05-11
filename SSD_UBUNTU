@@ -114,7 +114,8 @@ sudo nano /etc/init/tty1.conf
 
 exec /sbin/rungetty --autologin BENUTZERNAME tty1
 
-in .bashrc:
+in .bashrc: ganz unten:
+cd /opt
 startx
 
 ##edit ~/.xinitrc
