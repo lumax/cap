@@ -779,14 +779,15 @@ static void oneSecondTimer(void)
 	}
     }
 
-  if(SplashScreenTimer<3)
+  if(SplashScreenTimer<5)
     {
       SplashScreenTimer++;
     }
-  else if(SplashScreenTimer==3)
+  else if(SplashScreenTimer==5)
     {
       SplashScreenTimer++;
-      if(guiMode)
+      if(guiMode &&							\
+	 theArbeitsDialog->theActiveDialogNumber()==ArbeitsDialog::SplashScreenIsActive)
 	{
 	  theArbeitsDialog->showCalibrationDialog();
 	}

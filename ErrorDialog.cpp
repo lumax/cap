@@ -278,6 +278,10 @@ namespace EuMax01
 	  {
 	    SplashF12(src,evt);
 	  }
+	else if(key->keysym.sym == SDLK_ESCAPE)
+	  {
+	    SplashEnter(src,evt);
+	  }
       }
   }
 

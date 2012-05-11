@@ -504,6 +504,11 @@ namespace EuMax01
     this->theGUI->activateScreen(theCalDialog);
   }
 
+  int ArbeitsDialog::theActiveDialogNumber()
+  {
+    return this->iActiveDialog;
+  }
+
   void ArbeitsDialog::blankMenuArea()
   {
     Tool::blankSurface(this->theGUI->getMainSurface(),	\

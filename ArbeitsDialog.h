@@ -96,6 +96,18 @@ namespace EuMax01
     void showCalibrationDialog();
     void showInfoDialog();
 
+    static const int ArbeitsDialogIsActive = 0;
+    static const int LoadDialogIsActive = 1;
+    static const int ErrorDialogIsActive = 2;
+    static const int NewDialogIsActive = 3;
+    static const int CalDialogIsActive = 4;
+    static const int NoGUIModeIsActive = 5;
+    static const int ConfirmDialogIsActive = 6;
+    static const int InfoDialogIsActive = 7;
+    static const int SplashScreenIsActive = 8;
+
+    int theActiveDialogNumber();
+
 
     /*! gibt ein "frisches Rezept zurück
      *
@@ -138,18 +150,6 @@ namespace EuMax01
     int Cam2Dif_Cross;
 
     int iActiveDialog;
-
-
-    
-    static const int ArbeitsDialogIsActive = 0;
-    static const int LoadDialogIsActive = 1;
-    static const int ErrorDialogIsActive = 2;
-    static const int NewDialogIsActive = 3;
-    static const int CalDialogIsActive = 4;
-    static const int NoGUIModeIsActive = 5;
-    static const int ConfirmDialogIsActive = 6;
-    static const int InfoDialogIsActive = 7;
-    static const int SplashScreenIsActive = 8;
 
     LoadDialog * theLoadDialog;
     ErrorDialog * theErrorDialog;
