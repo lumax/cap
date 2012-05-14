@@ -1,6 +1,7 @@
 //#include <iostream>
 #include <stdio.h>
 #include <termios.h>
+#include <unistd.h>
 //#include <iostream>
 //#include <stdlib.h>
 #include <SDL/SDL.h>
@@ -766,6 +767,11 @@ static void oneSecondTimer(void)
       else
 	{
 	  serialCommClosed = false;
+
+	  theArbeitsDialog->sendProtocolMsg(nPEC_SETQMAX1,MBProtocol::QMAX);
+	  theArbeitsDialog->sendProtocolMsg(nPEC_SETQMAX2,MBProtocol::QMAX);
+	  theArbeitsDialog->sendProtocolMsg(nPEC_SET_FP1,theProtocol.getLastPositionFP1());
+	  theArbeitsDialog->sendProtocolMsg(nPEC_SET_FP2,theProtocol.getLastPositionFP2());
 	  if(theProtocol.enableAuto())
 	    {
 	      printf("Protocoll enableAuto failed\n");
@@ -773,12 +779,7 @@ static void oneSecondTimer(void)
 	  theArbeitsDialog->sendProtocolMsg(nPEC_SWVERSION);
 	  theArbeitsDialog->sendProtocolMsg(nPEC_HWVERSION);
 	  theArbeitsDialog->sendProtocolMsg(nPEC_GET_Q1);//für den CalDialog
-	  theArbeitsDialog->sendProtocolMsg(nPEC_SETQMAX1,MBProtocol::QMAX);
-	  theArbeitsDialog->sendProtocolMsg(nPEC_SETQMAX2,MBProtocol::QMAX);
 	  theArbeitsDialog->sendProtocolMsg(nPEC_LIGHTON);
-	  theProtocol.getLastPositionsFromFile();
-	  theArbeitsDialog->sendProtocolMsg(nPEC_SET_FP1,theProtocol.getLastPositionFP1());
-	  theArbeitsDialog->sendProtocolMsg(nPEC_SET_FP2,theProtocol.getLastPositionFP2());
 	}
     }
 

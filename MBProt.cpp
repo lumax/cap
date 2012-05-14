@@ -43,6 +43,7 @@ namespace EuMax01
     fd = 0;
     lis = 0;
     isInit = false;
+    getLastPositionsFromFile();
   }
 
   static void MBProt_putchar(unsigned char dat)
@@ -151,12 +152,12 @@ namespace EuMax01
   {
     if(MBProt_fd!=0)
       {
+	if(MBProt_class!=0)
+	  MBProt_class->saveLastPositionsToFile();
+
 	if(MBProtocol::disableAuto())
 	  perror("MBProtocoll::disableAuto failed on_exit\n");
 	prt_sendmsg_int(nPEC_LIGHTOFF,0x0000);
-
-	if(MBProt_class!=0)
-	  MBProt_class->saveLastPositionsToFile();
 
 	usleep(500000);
       }
@@ -301,7 +302,7 @@ namespace EuMax01
       {
 	printf("error opening %s, using standard FP2\n",FP2_PATH);
 	this->lastPositionFP2 = MBProtocol::QMAX/2;
-      }    
+      }
   }
 
   void MBProtocol::saveLastPositionsToFile()
