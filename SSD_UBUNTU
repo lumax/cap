@@ -101,10 +101,9 @@ LABEL="media_by_label_auto_mount_end"
 ###End media by label
 
 
-
-
-
-
+##change default language:
+##evtl. sudo dpkg-reconfigure locales ausführen
+sudo nano /etc/default/locale #und dann en_GB.UTF-8 eintragen
 
 Fehlerbeseitigungsversuche:
 sudo apt-get remove slim
