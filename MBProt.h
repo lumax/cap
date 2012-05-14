@@ -28,8 +28,17 @@ namespace EuMax01
     int getQ1();
     int enableAuto();
     static int disableAuto();
+    static const int QMAX = (int)0x3ff;
     bool isInitialised();
+    void getLastPositionsFromFile();
+    void saveLastPositionsToFile();
+    int getLastPositionFP1();
+    int getLastPositionFP2();
+    void setLastPositionFP1(unsigned short dat);
+    void setLastPositionFP2(unsigned short dat);
   private:
+    int lastPositionFP1;
+    int lastPositionFP2;
     bool isInit;
     struct termios termOptions;
     int fd;

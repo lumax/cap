@@ -35,6 +35,9 @@ namespace EuMax01
   static int MBProt_fd = 0;
   static MBProtocol * MBProt_class = 0;
 
+  static const char * FP1_PATH = "/opt/capmb/FP1_last_position";
+  static const char * FP2_PATH = "/opt/capmb/FP2_last_position";
+
   MBProtocol::MBProtocol()
   {
     fd = 0;
@@ -98,7 +101,8 @@ namespace EuMax01
       case nPEC_GET_FP1:
 	{
 	  datum = getProtocol_UI16();
-	  //printf("dispatcher: id :%x %i\n",ucDat,datum);
+	  //printf("dispatcherFP1: id :%x %i\n",ucDat,datum);
+	  MBProt_class->setLastPositionFP1(datum);
 	  if(MBProt_class->lis)
 	    MBProt_class->lis->FP1_evt(datum);
 	  break;
@@ -106,6 +110,7 @@ namespace EuMax01
       case nPEC_GET_FP2:
 	{
 	  datum = getProtocol_UI16();
+	  MBProt_class->setLastPositionFP2(datum);
 	  if(MBProt_class->lis)
 	    MBProt_class->lis->FP2_evt(datum);
 	  break;
@@ -149,6 +154,10 @@ namespace EuMax01
 	if(MBProtocol::disableAuto())
 	  perror("MBProtocoll::disableAuto failed on_exit\n");
 	prt_sendmsg_int(nPEC_LIGHTOFF,0x0000);
+
+	if(MBProt_class!=0)
+	  MBProt_class->saveLastPositionsToFile();
+
 	usleep(500000);
       }
       
@@ -248,6 +257,121 @@ namespace EuMax01
   void MBProtocol::pollTimerExpired(long us)
   {
     prt_timer();
+  }
+
+  void MBProtocol::getLastPositionsFromFile()
+  {
+    int fd = 0;
+    char buf[128];
+    fd = open(FP1_PATH,O_RDONLY);
+    if(-1!=fd)
+      {
+	if(read(fd,buf,128)!=-1)
+	  {
+	    this->lastPositionFP1 =  atoi(buf);
+	  }
+	else
+	  {
+	    printf("error reading %s\n",FP1_PATH);
+	    this->lastPositionFP1 = MBProtocol::QMAX/2;
+	  }
+	close(fd);
+      }
+    else
+      {
+	printf("error opening %s, using standard FP1\n",FP1_PATH);
+	this->lastPositionFP1 = MBProtocol::QMAX/2;
+      }
+
+    fd = open(FP2_PATH,O_RDONLY);
+    if(-1!=fd)
+      {
+	if(read(fd,buf,128)!=-1)
+	  {
+	    this->lastPositionFP2 =  atoi(buf);
+	  }
+	else
+	  {
+	    printf("error reading %s\n",FP2_PATH);
+	    this->lastPositionFP2 = MBProtocol::QMAX/2;
+	  }
+	close(fd);
+      }
+    else
+      {
+	printf("error opening %s, using standard FP2\n",FP2_PATH);
+	this->lastPositionFP2 = MBProtocol::QMAX/2;
+      }    
+  }
+
+  void MBProtocol::saveLastPositionsToFile()
+  {
+    FILE * fd = 0;
+    char buf[128];
+    int ret = 0;
+    fd = fopen(FP1_PATH,"w");
+    if(0!=fd)
+      {
+	ret = snprintf(buf,128,"%i",this->lastPositionFP1);
+	if(ret>0)
+	  {
+	    if(fputs(buf,fd)<=-1)
+	      {
+		printf("error writing %s\n",FP1_PATH);
+	      }
+	  }
+	else
+	  {
+	    printf("error creating Buffer for writing %s\n",FP1_PATH);
+	  }
+	fclose(fd);
+      }
+    else
+      {
+	printf("error opening %s, for writing\n",FP1_PATH);
+      }
+
+    fd = fopen(FP2_PATH,"w");
+    if(0!=fd)
+      {
+	ret = snprintf(buf,128,"%i",this->lastPositionFP2);
+	if(ret>0)
+	  {
+	    if(fputs(buf,fd)<=-1)
+	      {
+		printf("error writing %s\n",FP2_PATH);
+	      }
+	  }
+	else
+	  {
+	    printf("error creating Buffer for writing %s\n",FP2_PATH);
+	  }
+	fclose(fd);
+      }
+    else
+      {
+	printf("error opening %s, for writing\n",FP2_PATH);
+      }
+  }
+
+  int MBProtocol::getLastPositionFP1()
+  {
+    return lastPositionFP1;
+  }
+
+  int MBProtocol::getLastPositionFP2()
+  {
+    return lastPositionFP2;
+  }
+
+  void MBProtocol::setLastPositionFP1(unsigned short dat)
+  {
+    lastPositionFP1 = dat;
+  }
+
+  void MBProtocol::setLastPositionFP2(unsigned short dat)
+  {
+    lastPositionFP2 = dat;
   }
 
   int MBProtocol::getQ1()

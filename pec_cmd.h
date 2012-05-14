@@ -19,6 +19,9 @@
 
 #define nPEC_GET_FP1	0x40	// Position F1 abfragen int16 0-0x3FF
 #define nPEC_GET_FP2	0x41	// Position F2 abfragen int16 0-0x3FF
+#define nPEC_SET_FP1    0x42    // Position F1 setzen von 0 bis QMAX
+#define nPEC_SET_FP2    0x43    // Position F2 setzen von 0 bis QMAXdf
+
 
 #define nPEC_RESET 		0x50	// System Reset
 #define nPEC_SWVERSION	0x51	// Softwareversion int16
