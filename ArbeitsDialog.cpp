@@ -229,7 +229,7 @@ namespace EuMax01
       }
 
     if(CamW_Sichtbar!=0)
-      CamPosConvertStep = 0x3ff/(double)CamW_Sichtbar;
+      CamPosConvertStep = 1.0;//0x3ff/(double)CamW_Sichtbar;
 
     MitteCrossCam1=(camw*2-sdlw)/2 + sdlw/4;//544
 
@@ -390,6 +390,11 @@ namespace EuMax01
 	this->addEvtTarget(this);
 	this->showSplashScreen();
       }
+  }
+
+  unsigned short ArbeitsDialog::getCamW_Sichtbar()
+  {
+    return CamW_Sichtbar;
   }
 
   void ArbeitsDialog::showLoadDialog(unsigned int page,bool loadMode)
@@ -796,13 +801,13 @@ namespace EuMax01
   {
     convertCamPos(0,dat);
     theNewDialog->getCam1CrossX();//hier werden die cross Daten zum abspeichern geholt
-    //printf("ArbeitsDialog getFP1:%i\n",dat);
+    printf("ArbeitsDialog getFP1:%i\n",dat);
   }
   void ArbeitsDialog::FP2_evt(unsigned short dat)
   {
     convertCamPos(2,dat);
     theNewDialog->getCam2CrossX();//hier werden die cross Daten zum abspeichern geholt
-    //printf("ArbeitsDialog getFB2:%i\n",dat);
+    printf("ArbeitsDialog getFB2:%i\n",dat);
   }
   void ArbeitsDialog::SWVersion_evt(unsigned short dat)
   {

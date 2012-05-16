@@ -28,7 +28,6 @@ namespace EuMax01
     int getQ1();
     int enableAuto();
     static int disableAuto();
-    static const int QMAX = (int)0x3ff;
     bool isInitialised();
     void getLastPositionsFromFile();
     void saveLastPositionsToFile();

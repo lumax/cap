@@ -586,11 +586,22 @@ void CamControl::pollReadEvent(PollSource * s)
     }
 }
 
+
+ArbeitsDialog * theArbeitsDialog;
+MBProtocol theProtocol;
+Rezept theRezept;
+
+GUI* theGUI;
+char tmp[64];
+bool Com_NON_BLOCK = false;
+bool guiMode = false;
+static bool serialCommClosed = true;
+
 void CamControl::pollTimerExpired(long us)
 {
   bool again = false;
   int camfd = 0;
-  if(!this->cam0ready)
+  if(!this->cam0ready&&!serialCommClosed)
     {
       if(this->PixelFormat)
 	{
@@ -626,10 +637,11 @@ void CamControl::pollTimerExpired(long us)
 	    {
 	      printf("set V4L2_CID_BACKLIGHT_COMPENSATION 2 failed for cam0\n");
 	    }
+	  theArbeitsDialog->FP1_evt((unsigned short)theProtocol.getLastPositionFP1());
 	}
     }
 
-  if(!this->cam1ready)
+  if(!this->cam1ready&&!serialCommClosed)
     {
       if(this->PixelFormat)
 	{
@@ -665,6 +677,7 @@ void CamControl::pollTimerExpired(long us)
 	    {
 	      printf("set V4L2_CID_BACKLIGHT_COMPENSATION 2 failed for cam1\n");
 	    }
+	  theArbeitsDialog->FP2_evt((unsigned short)theProtocol.getLastPositionFP2());
 	}
     }
   if(again)
@@ -744,18 +757,8 @@ static void onExit(int i,void* pv)
   printf("Programm Version: %s\n",CAPCOMPILEDATE);
 }
 
-ArbeitsDialog * theArbeitsDialog;
-MBProtocol theProtocol;
-Rezept theRezept;
-
-  GUI* theGUI;
-  char tmp[64];
-  bool Com_NON_BLOCK = false;
-  bool guiMode = false;
-
 static void oneSecondTimer(void)
 {
-  static bool serialCommClosed = true;
   static int SplashScreenTimer = 0;
 
   if(serialCommClosed)
@@ -768,8 +771,10 @@ static void oneSecondTimer(void)
 	{
 	  serialCommClosed = false;
 
-	  theArbeitsDialog->sendProtocolMsg(nPEC_SETQMAX1,MBProtocol::QMAX);
-	  theArbeitsDialog->sendProtocolMsg(nPEC_SETQMAX2,MBProtocol::QMAX);
+	  theArbeitsDialog->sendProtocolMsg(nPEC_SETQMAX1,		\
+					    theArbeitsDialog->getCamW_Sichtbar());
+	  theArbeitsDialog->sendProtocolMsg(nPEC_SETQMAX2,		\
+					    theArbeitsDialog->getCamW_Sichtbar());
 	  theArbeitsDialog->sendProtocolMsg(nPEC_SET_FP1,theProtocol.getLastPositionFP1());
 	  theArbeitsDialog->sendProtocolMsg(nPEC_SET_FP2,theProtocol.getLastPositionFP2());
 	  if(theProtocol.enableAuto())

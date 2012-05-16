@@ -123,6 +123,8 @@ namespace EuMax01
     void blankMenuArea();
     void blankButton(Button * b);
 
+    unsigned short getCamW_Sichtbar();
+
   private:
     int CamW_Sichtbar;
     int CamW_Unsichtbar;

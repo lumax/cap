@@ -274,14 +274,14 @@ namespace EuMax01
 	else
 	  {
 	    printf("error reading %s\n",FP1_PATH);
-	    this->lastPositionFP1 = MBProtocol::QMAX/2;
+	    this->lastPositionFP1 = 2;
 	  }
 	close(fd);
       }
     else
       {
 	printf("error opening %s, using standard FP1\n",FP1_PATH);
-	this->lastPositionFP1 = MBProtocol::QMAX/2;
+	this->lastPositionFP1 = 2;
       }
 
     fd = open(FP2_PATH,O_RDONLY);
@@ -294,14 +294,14 @@ namespace EuMax01
 	else
 	  {
 	    printf("error reading %s\n",FP2_PATH);
-	    this->lastPositionFP2 = MBProtocol::QMAX/2;
+	    this->lastPositionFP2 = 2;
 	  }
 	close(fd);
       }
     else
       {
 	printf("error opening %s, using standard FP2\n",FP2_PATH);
-	this->lastPositionFP2 = MBProtocol::QMAX/2;
+	this->lastPositionFP2 = 2;
       }
   }
 
