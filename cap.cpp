@@ -596,12 +596,13 @@ char tmp[64];
 bool Com_NON_BLOCK = false;
 bool guiMode = false;
 static bool serialCommClosed = true;
+static bool IGNORE_MISSING_TERMINAL = false;
 
 void CamControl::pollTimerExpired(long us)
 {
   bool again = false;
   int camfd = 0;
-  if(!this->cam0ready&&!serialCommClosed)
+  if(!this->cam0ready&&(!serialCommClosed||IGNORE_MISSING_TERMINAL))
     {
       if(this->PixelFormat)
 	{
@@ -641,7 +642,7 @@ void CamControl::pollTimerExpired(long us)
 	}
     }
 
-  if(!this->cam1ready&&!serialCommClosed)
+  if(!this->cam1ready&&(!serialCommClosed||IGNORE_MISSING_TERMINAL))
     {
       if(this->PixelFormat)
 	{
@@ -927,6 +928,10 @@ int main(int argc, char *argv[])
    if(!iniParser_getParam(confpath,(char*)"Com_NON_BLOCK",tmp,64))
     {
       Com_NON_BLOCK = true;
+    }
+   if(!iniParser_getParam(confpath,(char*)"IGNORE_MISSING_TERMINAL",tmp,64))
+    {
+      IGNORE_MISSING_TERMINAL = true;
     }
    if(!iniParser_getParam(confpath,(char*)"HIDE_MOUSE_CURSOR",tmp,64))
     {
