@@ -124,11 +124,11 @@ namespace EuMax01
     void blankButton(Button * b);
 
     unsigned short getCamW_Sichtbar();
+    bool useTheGUI();
 
   private:
     int CamW_Sichtbar;
     int CamW_Unsichtbar;
-    double CamPosConvertStep;
 
     Rezept * pNullRezept;
     EvtTarget ArbeitsDialogEvtTargets;

@@ -346,6 +346,19 @@ namespace EuMax01
 			   MZeile_h,\
 			   Parent->DialogSet);
 
+    Label_CrossPosLeft = new Label("---",\
+			   Spalte1_x,\
+			   yPos+4,\
+			   80,\
+			   MZeile_h,\
+			   Parent->DialogSet);
+
+    Label_CrossPosRight = new Label("---",\
+			   Spalte1_x+1012-80,\
+			   yPos+4,\
+			   80,\
+			   MZeile_h,\
+			   Parent->DialogSet);
 
     this->loadImage((char*)"RaLogo.png");
     if(0==pLogo)
@@ -376,6 +389,12 @@ namespace EuMax01
     this->addEvtTarget(this);//den Screen Key Listener bei sich selber anmelden!
     this->addEvtTarget(Label_Info);
     this->addEvtTarget(pButtonLogo);
+    if(!this->Parent->useTheGUI())
+      {
+	this->addEvtTarget(Label_CrossPosLeft);
+	this->addEvtTarget(Label_CrossPosRight);
+      }
+    
   }
 
   int SplashScreen::loadImage(char * path)
@@ -397,4 +416,20 @@ namespace EuMax01
     return 0;
   }
 
+  void SplashScreen::showCrossPosition(int cam,int wert)
+  {
+    if(!this->Parent->useTheGUI())
+      {
+	if(0==cam)
+	  {
+	    snprintf(this->pcCrossPosLeft,128,"%i",wert);
+	    Label_CrossPosLeft->setText(this->pcCrossPosLeft);
+	  }
+	else
+	  {
+	    snprintf(this->pcCrossPosRight,128,"%i",wert);
+	    Label_CrossPosRight->setText(this->pcCrossPosRight);
+	  }
+      }
+  }
 }

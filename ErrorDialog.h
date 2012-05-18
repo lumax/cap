@@ -43,8 +43,13 @@ namespace EuMax01
 		ArbeitsDialog * parent);
     ~SplashScreen();
     ArbeitsDialog * Parent;
+    void showCrossPosition(int cam,int wert);
   private:
     Label * Label_Info;
+    Label * Label_CrossPosLeft;
+    Label * Label_CrossPosRight;
+    char pcCrossPosLeft[128];
+    char pcCrossPosRight[128];
     Button * pButtonLogo;
     SDL_Surface * pLogo;
     int loadImage(char * path);
