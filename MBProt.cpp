@@ -43,7 +43,8 @@ namespace EuMax01
     fd = 0;
     lis = 0;
     isInit = false;
-    getLastPositionsFromFile();
+    lastPositionFP1 = 0;
+    lastPositionFP2 = 0;
   }
 
   static void MBProt_putchar(unsigned char dat)
@@ -260,10 +261,18 @@ namespace EuMax01
     prt_timer();
   }
 
-  void MBProtocol::getLastPositionsFromFile()
+  void MBProtocol::getLastPositionsFromFile(int sdlw,int camw)
   {
     int fd = 0;
     char buf[128];
+    //MitteCrossCamX nach ArbeitsDialog berechnet
+    int MitteCrossCam=0;
+
+    if(sdlw/2<camw)
+      MitteCrossCam=sdlw/4;
+    else//sdlw/2>camw
+      MitteCrossCam=sdlw/4;
+
     fd = open(FP1_PATH,O_RDONLY);
     if(-1!=fd)
       {
@@ -274,14 +283,14 @@ namespace EuMax01
 	else
 	  {
 	    printf("error reading %s\n",FP1_PATH);
-	    this->lastPositionFP1 = 2;
+	    this->lastPositionFP1 = MitteCrossCam;
 	  }
 	close(fd);
       }
     else
       {
 	printf("error opening %s, using standard FP1\n",FP1_PATH);
-	this->lastPositionFP1 = 2;
+	this->lastPositionFP1 = MitteCrossCam;
       }
 
     fd = open(FP2_PATH,O_RDONLY);
@@ -294,14 +303,14 @@ namespace EuMax01
 	else
 	  {
 	    printf("error reading %s\n",FP2_PATH);
-	    this->lastPositionFP2 = 2;
+	    this->lastPositionFP2 = MitteCrossCam;
 	  }
 	close(fd);
       }
     else
       {
 	printf("error opening %s, using standard FP2\n",FP2_PATH);
-	this->lastPositionFP2 = 2;
+	this->lastPositionFP2 = MitteCrossCam;
       }
   }
 

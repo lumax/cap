@@ -1019,6 +1019,7 @@ int main(int argc, char *argv[])
       }*/
 
   theProtocol = MBProtocol();
+  theProtocol.getLastPositionsFromFile(props.width,camwidth);
 
   //ButtonAreaHeight = props.height - 168;
   ButtonAreaHeight = camheight;

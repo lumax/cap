@@ -29,7 +29,7 @@ namespace EuMax01
     int enableAuto();
     static int disableAuto();
     bool isInitialised();
-    void getLastPositionsFromFile();
+    void getLastPositionsFromFile(int sdlw,int camw);
     void saveLastPositionsToFile();
     int getLastPositionFP1();
     int getLastPositionFP2();
