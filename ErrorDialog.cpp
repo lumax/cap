@@ -336,7 +336,7 @@ namespace EuMax01
     sprintf(this->Versionsnummer,"%s",FSGPP_VERSION);
     sprintf(this->Versionsnummer,"%s",CAPTURE_VERSION);
     sprintf(this->Versionsnummer,\
-	    "PlateExact V%s © 2012 raantec GmbH & C0. KG, Nienkamp 21, 33829 Borgholzhausen", \
+	    "PlateExakt V%s © 2012 raantec GmbH & C0. KG, Nienkamp 21, 33829 Borgholzhausen", \
 	    CAPCOMPILEDATE);
 
     Label_Info = new Label(Versionsnummer,\
