@@ -48,11 +48,11 @@ public:
   virtual void pollTimerExpired(long us);
   unsigned char *framebuffer0;
   unsigned char *framebuffer1;
+  bool cam0ready;
+  bool cam1ready;
 private:
   int yBottomSide;
   bool RGB_Mode;
-  bool cam0ready;
-  bool cam1ready;
   PollTimer * pPollTimer;
   PollReader * pPollReaderCam0;
   PollReader * pPollReaderCam1;
@@ -752,6 +752,17 @@ const char * usage =				\
 
 static void onExit(int i,void* pv)
 {
+  int fd;
+  if(camCtrl->cam0ready)
+    {
+      fd=cap_cam_getFd(0);
+      close(fd);
+    }
+  if(camCtrl->cam1ready)
+    {
+      fd=cap_cam_getFd(1);
+      close(fd);
+    }
   printf("Version_A: %s\n",CAP_VERSION);
   printf("Version_B: %s\n",FSGPP_VERSION);
   printf("Version_C: %s\n",CAPTURE_VERSION);
