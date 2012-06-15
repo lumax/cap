@@ -772,6 +772,7 @@ static void onExit(int i,void* pv)
 static void oneSecondTimer(void)
 {
   static int SplashScreenTimer = 0;
+  static bool LightOnCmdNotSended = true;
 
   if(serialCommClosed)
     {
@@ -796,6 +797,13 @@ static void oneSecondTimer(void)
 	  theArbeitsDialog->sendProtocolMsg(nPEC_SWVERSION);
 	  theArbeitsDialog->sendProtocolMsg(nPEC_HWVERSION);
 	  theArbeitsDialog->sendProtocolMsg(nPEC_GET_Q1);//für den CalDialog
+	}
+    }
+  else
+    {
+      if(LightOnCmdNotSended && camCtrl->cam0ready && camCtrl->cam1ready))
+	{
+	  LightOnCmdNotSended = false;
 	  theArbeitsDialog->sendProtocolMsg(nPEC_LIGHTON);
 	}
     }
