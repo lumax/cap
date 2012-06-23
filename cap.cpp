@@ -597,12 +597,13 @@ bool Com_NON_BLOCK = false;
 bool guiMode = false;
 static bool serialCommClosed = true;
 static bool IGNORE_MISSING_TERMINAL = false;
+static bool lightIsOn = false;
 
 void CamControl::pollTimerExpired(long us)
 {
   bool again = false;
   int camfd = 0;
-  if(!this->cam0ready&&(!serialCommClosed||IGNORE_MISSING_TERMINAL))
+  if(!this->cam0ready&&(lightIsOn||IGNORE_MISSING_TERMINAL))
     {
       if(this->PixelFormat)
 	{
@@ -642,7 +643,7 @@ void CamControl::pollTimerExpired(long us)
 	}
     }
 
-  if(!this->cam1ready&&(!serialCommClosed||IGNORE_MISSING_TERMINAL))
+  if(!this->cam1ready&&(lightIsOn||IGNORE_MISSING_TERMINAL))
     {
       if(this->PixelFormat)
 	{
@@ -772,7 +773,7 @@ static void onExit(int i,void* pv)
 static void oneSecondTimer(void)
 {
   static int SplashScreenTimer = 0;
-  static bool LightOnCmdNotSended = true;
+  static int LightIsOnCounter = 0;
 
   if(serialCommClosed)
     {
@@ -797,14 +798,18 @@ static void oneSecondTimer(void)
 	  theArbeitsDialog->sendProtocolMsg(nPEC_SWVERSION);
 	  theArbeitsDialog->sendProtocolMsg(nPEC_HWVERSION);
 	  theArbeitsDialog->sendProtocolMsg(nPEC_GET_Q1);//für den CalDialog
+	  theArbeitsDialog->sendProtocolMsg(nPEC_LIGHTON);
 	}
     }
   else
     {
-      if(LightOnCmdNotSended && camCtrl->cam0ready && camCtrl->cam1ready))
+      if(!lightIsOn)
 	{
-	  LightOnCmdNotSended = false;
-	  theArbeitsDialog->sendProtocolMsg(nPEC_LIGHTON);
+	  LightIsOnCounter++;
+	  if(LightIsOnCounter>=2)
+	    {
+	      lightIsOn = true;
+	    }
 	}
     }
 
