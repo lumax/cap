@@ -251,9 +251,9 @@ static void processImages(struct v4l_capture* cap,const void * p,int method,size
 {
 int r = x;      // round to nearest
 
-        if (r < 0)         return 0;
-        else if (r > 255)  return 255;
-        else               return r;
+	if (r < 0)         return 0;
+	else if (r > 255)  return 255;
+	else               return r;
 }
 
 static void inverseConversion()
@@ -499,7 +499,7 @@ static void processRGBImages(struct v4l_capture* cap,const void * p,int method,s
 	  if(SDL_BlitSurface(pSf1,0,cap->mainSurface,&destrect))
 	    printf("Blitting failed in processRGBImages\n");
 	  if(SDL_Flip(cap->mainSurface))
-	    printf("Flipping failed in processRGBImages\n");	  
+	    printf("Flipping failed in processRGBImages\n");
 	}
       else
 	{
@@ -854,14 +854,14 @@ int main(int argc, char *argv[])
     {
       perror("can`t create config file path\n");
     }
-  
+
   fp = fopen(confpath,"r");
   if(fp)
     {
       // exists
       fclose(fp);
-    } 
-  else 
+    }
+  else
     {
       // doesnt exist
       printf("\n");
@@ -917,7 +917,7 @@ int main(int argc, char *argv[])
       saveFilePath[2] ='t';
       saveFilePath[3] ='a';
       saveFilePath[4] ='\0';
-      printf("reading saveFilePath failed, using default path %s\n",saveFilePath); 
+      printf("reading saveFilePath failed, using default path %s\n",saveFilePath);
     }
   if(!iniParser_getParam(confpath,(char*)"pixelformat",tmp,64))
     {
@@ -930,7 +930,7 @@ int main(int argc, char *argv[])
 	{
 	  Pixelformat = 0;
 	  printf("pixelformat = NORMAL\n");
-	}	  
+	}
     }
   if(!iniParser_getParam(confpath,(char*)"rgb_mode",tmp,64))
     {
@@ -961,11 +961,11 @@ int main(int argc, char *argv[])
     {
       HideMouseCursor=true;
     }
-  //das Muss der letzte Paramter sein der mit tmp geholt wird, da tmp 
+  //das Muss der letzte Paramter sein der mit tmp geholt wird, da tmp
   //später noch ausgewertet wird!
   if(iniParser_getParam(confpath,(char*)"usbDevice",tmp,64))
     {//"/dev/ttyACM0" ist Standart
-      tmp[0]='/'; 
+      tmp[0]='/';
       tmp[1]='d';
       tmp[2]='e';
       tmp[3]='v';
@@ -1025,22 +1025,17 @@ int main(int argc, char *argv[])
     printf("GUI::getInstance failed\n");
     return -1;
   }
+
+  /* GUI::getInstance verändert props.height und props.width im FullScreenMode.
+   * In der GUI-Klasse heißt das UseCurWandH.
+   * Diese mögliche Änderung wird nun für CamControl gesichert.*/
+  sdlheight = props.height;
+  sdlwidth = props.width;
+
   if(HideMouseCursor)
     {
       SDL_ShowCursor(SDL_DISABLE);
     }
-  /*  showVideoMode();
-  int suggestedbbp = SDL_VideoModeOK(props.width, props.height, props.bpp,props.flags);
-  if(suggestedbbp)
-    {
-      printf("SDL_VideoModeOK says: OK!, bbp=%i\n",suggestedbbp);
-    }
-  else
-    {
-      printf("SDL_VideoModeOK says: Mode not available.\n");
-      printf("Couldn't initialize SDL: %s\n", SDL_GetError());
-      exit(-1);
-      }*/
 
   theProtocol = MBProtocol();
   theProtocol.getLastPositionsFromFile(props.width,camwidth);
