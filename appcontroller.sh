@@ -12,9 +12,9 @@ UPD_FILE_LEN=25
 UPD_DIR_LEN=18
 COMPONENTS="cap cap.conf v4l_capture.o appcontroller.sh"
 UPD_FILE="" #/media/SWAP/111016114939_capmb.tar.gz"
-UPD_DISK="/media/"
+UPD_DISK="/media/SERVICE_USB_STICK/"
 UPD_DIR_NAME=""
-UPDATE_STEPS="stage_search_stick stage_search_updatefile stage_check_updatefile stage_check_current_version stage_copy_update"
+UPDATE_STEPS="stage_search_updatefile stage_check_updatefile stage_check_current_version stage_copy_update"
 PROGRAMS_ROOT=""
 
 

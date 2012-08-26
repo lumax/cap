@@ -1,0 +1,24 @@
+#BUS=="usb", KERNEL=="sd?1", SUBSYSTEMS=="usb", DRIVERS=="usb-storage", NAME="%k", SYMLINK+="myAmazingStick"
+
+BUS=="usb", KERNEL=="sd?1", SUBSYSTEMS=="usb", DRIVERS=="usb-storage", ENV{service_usb_stick_mount}="YES", ENV{dir_name}="SERVICE_USB_STICK"
+# , GROUP="disk"
+#MODE="0666"
+
+
+#normal ubuntu mount
+#/dev/sdc1 on /media/USB DISK type vfat (rw,nosuid,nodev,uhelper=udisks,uid=1000,gid=1000,shortname=mixed,dmask=0077,utf8=1,showexec,flush)
+
+#mein mount
+#/dev/sdc1 on /media/SERVICE_USB_STICK type vfat (rw,relatime,utf8,gid=100,umask=002)
+
+# Global mount options
+ACTION=="add", ENV{service_usb_stick_mount}=="YES", ENV{mount_options}="relatime"
+# Filesystem-specific mount options
+ACTION=="add", ENV{service_usb_stick_mount}=="YES", ENV{ID_FS_TYPE}=="vfat|ntfs", ENV{mount_options}="$env{mount_options},utf8,gid=1000,dmask=0077,umask=002"
+
+# Mount the device
+ACTION=="add" , ENV{service_usb_stick_mount}=="YES", RUN+="/bin/mkdir -p /media/%E{dir_name}", RUN+="/bin/mount -o $env{mount_options} /dev/%k /media/%E{dir_name}"
+
+# Clean up after removal
+ACTION=="remove", ENV{service_usb_stick_mount}=="YES", RUN+="/bin/umount -l /media/%E{dir_name}", RUN+="/bin/rmdir /media/%E{dir_name}"
+
