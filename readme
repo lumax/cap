@@ -36,6 +36,14 @@ II Troubleshoot
    Den Befehl > cd /opt/capmb < ausführen.
    Den Befehl > ./appcontroller.sh < ausführen um die Anwendung zu starten!
 
+2. Internetverbindung herstellen
+   Sollte die Ethernetschnittstelle nicht aktiviert sein (ifconfig) kann das
+   nachgeholt werden mit:
+   sudo dhclient eth1
+
+3. Datum einstellen:
+   sudo date -s "11/20/2003 12:48:00"
+
 III: TODO`s 
 
 TODO:

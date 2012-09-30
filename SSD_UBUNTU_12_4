@@ -1,0 +1,113 @@
+-create image with usb-creator-gtk: ubuntu-12.04.1-server-i386.iso
+-plateexact exactsystem
+-use no swap
+-create root partition with 8.0GB and boot flag and noatime
+
+#pae Kernels können mehr RAM verwalten, können aber auch Probleme
+ mit propritären Treibern verursachen
+
+-Choose software to install: none
+-install Grub on Master 
+...reboot
+-sudo apt-get install openssh-server
+-sudo apt-get install emacs23
+-sudo emacs /etc/fstab
+ #rename UUID to /dev/sda and add "noatime"
+-sudo chage -I -1 plateexact
+-sudo apt-get install xorg
+-sudo gpasswd -a plateexact video
+#Zwei Kameras einstecken
+-sudo chmod 666 /dev/video0
+-sudo chmod 666 /dev/video1
+-sudo chmod +s /sbin/halt
+-sudo chown -R plateexact:plateexact /opt
+-mkdir /opt/video
+-mkdir /opt/capmb_data
+-sudo apt-get install rungetty
+ -exec /sbin/rungetty --autologin plateexact tty1
+
+-nano /home/plateexact/.xinitrc
+ #!/bin/sh                                                             
+ xrandr --output VGA1 --auto 
+ cd /opt/capmb
+ exec xterm -geometry 140x50+10+10
+ #exec ./appcontroller.sh  
+
+-nano .bashrc: ganz unten:
+  -cd /opt
+  -startx &
+
+-sudo nano /etc/X11/Xwrapper.config
+ -allowed_users=anybody
+
+
+-cp PlateExact08.wmv /opt/video/.
+-tar xfz <version>_capmb.tar.gz /opt/.
+-ln -s <version>_capmb capmb
+
+
+##Versuch den Treiber für die grafik zu installieren:
+-add to list
+ deb http://ppa.launchpad.net/sarvatt/ppa/ubuntu precise main 
+ deb-src http://ppa.launchpad.net/sarvatt/ppa/ubuntu precise main 
+
+-sudo apt-get install add-apt-key
+# Install the Repository KE
+-sudo add-apt-key 0x4c96de60854c4636
+-sudo apt-get update
+-sudo apt-get upgrade
+-sudo apt-get install linux-headers-generic linux-image-generic
+-sudo apt-get remove linux-headers-generic-pae linux-image-generic-pae
+-sudo apt-get install cedarview-drm libva-cedarview-vaapi-driver cedarview-graphics-drivers
+# Change Option "AIGLX" to "Off" because 3D isn't working (default settion)
+-sudo vi /usr/share/intel-cdv/X11/xorg.conf.d/61-cdv-pvr.conf
+-sudo update-grub2
+-sudo reboot
+###hat funktioniert!
+
+-sudo apt-get install libsdl1.2debian
+-sudo apt-get install libsdl-ttf2.0-0
+-sudo apt-get install libsdl-image1.2
+-sudo apt-get install mplayer
+
+
+#local-usb.rules #################
+#BUS=="usb", KERNEL=="sd?1", SUBSYSTEMS=="usb", DRIVERS=="usb-storage", NAME="%k", SYMLINK+="myAmazingStick"
+
+BUS=="usb", KERNEL=="sd?1", SUBSYSTEMS=="usb", DRIVERS=="usb-storage", ENV{service_usb_stick_mount}="YES", ENV{dir_name}="SERVICE_USB_STICK"
+# , GROUP="disk"
+#MODE="0666"
+
+
+#normal ubuntu mount
+#/dev/sdc1 on /media/USB DISK type vfat (rw,nosuid,nodev,uhelper=udisks,uid=1000,gid=1000,shortname=mixed,dmask=0077,utf8=1,showexec,flush)
+
+#mein mount
+#/dev/sdc1 on /media/SERVICE_USB_STICK type vfat (rw,relatime,utf8,gid=100,umask=002)
+
+# Global mount options
+ACTION=="add", ENV{service_usb_stick_mount}=="YES", ENV{mount_options}="relatime"
+# Filesystem-specific mount options
+ACTION=="add", ENV{service_usb_stick_mount}=="YES", ENV{ID_FS_TYPE}=="vfat|ntfs", ENV{mount_options}="$env{mount_options},utf8,gid=1000,dmask=0077,umask=002"
+
+# Mount the device
+ACTION=="add" , ENV{service_usb_stick_mount}=="YES", RUN+="/bin/mkdir -p /media/%E{dir_name}", RUN+="/bin/mount -o $env{mount_options} /dev/%k /media/%E{dir_name}"
+
+# Clean up after removal
+ACTION=="remove", ENV{service_usb_stick_mount}=="YES", RUN+="/bin/umount -l /media/%E{dir_name}", RUN+="/bin/rmdir /media/%E{dir_name}"
+
+####local-usb.rules ende
+
+-sudo cp local-usb.rules /etc/udev/rules.d/.
+-scp BEISPIEL.cap.conf plateexact@192.168.2.23:/opt/cap.conf
+#edit cap.conf
+ -vi /opt/cap.conf
+-sudo gpasswd -a plateexact dialout
+
+#add quiet to grub command
+-sudo nano /boot/grub/grub.cfg
+
+#eth interface in /etc/network/interfaces auskommentieren, damit 
+#ohne Netzwerkanschluss schnell gestartet werden kann.
+#mit "sudo dhclient eth0" kann das Netzwerk automatisch wieder aktiviert werden
+-sudo vi /etc/network/interfaces

@@ -165,3 +165,76 @@ gdb cap
 target remote 192.168.2.20:12345
 c
 ##end Debug cap im Service Mode
+
+
+
+
+#### Neuer IIYama Monitor
+Xorg.log gibt an das der Vesa Treiber benutzt wird!
+Versuch einen passenderen Treiber zu installieren (Cedaview)
+
+link: http://daily.siebler.eu/2012/06/ubuntu-12-04-driver-for-intel-cedarview-atom-n2000-und-d2000-serie/
+-> Packete nicht zu installieren!
+
+Es gibt anscheinend keinen Treiber für die Hardware!
+http://www.gutefrage.net/frage/gibt-es-einen-grafiktreiber-fuer-linx-fuer-den-intel-gma-3600
+
+
+Kernel 3.5 installieren:
+add-apt-repository: command not found
+sudo apt-get install python-software-properties
+
+sudo apt-get install linux-image-3.5.0-030500-generic
+sudo add-apt-repository ppa:upubuntu-com/kernel-i386
+sudo apt-get update
+
+sudo apt-get dist-upgrade
+
+##dist upgrade mit do-release-upgrade
+
+
+
+##Versuche mit dem VESA Treiber den großen Monitor zum laufen zu bekommen:
+##/usr/share/X11/xorg.conf.d/10-monitor.conf
+Section "Monitor"
+    Identifier    "Configured Monitor"
+#      Option      "DPMS"  "true" 
+      HorizSync    30.0-84.0
+      VertRefresh  55.0-76.0
+EndSection
+
+Section "Screen"
+    Identifier    "Default Screen"
+    Monitor        "Configured Monitor"
+    Device        "Configured Video Device"
+      DefaultDepth      24
+      SubSection "Display"
+                  Depth         24
+                  Modes         "1600x900" "1280x1024" "1024x768" "800x600"
+#                 Virtual       1600 900                    
+EndSubSection
+
+
+##/home/plateexact/.xinitrc
+#!/bin/sh                                                             
+#cvt 1600 900        
+## 1600x900 59.95 Hz (CVT 1.44M9) hsync: 55.99 kHz; pclk: 118.25 MHz
+#Modeline "1600x900_60.00"  118.25  1600 1696 1856 2112  900 903 908 934 -hsync +vsync      
+#xrandr --newmode "1600x900_60.00"  118.25  1600 1696 1856 2112  900 903 908 934 -hsync +vsync
+#xrandr --addmode VGA1 1600x900_60.00                                    
+#xrandr --output VGA1 --mode 1600x900_60.00
+
+#cvt 1600 900 50   
+## 1600x900 49.94 Hz (CVT 1.44M9) hsync: 46.39 kHz; pclk: 96.50 MHz 
+#Modeline "1600x900_50.00"   96.50  1600 1680 1840 2080  900 903 908 929 -hsync +vsync 
+#xrandr --newmode "1600x900_50.00"   96.50  1600 1680 1840 2080  900 903 908 929 -hsync +vsync  
+#xrandr --addmode default 1600x900_50.00                                                         
+#xrandr --output default --mode 1600x900_50.00  
+#xrandr --output VGA1 --auto                                               
+cd /opt/capmb
+exec xterm -geometry 140x50+10+10
+#exec ./appcontroller.sh      
+
+
+
+
