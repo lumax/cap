@@ -234,6 +234,8 @@ static void processImages(struct v4l_capture* cap,const void * p,int method,size
 
       /*tmpRect.h=tmpRect.h*MULTIPLIKATOR;*2;//untereinander
 	tmpRect.w=tmpRect.w*2*MULTIPLIKATOR;*4;//nebeneinander*/
+      //printf("processImages x %i y %i w %i y%i \n",cap->sdlRect.x,cap->sdlRect.y,cap->sdlRect.w,cap->sdlRect.h);
+      //cap->sdlRect.y = 200;
       SDL_DisplayYUVOverlay(cap->sdlOverlay, &cap->sdlRect);
     }
   else if(method==IO_METHOD_USERPTR)
@@ -889,12 +891,10 @@ int main(int argc, char *argv[])
   if(!iniParser_getParam(confpath,(char*)"sdlwidth",tmp,64))
     {
       sdlwidth = atoi(tmp);
-      printf("sdlwidth = %i\n",sdlwidth);
     }
   if(!iniParser_getParam(confpath,(char*)"sdlheight",tmp,64))
     {
       sdlheight = atoi(tmp);
-      printf("sdlheigth = %i\n",sdlheight);
     }
   if(!iniParser_getParam(confpath,(char*)"camwidth",tmp,64))
     {
@@ -1031,6 +1031,8 @@ int main(int argc, char *argv[])
    * Diese mögliche Änderung wird nun für CamControl gesichert.*/
   sdlheight = props.height;
   sdlwidth = props.width;
+  printf("sdlwidth = %i\n",sdlwidth);
+  printf("sdlheigth = %i\n",sdlheight);
 
   if(HideMouseCursor)
     {
