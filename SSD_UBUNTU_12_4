@@ -72,12 +72,11 @@
 
 
 #local-usb.rules #################
-#BUS=="usb", KERNEL=="sd?1", SUBSYSTEMS=="usb", DRIVERS=="usb-storage", NAME="%k", SYMLINK+="myAmazingStick"
+#KERNEL=="sd?1", SUBSYSTEMS=="usb", DRIVERS=="usb-storage", NAME="%k", SYMLINK+="myAmazingStick"
 
-BUS=="usb", KERNEL=="sd?1", SUBSYSTEMS=="usb", DRIVERS=="usb-storage", ENV{service_usb_stick_mount}="YES", ENV{dir_name}="SERVICE_USB_STICK"
-# , GROUP="disk"
-#MODE="0666"
+KERNEL=="sd?1", SUBSYSTEMS=="usb", DRIVERS=="usb-storage", ENV{service_usb_stick_mount}="YES", ENV{dir_name}="SERVICE_USB_STICK"
 
+KERNEL=="sd?", SUBSYSTEMS=="usb", DRIVERS=="usb-storage", ENV{service_usb_stick_mount}="YES", ENV{dir_name}="SERVICE_USB_STICK"
 
 #normal ubuntu mount
 #/dev/sdc1 on /media/USB DISK type vfat (rw,nosuid,nodev,uhelper=udisks,uid=1000,gid=1000,shortname=mixed,dmask=0077,utf8=1,showexec,flush)
