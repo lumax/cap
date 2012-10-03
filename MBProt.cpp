@@ -237,6 +237,7 @@ namespace EuMax01
 
   void MBProtocol::closeProtocol()
   {
+    tcflush(MBProt_fd,TCIFLUSH);
     close(this->fd);
     this->fd = 0;
     MBProt_fd = 0;

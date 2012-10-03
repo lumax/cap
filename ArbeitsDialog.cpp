@@ -95,6 +95,8 @@ namespace EuMax01
 
   static void F11_ListenerArbeitsDialog(void * src, SDL_Event * evt)
   {
+    ArbeitsDialog* ad = (ArbeitsDialog*)src;
+    ad->theProtocol->closeProtocol();
     exit(11);
   }
 
