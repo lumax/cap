@@ -16,6 +16,8 @@ UPD_DISK="/media/SERVICE_USB_STICK/"
 UPD_DIR_NAME=""
 UPDATE_STEPS="stage_search_updatefile stage_check_updatefile stage_check_current_version stage_copy_update"
 PROGRAMS_ROOT=""
+SHUTDOWNCMD="/sbin/halt"
+SHUTDOWNCMD_CONFIG="/opt/shutdowncmd.config"
 
 
 function stage_update()
@@ -160,7 +162,12 @@ do
 	PROGRAMS_ROOT=`pwd`
 	stage_update
 	echo "shutdown system!"
-	/sbin/halt
+
+	if [ -e $SHUTDOWNCMD_CONFIG ];
+	then
+	    SHUTDOWNCMD=`cat ${SHUTDOWNCMD_CONFIG}`
+	fi
+	exec ${SHUTDOWNCMD}
 	exit
     fi
     if [ $rc -eq 11 ]
