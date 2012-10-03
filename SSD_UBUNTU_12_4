@@ -31,12 +31,13 @@
  #!/bin/sh                                                             
  xrandr --output VGA1 --auto 
  cd /opt/capmb
- exec xterm -geometry 140x50+10+10
+ #exec xterm -geometry 140x50+10+10
+ exec xterm -geometry 140x50+10+10 -e /opt/capmb/./appcontroller.sh
  #exec ./appcontroller.sh  
 
 -nano .bashrc: ganz unten:
   -cd /opt
-  -startx &
+  -startx
 
 -sudo nano /etc/X11/Xwrapper.config
  -allowed_users=anybody
