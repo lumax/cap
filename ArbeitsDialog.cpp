@@ -427,6 +427,7 @@ namespace EuMax01
     this->theGUI->activateScreen(this);
     if(!useGUI)
       {
+	this->showSplashScreen();
 	return;
       }
     this->showRezept(0);
