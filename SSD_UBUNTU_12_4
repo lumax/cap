@@ -13,6 +13,10 @@
 -sudo apt-get install emacs23
 -sudo emacs /etc/fstab
  #rename UUID to /dev/sda and add "noatime"
+
+-mount /tmp on tmpfs
+ tmpfs /tmp tmpfs nodev,nosuid,noexec,mode=1777 0 0
+
 -sudo chage -I -1 plateexact
 -sudo apt-get install xorg
 -sudo gpasswd -a plateexact video
@@ -28,12 +32,18 @@
  -exec /sbin/rungetty --autologin plateexact tty1
 
 -nano /home/plateexact/.xinitrc
- #!/bin/sh                                                             
- xrandr --output VGA1 --auto 
- cd /opt/capmb
- #exec xterm -geometry 140x50+10+10
- exec xterm -geometry 140x50+10+10 -e /opt/capmb/./appcontroller.sh
- #exec ./appcontroller.sh  
+#!/bin/sh
+XSERVER_OUTPUT=VGA1
+if [ -f /opt/xserveroutput.config ]; then
+  XSERVER_OUTPUT=`cat /opt/xserveroutput.config`
+  echo "XSERVER_OUTPUT = ${XSERVER_OUTPUT}"
+fi
+
+xrandr --output ${XSERVER_OUTPUT} --auto
+cd /opt/capmb                                                          
+
+#exec xterm -geometry 140x50+10+10
+exec ./appcontroller.sh  
 
 -nano .bashrc: ganz unten:
   -cd /opt
