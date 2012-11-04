@@ -468,8 +468,8 @@ namespace EuMax01
 
   void ArbeitsDialog::showInfoDialog()
   {
-    if(!useGUI)//TODO errors im BlindMode evtl. zulassen
-      return;
+    //if(!useGUI)//TODO errors im BlindMode evtl. zulassen
+      //return;
     this->iActiveDialog = ArbeitsDialog::InfoDialogIsActive;
     this->blankMenuArea();
     this->theInfoDialog->refreshAll();

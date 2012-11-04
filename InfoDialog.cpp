@@ -40,6 +40,28 @@ Bastian Ruppert
 namespace EuMax01
 {
 
+  static void Info1(void * src, SDL_Event * evt)
+  {
+    InfoDialog* ad = (InfoDialog*)src;
+    ad->setV4L_data(0);
+    ad->refreshAll();
+    ad->Parent->showInfoDialog();
+  }
+
+  static void Info2(void * src, SDL_Event * evt)
+  {
+    InfoDialog* ad = (InfoDialog*)src;
+    ad->setV4L_data(8);
+    ad->refreshAll();
+    ad->Parent->showInfoDialog();
+  }
+
+  static void InfoESC(void * src, SDL_Event * evt)
+  {
+    InfoDialog* ad = (InfoDialog*)src;
+    ad->Parent->showArbeitsDialog();
+  }
+
   static void InfoDialogKeyListener(void * src, SDL_Event * evt)
   {
     InfoDialog* ad = (InfoDialog*)src;//KeyListener
@@ -51,11 +73,15 @@ namespace EuMax01
       {
 	if(key->keysym.sym == SDLK_ESCAPE)
 	  {
-	    ad->Parent->showArbeitsDialog();
+	    InfoESC(src,evt);
 	  }
 	else if(key->keysym.sym == SDLK_F1)
 	  {
-	    ad->refreshAll();
+	    Info1(src,evt);
+	  }
+	else if(key->keysym.sym == SDLK_F2)
+	  {
+	    Info2(src,evt);
 	  }
 	else if(key->keysym.sym == SDLK_RETURN || key->keysym.sym == SDLK_KP_ENTER)
 	  {
@@ -146,6 +172,72 @@ namespace EuMax01
       Control Sharpness
       Control Backlight Compensation
      */
+    v4l_data[0].name		= (char*)"Gain";
+    v4l_data[0].v4l_id		= V4L2_CID_GAIN;
+    v4l_data[0].cam             = 0;
+
+    v4l_data[1].name		= (char*)"Gain";
+    v4l_data[1].v4l_id		= V4L2_CID_GAIN;
+    v4l_data[1].cam		= 1;
+
+    v4l_data[2].name		= (char*)"Sharpness";
+    v4l_data[2].v4l_id		= V4L2_CID_SHARPNESS;
+    v4l_data[2].cam		= 0;
+
+    v4l_data[3].name		= (char*)"Sharpness";
+    v4l_data[3].v4l_id		= V4L2_CID_SHARPNESS;
+    v4l_data[3].cam		= 1;
+
+    v4l_data[4].name		= (char*)"Brightness";
+    v4l_data[4].v4l_id		= V4L2_CID_BRIGHTNESS;
+    v4l_data[4].cam		= 0;
+
+    v4l_data[5].name		= (char*)"Brightness";
+    v4l_data[5].v4l_id		= V4L2_CID_BRIGHTNESS;
+    v4l_data[5].cam		= 1;
+
+    v4l_data[6].name		= (char*)"Contrast";
+    v4l_data[6].v4l_id		= V4L2_CID_CONTRAST;
+    v4l_data[6].cam		= 0;
+
+    v4l_data[7].name		= (char*)"Contrast";
+    v4l_data[7].v4l_id		= V4L2_CID_CONTRAST;
+    v4l_data[7].cam		= 1;
+
+    v4l_data[8].name		= (char*)"Hue";
+    v4l_data[8].v4l_id		= V4L2_CID_HUE;
+    v4l_data[8].cam		= 0;
+
+    v4l_data[9].name		= (char*)"Hue";
+    v4l_data[9].v4l_id		= V4L2_CID_HUE;
+    v4l_data[9].cam		= 1;
+
+    v4l_data[10].name		= (char*)"Saturation";
+    v4l_data[10].v4l_id		= V4L2_CID_SATURATION;
+    v4l_data[10].cam		= 0;
+
+    v4l_data[11].name		= (char*)"Saturation";
+    v4l_data[11].v4l_id		= V4L2_CID_SATURATION;
+    v4l_data[11].cam		= 1;
+
+    v4l_data[12].name		= (char*)"Gamma";
+    v4l_data[12].v4l_id		= V4L2_CID_GAMMA;
+    v4l_data[12].cam		= 0;
+
+    v4l_data[13].name		= (char*)"Gamma";
+    v4l_data[13].v4l_id		= V4L2_CID_GAMMA;
+    v4l_data[13].cam		= 1;
+
+    v4l_data[14].name		= (char*)"Backlight Compensation";
+    v4l_data[14].v4l_id		= V4L2_CID_BACKLIGHT_COMPENSATION;
+    v4l_data[14].cam		= 0;
+
+    v4l_data[15].name		= (char*)"Backlight Compensation";
+    v4l_data[15].v4l_id		= V4L2_CID_BACKLIGHT_COMPENSATION;
+    v4l_data[15].cam		= 1;
+
+
+
     CamCtrlContainer[0] = new CamCtrl((int)Spalte1_x,			\
 				      (int)Zeile1_y,			\
 				      (int)MZeile_h,			\
@@ -153,7 +245,7 @@ namespace EuMax01
 				      (char*)"Gain",		\
 				      V4L2_CID_GAIN,		\
 				      parent);
-    
+
     CamCtrlContainer[1] = new CamCtrl((int)sdlw/2+6,			\
 				      (int)Zeile1_y,			\
 				      (int)MZeile_h,			\
@@ -161,7 +253,7 @@ namespace EuMax01
 				      (char*)"Sharpness",		\
 				      V4L2_CID_SHARPNESS,		\
 				      parent);
-    
+
     CamCtrlContainer[2] = new CamCtrl((int)Spalte1_x,			\
 				      (int)Zeile2_y,			\
 				      (int)MZeile_h,			\
@@ -169,7 +261,7 @@ namespace EuMax01
 				      (char*)"Brightness",		\
 				      V4L2_CID_BRIGHTNESS,		\
 				      parent);
-    
+
     CamCtrlContainer[3] = new CamCtrl((int)sdlw/2+6,			\
 				      (int)Zeile2_y,			\
 				      (int)MZeile_h,			\
@@ -210,32 +302,59 @@ namespace EuMax01
 				      V4L2_CID_BACKLIGHT_COMPENSATION,	\
 				      parent);
 
-    Label_MenuTitle = new Label("Info",Spalte1_x,Zeile5_y,150,MZeile_h,Parent->MenuSet);
+    theMenuBarSettings.Text[0]=(char *)"F1";
+    theMenuBarSettings.Text[1]=(char *)"F2";
+    theMenuBarSettings.Text[2]=0;
+    theMenuBarSettings.Text[3]=0;
+    theMenuBarSettings.Text[4]=0;
+    theMenuBarSettings.Text[5]=0;
+    theMenuBarSettings.Text[6]=0;
+    theMenuBarSettings.Text[7]=(char *)"ESC";
 
-    Label_Menu = new Label(" ",		\
-			   Spalte1_x+158,Zeile5_y,1012-158,MZeile_h,Parent->MenuSet);
+    theMenuBarSettings.evtSource = (void*)this;
 
-    /*Label_Info = new Label("INFO",		\
-			   Spalte1_x,\
-			   Zeile1_y,\
-			   506*2,\
-			   MZeile_h,\
-			   Parent->DialogSet);*/
+    theMenuBarSettings.evtFnks[0]=Info1;
+    theMenuBarSettings.evtFnks[1]=Info2;
+    theMenuBarSettings.evtFnks[2]=0;
+    theMenuBarSettings.evtFnks[3]=0;
+    theMenuBarSettings.evtFnks[4]=0;
+    theMenuBarSettings.evtFnks[5]=0;
+    theMenuBarSettings.evtFnks[6]=0;
+    theMenuBarSettings.evtFnks[7]=InfoESC;
 
+    theMenu = new MenuBar(Spalte1_x,Zeile5_y,MZeile_h,(char*)"CamInfo",	\
+			  &this->theMenuBarSettings,parent);
+
+    setV4L_data(8);
     refreshAll();
 
     this->pTSource = this;//EvtTarget Quelle setzen
     this->EvtTargetID=(char*)"InfoDialog";
     this->setKeyboardUpEvtHandler(InfoDialogKeyListener);
     this->addEvtTarget(this);//den Screen Key Listener bei sich selber anmelden!
-    this->addEvtTarget(Label_MenuTitle);
-    this->addEvtTarget(Label_Menu);
+    //this->addEvtTarget(Label_MenuTitle);
+    //this->addEvtTarget(Label_Menu);
     //this->addEvtTarget(Label_Info);
+    theMenu->addToEvtTarget(this);
     for(int i = 0;i < InfoDialog::CamCtrlContLen; i++)
       {
 	if(CamCtrlContainer[i]!=0)
 	  {
 	    CamCtrlContainer[i]->addToEvtTarget(this);
+	  }
+      }
+  }
+
+  void InfoDialog::setV4L_data(int index)
+  {
+
+    for(int i = 0;i<InfoDialog::CamCtrlContLen;i++)
+      {
+	if(CamCtrlContainer[i]!=0)
+	  {
+	    CamCtrlContainer[i]->setV4L_Data(v4l_data[i+index].v4l_id,\
+					     v4l_data[i+index].name,	\
+					     v4l_data[i+index].cam);
 	  }
       }
   }
@@ -247,7 +366,7 @@ namespace EuMax01
 	if(CamCtrlContainer[i]!=0)
 	  {
 	    CamCtrlContainer[i]->setFocus(false);
-	    CamCtrlContainer[i]->refreshValues();	    
+	    CamCtrlContainer[i]->refreshValues();
 	  }
       }
      if(CamCtrlContainer[aktCamCtrl]!=0)
@@ -273,7 +392,7 @@ namespace EuMax01
 		CamCtrlContainer[aktCamCtrl]->setFocus(false);
 		aktCamCtrl = tmp;
 		CamCtrlContainer[aktCamCtrl]->setFocus(true);
-		CamCtrlContainer[aktCamCtrl]->refreshValues();	
+		CamCtrlContainer[aktCamCtrl]->refreshValues();
 	      }
 	  }
       }
@@ -292,7 +411,7 @@ namespace EuMax01
 		CamCtrlContainer[aktCamCtrl]->setFocus(false);
 		aktCamCtrl = tmp;
 		CamCtrlContainer[aktCamCtrl]->setFocus(true);
-		CamCtrlContainer[aktCamCtrl]->refreshValues();	
+		CamCtrlContainer[aktCamCtrl]->refreshValues();
 	      }
 	  }
       }
@@ -311,7 +430,7 @@ namespace EuMax01
 		CamCtrlContainer[aktCamCtrl]->setFocus(false);
 		aktCamCtrl = tmp;
 		CamCtrlContainer[aktCamCtrl]->setFocus(true);
-		CamCtrlContainer[aktCamCtrl]->refreshValues();	
+		CamCtrlContainer[aktCamCtrl]->refreshValues();
 	      }
 	  }
       }
@@ -330,7 +449,7 @@ namespace EuMax01
 		CamCtrlContainer[aktCamCtrl]->setFocus(false);
 		aktCamCtrl = tmp;
 		CamCtrlContainer[aktCamCtrl]->setFocus(true);
-		CamCtrlContainer[aktCamCtrl]->refreshValues();	
+		CamCtrlContainer[aktCamCtrl]->refreshValues();
 	      }
 	  }
       }

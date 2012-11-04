@@ -133,6 +133,12 @@ namespace EuMax01
     ad->Parent->showArbeitsDialog();
   }
 
+  static void ConfirmF2(void * src, SDL_Event * evt)
+  {
+    ConfirmDialog* ad = (ConfirmDialog*)src;
+    ad->Parent->showInfoDialog();
+  }
+
   static void ConfirmDialogKeyListener(void * src, SDL_Event * evt)
   {
     SDL_KeyboardEvent * key = (SDL_KeyboardEvent *)&evt->key;
@@ -150,6 +156,10 @@ namespace EuMax01
 	else if(key->keysym.sym == SDLK_F1)
 	  {
 	    ConfirmService(src,evt);
+	  }
+	else if(key->keysym.sym == SDLK_F2)
+	  {
+	    ConfirmF2(src,evt);
 	  }
       }
   }
@@ -205,7 +215,7 @@ namespace EuMax01
 			   Parent->DialogSet);
 
     theMenuBarSettings.Text[0]=(char *)"F1Service";
-    theMenuBarSettings.Text[1]=0;
+    theMenuBarSettings.Text[1]=(char *)"F2Info";
     theMenuBarSettings.Text[2]=0;
     theMenuBarSettings.Text[3]=(char *)"ENTER";
     theMenuBarSettings.Text[4]=0;
@@ -216,7 +226,7 @@ namespace EuMax01
     theMenuBarSettings.evtSource = (void*)this;
 
     theMenuBarSettings.evtFnks[0]=ConfirmService;
-    theMenuBarSettings.evtFnks[1]=0;
+    theMenuBarSettings.evtFnks[1]=ConfirmF2;
     theMenuBarSettings.evtFnks[2]=0;
     theMenuBarSettings.evtFnks[3]=ConfirmEnter;
     theMenuBarSettings.evtFnks[4]=0;

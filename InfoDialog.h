@@ -10,6 +10,11 @@ namespace EuMax01
 
   class ArbeitsDialog;
   class CamCtrl;
+  struct v4l_data_container{
+    char * name;
+    int v4l_id;
+    int cam;
+  };
 
   class InfoDialog : public Screen
   {
@@ -21,15 +26,16 @@ namespace EuMax01
     int aktCamCtrl;
     CamCtrl * CamCtrlContainer[InfoDialog::CamCtrlContLen];
 
+    void setV4L_data(int index);
     void refreshAll();
     void left();
     void right();
     void up();
     void down();
   private:
-    Label * Label_MenuTitle;
-    Label * Label_Menu;
-    //Label * Label_Info;
+    struct v4l_data_container v4l_data[16];
+    struct t_MenuBarSettings theMenuBarSettings;
+    MenuBar * theMenu;
   };
  
 #endif /* __ERRORDIALOG_H__*/

@@ -126,7 +126,15 @@ namespace EuMax01
     //addEvtTarget(Label_Menu);
     setFocus(true);
   }
-  
+
+  void CamCtrl::setV4L_Data(int id,char * name, int cam)
+  {
+    this->v4l_id = id;
+    this->pcName = name;
+    this->LName->setText(this->pcName);
+    this->camNumber = cam;
+  }
+
   void CamCtrl::addToEvtTarget(EvtTarget* theTarget)
   {
     theTarget->addEvtTarget(LName);

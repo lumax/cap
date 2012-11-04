@@ -31,6 +31,7 @@ namespace EuMax01
     void down();
     //void up_f();
     //void down_f();
+    void setV4L_Data(int id,char * name, int cam);
   private:
     static const int charBufLen = 64;
     int camNumber;
