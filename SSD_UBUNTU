@@ -135,7 +135,13 @@ sudo apt-get install rungetty
 
 sudo nano /etc/init/tty1.conf
 
-exec /sbin/rungetty --autologin BENUTZERNAME tty1
+####exec /sbin/rungetty --autologin BENUTZERNAME tty1
+exec /bin/login -f YOUR_USER_NAME tty1 </dev/tty1 >/dev/tty1 2>&1
+
+
+###/boot/grub/grub.cfg
+### "quiet" in der entsprechenden Zeile hinzufügen
+
 
 in .bashrc: ganz unten:
 cd /opt

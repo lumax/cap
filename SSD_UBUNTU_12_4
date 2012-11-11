@@ -28,8 +28,11 @@
 -sudo chown -R plateexact:plateexact /opt
 -mkdir /opt/video
 -mkdir /opt/capmb_data
--sudo apt-get install rungetty
- -exec /sbin/rungetty --autologin plateexact tty1
+
+#### Autologin nicht mehr mit rungetty, sondern mit der Zeile darunte!!!
+#####-sudo apt-get install rungetty
+##### -exec /sbin/rungetty --autologin plateexact tty1
+exec /bin/login -f YOUR_USER_NAME tty1 </dev/tty1 >/dev/tty1 2>&1
 
 -nano /home/plateexact/.xinitrc
 #!/bin/sh
@@ -117,6 +120,10 @@ ACTION=="remove", ENV{service_usb_stick_mount}=="YES", RUN+="/bin/umount -l /med
 
 #add quiet to grub command
 -sudo nano /boot/grub/grub.cfg
+
+-sudo nano /etc/default/grub
+ ---> GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"
+-sudo update-grub
 
 #eth interface in /etc/network/interfaces auskommentieren, damit 
 #ohne Netzwerkanschluss schnell gestartet werden kann.
