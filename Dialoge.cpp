@@ -317,17 +317,17 @@ namespace EuMax01
 
   void CalibrationDialog::setQ2(unsigned int dat)
   {
-    setXXData(dat,CalibrationDialog::iQ2,(char*)" mm");    
+    setXXData(dat,CalibrationDialog::iQ2,(char*)" mm");
   }
 
-  void CalibrationDialog::setZ1(unsigned int dat)
+  void CalibrationDialog::setZ1(unsigned int dat,char*suffix)
   {
-    setXXData(dat,CalibrationDialog::iZ1,(char*)" ° ");    
+    setXXData(dat,CalibrationDialog::iZ1,suffix);    
   }
 
-  void CalibrationDialog::setZ2(unsigned int dat)
+  void CalibrationDialog::setZ2(unsigned int dat,char*suffix)
   {
-    setXXData(dat,CalibrationDialog::iZ2,(char*)" ° ");   
+    setXXData(dat,CalibrationDialog::iZ2,suffix);
   }
 
   void CalibrationDialog::setXXData(unsigned int dat,int MyStep,char*suffix)

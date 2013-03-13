@@ -18,8 +18,8 @@ namespace EuMax01
     ArbeitsDialog * Parent;
     void setQ1(unsigned int dat);
     void setQ2(unsigned int dat);
-    void setZ1(unsigned int dat);
-    void setZ2(unsigned int dat);
+    void setZ1(unsigned int dat,char*suffix);
+    void setZ2(unsigned int dat,char*suffix);
     void resetStepValue();
     void incStep();
     void decStep();

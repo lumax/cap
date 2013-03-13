@@ -57,13 +57,15 @@ namespace EuMax01
     int getRezeptNummer();
     void setCam1XaxisCur(int val);
     void setCam2XaxisCur(int val);
-    void setCam1ZaxisCur(int val);
-    void setCam2ZaxisCur(int val);
+    void setCam1ZaxisCur(int val,char*suffix);
+    void setCam2ZaxisCur(int val,char*suffix);
     void setCross1Ref();
     void setCross2Ref();
     //void showRecipe(Rezept * rez);
     void sendProtocolMsg(char cmd);
     void sendProtocolMsg(char cmd,int val);
+
+    void setFaktorZAchse(float f);
 
     void Q1_evt(unsigned int dat);
     void Q2_evt(unsigned int dat);
@@ -135,6 +137,8 @@ namespace EuMax01
 
     SDL_Rect Area;
     bool useGUI;
+
+    float fFaktorZAchse;
 
     int Cam1XaxisCur;
     int Cam1XaxisDif;

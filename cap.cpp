@@ -65,6 +65,8 @@ static int camheight = 0;
 static int sdlwidth = 1024;
 static int sdlheight = 576;
 
+static double FaktorZ1 = 1.0;
+
 static CamControl * camCtrl;
 
 static unsigned char getYfromRGB(unsigned char r,unsigned char g,unsigned char b)
@@ -962,6 +964,11 @@ int main(int argc, char *argv[])
     {
       HideMouseCursor=true;
     }
+  if(!iniParser_getParam(confpath,(char*)"FAKTOR_Z1",tmp,64))
+    {
+      FaktorZ1 = atof(tmp);
+      printf("FAKTOR_Z1 = %f\n",(float)FaktorZ1);
+    }
   //das Muss der letzte Paramter sein der mit tmp geholt wird, da tmp
   //später noch ausgewertet wird!
   if(iniParser_getParam(confpath,(char*)"usbDevice",tmp,64))
@@ -1056,7 +1063,7 @@ int main(int argc, char *argv[])
 				       ButtonAreaHeight,	\
 				       saveFilePath,\
 				       guiMode);
-
+  theArbeitsDialog->setFaktorZAchse((float)FaktorZ1);
 
   theGUI->eventLoop();
 }
