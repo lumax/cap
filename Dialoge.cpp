@@ -310,27 +310,27 @@ namespace EuMax01
     this->Label_ValueName->show(this->Parent->theGUI->getMainSurface());
   }
   
-  void CalibrationDialog::setQ1(unsigned short dat)
+  void CalibrationDialog::setQ1(unsigned int dat)
   {
     setXXData(dat,CalibrationDialog::iQ1,(char*)" mm");  
   }
 
-  void CalibrationDialog::setQ2(unsigned short dat)
+  void CalibrationDialog::setQ2(unsigned int dat)
   {
     setXXData(dat,CalibrationDialog::iQ2,(char*)" mm");    
   }
 
-  void CalibrationDialog::setZ1(unsigned short dat)
+  void CalibrationDialog::setZ1(unsigned int dat)
   {
     setXXData(dat,CalibrationDialog::iZ1,(char*)" ° ");    
   }
 
-  void CalibrationDialog::setZ2(unsigned short dat)
+  void CalibrationDialog::setZ2(unsigned int dat)
   {
     setXXData(dat,CalibrationDialog::iZ2,(char*)" ° ");   
   }
 
-  void CalibrationDialog::setXXData(unsigned short dat,int MyStep,char*suffix)
+  void CalibrationDialog::setXXData(unsigned int dat,int MyStep,char*suffix)
   {
     if(MyStep==this->ActualStep)
       {

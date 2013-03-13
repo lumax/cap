@@ -16,10 +16,10 @@ namespace EuMax01
     CalibrationDialog(int sdlw,int sdlh, int camw,int camh,int yPos,\
 		      ArbeitsDialog * parent);
     ArbeitsDialog * Parent;
-    void setQ1(unsigned short dat);
-    void setQ2(unsigned short dat);
-    void setZ1(unsigned short dat);
-    void setZ2(unsigned short dat);
+    void setQ1(unsigned int dat);
+    void setQ2(unsigned int dat);
+    void setZ1(unsigned int dat);
+    void setZ2(unsigned int dat);
     void resetStepValue();
     void incStep();
     void decStep();
@@ -41,7 +41,7 @@ namespace EuMax01
     char Value[64];
 
     int ActualStep;
-    void setXXData(unsigned short dat,int MyStep,char * suffix);
+    void setXXData(unsigned int dat,int MyStep,char * suffix);
 
     struct t_MenuBarSettings theMenuBarSettings;
     MenuBar * theMenu;

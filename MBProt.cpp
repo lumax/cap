@@ -65,10 +65,29 @@ namespace EuMax01
     return datum;
   }
 
+  static unsigned int getProtocol_UI32(void)
+  {
+    unsigned int datum;
+    unsigned char * pucQuelle = prt_get_data();
+    pucQuelle +=3;
+    datum = *(pucQuelle);//MSB
+    datum <<=8;
+    pucQuelle--;
+    datum +=*pucQuelle;
+    datum <<=8;
+    pucQuelle--;
+    datum +=*pucQuelle;
+    datum <<=8;
+    pucQuelle--;
+    datum +=*pucQuelle;
+    return datum;
+  }
+
   static void MBProt_dispatcher(unsigned char ucDat)
   {
     static unsigned int counter = 0;
     unsigned short datum = 0;
+    unsigned int datum32 = 0;
     //printf("dispatcher ucDat: %i 0x%x %c\n",ucDat,ucDat,ucDat);
     switch(ucDat)
       {
@@ -100,6 +119,34 @@ namespace EuMax01
 	    MBProt_class->lis->Z2_evt(datum);
 	  break;
 	}
+      case nPEC_GET_Q1_32:
+	{
+	  datum32 = getProtocol_UI32();
+	  if(MBProt_class->lis)
+	    MBProt_class->lis->Q1_evt(datum32);
+	  break;
+	}
+      case nPEC_GET_Q2_32:
+	{
+	  datum32 = getProtocol_UI32();
+	  if(MBProt_class->lis)
+	    MBProt_class->lis->Q2_evt(datum32);
+	  break;
+	}
+      case nPEC_GET_Z1_32:
+	{
+	  datum32 = getProtocol_UI32();
+	  if(MBProt_class->lis)
+	    MBProt_class->lis->Z1_evt(datum32);
+	  break;
+	}
+      case nPEC_GET_Z2_32:
+	{
+	  datum = getProtocol_UI32();
+	  if(MBProt_class->lis)
+	    MBProt_class->lis->Z2_evt(datum32);
+	  break;
+	}
       case nPEC_GET_FP1:
 	{
 	  datum = getProtocol_UI16();
@@ -120,6 +167,7 @@ namespace EuMax01
       case nPEC_SWVERSION:
 	{
 	  datum = getProtocol_UI16();
+	  printf("Version%i\n",datum);
 	  if(MBProt_class->lis)
 	    MBProt_class->lis->SWVersion_evt(datum);
 	  break;
@@ -127,8 +175,14 @@ namespace EuMax01
       case nPEC_HWVERSION:
 	{
 	  datum = getProtocol_UI16();
+	  printf("HWVersion%i\n",datum);
 	  if(MBProt_class->lis)
 	    MBProt_class->lis->HWVersion_evt(datum);
+	  break;
+	}
+      case nPEC_NAME:
+	{
+	  printf("Interface NAME : %s\n",prt_get_data());
 	  break;
 	}
       case nPEC_KEYON://schwarzer Knopf

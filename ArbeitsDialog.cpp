@@ -722,7 +722,7 @@ namespace EuMax01
     theGUI->activateScreen((Screen*)this);
     }*/
 
-  void ArbeitsDialog::Q1_evt(unsigned short dat)
+  void ArbeitsDialog::Q1_evt(unsigned int dat)
   {
     if(iActiveDialog==ArbeitsDialog::ArbeitsDialogIsActive)
       setCam1XaxisCur(dat);
@@ -736,7 +736,7 @@ namespace EuMax01
       }
   }
 
-  void ArbeitsDialog::Q2_evt(unsigned short dat)
+  void ArbeitsDialog::Q2_evt(unsigned int dat)
   {
     if(iActiveDialog==ArbeitsDialog::ArbeitsDialogIsActive)
       setCam2XaxisCur(dat);
@@ -749,7 +749,7 @@ namespace EuMax01
 						(char*)" mm");
       }
   }
-  void ArbeitsDialog::Z1_evt(unsigned short dat)
+  void ArbeitsDialog::Z1_evt(unsigned int dat)
   {
     if(iActiveDialog==ArbeitsDialog::ArbeitsDialogIsActive)
       setCam1ZaxisCur(dat);
@@ -762,7 +762,7 @@ namespace EuMax01
 						(char*)" ° ");
       }
   }
-  void ArbeitsDialog::Z2_evt(unsigned short dat)
+  void ArbeitsDialog::Z2_evt(unsigned int dat)
   {
     //Z2 gibt es nicht
     /*    if(iActiveDialog==ArbeitsDialog::ArbeitsDialogIsActive)
@@ -797,14 +797,14 @@ namespace EuMax01
     cap_cam_setCrossX(cam,wert);
     //printf("cam:%i dat:%i wert:%i\n",camera,dat,wert);
   }
-  void ArbeitsDialog::FP1_evt(unsigned short dat)
+  void ArbeitsDialog::FP1_evt(unsigned int dat)
   {
     convertCamPos(0,dat);
     theNewDialog->getCam1CrossX();//hier werden die cross Daten zum abspeichern geholt
     //printf("ArbeitsDialog getFP1:%i\n",dat);
     this->theSplashScreen->showCrossPosition(0,dat);
   }
-  void ArbeitsDialog::FP2_evt(unsigned short dat)
+  void ArbeitsDialog::FP2_evt(unsigned int dat)
   {
     convertCamPos(2,dat);
     theNewDialog->getCam2CrossX();//hier werden die cross Daten zum abspeichern geholt

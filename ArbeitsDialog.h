@@ -24,12 +24,12 @@ namespace EuMax01
   {
   public:
     virtual ~IMBProtListener() {}
-    virtual void (Q1_evt)(unsigned short dat) = 0;
-    virtual void (Q2_evt)(unsigned short dat) = 0;
-    virtual void (Z1_evt)(unsigned short dat) = 0;
-    virtual void (Z2_evt)(unsigned short dat) = 0;
-    virtual void (FP1_evt)(unsigned short dat) = 0;
-    virtual void (FP2_evt)(unsigned short dat) = 0;
+    virtual void (Q1_evt)(unsigned int dat) = 0;
+    virtual void (Q2_evt)(unsigned int dat) = 0;
+    virtual void (Z1_evt)(unsigned int dat) = 0;
+    virtual void (Z2_evt)(unsigned int dat) = 0;
+    virtual void (FP1_evt)(unsigned int dat) = 0;
+    virtual void (FP2_evt)(unsigned int dat) = 0;
     virtual void (SWVersion_evt)(unsigned short dat) = 0;
     virtual void (HWVersion_evt)(unsigned short dat) = 0;
   };
@@ -65,12 +65,12 @@ namespace EuMax01
     void sendProtocolMsg(char cmd);
     void sendProtocolMsg(char cmd,int val);
 
-    void Q1_evt(unsigned short dat);
-    void Q2_evt(unsigned short dat);
-    void Z1_evt(unsigned short dat);
-    void Z2_evt(unsigned short dat);
-    void FP1_evt(unsigned short dat);
-    void FP2_evt(unsigned short dat);
+    void Q1_evt(unsigned int dat);
+    void Q2_evt(unsigned int dat);
+    void Z1_evt(unsigned int dat);
+    void Z2_evt(unsigned int dat);
+    void FP1_evt(unsigned int dat);
+    void FP2_evt(unsigned int dat);
     void SWVersion_evt(unsigned short dat);
     void HWVersion_evt(unsigned short dat);
 

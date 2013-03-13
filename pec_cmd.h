@@ -17,6 +17,11 @@
 #define nPEC_GET_Z1		0x36	// Position Z1 abfragen int16 0-0xFFFF
 #define nPEC_GET_Z2		0x37	// Position Z2 abfragen int16 0-0xFFFF
 
+#define nPEC_GET_Q1_32		0x38
+#define nPEC_GET_Q2_32		0x39
+#define nPEC_GET_Z1_32		0x3A
+#define nPEC_GET_Z2_32		0x3B
+
 #define nPEC_GET_FP1	0x40	// Position F1 abfragen int16 0-0x3FF
 #define nPEC_GET_FP2	0x41	// Position F2 abfragen int16 0-0x3FF
 #define nPEC_SET_FP1    0x42    // Position F1 setzen von 0 bis QMAX

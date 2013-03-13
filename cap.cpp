@@ -801,6 +801,7 @@ static void oneSecondTimer(void)
 	  theArbeitsDialog->sendProtocolMsg(nPEC_HWVERSION);
 	  theArbeitsDialog->sendProtocolMsg(nPEC_GET_Q1);//für den CalDialog
 	  theArbeitsDialog->sendProtocolMsg(nPEC_LIGHTON);
+	  theArbeitsDialog->sendProtocolMsg(nPEC_NAME);
 	}
     }
   else
