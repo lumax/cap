@@ -1554,8 +1554,8 @@ namespace EuMax01
 
 	LabelRezept[NewDialog::iPosZ]->setText(			\
 		 Parent->int2string(pcRezept[NewDialog::iPosZ],64, \
-				    tmpRezept->Rezepte[rzpStep].cams[0].z_pos,\
-				    (char*)" ° "));
+				    tmpRezept->Rezepte[rzpStep].cams[0].z_pos*this->Parent->getFaktorZAchse(), \
+				    (char*)" mm"));
 
 	LabelRezept[NewDialog::iPosX2]->setText(			\
 		 Parent->int2string(pcRezept[NewDialog::iPosX2],64, \

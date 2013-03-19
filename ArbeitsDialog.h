@@ -66,6 +66,7 @@ namespace EuMax01
     void sendProtocolMsg(char cmd,int val);
 
     void setFaktorZAchse(float f);
+    float getFaktorZAchse(void);
 
     void Q1_evt(unsigned int dat);
     void Q2_evt(unsigned int dat);

@@ -329,7 +329,7 @@ namespace EuMax01
       }
     else if(2==this->ActualStep)
       {
-	snprintf(buf,len,"%7.2f °",(float)thePosSet.cams[0].z_pos/100);
+	snprintf(buf,len,"%7.2f mm",(float)thePosSet.cams[0].z_pos/100*this->Parent->Parent->getFaktorZAchse());
       }
     else if(3==this->ActualStep)
       {

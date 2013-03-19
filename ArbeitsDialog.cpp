@@ -848,6 +848,11 @@ namespace EuMax01
     this->fFaktorZAchse = f;
   }
 
+  float ArbeitsDialog::getFaktorZAchse(void)
+  {
+    return this->fFaktorZAchse;
+  }
+
   bool ArbeitsDialog::useTheGUI()
   {
     return this->useGUI;
