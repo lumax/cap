@@ -750,6 +750,9 @@ static void showVideoMode()
     }
     }*/
 
+static char confpath[96] = "";
+static char saveFilePath[96] = "";
+
 const char * usage =				\
   "cap -xga for 1024x768 else PAL Widescreen with 1024*576\n"\
   "    -fullscreen for Fullscreen\n"\
@@ -772,6 +775,8 @@ static void onExit(int i,void* pv)
   printf("Version_B: %s\n",FSGPP_VERSION);
   printf("Version_C: %s\n",CAPTURE_VERSION);
   printf("Programm Version: %s\n",CAPCOMPILEDATE);
+  printf("Config File Path: %s\n",confpath);
+  printf("save File Path: %s\n",saveFilePath);
 }
 
 static void oneSecondTimer(void)
@@ -844,8 +849,6 @@ int main(int argc, char *argv[])
   int ButtonAreaHeight = 0;
 
   char path[64];
-  char confpath[96];
-  char saveFilePath[96];
   bool FullScreenMode = false;
   bool HideMouseCursor = false;
 
@@ -915,11 +918,23 @@ int main(int argc, char *argv[])
     }
   else
     {
-      saveFilePath[0] ='d';
-      saveFilePath[1] ='a';
-      saveFilePath[2] ='t';
-      saveFilePath[3] ='a';
-      saveFilePath[4] ='\0';
+      saveFilePath[0] ='/';
+      saveFilePath[1] ='o';
+      saveFilePath[2] ='p';
+      saveFilePath[3] ='t';
+      saveFilePath[4] ='/';
+      saveFilePath[5] ='c';
+      saveFilePath[6] ='a';
+      saveFilePath[7] ='p';
+      saveFilePath[8] ='m';
+      saveFilePath[9] ='b';
+      saveFilePath[10] ='_';
+      saveFilePath[11] ='d';
+      saveFilePath[12] ='a';
+      saveFilePath[13] ='t';
+      saveFilePath[14] ='a';
+      saveFilePath[15] ='/';
+      saveFilePath[16] ='\0';
       printf("reading saveFilePath failed, using default path %s\n",saveFilePath);
     }
   if(!iniParser_getParam(confpath,(char*)"pixelformat",tmp,64))
