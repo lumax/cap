@@ -64,6 +64,11 @@ static int camwidth = 0;
 static int camheight = 0;
 static int sdlwidth = 1024;
 static int sdlheight = 576;
+static int RectBreite = 0;
+static int RectHoehe = 0;
+
+static const unsigned int MAXCAMWIDTH = 1280;
+static unsigned char oneLineColor[MAXCAMWIDTH*2];
 
 static double FaktorZ1 = 1.0;
 
@@ -84,6 +89,158 @@ static unsigned char getUfromRGB(unsigned char r,unsigned char g,unsigned char b
 static unsigned char getVfromRGB(unsigned char r,unsigned char g,unsigned char b)
 {
   return (unsigned char)(-(0.148*r)-(0.291*g)+(0.439*b)+128);
+}
+
+/*
+  Es gibt zwei Koordinatensysteme:
+  1. das Normale x und y:     2. das USB-Image
+
+  0------>x                   0-------->w = 2*w bytes
+  |                           |
+  |                           |
+  |                           |
+  Y                        h = 2*w bytes * h
+
+  w = x*2
+  h = y*w*2
+
+ */
+static inline void zeichneZeile(int w,	\
+				int h,	\
+				int x,	\
+				int y,	\
+				int breite,	\
+				 char * pc)
+{
+  static unsigned int MaxValueInPC = 0;
+  unsigned int len = 0;
+  unsigned int start = 0;
+
+  if(x<0)
+    x=0;
+  if(y<0)
+    y=0;
+  if(breite<0)
+    breite=0;
+
+  //start = h + w = y*w*2 + x*2
+  start = y*w*2 + x*2;
+
+  //Max Byte in pc = w*h*2
+  if(!MaxValueInPC)
+    MaxValueInPC = h*w*2;
+
+  if(breite<0)
+    breite = 0;
+   len = breite*2;
+
+  if((len+start)>=MaxValueInPC)
+    len = MaxValueInPC-1;
+
+  memcpy(&pc[start],oneLineColor,breite*2);
+
+}
+
+static inline void zeichneSpalte(int w,	\
+				 int h,	\
+				 int x,	\
+				 int y,	\
+				 int hoehe,	\
+				 char * pc)
+{
+  static unsigned int MaxValueInPC = 0;
+  unsigned int start = 0;
+
+  if(x<0)
+    x=0;
+  if(y<0)
+    y=0;
+  if(hoehe<0)
+    hoehe=0;
+
+  //start = h + w = y*w*2 + x*2
+  start = y*w*2 + x*2;
+
+  //Max Byte in pc = w*h*2
+  if(!MaxValueInPC)
+    MaxValueInPC = h*w*2;
+
+  for(int ii=0;ii<hoehe;ii++)
+    {
+      memcpy(&pc[start],oneLineColor,4);
+      start+=w*2;
+      if(start>=MaxValueInPC)
+	return;
+    }
+}
+
+static void overlayAndRect(struct v4l_capture* cap,char * pc,size_t len)
+{
+  unsigned int i;
+  unsigned int w = (unsigned int)cap->camWidth;
+  unsigned int h = (unsigned int)cap->camHeight;
+  int alles = 0;
+  int cam = cap->camnumber;
+  int wMalZwei = w*2;
+  int wMalVier = w*4;
+  int offset = cam*wMalZwei;
+
+  unsigned int crossX = cap->camCrossX;
+
+  static int flag = 1;
+  static unsigned char Y = 106,U = 221,V = 202;
+
+
+    if(flag)
+    {
+      Y = getYfromRGB(0,255,0);//gruen
+      U = getUfromRGB(0,255,0);
+      V = getVfromRGB(0,255,0);
+      printf("Y = %i, U=%i, V=%i\n",Y,U,V);
+      flag=0;
+      }
+
+/*
+       vMitteOben: x = crossX, y = 0; hoehe = h/2 - RectHoehe/2
+         |
+         |
+    ------------hRectOben: y=(h/2 - RectHoehe/2), x = crossX-RectBreite/2, Breite = RectBreite
+
+    vRectLinks: x = crossX-RectBreite/2,y = h/2 - RectHoehe/2, hoehe = RectHoehe
+    |          |
+    |          |
+    |          |
+    |          |
+               vRectRechts: x = crossX+RectBreite/2,y = h/2 - RectBreite/2,hoehe = RectHoehe+1
+
+    ------------hRectUnten: x = crossX-RectBreite/2,y=(h/2 + RectHoehe/2),Breite = RectBreite
+         |
+         |
+         |vMitteUnten: x = crossX, y = h/2+RectHoehe/2; hoehe = h/2 - RectHoehe/2
+
+---- hMitteLinks: x = 0,y = h/2, Breite = crossX - RectBreite/2
+
+                ------
+		hMitteRechts: x=crossX+RectBreite/2, y=h/2, Breite=w-(crossX + RectBreite/2)
+
+*/
+    zeichneSpalte(w,h,crossX,0,h/2-RectHoehe/2,pc);//vMitteOben
+    zeichneSpalte(w,h,crossX,h/2+RectHoehe/2,h/2-RectHoehe/2,pc);//vMitteUnten
+    zeichneSpalte(w,h,crossX-RectBreite/2,h/2-RectHoehe/2,RectHoehe,pc);//vRectLinks
+    zeichneSpalte(w,h,crossX+RectBreite/2,h/2-RectHoehe/2,RectHoehe+1,pc);//vRectRechts
+    zeichneZeile(w,h,crossX-RectBreite/2,h/2-RectHoehe/2,RectBreite,pc);//hRectOben
+    zeichneZeile(w,h,crossX-RectBreite/2,h/2+RectHoehe/2,RectBreite,pc);//hRectUnten
+    zeichneZeile(w,h,0,h/2,crossX-RectBreite/2,pc);//hMitteLinks
+    zeichneZeile(w,h,crossX+RectBreite/2,h/2,w-(crossX+RectBreite/2),pc);//hMitteRechts
+
+    //auf Overlay kopieren
+  for(i=0;i<h;i++)
+    {
+      memcpy(cap->sdlOverlay->pixels[0]+i*wMalVier+offset,	\
+	     pc+alles,						\
+	     wMalZwei);
+	  alles += w*2;
+    }
 }
 
 static void overlayAndCrossair(struct v4l_capture* cap,char * pc,size_t len)
@@ -228,7 +385,7 @@ static void processImages(struct v4l_capture* cap,const void * p,int method,size
       SDL_LockYUVOverlay(cap->sdlOverlay);
 
       char * pc = (char *)p;
-      overlayAndCrossair(cap,(char *)pc,len);
+      overlayAndRect(cap,(char *)pc,len);
 
       //printf("alles = %i, len = %i\n",alles,len);
       SDL_UnlockYUVOverlay(cap->sdlOverlay);
@@ -612,16 +769,16 @@ void CamControl::pollTimerExpired(long us)
       if(this->PixelFormat)
 	{
 	  if(this->RGB_Mode)
-	    camfd=cap_cam_init(0,processRGBImages);
+	    camfd=cap_cam_init(0,RectBreite/2,processRGBImages);
 	  else
-	    camfd=cap_cam_init(0,processMJPEG);
+	    camfd=cap_cam_init(0,RectBreite/2,processMJPEG);
 	}
       else
 	{
 	  if(this->RGB_Mode)
-	    camfd=cap_cam_init(0,processRGBImages);
+	    camfd=cap_cam_init(0,RectBreite/2,processRGBImages);
 	  else
-	    camfd=cap_cam_init(0,processImages);
+	    camfd=cap_cam_init(0,RectBreite/2,processImages);
 	}
       if(camfd<0)
 	{
@@ -652,16 +809,16 @@ void CamControl::pollTimerExpired(long us)
       if(this->PixelFormat)
 	{
 	  if(this->RGB_Mode)
-	    camfd=cap_cam_init(1,processRGBImages);
+	    camfd=cap_cam_init(1,RectBreite/2,processRGBImages);
 	  else
-	    camfd=cap_cam_init(1,processMJPEG);
+	    camfd=cap_cam_init(1,RectBreite/2,processMJPEG);
 	}
       else
 	{
 	  if(this->RGB_Mode)
-	    camfd=cap_cam_init(1,processRGBImages);
+	    camfd=cap_cam_init(1,RectBreite/2,processRGBImages);
 	  else
-	    camfd=cap_cam_init(1,processImages);
+	    camfd=cap_cam_init(1,RectBreite/2,processImages);
 	  }
       if(camfd<0)
 	{
@@ -984,6 +1141,14 @@ int main(int argc, char *argv[])
       FaktorZ1 = atof(tmp);
       printf("FAKTOR_Z1 = %f\n",(float)FaktorZ1);
     }
+  if(!iniParser_getParam(confpath,(char*)"RECT_BREITE",tmp,64))
+    {
+      RectBreite = atoi(tmp);
+    }
+  if(!iniParser_getParam(confpath,(char*)"RECT_HOEHE",tmp,64))
+    {
+      RectHoehe = atoi(tmp);
+    }
   //das Muss der letzte Paramter sein der mit tmp geholt wird, da tmp
   //später noch ausgewertet wird!
   if(iniParser_getParam(confpath,(char*)"usbDevice",tmp,64))
@@ -1026,6 +1191,18 @@ int main(int argc, char *argv[])
 	  return 0;
 	}
       argc--;
+    }
+
+  unsigned char Y = 106,U = 221,V = 202;
+  Y = getYfromRGB(0,255,0);//gruen
+  U = getUfromRGB(0,255,0);
+  V = getVfromRGB(0,255,0);
+  for (unsigned int i=0;i<(MAXCAMWIDTH*4);i+=4)
+    {
+	      oneLineColor[i]=Y;
+	      oneLineColor[i+1]=V;
+	      oneLineColor[i+2]=Y;
+	      oneLineColor[i+3]=U;
     }
 
   props.width=sdlwidth;//1280;//720;
