@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <termios.h>
 #include <unistd.h>
+#include <math.h>
 //#include <iostream>
 //#include <stdlib.h>
 #include <SDL/SDL.h>
@@ -69,6 +70,7 @@ static int RectHoehe = 0;
 
 static const unsigned int MAXCAMWIDTH = 1280;
 static unsigned char oneLineColor[MAXCAMWIDTH*2];
+static int circleQuarterX[MAXCAMWIDTH/2];
 
 static double FaktorZ1 = 1.0;
 
@@ -243,6 +245,62 @@ static void overlayAndRect(struct v4l_capture* cap,char * pc,size_t len)
     }
 }
 
+static void overlayAndCircle(struct v4l_capture* cap,char * pc,size_t len)
+{
+  unsigned int i;
+  unsigned int w = (unsigned int)cap->camWidth;
+  unsigned int h = (unsigned int)cap->camHeight;
+  int alles = 0;
+  int cam = cap->camnumber;
+  int wMalZwei = w*2;
+  int wMalVier = w*4;
+  int offset = cam*wMalZwei;
+
+  unsigned int crossX = cap->camCrossX;
+
+  static int flag = 1;
+  static unsigned char Y = 106,U = 221,V = 202;
+
+
+    if(flag)
+    {
+      Y = getYfromRGB(0,255,0);//gruen
+      U = getUfromRGB(0,255,0);
+      V = getVfromRGB(0,255,0);
+      printf("Y = %i, U=%i, V=%i\n",Y,U,V);
+      flag=0;
+    }
+
+
+    for(int i=0;i<=RectHoehe/2;i++)
+      {
+	zeichneZeile(w,h,crossX+circleQuarterX[i],i+h/2,2,pc);//rechts mitte nach unten
+	zeichneZeile(w,h,crossX+circleQuarterX[i],h/2-i,2,pc);//rechts mitte nach oben
+
+	zeichneZeile(w,h,crossX-circleQuarterX[i],i+h/2,2,pc);
+	zeichneZeile(w,h,crossX-circleQuarterX[i],h/2-i,2,pc);// links mitte nach oben
+
+      }
+
+    zeichneSpalte(w,h,crossX,0,h/2-RectHoehe/2,pc);//vMitteOben
+    zeichneSpalte(w,h,crossX,h/2+RectHoehe/2,h/2-RectHoehe/2,pc);//vMitteUnten
+    //zeichneSpalte(w,h,crossX-RectBreite/2,h/2-RectHoehe/2,RectHoehe,pc);//vRectLinks
+    //zeichneSpalte(w,h,crossX+RectBreite/2,h/2-RectHoehe/2,RectHoehe+1,pc);//vRectRechts
+    //zeichneZeile(w,h,crossX-RectBreite/2,h/2-RectHoehe/2,RectBreite,pc);//hRectOben
+    //zeichneZeile(w,h,crossX-RectBreite/2,h/2+RectHoehe/2,RectBreite,pc);//hRectUnten
+    zeichneZeile(w,h,0,h/2,crossX-RectBreite/2,pc);//hMitteLinks
+    zeichneZeile(w,h,crossX+RectBreite/2,h/2,w-(crossX+RectBreite/2),pc);//hMitteRechts
+
+    //auf Overlay kopieren
+  for(i=0;i<h;i++)
+    {
+      memcpy(cap->sdlOverlay->pixels[0]+i*wMalVier+offset,	\
+	     pc+alles,						\
+	     wMalZwei);
+	  alles += w*2;
+    }
+}
+
 static void overlayAndCrossair(struct v4l_capture* cap,char * pc,size_t len)
 {
   unsigned int i,ii;
@@ -359,6 +417,9 @@ static void processMJPEG(struct v4l_capture* cap,const void * p,int method,size_
 
       overlayAndCrossair(cap,(char *)framebuffer,len);
 
+      if(0)//Verhindert Warnung bei nichtbenutzter Funktion
+	overlayAndRect(cap,(char *)framebuffer,len);
+
       SDL_UnlockYUVOverlay(cap->sdlOverlay);
       SDL_UnlockSurface(cap->mainSurface);
 
@@ -385,16 +446,11 @@ static void processImages(struct v4l_capture* cap,const void * p,int method,size
       SDL_LockYUVOverlay(cap->sdlOverlay);
 
       char * pc = (char *)p;
-      overlayAndRect(cap,(char *)pc,len);
 
-      //printf("alles = %i, len = %i\n",alles,len);
+      overlayAndCircle(cap,(char *)pc,len);
+
       SDL_UnlockYUVOverlay(cap->sdlOverlay);
       SDL_UnlockSurface(cap->mainSurface);
-
-      /*tmpRect.h=tmpRect.h*MULTIPLIKATOR;*2;//untereinander
-	tmpRect.w=tmpRect.w*2*MULTIPLIKATOR;*4;//nebeneinander*/
-      //printf("processImages x %i y %i w %i y%i \n",cap->sdlRect.x,cap->sdlRect.y,cap->sdlRect.w,cap->sdlRect.h);
-      //cap->sdlRect.y = 200;
       SDL_DisplayYUVOverlay(cap->sdlOverlay, &cap->sdlRect);
     }
   else if(method==IO_METHOD_USERPTR)
@@ -1141,13 +1197,14 @@ int main(int argc, char *argv[])
       FaktorZ1 = atof(tmp);
       printf("FAKTOR_Z1 = %f\n",(float)FaktorZ1);
     }
-  if(!iniParser_getParam(confpath,(char*)"RECT_BREITE",tmp,64))
+  if(!iniParser_getParam(confpath,(char*)"DIAMETER",tmp,64))
     {
       RectBreite = atoi(tmp);
-    }
-  if(!iniParser_getParam(confpath,(char*)"RECT_HOEHE",tmp,64))
-    {
-      RectHoehe = atoi(tmp);
+      if(RectBreite<0)
+	RectBreite*=-1;
+      if((unsigned int)RectBreite>(MAXCAMWIDTH/2))
+	RectBreite = (MAXCAMWIDTH/2);
+      RectHoehe = RectBreite;
     }
   //das Muss der letzte Paramter sein der mit tmp geholt wird, da tmp
   //später noch ausgewertet wird!
@@ -1193,6 +1250,8 @@ int main(int argc, char *argv[])
       argc--;
     }
 
+  //Vorbereitungne für Circle (oder Rect)
+  //
   unsigned char Y = 106,U = 221,V = 202;
   Y = getYfromRGB(0,255,0);//gruen
   U = getUfromRGB(0,255,0);
@@ -1204,6 +1263,23 @@ int main(int argc, char *argv[])
 	      oneLineColor[i+2]=Y;
 	      oneLineColor[i+3]=U;
     }
+
+  for(int i=0;i<=RectHoehe/2;i++)
+    {
+      /*
+	sin(alpha) = Yp / a ; wobei a die Hypotenuse ist!
+	cos(alpha) = Xp / a
+
+	sin(alpha) = +- Wurzel(1 - (cos(alpha)^2 )
+	ergibt:
+	Yp / a = +- Wurzel(1 - (Xp / a)^2 )
+	nach x aufgelöst ergibt in etwa:
+	x = Wurzel( a^2 - y^2 )
+	...somit hat man einen viertel Kreis!
+      */
+      circleQuarterX[i] = sqrt(pow(RectHoehe/2,2)-pow(i,2));
+    }
+  //Vorbereitungen Ende
 
   props.width=sdlwidth;//1280;//720;
   props.height=sdlheight;//576;
