@@ -76,6 +76,43 @@ static double FaktorZ1 = 1.0;
 
 static CamControl * camCtrl;
 
+static int getOverlayCircle(void)
+{
+  return RectBreite;
+}
+
+static void prepareOverlayCircle(int newDiameter)
+{
+  int max = 0;
+  if((unsigned int)camheight > MAXCAMWIDTH/2-20)
+    max = MAXCAMWIDTH/2;
+  else
+    max = camheight;
+
+  RectBreite = newDiameter;
+  if(RectBreite<0)
+    RectBreite*=-1;
+  if(RectBreite>(max))
+    RectBreite = (max);
+  RectHoehe = RectBreite;
+
+  for(int i=0;i<=RectHoehe/2;i++)
+    {
+      /*
+	sin(alpha) = Yp / a ; wobei a die Hypotenuse ist!
+	cos(alpha) = Xp / a
+
+	sin(alpha) = +- Wurzel(1 - (cos(alpha)^2 )
+	ergibt:
+	Yp / a = +- Wurzel(1 - (Xp / a)^2 )
+	nach x aufgelöst ergibt in etwa:
+	x = Wurzel( a^2 - y^2 )
+	...somit hat man einen viertel Kreis!
+      */
+      circleQuarterX[i] = sqrt(pow(RectHoehe/2,2)-pow(i,2));
+    }
+}
+
 static unsigned char getYfromRGB(unsigned char r,unsigned char g,unsigned char b)
 {
   //double d = ((0.257*r)+(0.504*g)+(0.098*(double)b)+16);
@@ -1199,12 +1236,7 @@ int main(int argc, char *argv[])
     }
   if(!iniParser_getParam(confpath,(char*)"DIAMETER",tmp,64))
     {
-      RectBreite = atoi(tmp);
-      if(RectBreite<0)
-	RectBreite*=-1;
-      if((unsigned int)RectBreite>(MAXCAMWIDTH/2))
-	RectBreite = (MAXCAMWIDTH/2);
-      RectHoehe = RectBreite;
+      RectBreite = atoi(tmp);//wird in der Funktion prepareOverlayCircle Untersucht und Begrenzt
     }
   //das Muss der letzte Paramter sein der mit tmp geholt wird, da tmp
   //später noch ausgewertet wird!
@@ -1264,21 +1296,7 @@ int main(int argc, char *argv[])
 	      oneLineColor[i+3]=U;
     }
 
-  for(int i=0;i<=RectHoehe/2;i++)
-    {
-      /*
-	sin(alpha) = Yp / a ; wobei a die Hypotenuse ist!
-	cos(alpha) = Xp / a
-
-	sin(alpha) = +- Wurzel(1 - (cos(alpha)^2 )
-	ergibt:
-	Yp / a = +- Wurzel(1 - (Xp / a)^2 )
-	nach x aufgelöst ergibt in etwa:
-	x = Wurzel( a^2 - y^2 )
-	...somit hat man einen viertel Kreis!
-      */
-      circleQuarterX[i] = sqrt(pow(RectHoehe/2,2)-pow(i,2));
-    }
+  prepareOverlayCircle(RectBreite);
   //Vorbereitungen Ende
 
   props.width=sdlwidth;//1280;//720;
@@ -1330,7 +1348,9 @@ int main(int argc, char *argv[])
 				       camheight,		\
 				       ButtonAreaHeight,	\
 				       saveFilePath,\
-				       guiMode);
+				       guiMode,\
+				       prepareOverlayCircle,\
+				       getOverlayCircle);
   theArbeitsDialog->setFaktorZAchse((float)FaktorZ1);
 
   theGUI->eventLoop();

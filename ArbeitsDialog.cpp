@@ -168,15 +168,17 @@ namespace EuMax01
   }
 
   ArbeitsDialog::~ArbeitsDialog(){}
-  ArbeitsDialog::ArbeitsDialog(GUI * pGUI,		\
-			       MBProtocol *prot,	\
-			       int sdlw,		\
-			       int sdlh,		\
-			       int camw,		\
-			       int camh,			\
-			       int yPos,			\
-			       char * saveFilePath,\
-			       bool useTheGUI)//:Screen()
+  ArbeitsDialog::ArbeitsDialog(GUI * pGUI,				\
+			       MBProtocol *prot,			\
+			       int sdlw,				\
+			       int sdlh,				\
+			       int camw,				\
+			       int camh,				\
+			       int yPos,				\
+			       char * saveFilePath,			\
+			       bool useTheGUI,				\
+			       void (*newDiameterFnk)(int),		\
+			       int (*getDiameterFnk)(void))//:Screen()
   {
     short M_y;
     short MLinks_x;
@@ -207,6 +209,9 @@ namespace EuMax01
     Cam2ZaxisDif = 0;
 
     fFaktorZAchse = 1.0;
+
+    this->newCircleDiameterFnk = newDiameterFnk;
+    this->getCircleDiameterFnk = getDiameterFnk;
 
     this->useGUI = useTheGUI; 
     this->theRezept = new Rezept();

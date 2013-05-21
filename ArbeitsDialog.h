@@ -37,9 +37,11 @@ namespace EuMax01
   class ArbeitsDialog : public Screen,virtual public IMBProtListener
   {
   public:
-    ArbeitsDialog(GUI * pGUI,MBProtocol * prot,\
-		  int sdlw,int sdlh, int camw,\
-		  int camh,int yPos,char * saveFilePath,bool useGUI);
+    ArbeitsDialog(GUI * pGUI,MBProtocol * prot,	\
+		  int sdlw,int sdlh, int camw,				\
+		  int camh,int yPos,char * saveFilePath,bool useGUI,	\
+		  void (*newDiameterFnk)(int),				\
+		  int (*getDiameterFnk)(void));
     ~ArbeitsDialog();
 
     /*! \brief füllt den einen char Puffer mit data als string
@@ -111,6 +113,8 @@ namespace EuMax01
 
     int theActiveDialogNumber();
 
+    void (*newCircleDiameterFnk)(int);
+    int (*getCircleDiameterFnk)(void);
 
     /*! gibt ein "frisches Rezept zurück
      *
@@ -128,6 +132,7 @@ namespace EuMax01
 
     unsigned short getCamW_Sichtbar();
     bool useTheGUI();
+    void convertCamPos(int cam,unsigned short dat);
 
   private:
     int CamW_Sichtbar;
@@ -164,8 +169,6 @@ namespace EuMax01
     SplashScreen * theSplashScreen;
     CalibrationDialog * theCalDialog;
     InfoDialog * theInfoDialog;
-
-    void convertCamPos(int cam,unsigned short dat);
 
     PosDialog * thePosDialog;
     

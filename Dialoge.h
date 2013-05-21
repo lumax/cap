@@ -210,7 +210,6 @@ namespace EuMax01
     void getCam1CrossX();
     void getCam2CrossX();
 
-
     /*! brief prüft den Dateinamen auf länge und beschreibt den Parent->theRezept
      *        Namen
      */

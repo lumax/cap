@@ -1052,52 +1052,86 @@ namespace EuMax01
     if(ad->getStep()<8)
       ad->incStep();
   }
-  static void NewCrossF1(void * src, SDL_Event * evt)
+  static void NewCrossCircleMinus(void * src, SDL_Event * evt)
   {
     NewDialog* ad = (NewDialog*)src;
-    cap_cam_addCrossX(0,-10);
+    int step = -16;
+    int dia = 0;
+    SDLMod mod = SDL_GetModState();
+
+    if((mod & KMOD_RSHIFT) || (mod & KMOD_LSHIFT))
+      step=-4;
+    dia = (*ad->Parent->getCircleDiameterFnk)();
+    dia += step;
+    (*ad->Parent->newCircleDiameterFnk)(dia);
+    dia = (*ad->Parent->getCircleDiameterFnk)();
+    cap_cam_setCrossXLimit(0,dia/2);
+    cap_cam_setCrossXLimit(1,dia/2);
+
+    dia = cap_cam_getCrossX(0);
+    cap_cam_setCrossX(0,dia);
+    dia = cap_cam_getCrossX(1);
+    cap_cam_setCrossX(1,dia);
+  }
+  static void NewCrossCirclePlus(void * src, SDL_Event * evt)
+  {
+    NewDialog* ad = (NewDialog*)src;
+    int step = 16;
+    int dia = 0;
+    SDLMod mod = SDL_GetModState();
+
+    if((mod & KMOD_RSHIFT) || (mod & KMOD_LSHIFT))
+      step=4;
+    dia = (*ad->Parent->getCircleDiameterFnk)();
+    dia += step;
+    (*ad->Parent->newCircleDiameterFnk)(dia);
+    dia = (*ad->Parent->getCircleDiameterFnk)();
+    cap_cam_setCrossXLimit(0,dia/2);
+    cap_cam_setCrossXLimit(1,dia/2);
+
+    dia = cap_cam_getCrossX(0);
+    cap_cam_setCrossX(0,dia);
+    dia = cap_cam_getCrossX(1);
+    cap_cam_setCrossX(1,dia);
+  }
+  static void NewCrossCam0Left(void * src, SDL_Event * evt)
+  {
+    NewDialog* ad = (NewDialog*)src;
+    int step = -10;
+    SDLMod mod = SDL_GetModState();
+    if( (mod & KMOD_RSHIFT) || (mod & KMOD_LSHIFT) )
+	step=-2;
+    cap_cam_addCrossX(0,step);
     ad->getCam1CrossX();
   }
-  static void NewCrossF2(void * src, SDL_Event * evt)
+  static void NewCrossCam0Right(void * src, SDL_Event * evt)
   {
     NewDialog* ad = (NewDialog*)src;
-    cap_cam_addCrossX(0,-2);
+    int step = 10;
+    SDLMod mod = SDL_GetModState();
+    if((mod & KMOD_RSHIFT) || (mod & KMOD_LSHIFT))
+      step=2;
+    cap_cam_addCrossX(0,step);
     ad->getCam1CrossX();
   }
-  static void NewCrossF3(void * src, SDL_Event * evt)
+  static void NewCrossCam1Left(void * src, SDL_Event * evt)
   {
     NewDialog* ad = (NewDialog*)src;
-    cap_cam_addCrossX(0,2);
-    ad->getCam1CrossX();
-  }
-  static void NewCrossF4(void * src, SDL_Event * evt)
-  {
-    NewDialog* ad = (NewDialog*)src;
-    cap_cam_addCrossX(0,10);
-    ad->getCam1CrossX();
-  }
-  static void NewCrossF5(void * src, SDL_Event * evt)
-  {
-    NewDialog* ad = (NewDialog*)src;
-    cap_cam_addCrossX(1,-10);
+    int step = -10;
+    SDLMod mod = SDL_GetModState();
+    if( (mod & KMOD_RSHIFT) || (mod & KMOD_LSHIFT) )
+	step=-2;
+    cap_cam_addCrossX(1,step);
     ad->getCam2CrossX();
   }
-  static void NewCrossF6(void * src, SDL_Event * evt)
+  static void NewCrossCam1Right(void * src, SDL_Event * evt)
   {
     NewDialog* ad = (NewDialog*)src;
-    cap_cam_addCrossX(1,-2);
-    ad->getCam2CrossX();
-  }
-  static void NewCrossF7(void * src, SDL_Event * evt)
-  {
-    NewDialog* ad = (NewDialog*)src;
-    cap_cam_addCrossX(1,2);
-    ad->getCam2CrossX();
-  }
-  static void NewCrossF8(void * src, SDL_Event * evt)
-  {
-    NewDialog* ad = (NewDialog*)src;
-    cap_cam_addCrossX(1,10);
+    int step = 10;
+    SDLMod mod = SDL_GetModState();
+    if((mod & KMOD_RSHIFT) || (mod & KMOD_LSHIFT))
+      step=2;
+    cap_cam_addCrossX(1,step);
     ad->getCam2CrossX();
   }
 
@@ -1249,45 +1283,46 @@ namespace EuMax01
 	      }
 	    else if(key->keysym.sym == SDLK_F1)
 	      {
-		NewCrossF1(src,evt);
+		NewCrossCircleMinus(src,evt);
 	      }
 	    else if(key->keysym.sym == SDLK_F2)
 	      {
-		NewCrossF2(src,evt);;
+		NewCrossCirclePlus(src,evt);;
 	      }
 	    else if(key->keysym.sym == SDLK_F3)
 	      {
-		NewCrossF3(src,evt);
+		NewCrossCam0Left(src,evt);
 	      }
 	    else if(key->keysym.sym == SDLK_F4)
 	      {
-		NewCrossF4(src,evt);
+		NewCrossCam0Right(src,evt);
 	      }
 	    else if(key->keysym.sym == SDLK_F5)
 	      {
-		NewCrossF5(src,evt);
+		NewCrossCam1Left(src,evt);
 	      }
 	    else if(key->keysym.sym == SDLK_F6)
 	      {
-		NewCrossF6(src,evt);
+		NewCrossCam1Right(src,evt);
 	      }
 	    else if(key->keysym.sym == SDLK_F7)
 	      {
-		NewCrossF7(src,evt);
+		//NewCrossCam1Right(src,evt);
 	      }
 	    else if(key->keysym.sym == SDLK_F8)
 	      {
-		NewCrossF7(src,evt);
+		//NewCrossCam1Right(src,evt);
 	      }
 	  }
       }
   }
 
-  NewDialog::NewDialog(int sdlw,		\
-			 int sdlh,		\
-			 int camw,		\
-			 int camh,		\
-			 int yPos,ArbeitsDialog * parent):Screen()
+  NewDialog::NewDialog(int sdlw,					\
+		       int sdlh,					\
+		       int camw,					\
+		       int camh,					\
+		       int yPos,					\
+		       ArbeitsDialog * parent):Screen()
   {
     short M_y;
     unsigned short MSpace_h;
@@ -1457,23 +1492,23 @@ namespace EuMax01
   void NewDialog::setMenuBarForNewCross()
   {
 
-    theMenuBarSettings.Text[0]=(char *)"F1 <<";
-    theMenuBarSettings.Text[1]=(char *)"F2 <";
-    theMenuBarSettings.Text[2]=(char *)"F3 >";
-    theMenuBarSettings.Text[3]=(char *)"F4 >>";
-    theMenuBarSettings.Text[4]=(char *)"F5 <<";
-    theMenuBarSettings.Text[5]=(char *)"F6 <";
-    theMenuBarSettings.Text[6]=(char *)"F7 >";
-    theMenuBarSettings.Text[7]=(char *)"F8 >>";
+    theMenuBarSettings.Text[0]=(char *)"F1 O-";
+    theMenuBarSettings.Text[1]=(char *)"F2 O+";
+    theMenuBarSettings.Text[2]=(char *)"F3 <";
+    theMenuBarSettings.Text[3]=(char *)"F4 >";
+    theMenuBarSettings.Text[4]=(char *)"F5 <";
+    theMenuBarSettings.Text[5]=(char *)"F6 >";
+    theMenuBarSettings.Text[6]=0;
+    theMenuBarSettings.Text[7]=0;
 
-    theMenuBarSettings.evtFnks[0]=NewCrossF1;
-    theMenuBarSettings.evtFnks[1]=NewCrossF2;
-    theMenuBarSettings.evtFnks[2]=NewCrossF3; 
-    theMenuBarSettings.evtFnks[3]=NewCrossF4;
-    theMenuBarSettings.evtFnks[4]=NewCrossF5;
-    theMenuBarSettings.evtFnks[5]=NewCrossF6;
-    theMenuBarSettings.evtFnks[6]=NewCrossF7;
-    theMenuBarSettings.evtFnks[7]=NewCrossF8;
+    theMenuBarSettings.evtFnks[0]=NewCrossCircleMinus;
+    theMenuBarSettings.evtFnks[1]=NewCrossCirclePlus;
+    theMenuBarSettings.evtFnks[2]=NewCrossCam0Left;
+    theMenuBarSettings.evtFnks[3]=NewCrossCam0Right;
+    theMenuBarSettings.evtFnks[4]=NewCrossCam1Left;
+    theMenuBarSettings.evtFnks[5]=NewCrossCam1Right;
+    theMenuBarSettings.evtFnks[6]=0;
+    theMenuBarSettings.evtFnks[7]=0;
     theMenu->updateSettings(&this->theMenuBarSettings);
   }
 
