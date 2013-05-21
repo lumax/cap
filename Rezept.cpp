@@ -39,10 +39,12 @@ static void evtExit(void * src,SDL_Event * evt){
 	this->Rezepte[i].cams[0].x_pos = 0;
 	this->Rezepte[i].cams[0].z_pos = 0;
 	this->Rezepte[i].cams[0].x_cross = 0;
+	this->Rezepte[i].cams[0].diameter = Rezept::DefaultDiameter;
 
 	this->Rezepte[i].cams[1].x_pos = 0;
 	this->Rezepte[i].cams[1].z_pos = 0;
 	this->Rezepte[i].cams[1].x_cross = 0;
+	this->Rezepte[i].cams[1].diameter = Rezept::DefaultDiameter;
       }
 
     for(i=0;i<Rezept::NameLength;i++)
@@ -60,10 +62,12 @@ static void evtExit(void * src,SDL_Event * evt){
 	target->Rezepte[i].cams[0].x_pos = source->Rezepte[i].cams[0].x_pos;
 	target->Rezepte[i].cams[0].z_pos = source->Rezepte[i].cams[0].z_pos;
 	target->Rezepte[i].cams[0].x_cross = source->Rezepte[i].cams[0].x_cross;
+	target->Rezepte[i].cams[0].diameter = source->Rezepte[i].cams[0].diameter;
 
 	target->Rezepte[i].cams[1].x_pos = source->Rezepte[i].cams[1].x_pos;
 	target->Rezepte[i].cams[1].z_pos = source->Rezepte[i].cams[1].z_pos;
 	target->Rezepte[i].cams[1].x_cross = source->Rezepte[i].cams[1].x_cross;
+	target->Rezepte[i].cams[1].diameter = source->Rezepte[i].cams[1].diameter;
       }
 
     for(i=0;i<Rezept::NameLength;i++)
@@ -109,6 +113,21 @@ static void evtExit(void * src,SDL_Event * evt){
     
     return this->Rezepte[pos].cams[theCam].z_pos;
   }
+
+  int Rezept::getDiameter(int rezept)
+  {
+    int theCam = 0;
+    int pos;
+
+    if(rezept<0)
+      pos = 0;
+    else if(rezept>=Rezept::AnzahlRezepte)
+      pos = Rezept::AnzahlRezepte-1;
+    else
+      pos = rezept;
+    
+    return this->Rezepte[pos].cams[theCam].diameter;
+  }
   
   int Rezept::writeToFile(char * SaveDir)
   {
@@ -136,6 +155,9 @@ static void evtExit(void * src,SDL_Event * evt){
 	sprintf(this->buf,"r%i_cam1_x_cross = %i\n",i,this->Rezepte[i].cams[0].x_cross);
 	if(write(fd,buf,strlen(buf))==-1)
 	  goto error_out;
+	sprintf(this->buf,"r%i_cam1_diameter = %i\n",i,this->Rezepte[i].cams[0].diameter);
+	if(write(fd,buf,strlen(buf))==-1)
+	  goto error_out;
 
 	sprintf(this->buf,"r%i_cam2_x_pos = %i\n",i,this->Rezepte[i].cams[1].x_pos);
 	if(write(fd,buf,strlen(buf))==-1)
@@ -144,6 +166,9 @@ static void evtExit(void * src,SDL_Event * evt){
 	if(write(fd,buf,strlen(buf))==-1)
 	  goto error_out;
 	sprintf(this->buf,"r%i_cam2_x_cross = %i\n",i,this->Rezepte[i].cams[1].x_cross);
+	if(write(fd,buf,strlen(buf))==-1)
+	  goto error_out;
+	sprintf(this->buf,"r%i_cam2_diameter = %i\n",i,this->Rezepte[i].cams[1].diameter);
 	if(write(fd,buf,strlen(buf))==-1)
 	  goto error_out;	
       }
@@ -195,6 +220,16 @@ static void evtExit(void * src,SDL_Event * evt){
 	    this->Rezepte[i].cams[0].x_cross = atoi(tmp);
 	  }
 
+	sprintf(this->buf,"r%i_cam1_diameter",i);
+	if(iniParser_getParam(tmpBuf,this->buf,tmp,64))
+	  {
+	    this->Rezepte[i].cams[0].diameter = Rezept::DefaultDiameter;
+	  }
+	else
+	  {
+	    this->Rezepte[i].cams[0].diameter = atoi(tmp);
+	  }
+
 	sprintf(this->buf,"r%i_cam2_x_pos",i);
 	if(iniParser_getParam(tmpBuf,this->buf,tmp,64))
 	  {
@@ -223,6 +258,16 @@ static void evtExit(void * src,SDL_Event * evt){
 	else
 	  {
 	    this->Rezepte[i].cams[1].x_cross = atoi(tmp);
+	  }
+
+	sprintf(this->buf,"r%i_cam2_diameter",i);
+	if(iniParser_getParam(tmpBuf,this->buf,tmp,64))
+	  {
+	    this->Rezepte[i].cams[1].diameter = Rezept::DefaultDiameter;
+	  }
+	else
+	  {
+	    this->Rezepte[i].cams[1].diameter = atoi(tmp);
 	  }
       }
 

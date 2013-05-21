@@ -17,6 +17,7 @@ struct Position
   unsigned short x_pos;
   unsigned short z_pos;
   unsigned short x_cross;
+  int diameter;
 };
 
 struct PositionSet
@@ -34,18 +35,20 @@ struct PositionSet
     ~Rezept();
     unsigned short getXPosition(int cam,int rezept);
     unsigned short getZPosition(int rezept);
+    int getDiameter(int rezept);
     
     static void copy(Rezept * source,Rezept * target);
 
     static const int AnzahlRezepte = 8;
     static const int NameLength = 17;
+    static const int DefaultDiameter = 200;
     char Name[17];
     struct PositionSet Rezepte[8];
     int writeToFile(char * SaveDir);
     int readFromFile(char * FilePath,char * FileName);
   private:
     char buf[1024];
-    static const int version = 1000;
+    static const int version = 2000;
   };
 
 #endif /* __REZEPT_H__*/
