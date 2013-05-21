@@ -642,6 +642,9 @@ namespace EuMax01
 	thePosDialog->pLabelZ[PosDialog::iStep]->	\
 	  setText(thePosDialog->pcLabelZ[PosDialog::iStep]);
 
+	//show Diameter
+	this->newCircleDiameterFnk(theRezept->Rezepte[RezeptNummer].cams[0].diameter);
+
 	switch(nummer)
 	  {
 	  case 0:

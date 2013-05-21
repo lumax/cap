@@ -1596,6 +1596,8 @@ namespace EuMax01
 		 Parent->int2string(pcRezept[NewDialog::iPosX2],64, \
 				    tmpRezept->Rezepte[rzpStep].cams[1].x_pos,\
 				    (char*)" mm"));
+	//Durchmesser der Kreise
+	this->Parent->newCircleDiameterFnk(tmpRezept->Rezepte[rzpStep].cams[0].diameter);
       }
     else
       {
@@ -1613,6 +1615,9 @@ namespace EuMax01
 	tmpRezept->Rezepte[rzpStep].cams[0].x_pos = usWerte[NewDialog::iPosX1];
 	tmpRezept->Rezepte[rzpStep].cams[0].z_pos = usWerte[NewDialog::iPosZ];
 	tmpRezept->Rezepte[rzpStep].cams[1].x_pos = usWerte[NewDialog::iPosX2];
+
+	tmpRezept->Rezepte[rzpStep].cams[0].diameter = this->Parent->getCircleDiameterFnk();
+	tmpRezept->Rezepte[rzpStep].cams[1].diameter = this->Parent->getCircleDiameterFnk();
 
 	tmpRezept->Rezepte[rzpStep].cams[0].x_cross = usWerte[NewDialog::iPosFP1];
 	tmpRezept->Rezepte[rzpStep].cams[1].z_pos = usWerte[NewDialog::iPosZ2];
