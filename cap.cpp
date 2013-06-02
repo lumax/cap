@@ -338,6 +338,64 @@ static void overlayAndCircle(struct v4l_capture* cap,char * pc,size_t len)
     }
 }
 
+static void overlayAndCircleOneCam(struct v4l_capture* cap,char * pc,size_t len)
+{
+  unsigned int i;
+  unsigned int w = (unsigned int)cap->camWidth;
+  unsigned int h = (unsigned int)cap->camHeight;
+  int alles = 0;
+  int cam = cap->camnumber;
+  int wMalZwei = w*2;
+  int wMalVier = w*4;
+  int offset = 0;//w;//w+2 ist die Mitte, w ist das erste viertelcam*wMalZwei;
+
+  unsigned int crossX = cap->camCrossX;
+
+  static int flag = 1;
+  static unsigned char Y = 106,U = 221,V = 202;
+
+  if(0!=cam)//OneCam
+    return;
+
+    if(flag)
+    {
+      Y = getYfromRGB(0,255,0);//gruen
+      U = getUfromRGB(0,255,0);
+      V = getVfromRGB(0,255,0);
+      printf("Y = %i, U=%i, V=%i\n",Y,U,V);
+      flag=0;
+    }
+
+
+    for(int i=0;i<=RectHoehe/2;i++)
+      {
+	zeichneZeile(w,h,crossX+circleQuarterX[i],i+h/2,2,pc);//rechts mitte nach unten
+	zeichneZeile(w,h,crossX+circleQuarterX[i],h/2-i,2,pc);//rechts mitte nach oben
+
+	zeichneZeile(w,h,crossX-circleQuarterX[i],i+h/2,2,pc);
+	zeichneZeile(w,h,crossX-circleQuarterX[i],h/2-i,2,pc);// links mitte nach oben
+
+      }
+
+    zeichneSpalte(w,h,crossX,0,h/2-RectHoehe/2,pc);//vMitteOben
+    zeichneSpalte(w,h,crossX,h/2+RectHoehe/2,h/2-RectHoehe/2,pc);//vMitteUnten
+    //zeichneSpalte(w,h,crossX-RectBreite/2,h/2-RectHoehe/2,RectHoehe,pc);//vRectLinks
+    //zeichneSpalte(w,h,crossX+RectBreite/2,h/2-RectHoehe/2,RectHoehe+1,pc);//vRectRechts
+    //zeichneZeile(w,h,crossX-RectBreite/2,h/2-RectHoehe/2,RectBreite,pc);//hRectOben
+    //zeichneZeile(w,h,crossX-RectBreite/2,h/2+RectHoehe/2,RectBreite,pc);//hRectUnten
+    zeichneZeile(w,h,0,h/2,crossX-RectBreite/2,pc);//hMitteLinks
+    zeichneZeile(w,h,crossX+RectBreite/2,h/2,w-(crossX+RectBreite/2),pc);//hMitteRechts
+
+    //auf Overlay kopieren
+  for(i=0;i<h;i++)
+    {
+      memcpy(cap->sdlOverlay->pixels[0]+i*wMalVier+offset,	\
+	     pc+alles,						\
+	     wMalZwei);
+	  alles += w*2;
+    }
+}
+
 static void overlayAndCrossair(struct v4l_capture* cap,char * pc,size_t len)
 {
   unsigned int i,ii;
