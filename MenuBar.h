@@ -28,7 +28,7 @@ namespace EuMax01
     void setMenuName(char * theName);
     void updateSettings(struct t_MenuBarSettings * settings);
 
-  private:
+  protected:
     Label * LName;
     Button * lbuf[MenuBar::MenuPunkte];
   };
@@ -42,6 +42,23 @@ namespace EuMax01
     void (*evtFnks[MenuBar::MenuPunkte])(void *,SDL_Event * evt);
     
     //function pointer
+  };
+
+  class LoadMenuBar : public MenuBar
+  {
+  public:
+    LoadMenuBar(int xPos,					\
+	    int yPos,					\
+	    int height,					\
+	    char * Name,				\
+	    struct t_MenuBarSettings * settings,	\
+		ArbeitsDialog * Parent,\
+		int MaxFilterTextLen);
+    ~LoadMenuBar();
+
+    TextField * TextField_Filter;
+
+    void addToEvtTarget(EvtTarget* theTarget);
   };
   
 #endif /* __MENUBAR_H__*/

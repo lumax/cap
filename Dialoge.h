@@ -135,7 +135,7 @@ namespace EuMax01
     ArbeitsDialog * Parent;
     static const unsigned int RezepteLen = 24;
     static const unsigned int RezepteProZeile = 8;
-    static const unsigned int MaxRezeptFileLaenge = 16;
+    static const unsigned int MaxRezeptFileLaenge = 15;
     void setActiveRecipe(unsigned int nr);
     void naviUp();
     void naviDown();
@@ -150,12 +150,14 @@ namespace EuMax01
     Rezept * tmpRezept;
 
     static void escape_listener(void * src, SDL_Event * evt);
+    static void filter_listener(void * src, SDL_Event * evt);
     static void pgup_listener(void * src, SDL_Event * evt);
     static void pgdown_listener(void * src, SDL_Event * evt);
     static void return_listener(void * src, SDL_Event * evt);
     
     unsigned int getMaxRecipesToDisplay();
     unsigned int getActiveRecipe();
+
   private:
     bool LoadMode;
     unsigned int ActiveRecipe;
@@ -168,7 +170,7 @@ namespace EuMax01
     char DateiNamen[LoadDialog::RezepteLen][32];
     char * blankText;
     struct t_MenuBarSettings theMenuBarSettings;
-    MenuBar * theMenu;
+    LoadMenuBar * theMenu;
   };
 
   class NewDirectDialog;
@@ -214,6 +216,7 @@ namespace EuMax01
      *        Namen
      */
     bool verifyName();
+    bool keinSpeicherplatz();
     Rezept * tmpRezept;
     
     LL * getDialogsEvtTargets();

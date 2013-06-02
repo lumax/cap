@@ -110,4 +110,49 @@ namespace EuMax01
 	lbuf[i]->setLMButtonUpEvtHandler(settings->evtFnks[i]);//,settings->evtSource);
       }
   }
+
+  LoadMenuBar::~LoadMenuBar(){}
+  LoadMenuBar::LoadMenuBar(int xPos,				\
+			   int yPos,				\
+			   int height,				\
+			   char * Name,				\
+			   struct t_MenuBarSettings * settings,	\
+			   ArbeitsDialog * Parent,\
+			   int MaxFilterTextLen):MenuBar(xPos,yPos,height, \
+							   Name,settings,Parent)
+  {
+
+    short x_space,x1Button;
+    int wName,wButton;
+
+    x_space = 4;
+    wName = 149;
+    wButton = 104;
+    x1Button = xPos + wName + x_space;
+
+    TextField_Filter = new TextField(0,MaxFilterTextLen,	\
+				     x1Button+wButton*2+x_space*2,	\
+				     yPos,\
+				     wButton+x_space+wButton,				\
+				     height,				\
+				     Parent->WerteSet);
+    TextField_Filter->setFont(Globals::getFontButtonBig());
+    TextField_Filter->setActive(true);
+    TextField_Filter->hide(false);
+  }
+
+  void LoadMenuBar::addToEvtTarget(EvtTarget* theTarget)
+  {
+    theTarget->addEvtTarget(LName);
+    theTarget->addEvtTarget(this->lbuf[0]);
+    theTarget->addEvtTarget(this->lbuf[1]);
+    //Nummer 2 und Nummer 3 sind in LoadMenueBar nicht vorhanden!
+    //Nummer 2 und Nummer 3 sind in LoadMenueBar nicht vorhanden!
+    theTarget->addEvtTarget(TextField_Filter);
+    for(int i = 4;i<MenuBar::MenuPunkte;i++)
+      {
+	theTarget->addEvtTarget(this->lbuf[i]);
+      }
+  }
+
 }

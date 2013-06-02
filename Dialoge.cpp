@@ -659,6 +659,12 @@ namespace EuMax01
     ad->Parent->showArbeitsDialog();
   }
 
+  void LoadDialog::filter_listener(void * src, SDL_Event * evt)
+  {
+    LoadDialog* ad = (LoadDialog*)src;//KeyListener
+    ad->Parent->showLoadDialog(0,ad->LoadMode);
+  }
+
   void LoadDialog::pgup_listener(void * src, SDL_Event * evt)
   {
     LoadDialog* ad = (LoadDialog*)src;//KeyListener
@@ -687,6 +693,10 @@ namespace EuMax01
 	if(key->keysym.sym == SDLK_ESCAPE)
 	  {
 	    ad->escape_listener(src,evt);
+	  }
+	else if(key->keysym.sym == SDLK_F2)
+	  {
+	    ad->filter_listener(src,evt);
 	  }
 	else if(key->keysym.sym == SDLK_UP)
 	  {
@@ -737,7 +747,9 @@ namespace EuMax01
 	ld->setActiveRecipe(lc->index);
       }
   }
-    
+
+  static TextField * pTF_Filter4dirFilter=0;
+
   LoadDialog::LoadDialog(int sdlw,		\
 			 int sdlh,		\
 			 int camw,		\
@@ -781,28 +793,29 @@ namespace EuMax01
     Rezepte_w = 125;
 
     theMenuBarSettings.Text[0]=(char *)"ESC";
-    theMenuBarSettings.Text[1]=0;
-    theMenuBarSettings.Text[2]=0;
-    theMenuBarSettings.Text[3]=(char *)"PgUp";
-    theMenuBarSettings.Text[4]=(char *)"PgDown";
-    theMenuBarSettings.Text[5]=0;
-    theMenuBarSettings.Text[6]=0;
+    theMenuBarSettings.Text[1]=(char *)"F2 filter";
+    theMenuBarSettings.Text[2]=0;//Nummer 2 und Nummer 3 sind in LoadMenueBar nicht vorhanden!
+    theMenuBarSettings.Text[3]=0;//Nummer 2 und Nummer 3 sind in LoadMenueBar nicht vorhanden!
+    theMenuBarSettings.Text[4]=0;
+    theMenuBarSettings.Text[5]=(char *)"PgUp";;
+    theMenuBarSettings.Text[6]=(char *)"PgDown";;
     theMenuBarSettings.Text[7]=(char *)"ENTER";
 
     theMenuBarSettings.evtSource = (void*)this;
 
     theMenuBarSettings.evtFnks[0]=escape_listener;
-    theMenuBarSettings.evtFnks[1]=0;
-    theMenuBarSettings.evtFnks[2]=0;
-    theMenuBarSettings.evtFnks[3]=pgup_listener;
-    theMenuBarSettings.evtFnks[4]=pgdown_listener;
-    theMenuBarSettings.evtFnks[5]=0;
-    theMenuBarSettings.evtFnks[6]=0;
+    theMenuBarSettings.evtFnks[1]=filter_listener;
+    theMenuBarSettings.evtFnks[2]=0;//Nummer 2 und Nummer 3 sind in LoadMenueBar nicht vorhanden!
+    theMenuBarSettings.evtFnks[3]=0;//Nummer 2 und Nummer 3 sind in LoadMenueBar nicht vorhanden!
+    theMenuBarSettings.evtFnks[4]=0;
+    theMenuBarSettings.evtFnks[5]=pgup_listener;
+    theMenuBarSettings.evtFnks[6]=pgdown_listener;
     theMenuBarSettings.evtFnks[7]=return_listener;
 
-    theMenu = new MenuBar((int)MLinks_x,(int)MLoadName_y,(int)MZeile_h,	\
-			  (char*)"Load",			\
-			  &this->theMenuBarSettings,Parent);
+    theMenu = new LoadMenuBar((int)MLinks_x,(int)MLoadName_y,(int)MZeile_h, \
+			      (char*)"Load",				\
+			      &this->theMenuBarSettings,Parent,\
+			      LoadDialog::MaxRezeptFileLaenge);
 
     unsigned int ii = 0;
     //char tmpc[16] = { ' '};
@@ -830,6 +843,8 @@ namespace EuMax01
 	ii++;
 	this->addEvtTarget(pLabel_Rezepte[i]);
       }
+
+    pTF_Filter4dirFilter = theMenu->TextField_Filter;
 
     this->setLoadMode(true);
 
@@ -898,7 +913,7 @@ namespace EuMax01
     this->setActiveRecipe(nr);
   }
 
-  static int dirFilter(const struct dirent * dir)
+  int dirFilter(const struct dirent * dir)
   {
     if(strlen(dir->d_name)>LoadDialog::MaxRezeptFileLaenge)
       {
@@ -912,7 +927,23 @@ namespace EuMax01
       {
 	return 0;
       }
-    return 1;
+    if(strlen(pTF_Filter4dirFilter->getText())>0)
+      {
+	if(0==strncmp(dir->d_name,				\
+		      pTF_Filter4dirFilter->getText(),		\
+		      strlen(pTF_Filter4dirFilter->getText())))
+	  {
+	    return 1;
+	  }
+	else
+	  {
+	    return 0;
+	  }
+      }
+    else
+      {
+	return 1;
+      }
   }
 
   int LoadDialog::readSaveDirectory(char * dirName,unsigned int page)
@@ -1182,6 +1213,12 @@ namespace EuMax01
 	printf("error Name ist zu kurz oder zu lang\n");
 	while(ad->getStep()>0)//zurück zur Nameneingabe
 	  ad->decStep();
+	return;
+      }
+    else if(ad->keinSpeicherplatz())
+      {
+	ad->Parent->showErrorDialog((char*)"Error, no space left");
+	return;
       }
     else
       {
@@ -1554,6 +1591,31 @@ namespace EuMax01
     if(TextField_Name->getTextLen()<=2)
       return true;
     strcpy(tmpRezept->Name,TextField_Name->getText());
+    return false;
+  }
+
+  bool NewDialog::keinSpeicherplatz()
+  {
+    int file_count = 0;
+    DIR * dirp;
+    struct dirent * entry;
+    dirp = opendir(Parent->pcSaveFilePath);
+    if(dirp < 0)
+      return true;
+
+    while ((entry = readdir(dirp)) != NULL) {
+      if (entry->d_type == DT_REG) { /* If the entry is a regular file */
+	file_count++;
+      }
+    }
+    closedir(dirp);
+
+    //printf("NewDialog::keinSpeicherplatz : file:%i\n",file_count);
+    if (file_count < 0)
+      return true;
+    if(file_count>5000)
+      return true;
+
     return false;
   }
 
