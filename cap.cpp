@@ -144,6 +144,7 @@ static unsigned char getVfromRGB(unsigned char r,unsigned char g,unsigned char b
   h = y*w*2
 
  */
+static  int CrossBreite = 0;
 static inline void zeichneZeile(int w,	\
 				int h,	\
 				int x,	\
@@ -163,7 +164,7 @@ static inline void zeichneZeile(int w,	\
     breite=0;
 
   //start = h + w = y*w*2 + x*2
-  start = y*w*2 + x*2;
+    start = y*w*2 + x*2;
 
   //Max Byte in pc = w*h*2
   if(!MaxValueInPC)
@@ -197,16 +198,17 @@ static inline void zeichneSpalte(int w,	\
   if(hoehe<0)
     hoehe=0;
 
-  //start = h + w = y*w*2 + x*2
-  start = y*w*2 + x*2;
-
   //Max Byte in pc = w*h*2
   if(!MaxValueInPC)
     MaxValueInPC = h*w*2;
 
+  //start = h + w = y*w*2 + x*2
+  start = y*w*2 + x*2;
+
   for(int ii=0;ii<hoehe;ii++)
     {
-      memcpy(&pc[start],oneLineColor,4);
+      for(int i=-CrossBreite/2;i<=CrossBreite/2;i++)
+	memcpy(&pc[start+i*4],oneLineColor,4);
       start+=w*2;
       if(start>=MaxValueInPC)
 	return;
@@ -325,9 +327,11 @@ static void overlayAndCircle(struct v4l_capture* cap,char * pc,size_t len)
     //zeichneSpalte(w,h,crossX+RectBreite/2,h/2-RectHoehe/2,RectHoehe+1,pc);//vRectRechts
     //zeichneZeile(w,h,crossX-RectBreite/2,h/2-RectHoehe/2,RectBreite,pc);//hRectOben
     //zeichneZeile(w,h,crossX-RectBreite/2,h/2+RectHoehe/2,RectBreite,pc);//hRectUnten
-    zeichneZeile(w,h,0,h/2,crossX-RectBreite/2,pc);//hMitteLinks
-    zeichneZeile(w,h,crossX+RectBreite/2,h/2,w-(crossX+RectBreite/2),pc);//hMitteRechts
-
+for(int i=-CrossBreite;i<=CrossBreite;i++)
+  {
+    zeichneZeile(w,h,0,(h/2)+i,crossX-RectBreite/2,pc);//hMitteLinks
+    zeichneZeile(w,h,crossX+RectBreite/2,(h/2)+i,w-(crossX+RectBreite/2),pc);//hMitteRechts
+  }
     //auf Overlay kopieren
   for(i=0;i<h;i++)
     {
@@ -1361,7 +1365,7 @@ int main(int argc, char *argv[])
   props.height=sdlheight;//576;
   props.bpp=32;
   //props.flags|=SDL_SWSURFACE;//SDL_HWSURFACE;//|SDL_DOUBLEBUF;
-  props.flags|=SDL_ANYFORMAT;
+  props.flags|=SDL_ANYFORMAT|SDL_HWSURFACE;
 
   if(SDL_BYTEORDER==SDL_BIG_ENDIAN)
     {

@@ -32,7 +32,7 @@ Bastian Ruppert
 #include "ErrorDialog.h"
 #include "ArbeitsDialog.h"
 
-#include <linux/videodev.h>
+#include <linux/videodev2.h>
 
 #include "V4L2_utils.h"
 #include "CamCtrl.h"
