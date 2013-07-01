@@ -1779,9 +1779,8 @@ namespace EuMax01
 
   static void Options1(void * src, SDL_Event * evt)
   {
-    //OptionsDialog* ad = (OptionsDialog*)src;
-    printf("show CrossBreiteDialog\n");
-    //ad->Parent->showCrossBreiteDialog();
+    OptionsDialog* ad = (OptionsDialog*)src;
+    ad->Parent->showFadenkreuzDialog();
   }
 
   static void Options7(void * src, SDL_Event * evt)
@@ -1866,7 +1865,7 @@ namespace EuMax01
 
     this->Parent = parent;
 
-    theMenuBarSettings.Text[0]=0;//(char *)"F1 Cross";
+    theMenuBarSettings.Text[0]=(char *)"F1 Cross";
     theMenuBarSettings.Text[1]=0;
     theMenuBarSettings.Text[2]=0;
     theMenuBarSettings.Text[3]=0;

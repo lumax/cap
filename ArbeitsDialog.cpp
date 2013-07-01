@@ -30,6 +30,7 @@ Bastian Ruppert
 #include "Dialoge.h"
 #include "ErrorDialog.h"
 #include "InfoDialog.h"
+#include "FadenkreuzDialog.h"
 
 #include "ArbeitsDialog.h"
 
@@ -179,7 +180,10 @@ namespace EuMax01
 			       char * saveFilePath,			\
 			       bool useTheGUI,				\
 			       void (*newDiameterFnk)(int),		\
-			       int (*getDiameterFnk)(void))//:Screen()
+			       int (*getDiameterFnk)(void),
+			       void (*setFKBreite)(int val),	\
+			       void (*saveFKBreite)(void),\
+			       int (*getFKBreite)(void))//:Screen()
   {
     short M_y;
     short MLinks_x;
@@ -213,6 +217,10 @@ namespace EuMax01
 
     this->newCircleDiameterFnk = newDiameterFnk;
     this->getCircleDiameterFnk = getDiameterFnk;
+
+    this->setCrossairWidth = setFKBreite;
+    this->saveCrossairWidth = saveFKBreite;
+    this->getCrossairWidth = getFKBreite;
 
     this->useGUI = useTheGUI; 
     this->theRezept = new Rezept();
@@ -285,6 +293,7 @@ namespace EuMax01
     theCalDialog = new CalibrationDialog(sdlw,sdlh,camw,camh,yPos,this);
     theInfoDialog = new InfoDialog(sdlw,sdlh,camw,camh,yPos,this);
     theOptionsDialog = new OptionsDialog(sdlw,sdlh,camw,camh,yPos,this);
+    theFadenkreuzDialog = new FadenkreuzDialog(sdlw,sdlh,camw,camh,yPos,this);
 
     cap_cam_setCrossX(0,MitteCrossCam1);
     cap_cam_setCrossX(1,MitteCrossCam2);
@@ -525,6 +534,15 @@ namespace EuMax01
     this->iActiveDialog = ArbeitsDialog::OptionsDialogIsActive;
     this->blankMenuArea();
     this->theGUI->activateScreen(theOptionsDialog);
+  }
+
+  void ArbeitsDialog::showFadenkreuzDialog()
+  {
+    if(!useGUI)
+      return;
+    this->iActiveDialog = ArbeitsDialog::FadenkreuzDialogIsActive;
+    this->blankMenuArea();
+    this->theGUI->activateScreen(theFadenkreuzDialog);
   }
 
   int ArbeitsDialog::theActiveDialogNumber()

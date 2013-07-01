@@ -18,6 +18,7 @@ namespace EuMax01
   class MBProtocol;
   class InfoDialog;
   class OptionsDialog;
+  class FadenkreuzDialog;
   //class IMBProtListener;
   class MenuBar;
 
@@ -42,7 +43,10 @@ namespace EuMax01
 		  int sdlw,int sdlh, int camw,				\
 		  int camh,int yPos,char * saveFilePath,bool useGUI,	\
 		  void (*newDiameterFnk)(int),				\
-		  int (*getDiameterFnk)(void));
+		  int (*getDiameterFnk)(void),\
+		  void (*setFKBreite)(int val),		\
+		  void (*saveFKBreite)(void),\
+		  int (*getFKBreite)(void));
     ~ArbeitsDialog();
 
     /*! \brief füllt den einen char Puffer mit data als string
@@ -102,6 +106,7 @@ namespace EuMax01
     void showCalibrationDialog();
     void showInfoDialog();
     void showOptionsDialog();
+    void showFadenkreuzDialog();
 
     static const int ArbeitsDialogIsActive = 0;
     static const int LoadDialogIsActive = 1;
@@ -113,11 +118,16 @@ namespace EuMax01
     static const int InfoDialogIsActive = 7;
     static const int SplashScreenIsActive = 8;
     static const int OptionsDialogIsActive = 9;
+    static const int FadenkreuzDialogIsActive = 9;
 
     int theActiveDialogNumber();
 
     void (*newCircleDiameterFnk)(int);
     int (*getCircleDiameterFnk)(void);
+
+    void (*setCrossairWidth)(int val);
+    void (*saveCrossairWidth)(void);
+    int (*getCrossairWidth)(void);
 
     /*! gibt ein "frisches Rezept zurück
      *
@@ -173,6 +183,7 @@ namespace EuMax01
     CalibrationDialog * theCalDialog;
     InfoDialog * theInfoDialog;
     OptionsDialog * theOptionsDialog;
+    FadenkreuzDialog * theFadenkreuzDialog;
 
     PosDialog * thePosDialog;
     

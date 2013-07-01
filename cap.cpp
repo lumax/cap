@@ -68,6 +68,8 @@ static int sdlheight = 576;
 static int RectBreite = 0;
 static int RectHoehe = 0;
 
+static  int CrossBreite = 0;
+
 static const unsigned int MAXCAMWIDTH = 1280;
 static unsigned char oneLineColor[MAXCAMWIDTH*2];
 static int circleQuarterX[MAXCAMWIDTH/2];
@@ -75,6 +77,25 @@ static int circleQuarterX[MAXCAMWIDTH/2];
 static double FaktorZ1 = 1.0;
 
 static CamControl * camCtrl;
+
+static void setFadenkreuzBreite(int val)
+{
+  CrossBreite = val;
+  if(CrossBreite < 0)
+    CrossBreite = 0;
+  if(CrossBreite > 14)
+    CrossBreite = 14;
+}
+
+static void saveFadenkreuzBreite(void)
+{
+  printf("saveFadenkreuzBreite\n");
+}
+
+static int getFadenkreuzBreite(void)
+{
+  return CrossBreite;
+}
 
 static int getOverlayCircle(void)
 {
@@ -144,7 +165,6 @@ static unsigned char getVfromRGB(unsigned char r,unsigned char g,unsigned char b
   h = y*w*2
 
  */
-static  int CrossBreite = 0;
 static inline void zeichneZeile(int w,	\
 				int h,	\
 				int x,	\
@@ -1409,7 +1429,10 @@ int main(int argc, char *argv[])
 				       saveFilePath,\
 				       guiMode,\
 				       prepareOverlayCircle,\
-				       getOverlayCircle);
+				       getOverlayCircle,\
+				       setFadenkreuzBreite,\
+				       saveFadenkreuzBreite,\
+				       getFadenkreuzBreite);
   theArbeitsDialog->setFaktorZAchse((float)FaktorZ1);
 
   theGUI->eventLoop();
