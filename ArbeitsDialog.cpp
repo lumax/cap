@@ -84,7 +84,8 @@ namespace EuMax01
   static void F7_ListenerArbeitsDialog(void * src, SDL_Event * evt)
   {
     ArbeitsDialog* ad = (ArbeitsDialog*)src;
-    ad->showCalibrationDialog();
+    //ad->showCalibrationDialog();
+    ad->showOptionsDialog();
   }
 
   static void F10_ListenerArbeitsDialog(void * src, SDL_Event * evt)
@@ -283,6 +284,7 @@ namespace EuMax01
     theNewDialog = new NewDialog(sdlw,sdlh,camw,camh,yPos,this);
     theCalDialog = new CalibrationDialog(sdlw,sdlh,camw,camh,yPos,this);
     theInfoDialog = new InfoDialog(sdlw,sdlh,camw,camh,yPos,this);
+    theOptionsDialog = new OptionsDialog(sdlw,sdlh,camw,camh,yPos,this);
 
     cap_cam_setCrossX(0,MitteCrossCam1);
     cap_cam_setCrossX(1,MitteCrossCam2);
@@ -351,7 +353,7 @@ namespace EuMax01
     theMenuBarSettings.Text[3]=(char *)"F4 delete";
     theMenuBarSettings.Text[4]=(char *)"F5 prev";
     theMenuBarSettings.Text[5]=(char *)"F6 next";
-    theMenuBarSettings.Text[6]=(char *)"F7 calib.";
+    theMenuBarSettings.Text[6]=(char *)"F7 option";
     theMenuBarSettings.Text[7]=(char *)"F12 exit";
 
     theMenuBarSettings.evtSource = (void*)this;
@@ -514,6 +516,15 @@ namespace EuMax01
     this->sendProtocolMsg(nPEC_GET_Q1);
     this->blankMenuArea();
     this->theGUI->activateScreen(theCalDialog);
+  }
+
+  void ArbeitsDialog::showOptionsDialog()
+  {
+    if(!useGUI)
+      return;
+    this->iActiveDialog = ArbeitsDialog::OptionsDialogIsActive;
+    this->blankMenuArea();
+    this->theGUI->activateScreen(theOptionsDialog);
   }
 
   int ArbeitsDialog::theActiveDialogNumber()

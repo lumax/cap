@@ -247,6 +247,18 @@ namespace EuMax01
     void preparePhaseRecipeSteps();
     struct t_MenuBarSettings theMenuBarSettings;
   };
+
+ class OptionsDialog : public Screen
+  {
+  public:
+    OptionsDialog(int sdlw,int sdlh, int camw,int camh,int yPos,	\
+		ArbeitsDialog * parent);
+    ArbeitsDialog * Parent;
+
+  private:
+    struct t_MenuBarSettings theMenuBarSettings;
+    MenuBar * theMenu;
+  };
   
 #endif /* __CAPDIALOGE_H__*/
 }//end namespace

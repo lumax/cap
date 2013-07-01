@@ -1776,4 +1776,123 @@ namespace EuMax01
       }
     Parent->theGUI->activateScreen(this);//Parent->theNewDialog);
   }
+
+  static void Options1(void * src, SDL_Event * evt)
+  {
+    //OptionsDialog* ad = (OptionsDialog*)src;
+    printf("show CrossBreiteDialog\n");
+    //ad->Parent->showCrossBreiteDialog();
+  }
+
+  static void Options7(void * src, SDL_Event * evt)
+  {
+    OptionsDialog* ad = (OptionsDialog*)src;
+    ad->Parent->showCalibrationDialog();
+  }
+
+  static void OptionsESC(void * src, SDL_Event * evt)
+  {
+    OptionsDialog* ad = (OptionsDialog*)src;
+    ad->Parent->showArbeitsDialog();
+  }
+
+  static void OptionsDialogKeyListener(void * src, SDL_Event * evt)
+  {
+    //OptionsDialog* ad = (OptionsDialog*)src;//KeyListener
+    SDL_KeyboardEvent * key = (SDL_KeyboardEvent *)&evt->key;
+
+
+    if( key->type == SDL_KEYUP )
+      {
+	if(key->keysym.sym == SDLK_ESCAPE)
+	  {
+	    OptionsESC(src,evt);
+	  }
+	else if(key->keysym.sym == SDLK_F1)
+	  {
+	    Options1(src,evt);
+	  }
+	else if(key->keysym.sym == SDLK_F7)
+	  {
+	    Options7(src,evt);
+	  }
+	else if(key->keysym.sym == SDLK_RETURN || key->keysym.sym == SDLK_KP_ENTER)
+	  {
+	    //exit(12);
+	  }
+      }
+  }
+
+  OptionsDialog::OptionsDialog(int sdlw,		\
+			       int sdlh,				\
+			       int camw,				\
+			       int camh,				\
+			       int yPos,ArbeitsDialog * parent):Screen()
+  {
+    short M_y;
+    unsigned short MSpace_h;
+    unsigned short MZeile_h;
+    //unsigned short Rezepte_y;
+    //short Rezepte_w;
+    short Zeile1_y,Zeile2_y,Zeile3_y,Zeile4_y,Zeile5_y;
+    short Spalte1_x, Spalte2_x, Spalte3_x;
+
+    short Button_w = 332;
+    short x_space = 8;
+
+    M_y = sdlh - yPos;
+
+    if(M_y<=84)
+      {
+	MSpace_h = 2;
+	MZeile_h = 18;
+      }
+    else
+      {
+	MSpace_h = 5;
+	MZeile_h = 28;
+      }
+
+    Zeile1_y = yPos + 1*MSpace_h + 0*MZeile_h;
+    Zeile2_y = yPos + 2*MSpace_h + 1*MZeile_h;
+    Zeile3_y = yPos + 3*MSpace_h + 2*MZeile_h;
+    Zeile4_y = yPos + 4*MSpace_h + 3*MZeile_h;
+    Zeile5_y = yPos + 5*MSpace_h + 4*MZeile_h;
+    //Rezepte_w = 108;
+
+    Spalte1_x = sdlw/2 - 506;
+    Spalte2_x = Spalte1_x + 1*Button_w+1*x_space;
+    Spalte3_x = Spalte1_x + 2*Button_w+2*x_space;
+
+    this->Parent = parent;
+
+    theMenuBarSettings.Text[0]=0;//(char *)"F1 Cross";
+    theMenuBarSettings.Text[1]=0;
+    theMenuBarSettings.Text[2]=0;
+    theMenuBarSettings.Text[3]=0;
+    theMenuBarSettings.Text[4]=0;
+    theMenuBarSettings.Text[5]=0;
+    theMenuBarSettings.Text[6]=(char *)"F7 calib.";
+    theMenuBarSettings.Text[7]=(char *)"ESC";
+
+    theMenuBarSettings.evtSource = (void*)this;
+
+    theMenuBarSettings.evtFnks[0]=Options1;
+    theMenuBarSettings.evtFnks[1]=0;
+    theMenuBarSettings.evtFnks[2]=0;
+    theMenuBarSettings.evtFnks[3]=0;
+    theMenuBarSettings.evtFnks[4]=0;
+    theMenuBarSettings.evtFnks[5]=0;
+    theMenuBarSettings.evtFnks[6]=Options7;
+    theMenuBarSettings.evtFnks[7]=OptionsESC;
+
+    theMenu = new MenuBar(Spalte1_x,Zeile5_y,MZeile_h,(char*)"Options",	\
+			  &this->theMenuBarSettings,parent);
+
+    this->pTSource = this;//EvtTarget Quelle setzen
+    this->EvtTargetID=(char*)"OptionsDialog";
+    this->setKeyboardUpEvtHandler(OptionsDialogKeyListener);
+    this->addEvtTarget(this);//den Screen Key Listener bei sich selber anmelden!
+    theMenu->addToEvtTarget(this);
+  }
 }

@@ -17,6 +17,7 @@ namespace EuMax01
   class NewDialog;
   class MBProtocol;
   class InfoDialog;
+  class OptionsDialog;
   //class IMBProtListener;
   class MenuBar;
 
@@ -100,6 +101,7 @@ namespace EuMax01
     void showNewDialog(char * MenuTitel);
     void showCalibrationDialog();
     void showInfoDialog();
+    void showOptionsDialog();
 
     static const int ArbeitsDialogIsActive = 0;
     static const int LoadDialogIsActive = 1;
@@ -110,6 +112,7 @@ namespace EuMax01
     static const int ConfirmDialogIsActive = 6;
     static const int InfoDialogIsActive = 7;
     static const int SplashScreenIsActive = 8;
+    static const int OptionsDialogIsActive = 9;
 
     int theActiveDialogNumber();
 
@@ -169,6 +172,7 @@ namespace EuMax01
     SplashScreen * theSplashScreen;
     CalibrationDialog * theCalDialog;
     InfoDialog * theInfoDialog;
+    OptionsDialog * theOptionsDialog;
 
     PosDialog * thePosDialog;
     
