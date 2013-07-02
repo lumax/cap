@@ -68,6 +68,7 @@ static int sdlheight = 576;
 static int RectBreite = 0;
 static int RectHoehe = 0;
 
+static const char * pathFadenkreuzBreite = "../CrossairWidth.conf";
 static  int CrossBreite = 0;
 
 static const unsigned int MAXCAMWIDTH = 1280;
@@ -87,14 +88,42 @@ static void setFadenkreuzBreite(int val)
     CrossBreite = 14;
 }
 
-static void saveFadenkreuzBreite(void)
-{
-  printf("saveFadenkreuzBreite\n");
-}
-
 static int getFadenkreuzBreite(void)
 {
   return CrossBreite;
+}
+
+static void saveFadenkreuzBreite(void)
+{
+  FILE * fd;
+  fd = fopen(pathFadenkreuzBreite, "w");//RCap_max in Datei schreiben
+
+  if(fd)
+    fprintf(fd,"%i",getFadenkreuzBreite());
+
+  fclose(fd);
+}
+
+static int loadFadenkreuzBreite(void)
+{
+  FILE * fd;
+  char tmp[64];
+  char * s;
+
+  fd = fopen(pathFadenkreuzBreite,"r");
+  if(fd)
+    {
+      if((s = fgets (tmp, sizeof(tmp), fd)) != NULL)
+	{
+	  setFadenkreuzBreite(atoi(s));
+	}
+      fclose(fd);
+      return getFadenkreuzBreite();
+    }
+  else
+    {
+      return 0;
+    }
 }
 
 static int getOverlayCircle(void)
@@ -1360,6 +1389,8 @@ int main(int argc, char *argv[])
 	}
       argc--;
     }
+
+  CrossBreite = loadFadenkreuzBreite();
 
   //Vorbereitungne für Circle (oder Rect)
   //
