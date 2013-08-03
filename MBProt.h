@@ -35,6 +35,8 @@ namespace EuMax01
     int getLastPositionFP2();
     void setLastPositionFP1(unsigned short dat);
     void setLastPositionFP2(unsigned short dat);
+
+    int verbose;
   private:
     int lastPositionFP1;
     int lastPositionFP2;

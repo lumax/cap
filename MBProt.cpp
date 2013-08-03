@@ -96,6 +96,8 @@ namespace EuMax01
 	  datum = getProtocol_UI16();
 	  if(MBProt_class->lis)
 	    MBProt_class->lis->Q1_evt(datum);
+	  if(MBProt_class->verbose)
+	    printf("MBProt nPEC_GET_Q1: %i\n",(signed short)datum);
 	  break;
 	}
       case nPEC_GET_Q2:
@@ -103,6 +105,8 @@ namespace EuMax01
 	  datum = getProtocol_UI16();
 	  if(MBProt_class->lis)
 	    MBProt_class->lis->Q2_evt(datum);
+	  if(MBProt_class->verbose)
+	    printf("MBProt nPEC_GET_Q2: %i\n",(signed short)datum);
 	  break;
 	}
       case nPEC_GET_Z1:
@@ -110,6 +114,8 @@ namespace EuMax01
 	  datum = getProtocol_UI16();
 	  if(MBProt_class->lis)
 	    MBProt_class->lis->Z1_evt(datum);
+	  if(MBProt_class->verbose)
+	    printf("MBProt nPEC_GET_Z1: %i\n",(signed short)datum);
 	  break;
 	}
       case nPEC_GET_Z2:
@@ -117,6 +123,8 @@ namespace EuMax01
 	  datum = getProtocol_UI16();
 	  if(MBProt_class->lis)
 	    MBProt_class->lis->Z2_evt(datum);
+	  if(MBProt_class->verbose)
+	    printf("MBProt nPEC_GET_Z2:0 %i\n",(signed short)datum);
 	  break;
 	}
       case nPEC_GET_Q1_32:
@@ -124,6 +132,8 @@ namespace EuMax01
 	  datum32 = getProtocol_UI32();
 	  if(MBProt_class->lis)
 	    MBProt_class->lis->Q1_evt(datum32);
+	  if(MBProt_class->verbose)
+	    printf("MBProt nPEC_GET_Q1_32: %i\n",(signed int)datum32);
 	  break;
 	}
       case nPEC_GET_Q2_32:
@@ -131,6 +141,8 @@ namespace EuMax01
 	  datum32 = getProtocol_UI32();
 	  if(MBProt_class->lis)
 	    MBProt_class->lis->Q2_evt(datum32);
+	  if(MBProt_class->verbose)
+	    printf("MBProt nPEC_GET_Q2_32: %i\n",(signed int)datum32);
 	  break;
 	}
       case nPEC_GET_Z1_32:
@@ -138,6 +150,8 @@ namespace EuMax01
 	  datum32 = getProtocol_UI32();
 	  if(MBProt_class->lis)
 	    MBProt_class->lis->Z1_evt(datum32);
+	  if(MBProt_class->verbose)
+	    printf("MBProt nPEC_GET_Z1_32: %i\n",(signed int)datum32);
 	  break;
 	}
       case nPEC_GET_Z2_32:
@@ -145,6 +159,8 @@ namespace EuMax01
 	  datum = getProtocol_UI32();
 	  if(MBProt_class->lis)
 	    MBProt_class->lis->Z2_evt(datum32);
+	  if(MBProt_class->verbose)
+	    printf("MBProt nPEC_GET_Q2_32:0 %i\n",(signed int)datum32);
 	  break;
 	}
       case nPEC_GET_FP1:
@@ -154,6 +170,8 @@ namespace EuMax01
 	  MBProt_class->setLastPositionFP1(datum);
 	  if(MBProt_class->lis)
 	    MBProt_class->lis->FP1_evt(datum);
+	  if(MBProt_class->verbose)
+	    printf("MBProt nPEC_GET_FP1: %i\n",(signed short)datum);
 	  break;
 	}
       case nPEC_GET_FP2:
@@ -162,6 +180,8 @@ namespace EuMax01
 	  MBProt_class->setLastPositionFP2(datum);
 	  if(MBProt_class->lis)
 	    MBProt_class->lis->FP2_evt(datum);
+	  if(MBProt_class->verbose)
+	    printf("MBProt nPEC_GET_FP2: %i\n",(signed short)datum);
 	  break;
 	}
       case nPEC_SWVERSION:
@@ -227,6 +247,7 @@ namespace EuMax01
 			       bool non_block)
   {
     int flags = 0;
+    this->verbose = 0;
 
     flags |= O_RDWR;
 
