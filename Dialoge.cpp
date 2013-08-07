@@ -332,9 +332,12 @@ namespace EuMax01
 
   void CalibrationDialog::setXXData(unsigned int dat,int MyStep,char*suffix)
   {
+    float showValue;
+
     if(MyStep==this->ActualStep)
       {
-	sprintf(this->Value,"%7.2f%s",(float)dat/100,suffix);
+	showValue = this->Parent->convertMBProtData(dat);
+	sprintf(this->Value,"%7.2f%s",showValue,suffix);
 	this->Label_Value->setText(this->Value);
 	this->Label_Value->show(this->Parent->theGUI->getMainSurface());
       }
@@ -1619,7 +1622,7 @@ namespace EuMax01
     return false;
   }
 
-  void NewDialog::setNewPositionValue(int pos, unsigned short value,char* suffix)
+  void NewDialog::setNewPositionValue(int pos, unsigned int value,char* suffix)
   {
     this->usWerte[pos] = value;
     this->LabelWerte[pos]->setText(this->Parent->int2string(this->pcWerte[pos],	\

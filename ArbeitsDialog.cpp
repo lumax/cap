@@ -603,11 +603,13 @@ namespace EuMax01
 
   void ArbeitsDialog::setCam1XaxisCur(int val)
   {
+    float showVal;
     Cam1XaxisCur = val;
     Cam1XaxisDif = Cam1XaxisCur - this->theRezept->getXPosition(0,RezeptNummer);
     thePosDialog->showDifferenceCam1(val,this->theRezept->getXPosition(0,RezeptNummer));
-    
-    sprintf(this->thePosDialog->pcLabelCam1[PosDialog::iCurr],"%7.2f mm",(float)Cam1XaxisCur/100);
+    showVal = this->convertMBProtData(val);
+
+    sprintf(this->thePosDialog->pcLabelCam1[PosDialog::iCurr],"%7.2f mm",showVal);
     thePosDialog->pLabelCam1[PosDialog::iCurr]->		\
       setText(thePosDialog->pcLabelCam1[PosDialog::iCurr]);
     thePosDialog->pLabelCam1[PosDialog::iCurr]->show(this->theGUI->getMainSurface());
@@ -615,11 +617,13 @@ namespace EuMax01
 
   void ArbeitsDialog::setCam2XaxisCur(int val)
   {
+    float showVal;
     Cam2XaxisCur = val;
     Cam2XaxisDif = Cam2XaxisCur - this->theRezept->getXPosition(1,RezeptNummer);
     thePosDialog->showDifferenceCam2(val,this->theRezept->getXPosition(1,RezeptNummer));
-    
-    sprintf(this->thePosDialog->pcLabelCam2[PosDialog::iCurr],"%7.2f mm",(float)Cam2XaxisCur/100);
+    showVal = this->convertMBProtData(val);
+
+    sprintf(this->thePosDialog->pcLabelCam2[PosDialog::iCurr],"%7.2f mm",showVal);
     thePosDialog->pLabelCam2[PosDialog::iCurr]->		\
       setText(thePosDialog->pcLabelCam2[PosDialog::iCurr]);
     thePosDialog->pLabelCam2[PosDialog::iCurr]->show(this->theGUI->getMainSurface());
@@ -627,12 +631,14 @@ namespace EuMax01
 
   void ArbeitsDialog::setCam1ZaxisCur(int val,char*suffix)
   {
+    float showVal;
     Cam1ZaxisCur = val;
     Cam1ZaxisDif = Cam1ZaxisCur - this->theRezept->getZPosition(RezeptNummer);
     thePosDialog->showDifferenceZ(val,this->theRezept->getZPosition(RezeptNummer));
-    
+    showVal = this->convertMBProtData(val,this->fFaktorZAchse);
+
     sprintf(this->thePosDialog->pcLabelZ[PosDialog::iCurr],"%7.2f%s",	\
-	    (float)Cam1ZaxisCur+1/100*this->fFaktorZAchse,					\
+	    showVal,					\
 	    suffix);
     thePosDialog->pLabelZ[PosDialog::iCurr]->		\
       setText(thePosDialog->pcLabelZ[PosDialog::iCurr]);
@@ -733,17 +739,41 @@ namespace EuMax01
 
   char * ArbeitsDialog::int2string(char * tar,int len,int data,char * suffix)
   {
+    float showValue;
+
+    showValue = this->convertMBProtData(data);
     if(suffix)
       {
-	snprintf(tar,len,"%7.2f%s",(float)data/100,suffix);
+	snprintf(tar,len,"%7.2f%s",showValue,suffix);
       }
     else
       {
-	snprintf(tar,len,"%7.2f",(float)data/100);
+	snprintf(tar,len,"%7.2f",showValue);
       }
     return tar;
   }
-  
+
+  float ArbeitsDialog::convertMBProtData(unsigned int dat)
+  {
+    float ret = 0.0;
+    int i = (int)dat;
+    ret = (float)i/100;
+
+    return ret;
+  }
+
+  float ArbeitsDialog::convertMBProtData(unsigned int dat,float faktor)
+  {
+    float ret = 0.0;
+    int i = (int)dat;
+    ret = (float)i/100;
+    ret = ret*faktor;
+
+    //    sprintf(this->thePosDialog->pcLabelZ[PosDialog::iCurr],"%7.2f%s",
+    //	    (float)Cam1ZaxisCur+1/100*this->fFaktorZAchse,
+    return ret;
+  }
+
   void ArbeitsDialog::setCross1Ref()
   {
     //sprintf(thePosDialog->getCrossRefBuf(),"%i",cap_cam_getCrossX(0));

@@ -198,7 +198,7 @@ namespace EuMax01
 
     unsigned short usWerte[6];
 
-    void setNewPositionValue(int pos, unsigned short value,char * suffix);
+    void setNewPositionValue(int pos, unsigned int value,char * suffix);
     void copyValuesToRezept();
 
     Label * LabelRezept[3];

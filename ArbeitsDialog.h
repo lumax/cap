@@ -84,6 +84,9 @@ namespace EuMax01
     void SWVersion_evt(unsigned short dat);
     void HWVersion_evt(unsigned short dat);
 
+    float convertMBProtData(unsigned int dat,float faktor);
+    float convertMBProtData(unsigned int dat);
+
     int RezeptNummer;
     Rezept * theRezept;
     GUI * theGUI;
