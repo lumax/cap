@@ -7,6 +7,7 @@ Bastian Ruppert
 #include <fcntl.h>
 #include <unistd.h>
 #include <SDL/SDL_ttf.h>
+#include <errno.h>
 #include "LL.h"
 #include "Event.h"
 #include "Tools.h"
@@ -132,6 +133,13 @@ static void evtExit(void * src,SDL_Event * evt){
   int Rezept::writeToFile(char * SaveDir)
   {
     int fd,ret,i;
+
+    i = mkdir(SaveDir, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+    if(i<0){
+      if(errno!=EEXIST)
+	perror("mkdir in writeToFile\n");
+    }
+
     snprintf(this->buf,1024,"%s%s",SaveDir,this->Name);
     fd = open(buf,O_RDWR | O_CREAT,S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP );
     if(fd==-1)

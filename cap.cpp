@@ -1270,12 +1270,12 @@ int main(int argc, char *argv[])
       camheight = atoi(tmp);
       printf("camheight = %i\n",camheight);
     }
-  if(!iniParser_getParam(confpath,(char*)"PathSaveFile",saveFilePath,96))
+  /*  if(!iniParser_getParam(confpath,(char*)"PathSaveFile",saveFilePath,96))
     {
       printf("saveFilePath = %s\n",saveFilePath);
     }
   else
-    {
+  {*/
       saveFilePath[0] ='/';
       saveFilePath[1] ='o';
       saveFilePath[2] ='p';
@@ -1293,8 +1293,9 @@ int main(int argc, char *argv[])
       saveFilePath[14] ='a';
       saveFilePath[15] ='/';
       saveFilePath[16] ='\0';
-      printf("reading saveFilePath failed, using default path %s\n",saveFilePath);
-    }
+      printf("using default path %s\n",saveFilePath);
+      /*printf("reading saveFilePath failed, using default path %s\n",saveFilePath);
+        }*/
   if(!iniParser_getParam(confpath,(char*)"pixelformat",tmp,64))
     {
       if(!strcmp("mjpeg",tmp))

@@ -1603,8 +1603,10 @@ namespace EuMax01
     DIR * dirp;
     struct dirent * entry;
     dirp = opendir(Parent->pcSaveFilePath);
-    if(dirp < 0)
-      return true;
+    if(dirp <= 0){
+      perror("keinSeicherplatz()\n");
+      return false;
+    }
 
     while ((entry = readdir(dirp)) != NULL) {
       if (entry->d_type == DT_REG) { /* If the entry is a regular file */
