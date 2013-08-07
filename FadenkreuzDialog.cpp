@@ -44,16 +44,26 @@ namespace EuMax01
   {
     int tmp;
     FadenkreuzDialog* ad = (FadenkreuzDialog*)src;
+    int step = 1;
+    SDLMod mod = SDL_GetModState();
+
+    if((mod & KMOD_RSHIFT) || (mod & KMOD_LSHIFT))
+      step=2;
     tmp = ad->Parent->getCrossairWidth();
-    ad->Parent->setCrossairWidth(tmp-2);
+    ad->Parent->setCrossairWidth(tmp-step);
   }
 
   static void FKAction2(void * src, SDL_Event * evt)
   {
     int tmp;
     FadenkreuzDialog* ad = (FadenkreuzDialog*)src;
+    int step = 1;
+    SDLMod mod = SDL_GetModState();
+
+    if((mod & KMOD_RSHIFT) || (mod & KMOD_LSHIFT))
+      step=2;
     tmp = ad->Parent->getCrossairWidth();
-    ad->Parent->setCrossairWidth(tmp+2);
+    ad->Parent->setCrossairWidth(tmp+step);
   }
 
   static void FKActionESC(void * src, SDL_Event * evt)

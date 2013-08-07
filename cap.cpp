@@ -256,8 +256,9 @@ static inline void zeichneSpalte(int w,	\
 
   for(int ii=0;ii<hoehe;ii++)
     {
-      for(int i=-CrossBreite/2;i<=CrossBreite/2;i++)
+      for(int i=-CrossBreite/2;i<=(CrossBreite/2);i++){
 	memcpy(&pc[start+i*4],oneLineColor,4);
+      }
       start+=w*2;
       if(start>=MaxValueInPC)
 	return;

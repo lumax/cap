@@ -1131,40 +1131,40 @@ namespace EuMax01
   static void NewCrossCam0Left(void * src, SDL_Event * evt)
   {
     NewDialog* ad = (NewDialog*)src;
-    int step = -10;
+    int step = -2;
     SDLMod mod = SDL_GetModState();
     if( (mod & KMOD_RSHIFT) || (mod & KMOD_LSHIFT) )
-	step=-2;
+	step=-14;
     cap_cam_addCrossX(0,step);
     ad->getCam1CrossX();
   }
   static void NewCrossCam0Right(void * src, SDL_Event * evt)
   {
     NewDialog* ad = (NewDialog*)src;
-    int step = 10;
+    int step = 2;
     SDLMod mod = SDL_GetModState();
     if((mod & KMOD_RSHIFT) || (mod & KMOD_LSHIFT))
-      step=2;
+      step=14;
     cap_cam_addCrossX(0,step);
     ad->getCam1CrossX();
   }
   static void NewCrossCam1Left(void * src, SDL_Event * evt)
   {
     NewDialog* ad = (NewDialog*)src;
-    int step = -10;
+    int step = -2;
     SDLMod mod = SDL_GetModState();
     if( (mod & KMOD_RSHIFT) || (mod & KMOD_LSHIFT) )
-	step=-2;
+	step=-14;
     cap_cam_addCrossX(1,step);
     ad->getCam2CrossX();
   }
   static void NewCrossCam1Right(void * src, SDL_Event * evt)
   {
     NewDialog* ad = (NewDialog*)src;
-    int step = 10;
+    int step = 2;
     SDLMod mod = SDL_GetModState();
     if((mod & KMOD_RSHIFT) || (mod & KMOD_LSHIFT))
-      step=2;
+      step=14;
     cap_cam_addCrossX(1,step);
     ad->getCam2CrossX();
   }
