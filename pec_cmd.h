@@ -43,4 +43,6 @@
 
 #define nPEC_KEYON      0x66
 #define nPEC_KEYHELP    0x67
+
+#define nPEC_ALRESET    0x68   // Rest Alarm Flag
 #endif

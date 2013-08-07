@@ -1788,6 +1788,12 @@ namespace EuMax01
     ad->Parent->showFadenkreuzDialog();
   }
 
+ static void Options5(void * src, SDL_Event * evt)
+  {
+    OptionsDialog* ad = (OptionsDialog*)src;
+    ad->Parent->sendProtocolMsg(nPEC_ALRESET);
+  }
+
   static void Options7(void * src, SDL_Event * evt)
   {
     OptionsDialog* ad = (OptionsDialog*)src;
@@ -1815,6 +1821,10 @@ namespace EuMax01
 	else if(key->keysym.sym == SDLK_F1)
 	  {
 	    Options1(src,evt);
+	  }
+	else if(key->keysym.sym == SDLK_F5)
+	  {
+	    Options5(src,evt);
 	  }
 	else if(key->keysym.sym == SDLK_F7)
 	  {
@@ -1874,7 +1884,7 @@ namespace EuMax01
     theMenuBarSettings.Text[1]=0;
     theMenuBarSettings.Text[2]=0;
     theMenuBarSettings.Text[3]=0;
-    theMenuBarSettings.Text[4]=0;
+    theMenuBarSettings.Text[4]=(char *)"F5 Alert";
     theMenuBarSettings.Text[5]=0;
     theMenuBarSettings.Text[6]=(char *)"F7 calib.";
     theMenuBarSettings.Text[7]=(char *)"ESC";
@@ -1885,7 +1895,7 @@ namespace EuMax01
     theMenuBarSettings.evtFnks[1]=0;
     theMenuBarSettings.evtFnks[2]=0;
     theMenuBarSettings.evtFnks[3]=0;
-    theMenuBarSettings.evtFnks[4]=0;
+    theMenuBarSettings.evtFnks[4]=Options5;
     theMenuBarSettings.evtFnks[5]=0;
     theMenuBarSettings.evtFnks[6]=Options7;
     theMenuBarSettings.evtFnks[7]=OptionsESC;
