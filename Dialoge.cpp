@@ -918,17 +918,19 @@ namespace EuMax01
 
   int dirFilter(const struct dirent * dir)
   {
+    int ret = 0;
+
     if(strlen(dir->d_name)>LoadDialog::MaxRezeptFileLaenge)
       {
-	return 0;
+	goto out_null;
       }
     if(strlen(dir->d_name)==1)
       {
-	return 0;
+	goto out_null;
       }
     if(strlen(dir->d_name)==2)
       {
-	return 0;
+	goto out_null;
       }
     if(strlen(pTF_Filter4dirFilter->getText())>0)
       {
@@ -936,17 +938,28 @@ namespace EuMax01
 		      pTF_Filter4dirFilter->getText(),		\
 		      strlen(pTF_Filter4dirFilter->getText())))
 	  {
-	    return 1;
+	    goto out_eins;
 	  }
 	else
 	  {
-	    return 0;
+	    goto out_null;
 	  }
       }
     else
       {
-	return 1;
+	goto out_eins;
       }
+
+  out_eins:
+    ret = 1;
+  out_null:
+
+    return ret;
+  }
+
+  void LoadDialog::clearFilter(void)
+  {
+    pTF_Filter4dirFilter->setText((char*)"");
   }
 
   int LoadDialog::readSaveDirectory(char * dirName,unsigned int page)

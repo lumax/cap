@@ -45,6 +45,7 @@ namespace EuMax01
   static void F1_ListenerArbeitsDialog(void * src, SDL_Event * evt)
   {
     ArbeitsDialog* ad = (ArbeitsDialog*)src;
+    ad->clearFilter();
     ad->showLoadDialog(0,true);
   }
 
@@ -65,6 +66,7 @@ namespace EuMax01
   static void F4_ListenerArbeitsDialog(void * src, SDL_Event * evt)
   {
     ArbeitsDialog* ad = (ArbeitsDialog*)src;
+    ad->clearFilter();
     ad->showLoadDialog(0,false);
   }
 
@@ -923,5 +925,10 @@ namespace EuMax01
   bool ArbeitsDialog::useTheGUI()
   {
     return this->useGUI;
+  }
+
+  void ArbeitsDialog::clearFilter(void)
+  {
+    theLoadDialog->clearFilter();
   }
 }//end Namespace

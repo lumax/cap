@@ -133,7 +133,7 @@ namespace EuMax01
 	       ArbeitsDialog * parent);
 
     ArbeitsDialog * Parent;
-    static const unsigned int RezepteLen = 24;
+    static const unsigned int RezepteLen = 32;
     static const unsigned int RezepteProZeile = 8;
     static const unsigned int MaxRezeptFileLaenge = 15;
     void setActiveRecipe(unsigned int nr);
@@ -157,6 +157,8 @@ namespace EuMax01
     
     unsigned int getMaxRecipesToDisplay();
     unsigned int getActiveRecipe();
+
+    void clearFilter(void);
 
   private:
     bool LoadMode;

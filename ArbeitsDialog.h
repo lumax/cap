@@ -149,6 +149,7 @@ namespace EuMax01
     unsigned short getCamW_Sichtbar();
     bool useTheGUI();
     void convertCamPos(int cam,unsigned short dat);
+    void clearFilter(void);
 
   private:
     int CamW_Sichtbar;
