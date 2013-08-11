@@ -105,11 +105,11 @@ namespace EuMax01
 	  {
 	    ad->return_listener(src,evt);
 	  }
-	else if(key->keysym.sym == SDLK_LEFT)
+	else if(key->keysym.sym == SDLK_LEFT || key->keysym.sym == SDLK_F5)
 	  {
 	    ad->left_listener(src,evt);
 	  }
-	else if(key->keysym.sym == SDLK_RIGHT)
+	else if(key->keysym.sym == SDLK_RIGHT || key->keysym.sym == SDLK_F6)
 	  {
 	    ad->right_listener(src,evt);
 	  }
@@ -213,27 +213,27 @@ namespace EuMax01
     Label_Menu->setText(MenuAxisText);
     */
 
-    theMenuBarSettings.Text[0]=(char *)"ESC";
+    theMenuBarSettings.Text[0]=0;
     theMenuBarSettings.Text[1]=0;
     theMenuBarSettings.Text[2]=0;
-    theMenuBarSettings.Text[3]=(char *)"LEFT";
-    theMenuBarSettings.Text[4]=(char *)"RIGHT";
-    theMenuBarSettings.Text[5]=0;
-    theMenuBarSettings.Text[6]=0;
-    theMenuBarSettings.Text[7]=(char *)"RETURN";
+    theMenuBarSettings.Text[3]=0;
+    theMenuBarSettings.Text[4]=(char *)"F5 prev";
+    theMenuBarSettings.Text[5]=(char *)"F6 next";
+    theMenuBarSettings.Text[6]=(char *)"ESC";
+    theMenuBarSettings.Text[7]=(char *)"ENTER";
 
     theMenuBarSettings.evtSource = (void*)this;
 
-    theMenuBarSettings.evtFnks[0]=escape_listener;
+    theMenuBarSettings.evtFnks[0]=0;
     theMenuBarSettings.evtFnks[1]=0;
     theMenuBarSettings.evtFnks[2]=0;
-    theMenuBarSettings.evtFnks[3]=left_listener;
-    theMenuBarSettings.evtFnks[4]=right_listener;
-    theMenuBarSettings.evtFnks[5]=0;
-    theMenuBarSettings.evtFnks[6]=0;
+    theMenuBarSettings.evtFnks[3]=0;
+    theMenuBarSettings.evtFnks[4]=left_listener;
+    theMenuBarSettings.evtFnks[5]=right_listener;
+    theMenuBarSettings.evtFnks[6]=escape_listener;
     theMenuBarSettings.evtFnks[7]=return_listener;
 
-    theMenu = new MenuBar((int)MLinks_x,(int)Zeile5_y,(int)MZeile_h,(char*)"Direct Input", \
+    theMenu = new MenuBar((int)MLinks_x,(int)Zeile5_y,(int)MZeile_h,(char*)"Direct input", \
 			  &this->theMenuBarSettings,Parent->Parent);
 
     this->pTSource = this;//EvtTarget Quelle setzen, damit der EvtListener die Quelle mitteilen kann

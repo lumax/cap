@@ -1,0 +1,22 @@
+Erscheinungsbild, Anordnung ESC ENTER
+
+Tasten werden durchgehend groß geschrieben,
+Bezeichnungen/Beschreibungen der Tasten klein.
+Beispiel "F1 filter", "ENTER".
+
+F1 -> ESC neben ENTER, PageUp und PageDown zusätzlich
+      auf F5 und F6 gelegt.
+
+F2 -> LEFT und RIGHT zusätlich auf F5 und F6 gelegt und zu
+      F5 prev und F6 next umbenannt.
+      ESC und RETURN auf die letzten beiden Positionen gelegt.
+
+F2 -> F8 direct: F5, F6 und ESC und ENTER angepasst.
+F2 -> F10 cross: ESC und ENTER hinzugefügt.
+
+F7 -> Alle Beschreibungen der Buttons klein, Bsp.: "F1 cross" anstatt "F1 Cross"
+F7 -> F1 cross: crosshair mit "h", ESC und ENTER angeordnet.
+
+F7 -> F7 calib: Buttons mit prev und next beschriftet, ESC und ENTER angeordnet.
+
+F12 -> Beschriftungen der Buttons klein, ESC und ENTER angeordnet.

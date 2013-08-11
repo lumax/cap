@@ -99,11 +99,11 @@ namespace EuMax01
 	  {
 	    FKActionESC(src,evt);
 	  }
-	else if(key->keysym.sym == SDLK_F4)
+	else if(key->keysym.sym == SDLK_F4 || key->keysym.sym == SDLK_LEFT )
 	  {
 	    FKAction1(src,evt);
 	  }
-	else if(key->keysym.sym == SDLK_F5)
+	else if(key->keysym.sym == SDLK_F5 || key->keysym.sym == SDLK_RIGHT )
 	  {
 	    FKAction2(src,evt);
 	  }
@@ -184,31 +184,31 @@ namespace EuMax01
     x3 = x2 + button_schmal + x_space;
 
     snprintf(this->StepText,256,\
-	     "Adjust crossair width:");
+	     "Adjust crosshair width:");
     Label_Step = new Label(this->StepText,			\
 			   MLinks_x,Zeile1_y,506*2,MZeile_h,Parent->MenuSet);
 
     theMenuBarSettings.Text[0]=0;
     theMenuBarSettings.Text[1]=0;
-    theMenuBarSettings.Text[2]=(char *)"F4 -";
-    theMenuBarSettings.Text[3]=0;
+    theMenuBarSettings.Text[2]=0;
+    theMenuBarSettings.Text[3]=(char *)"F4 -";
     theMenuBarSettings.Text[4]=(char *)"F5 +";
     theMenuBarSettings.Text[5]=0;
-    theMenuBarSettings.Text[6]=(char *)"RETURN";
-    theMenuBarSettings.Text[7]=(char *)"ESC";
+    theMenuBarSettings.Text[6]=(char *)"ESC";
+    theMenuBarSettings.Text[7]=(char *)"ENTER";
 
     theMenuBarSettings.evtSource = (void*)this;
 
     theMenuBarSettings.evtFnks[0]=0;
     theMenuBarSettings.evtFnks[1]=0;
-    theMenuBarSettings.evtFnks[2]=FKAction1;
-    theMenuBarSettings.evtFnks[3]=0;
+    theMenuBarSettings.evtFnks[2]=0;
+    theMenuBarSettings.evtFnks[3]=FKAction1;
     theMenuBarSettings.evtFnks[4]=FKAction2;
     theMenuBarSettings.evtFnks[5]=0;
-    theMenuBarSettings.evtFnks[6]=FKActionReturn;
-    theMenuBarSettings.evtFnks[7]=FKActionESC;
+    theMenuBarSettings.evtFnks[6]=FKActionESC;
+    theMenuBarSettings.evtFnks[7]=FKActionReturn;
 
-    theMenu = new MenuBar(Spalte1_x,Zeile5_y,MZeile_h,(char*)"Crossair width",	\
+    theMenu = new MenuBar(Spalte1_x,Zeile5_y,MZeile_h,(char*)"Cross width",	\
 			  &this->theMenuBarSettings,parent);
 
     this->pTSource = this;//EvtTarget Quelle setzen

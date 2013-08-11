@@ -308,8 +308,8 @@ namespace EuMax01
     theMenuBarSettings.Text[3]=0;
     theMenuBarSettings.Text[4]=0;
     theMenuBarSettings.Text[5]=0;
-    theMenuBarSettings.Text[6]=0;
-    theMenuBarSettings.Text[7]=(char *)"ESC";
+    theMenuBarSettings.Text[6]=(char *)"ESC";
+    theMenuBarSettings.Text[7]=0;
 
     theMenuBarSettings.evtSource = (void*)this;
 
@@ -319,8 +319,8 @@ namespace EuMax01
     theMenuBarSettings.evtFnks[3]=0;
     theMenuBarSettings.evtFnks[4]=0;
     theMenuBarSettings.evtFnks[5]=0;
-    theMenuBarSettings.evtFnks[6]=0;
-    theMenuBarSettings.evtFnks[7]=InfoESC;
+    theMenuBarSettings.evtFnks[6]=InfoESC;
+    theMenuBarSettings.evtFnks[7]=0;
 
     theMenu = new MenuBar(Spalte1_x,Zeile5_y,MZeile_h,(char*)"CamInfo",	\
 			  &this->theMenuBarSettings,parent);

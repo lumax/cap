@@ -214,25 +214,25 @@ namespace EuMax01
 			   MZeile_h,\
 			   Parent->DialogSet);
 
-    theMenuBarSettings.Text[0]=(char *)"F1Service";
-    theMenuBarSettings.Text[1]=(char *)"F2Info";
+    theMenuBarSettings.Text[0]=(char *)"F1service";
+    theMenuBarSettings.Text[1]=(char *)"F2 info";
     theMenuBarSettings.Text[2]=0;
-    theMenuBarSettings.Text[3]=(char *)"ENTER";
+    theMenuBarSettings.Text[3]=0;
     theMenuBarSettings.Text[4]=0;
     theMenuBarSettings.Text[5]=0;
-    theMenuBarSettings.Text[6]=0;
-    theMenuBarSettings.Text[7]=(char *)"ESC";
+    theMenuBarSettings.Text[6]=(char *)"ESC";
+    theMenuBarSettings.Text[7]=(char *)"ENTER";
 
     theMenuBarSettings.evtSource = (void*)this;
 
     theMenuBarSettings.evtFnks[0]=ConfirmService;
     theMenuBarSettings.evtFnks[1]=ConfirmF2;
     theMenuBarSettings.evtFnks[2]=0;
-    theMenuBarSettings.evtFnks[3]=ConfirmEnter;
+    theMenuBarSettings.evtFnks[3]=0;
     theMenuBarSettings.evtFnks[4]=0;
     theMenuBarSettings.evtFnks[5]=0;
-    theMenuBarSettings.evtFnks[6]=0;
-    theMenuBarSettings.evtFnks[7]=ConfirmEscape;
+    theMenuBarSettings.evtFnks[6]=ConfirmEscape;
+    theMenuBarSettings.evtFnks[7]=ConfirmEnter;
 
     theMenu = new MenuBar(Spalte1_x,Zeile5_y,MZeile_h,(char*)"Quit",	\
 			  &this->theMenuBarSettings,parent);

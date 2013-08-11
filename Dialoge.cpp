@@ -78,11 +78,11 @@ namespace EuMax01
 	  {
 	    ad->return_listener(src,evt);
 	  }
-	else if(key->keysym.sym == SDLK_LEFT)
+	else if(key->keysym.sym == SDLK_LEFT || key->keysym.sym == SDLK_F4)
 	  {
 	    ad->left_listener(src,evt);
 	  }
-	else if(key->keysym.sym == SDLK_RIGHT)
+	else if(key->keysym.sym == SDLK_RIGHT || key->keysym.sym == SDLK_F5)
 	  {
 	    ad->right_listener(src,evt);
 	  }
@@ -157,24 +157,24 @@ namespace EuMax01
 			    MZeile_h,Parent->WerteSet);
     Label_Value->setBorder(true);
 
-    theMenuBarSettings.Text[0]=(char *)"ESC";
+    theMenuBarSettings.Text[0]=0;
     theMenuBarSettings.Text[1]=0;
     theMenuBarSettings.Text[2]=0;
-    theMenuBarSettings.Text[3]=(char *)"LEFT";
-    theMenuBarSettings.Text[4]=(char *)"RIGHT";
+    theMenuBarSettings.Text[3]=(char *)"F4 prev";
+    theMenuBarSettings.Text[4]=(char *)"F5 next";
     theMenuBarSettings.Text[5]=0;
-    theMenuBarSettings.Text[6]=0;
-    theMenuBarSettings.Text[7]=(char *)"RETURN";
+    theMenuBarSettings.Text[6]=(char *)"ESC";
+    theMenuBarSettings.Text[7]=(char *)"ENTER";
 
     theMenuBarSettings.evtSource = (void*)this;
 
-    theMenuBarSettings.evtFnks[0]=escape_listener;
+    theMenuBarSettings.evtFnks[0]=0;
     theMenuBarSettings.evtFnks[1]=0;
     theMenuBarSettings.evtFnks[2]=0;
     theMenuBarSettings.evtFnks[3]=left_listener;
     theMenuBarSettings.evtFnks[4]=right_listener;
     theMenuBarSettings.evtFnks[5]=0;
-    theMenuBarSettings.evtFnks[6]=0;
+    theMenuBarSettings.evtFnks[6]=escape_listener;
     theMenuBarSettings.evtFnks[7]=return_listener;
 
     theMenu = new MenuBar((int)MLinks_x,(int)Zeile5_y,(int)MZeile_h,(char*)"Calibration", \
@@ -508,7 +508,7 @@ namespace EuMax01
     LabelStep = new Label("Step 1",B4x,Y1,Bw,MZeile_h,Parent->DialogSet);
 
     //difference
-    LabelActual = new Label("current position",B2x,Y1,Bw,MZeile_h,Parent->DialogSet);
+    LabelActual = new Label("Current Position",B2x,Y1,Bw,MZeile_h,Parent->DialogSet);
 
     pLabelCam1[PosDialog::iLabelName] = new Label(Parent->TextCam1Xaxis,\
 						  B1x,Y2,Bw,MZeile_h);
@@ -721,11 +721,11 @@ namespace EuMax01
 	  {
 	    ad->return_listener(src,evt);
 	  }
-	else if(key->keysym.sym == SDLK_PAGEDOWN)
+	else if(key->keysym.sym == SDLK_PAGEDOWN || key->keysym.sym == SDLK_F6)
 	  {
 	    ad->pgdown_listener(src,evt);
 	  }
-	else if(key->keysym.sym == SDLK_PAGEUP)
+	else if(key->keysym.sym == SDLK_PAGEUP || key->keysym.sym == SDLK_F5)
 	  {
 	    ad->pgup_listener(src,evt);
 	  }
@@ -795,24 +795,24 @@ namespace EuMax01
     Rezepte_y = yPos + 1*MSpace_h + 0*MZeile_h;
     Rezepte_w = 125;
 
-    theMenuBarSettings.Text[0]=(char *)"ESC";
+    theMenuBarSettings.Text[0]=0;
     theMenuBarSettings.Text[1]=(char *)"F2 filter";
     theMenuBarSettings.Text[2]=0;//Nummer 2 und Nummer 3 sind in LoadMenueBar nicht vorhanden!
     theMenuBarSettings.Text[3]=0;//Nummer 2 und Nummer 3 sind in LoadMenueBar nicht vorhanden!
-    theMenuBarSettings.Text[4]=0;
-    theMenuBarSettings.Text[5]=(char *)"PgUp";;
-    theMenuBarSettings.Text[6]=(char *)"PgDown";;
+    theMenuBarSettings.Text[4]=(char *)"F5 prev";
+    theMenuBarSettings.Text[5]=(char *)"F6 next";
+    theMenuBarSettings.Text[6]=(char *)"ESC";
     theMenuBarSettings.Text[7]=(char *)"ENTER";
 
     theMenuBarSettings.evtSource = (void*)this;
 
-    theMenuBarSettings.evtFnks[0]=escape_listener;
+    theMenuBarSettings.evtFnks[0]=0;
     theMenuBarSettings.evtFnks[1]=filter_listener;
     theMenuBarSettings.evtFnks[2]=0;//Nummer 2 und Nummer 3 sind in LoadMenueBar nicht vorhanden!
     theMenuBarSettings.evtFnks[3]=0;//Nummer 2 und Nummer 3 sind in LoadMenueBar nicht vorhanden!
-    theMenuBarSettings.evtFnks[4]=0;
-    theMenuBarSettings.evtFnks[5]=pgup_listener;
-    theMenuBarSettings.evtFnks[6]=pgdown_listener;
+    theMenuBarSettings.evtFnks[4]=pgup_listener;
+    theMenuBarSettings.evtFnks[5]=pgdown_listener;
+    theMenuBarSettings.evtFnks[6]=escape_listener;
     theMenuBarSettings.evtFnks[7]=return_listener;
 
     theMenu = new LoadMenuBar((int)MLinks_x,(int)MLoadName_y,(int)MZeile_h, \
@@ -1300,11 +1300,11 @@ namespace EuMax01
 	      {
 		NewMainReturn(src,evt);
 	      }
-	    else if(key->keysym.sym == SDLK_LEFT)
+	    else if(key->keysym.sym == SDLK_LEFT || key->keysym.sym == SDLK_F5)
 	      {
 		NewMainLeft(src,evt);
 	      }
-	    else if(key->keysym.sym == SDLK_RIGHT)
+	    else if(key->keysym.sym == SDLK_RIGHT || key->keysym.sym == SDLK_F6)
 	      {
 		NewMainRight(src,evt);
 	      }
@@ -1526,10 +1526,10 @@ namespace EuMax01
     theMenuBarSettings.Text[1]=(char *)"F10 cross";
     theMenuBarSettings.Text[2]=(char *)"F12 save";
     theMenuBarSettings.Text[3]= 0;
-    theMenuBarSettings.Text[4]=(char *)"LEFT";
-    theMenuBarSettings.Text[5]=(char *)"RIGHT";
-    theMenuBarSettings.Text[6]=(char *)"RETURN";
-    theMenuBarSettings.Text[7]=(char *)"ESC";
+    theMenuBarSettings.Text[4]=(char *)"F5 prev";
+    theMenuBarSettings.Text[5]=(char *)"F6 next";
+    theMenuBarSettings.Text[6]=(char *)"ESC";
+    theMenuBarSettings.Text[7]=(char *)"ENTER";
 
     theMenuBarSettings.evtFnks[0]=NewMainF8;
     theMenuBarSettings.evtFnks[1]=NewMainF10;
@@ -1537,8 +1537,8 @@ namespace EuMax01
     theMenuBarSettings.evtFnks[3]=0;
     theMenuBarSettings.evtFnks[4]=NewMainLeft;
     theMenuBarSettings.evtFnks[5]=NewMainRight;
-    theMenuBarSettings.evtFnks[6]=NewMainReturn;
-    theMenuBarSettings.evtFnks[7]=NewMainEscape;
+    theMenuBarSettings.evtFnks[6]=NewMainEscape;
+    theMenuBarSettings.evtFnks[7]=NewMainReturn;
     theMenu->updateSettings(&this->theMenuBarSettings);
   }
 
@@ -1551,8 +1551,8 @@ namespace EuMax01
     theMenuBarSettings.Text[3]=(char *)"F4 >";
     theMenuBarSettings.Text[4]=(char *)"F5 <";
     theMenuBarSettings.Text[5]=(char *)"F6 >";
-    theMenuBarSettings.Text[6]=0;
-    theMenuBarSettings.Text[7]=0;
+    theMenuBarSettings.Text[6]=(char *)"ESC";
+    theMenuBarSettings.Text[7]=(char *)"ENTER";
 
     theMenuBarSettings.evtFnks[0]=NewCrossCircleMinus;
     theMenuBarSettings.evtFnks[1]=NewCrossCirclePlus;
@@ -1560,8 +1560,8 @@ namespace EuMax01
     theMenuBarSettings.evtFnks[3]=NewCrossCam0Right;
     theMenuBarSettings.evtFnks[4]=NewCrossCam1Left;
     theMenuBarSettings.evtFnks[5]=NewCrossCam1Right;
-    theMenuBarSettings.evtFnks[6]=0;
-    theMenuBarSettings.evtFnks[7]=0;
+    theMenuBarSettings.evtFnks[6]=NewCrossEscape;
+    theMenuBarSettings.evtFnks[7]=NewCrossEnter;
     theMenu->updateSettings(&this->theMenuBarSettings);
   }
 
@@ -1580,7 +1580,7 @@ namespace EuMax01
   void NewDialog::preparePhaseRecipeSteps()
   {
     resetEvtTargets();
-    Label_Name->setText("adjust recipe steps :");
+    Label_Name->setText("Adjust recipe steps :");
     this->Label_Name->Next = this->LabelXaxisText;
   }
 
@@ -1754,7 +1754,7 @@ namespace EuMax01
       {
 	preparePhaseEnterName();
 	this->TextField_Name->setActive(true);
-	snprintf(this->InfoText,256,"Recipe Name");
+	snprintf(this->InfoText,256,"Recipe name");
 	for(int i =0;i<3;i++)
 	  {
 	    LabelWerte[i]->setBorder(true);
@@ -1827,7 +1827,9 @@ namespace EuMax01
 
     if( key->type == SDL_KEYUP )
       {
-	if(key->keysym.sym == SDLK_ESCAPE)
+	if(key->keysym.sym == SDLK_ESCAPE || \
+	   key->keysym.sym == SDLK_RETURN || \
+	   key->keysym.sym == SDLK_KP_ENTER)
 	  {
 	    OptionsESC(src,evt);
 	  }
@@ -1842,10 +1844,6 @@ namespace EuMax01
 	else if(key->keysym.sym == SDLK_F7)
 	  {
 	    Options7(src,evt);
-	  }
-	else if(key->keysym.sym == SDLK_RETURN || key->keysym.sym == SDLK_KP_ENTER)
-	  {
-	    //exit(12);
 	  }
       }
   }
@@ -1893,14 +1891,14 @@ namespace EuMax01
 
     this->Parent = parent;
 
-    theMenuBarSettings.Text[0]=(char *)"F1 Cross";
+    theMenuBarSettings.Text[0]=(char *)"F1 cross";
     theMenuBarSettings.Text[1]=0;
     theMenuBarSettings.Text[2]=0;
     theMenuBarSettings.Text[3]=0;
-    theMenuBarSettings.Text[4]=(char *)"F5 Alert";
+    theMenuBarSettings.Text[4]=(char *)"F5 alert";
     theMenuBarSettings.Text[5]=0;
-    theMenuBarSettings.Text[6]=(char *)"F7 calib.";
-    theMenuBarSettings.Text[7]=(char *)"ESC";
+    theMenuBarSettings.Text[6]=(char *)"F7 calib";
+    theMenuBarSettings.Text[7]=(char *)"ENTER";
 
     theMenuBarSettings.evtSource = (void*)this;
 
