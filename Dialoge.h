@@ -176,6 +176,7 @@ namespace EuMax01
   };
 
   class NewDirectDialog;
+  class WalzeDurchmesser;
   class NewDialog : public Screen
   {
   public:
@@ -186,6 +187,8 @@ namespace EuMax01
     void decStep();
     int getStep();
     void newDirectReturn(PositionSet * Set);
+    void walzeDurchmesserReturn(void);
+    void walzeDurchmesserReturn(int durchmesser);
     TextField * TextField_Name;
     Label * LabelWerte[3];
     char pcWerte[3][32];
@@ -223,8 +226,10 @@ namespace EuMax01
     
     LL * getDialogsEvtTargets();
     NewDirectDialog * newDirect;
+    WalzeDurchmesser * walzeDurchmesser;
 
     void preparePhaseNewDirect();
+    void preparePhaseWalzeDurchmesser();
     void setMenuBarForNewMain();
     void setMenuBarForNewCross();
     MenuBar * theMenu;

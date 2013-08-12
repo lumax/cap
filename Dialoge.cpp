@@ -31,6 +31,7 @@ Bastian Ruppert
 #include "MenuBar.h"
 #include "ArbeitsDialog.h"
 #include "NewDirectDialog.h"
+#include "WalzeDurchmesser.h"
 #include "ErrorDialog.h"
 #include "Dialoge.h"
 
@@ -1221,6 +1222,11 @@ namespace EuMax01
     //ad->Label_Menu->setText(NewDialogCrossMenuText);
     //ad->Label_Menu->show(ad->Parent->theGUI->getMainSurface());
   }
+  static void NewMainF11(void * src, SDL_Event * evt)
+  {
+    NewDialog* ad = (NewDialog*)src;
+    ad->preparePhaseWalzeDurchmesser();
+  }
   static void NewMainF12(void * src, SDL_Event * evt)
   {
     NewDialog* ad = (NewDialog*)src;
@@ -1316,6 +1322,10 @@ namespace EuMax01
 	      {
 		NewMainF10(src,evt);
 	      }
+	    else if(key->keysym.sym == SDLK_F11)
+	      {
+		NewMainF11(src,evt);
+	      }
 	    else if(key->keysym.sym == SDLK_F12)
 	      {
 		NewMainF12(src,evt);
@@ -1395,6 +1405,7 @@ namespace EuMax01
     this->camw = camw;
     this->tmpRezept = new Rezept();
     this->newDirect = new NewDirectDialog(sdlw,sdlh,camw,camh,yPos,this);
+    this->walzeDurchmesser = new WalzeDurchmesser(sdlw,sdlh,camw,camh,yPos,this);
     Rezept::copy(Parent->getNullRezept(),tmpRezept);
 
     M_y = sdlh - yPos;
@@ -1524,8 +1535,8 @@ namespace EuMax01
 
     theMenuBarSettings.Text[0]=(char *)"F8 direct";
     theMenuBarSettings.Text[1]=(char *)"F10 cross";
-    theMenuBarSettings.Text[2]=(char *)"F12 save";
-    theMenuBarSettings.Text[3]= 0;
+    theMenuBarSettings.Text[2]=(char *)"F11 barrel";
+    theMenuBarSettings.Text[3]=(char *)"F12 save";
     theMenuBarSettings.Text[4]=(char *)"F5 prev";
     theMenuBarSettings.Text[5]=(char *)"F6 next";
     theMenuBarSettings.Text[6]=(char *)"ESC";
@@ -1533,8 +1544,8 @@ namespace EuMax01
 
     theMenuBarSettings.evtFnks[0]=NewMainF8;
     theMenuBarSettings.evtFnks[1]=NewMainF10;
-    theMenuBarSettings.evtFnks[2]=NewMainF12;
-    theMenuBarSettings.evtFnks[3]=0;
+    theMenuBarSettings.evtFnks[2]=NewMainF11;
+    theMenuBarSettings.evtFnks[3]=NewMainF12;
     theMenuBarSettings.evtFnks[4]=NewMainLeft;
     theMenuBarSettings.evtFnks[5]=NewMainRight;
     theMenuBarSettings.evtFnks[6]=NewMainEscape;
@@ -1594,6 +1605,13 @@ namespace EuMax01
     resetEvtTargets();
     Parent->theGUI->activateScreen(newDirect);
     newDirect->useNewDirectDialog(&this->tmpRezept->Rezepte[rzpStep]);
+  }
+
+  void NewDialog::preparePhaseWalzeDurchmesser()
+  {
+    resetEvtTargets();
+    Parent->theGUI->activateScreen(walzeDurchmesser);
+    walzeDurchmesser->useWalzeDurchmesser(this->tmpRezept->Rezepte[0].cams[0].walze);
   }
 
   LL * NewDialog::getDialogsEvtTargets()
@@ -1793,6 +1811,34 @@ namespace EuMax01
 	incStep();
       }
     Parent->theGUI->activateScreen(this);//Parent->theNewDialog);
+  }
+
+  void NewDialog::walzeDurchmesserReturn(void)
+  {
+    preparePhaseRecipeSteps();
+    if(getStep()==0)
+      incStep();
+    else
+      {
+	decStep();
+	incStep();
+      }
+    Parent->theGUI->activateScreen(this);
+  }
+
+  void NewDialog::walzeDurchmesserReturn(int durchmesser)
+  {
+    this->tmpRezept->Rezepte[0].cams[0].walze = durchmesser;
+
+    preparePhaseRecipeSteps();
+    if(getStep()==0)
+      incStep();
+    else
+      {
+	decStep();
+	incStep();
+      }
+    Parent->theGUI->activateScreen(this);
   }
 
   static void Options1(void * src, SDL_Event * evt)
