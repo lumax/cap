@@ -44,12 +44,11 @@ namespace EuMax01
  
   void WalzeDurchmesser::return_listener(void * src, SDL_Event * evt)
   {
-    int durchmesser = 0;
     WalzeDurchmesser* ad = (WalzeDurchmesser*)src;//KeyListener
 
-    durchmesser = ad->convertTextToInt();
+    //durchmesser = ad->convertTextToInt();
 
-    ad->Parent->walzeDurchmesserReturn(durchmesser);
+    ad->Parent->walzeDurchmesserReturn(ad->derDurchmesser);
   }
 
   void WalzeDurchmesser::WalzeDurchmesserKeyListener(void * src, SDL_Event * evt)
@@ -64,9 +63,13 @@ namespace EuMax01
 	zeichen = Tool::getIntegerNumeric_Char(key);
 	if(key->keysym.sym == SDLK_BACKSPACE||zeichen!=0)
 	  {
-	    ad->confirmValue(atof(ad->TF_Value->getText()));
+	    //ad->confirmValue(atof(ad->TF_Value->getText()));
 	    //ad->getSchritteValues(ad->OldValue,64);
 	    //ad->Label_OldValue->setText(ad->OldValue);
+
+	    ad->confirmValue(atof(ad->TF_Value->getText()));
+	    ad->getSchritteValues(ad->OldValue,64);
+	    ad->Label_OldValue->setText(ad->OldValue);
 	  }
 	if(key->keysym.sym == SDLK_ESCAPE)
 	  {
@@ -85,7 +88,7 @@ namespace EuMax01
 				   int camw,				\
 				   int camh,				\
 				   int yPos,NewDialog * parent):Screen(), \
-								TF_Len(5)
+								TF_Len(6)
   {
     short M_y;
     short MLinks_x;
@@ -126,23 +129,30 @@ namespace EuMax01
     x3 = x2 + button_schmal + x_space;
 
     snprintf(this->StepText,256,\
-	     "Diameter :");
+	     "Enter Sleeve diameter :");
     Label_Step = new Label(this->StepText,			\
 			   MLinks_x,Zeile1_y,506*2,MZeile_h,Parent->Parent->MenuSet);
 
-    /*Label_ValueName = new Label(this->ValueName,			\
+    Label_ValueName = new Label(this->ValueName,			\
 				x1,Zeile3_y,				\
 				button_breit,MZeile_h);  
-				Label_ValueName->setText("Label_ValueName");*/
+    Label_ValueName->setText("Sleeve diameter");
 
     TF_Value = new TextField("",TF_Len,					\
 			     x2,					\
 			     Zeile3_y,button_schmal,			\
 			     MZeile_h,Parent->Parent->WerteSet);
     TF_Value->activateKeyListener(TextField::IntegerNumericChar);
-    TF_Value->setBorder(true);
-    TF_Value->hide(false);
+    TF_Value->setBorder(false);
+    TF_Value->hide(true);
     TF_Value->setActive(true);
+
+    Label_OldValue = new Label(" -- ",			\
+			       x3,			\
+			       Zeile3_y,		\
+			       button_breit,		\
+			       MZeile_h,		\
+			       Parent->Parent->WerteSet);
 
     theMenuBarSettings.Text[0]=0;
     theMenuBarSettings.Text[1]=0;
@@ -173,38 +183,41 @@ namespace EuMax01
     this->addEvtTarget(this);//den Screen Key Listener bei sich selber anmelden!
 
     addEvtTarget(Label_Step);
-    //addEvtTarget(Label_ValueName);
+    addEvtTarget(Label_ValueName);
     addEvtTarget(TF_Value);
+    addEvtTarget(Label_OldValue);
 
     theMenu->addToEvtTarget(this);
   }
 
   void WalzeDurchmesser::useWalzeDurchmesser(int durchmesser)
   {
+    derDurchmesser = durchmesser;
     TF_Value->setText((char *)"");//hidden TextField reset
-    //this->showEingabeSchritt();
-    snprintf(Value,64,"%i",durchmesser);
+    snprintf(Value,64,"%i",derDurchmesser);
     TF_Value->setText(Value);
-  }
-
-  int WalzeDurchmesser::convertTextToInt(void)
-  {
-    return atof(this->TF_Value->getText());
+    this->showEingabeSchritt();
   }
 
   void WalzeDurchmesser::confirmValue(int val)
   {
     //printf("confirmValue : %i\n",val);
+    derDurchmesser = val;
   }
 
-  /*  void WalzeDurchmesser::setXXData(unsigned short dat,int MyStep,char*suffix)
+  void WalzeDurchmesser::showEingabeSchritt()
   {
-    if(MyStep==this->ActualStep)
-      {
-	sprintf(this->Value,"%7.2f%s",(float)dat/100,suffix);
-	this->TF_Value->setText(this->Value);
-	this->TF_Value->show(this->Parent->Parent->theGUI->getMainSurface());
-      }
-      }*/
+    this->Label_OldValue->hide(false);
+    getSchritteValues(this->OldValue,64);
+    this->Label_OldValue->setText(this->OldValue);
+    this->Label_OldValue->show(this->Parent->Parent->theGUI->getMainSurface());
+    
+    //this->Label_Step->show(this->Parent->Parent->theGUI->getMainSurface());
+    //this->Label_ValueName->show(this->Parent->Parent->theGUI->getMainSurface());
+  }
 
+  void WalzeDurchmesser::getSchritteValues(char * buf,int len)
+  {
+    snprintf(buf,len,"%7.2f mm",(float)derDurchmesser/100);
+  }
 }

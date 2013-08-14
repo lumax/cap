@@ -16,7 +16,9 @@ namespace EuMax01
     NewDialog * Parent;
 
     void useWalzeDurchmesser(int durchmesser);
-    int convertTextToInt(void);
+    void showEingabeSchritt();
+
+    int derDurchmesser;
 
     static void WalzeDurchmesserKeyListener(void * src, SDL_Event * evt);
 
@@ -24,15 +26,21 @@ namespace EuMax01
     static void return_listener(void * src, SDL_Event * evt);
 
   private:
+    void getSchritteValues(char * buf,int len);
+
     Label * Label_Step;
     char StepText[256];
+
+    Label * Label_ValueName;
+    char ValueName[16];
+
+    Label * Label_OldValue;
+    char OldValue[64];
 
     TextField * TF_Value;
     const int TF_Len; 
     char Value[64];
 
-    //    int ActualStep;
-    // void setXXData(unsigned short dat,int MyStep,char * suffix);
     void confirmValue(int val);
     struct t_MenuBarSettings theMenuBarSettings;
     MenuBar * theMenu;
