@@ -86,7 +86,7 @@ static void evtExit(void * src,SDL_Event * evt){
 
   }
 
-  unsigned short Rezept::getXPosition(int cam,int rezept)
+  unsigned int Rezept::getXPosition(int cam,int rezept)
   {
     int theCam = 0;
     int pos;
@@ -104,7 +104,7 @@ static void evtExit(void * src,SDL_Event * evt){
     return this->Rezepte[pos].cams[theCam].x_pos;
   }
 
-  unsigned short Rezept::getZPosition(int rezept)
+  unsigned int Rezept::getZPosition(int rezept)
   {
     int theCam = 0;
     int pos;

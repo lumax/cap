@@ -14,9 +14,9 @@ extern "C" {
 #endif*/
 struct Position
 {
-  unsigned short x_pos;
-  unsigned short z_pos;
-  unsigned short x_cross;
+  unsigned int x_pos;
+  unsigned int z_pos;
+  unsigned int x_cross;
   int diameter;
   int walze;
 };
@@ -34,8 +34,8 @@ struct PositionSet
   public:
     Rezept();
     ~Rezept();
-    unsigned short getXPosition(int cam,int rezept);
-    unsigned short getZPosition(int rezept);
+    unsigned int getXPosition(int cam,int rezept);
+    unsigned int getZPosition(int rezept);
     int getDiameter(int rezept);
     int getWalze(int rezept);
     

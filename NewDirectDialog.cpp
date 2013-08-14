@@ -126,7 +126,7 @@ namespace EuMax01
 				   int camw,				\
 				   int camh,				\
 				   int yPos,NewDialog * parent):Screen(), \
-								TF_Len(5)
+								TF_Len(6)
   {
     short M_y;
     short MLinks_x;
@@ -350,28 +350,29 @@ namespace EuMax01
 
   void NewDirectDialog::confirmValue(int val)
   {
+    printf("confirmValue Wert:%i\n",val);
     if(0==this->ActualStep)
       {
 	if(val<0)
 	  val = 0;
-	if(val>0xffff)
-	  val=0xffff;
+	//if(val>0xffff)
+	//  val=0xffff;
 	thePosSet.cams[0].x_pos = val;
       }
     else if(1==this->ActualStep)
       {
 	if(val<0)
 	  val = 0;
-	if(val>0xffff)
-	  val=0xffff;
+	//if(val>0xffff)
+	//  val=0xffff;
 	thePosSet.cams[1].x_pos = val;
       }
     else if(2==this->ActualStep)
       {
 	if(val<0)
 	  val = 0;
-	if(val>0xffff)
-	  val=0xffff;
+	//if(val>0xffff)
+	//  val=0xffff;
 	thePosSet.cams[0].z_pos = val;
       }
     else if(3==this->ActualStep)

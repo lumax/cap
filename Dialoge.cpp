@@ -647,6 +647,9 @@ namespace EuMax01
 	    break;
 	  }
       }
+
+    if(GradDerEntfernung >=PosDialog::DiffLen)
+      GradDerEntfernung = PosDialog::DiffLen-1;
     return GradDerEntfernung;
   }
 
