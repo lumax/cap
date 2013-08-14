@@ -198,25 +198,25 @@ namespace EuMax01
       case CalibrationDialog::iQ1:
 	{
 	  this->Parent->sendProtocolMsg(nPEC_RESET_Q1);
-	  this->Parent->sendProtocolMsg(nPEC_GET_Q1);
+	  this->Parent->sendProtocolMsg(nPEC_GET_Q1_32);
 	  break;
 	}
       case CalibrationDialog::iQ2:
 	{
 	  this->Parent->sendProtocolMsg(nPEC_RESET_Q2);
-	  this->Parent->sendProtocolMsg(nPEC_GET_Q2);
+	  this->Parent->sendProtocolMsg(nPEC_GET_Q2_32);
 	  break;
 	}
       case CalibrationDialog::iZ1:
 	{
 	  this->Parent->sendProtocolMsg(nPEC_RESET_Z1);
-	  this->Parent->sendProtocolMsg(nPEC_GET_Z1);
+	  this->Parent->sendProtocolMsg(nPEC_GET_Z1_32);
 	  break;
 	}
       case CalibrationDialog::iZ2:
 	{
 	  this->Parent->sendProtocolMsg(nPEC_RESET_Z2);
-	  this->Parent->sendProtocolMsg(nPEC_GET_Z2);
+	  this->Parent->sendProtocolMsg(nPEC_GET_Z2_32);
 	  break;
 	}
       }
@@ -1535,7 +1535,7 @@ namespace EuMax01
 
     theMenuBarSettings.Text[0]=(char *)"F8 direct";
     theMenuBarSettings.Text[1]=(char *)"F10 cross";
-    theMenuBarSettings.Text[2]=(char *)"F11 barrel";
+    theMenuBarSettings.Text[2]=(char *)"F11sleeve";
     theMenuBarSettings.Text[3]=(char *)"F12 save";
     theMenuBarSettings.Text[4]=(char *)"F5 prev";
     theMenuBarSettings.Text[5]=(char *)"F6 next";

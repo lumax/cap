@@ -451,9 +451,9 @@ namespace EuMax01
 	return;
       }
     this->showRezept(0);
-    this->sendProtocolMsg(nPEC_GET_Q1);
-    this->sendProtocolMsg(nPEC_GET_Q2);
-    this->sendProtocolMsg(nPEC_GET_Z1);
+    this->sendProtocolMsg(nPEC_GET_Q1_32);
+    this->sendProtocolMsg(nPEC_GET_Q2_32);
+    this->sendProtocolMsg(nPEC_GET_Z1_32);
     //prt_sendmsg_uint(nPEC_GET_Z2,0x00);
   }
 
@@ -503,10 +503,10 @@ namespace EuMax01
     this->iActiveDialog = ArbeitsDialog::NewDialogIsActive;
     this->blankMenuArea();
     this->theGUI->activateScreen(theNewDialog);
-    this->sendProtocolMsg(nPEC_GET_Q1);
-    this->sendProtocolMsg(nPEC_GET_Q2);
-    this->sendProtocolMsg(nPEC_GET_Z1);
-    this->sendProtocolMsg(nPEC_GET_Z2);
+    this->sendProtocolMsg(nPEC_GET_Q1_32);
+    this->sendProtocolMsg(nPEC_GET_Q2_32);
+    this->sendProtocolMsg(nPEC_GET_Z1_32);
+    //this->sendProtocolMsg(nPEC_GET_Z2);
     //prt_sendmsg_uint(nPEC_GET_FP1,0x00);
     //prt_sendmsg_uint(nPEC_GET_FP2,0x00);
     theNewDialog->TextField_Name->setText(theNewDialog->tmpRezept->Name);
