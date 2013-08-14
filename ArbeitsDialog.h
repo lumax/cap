@@ -72,8 +72,8 @@ namespace EuMax01
     void sendProtocolMsg(char cmd);
     void sendProtocolMsg(char cmd,int val);
 
-    void setFaktorZAchse(float f);
-    float getFaktorZAchse(void);
+    void setFaktorZAchse(int i);
+    int getFaktorZAchse(void);
 
     void Q1_evt(unsigned int dat);
     void Q2_evt(unsigned int dat);
@@ -161,7 +161,7 @@ namespace EuMax01
     SDL_Rect Area;
     bool useGUI;
 
-    float fFaktorZAchse;
+    int iFaktorZAchse;
 
     int Cam1XaxisCur;
     int Cam1XaxisDif;

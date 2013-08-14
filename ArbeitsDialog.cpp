@@ -215,8 +215,6 @@ namespace EuMax01
     Cam2ZaxisCur = 0;
     Cam2ZaxisDif = 0;
 
-    fFaktorZAchse = 1.0;
-
     this->newCircleDiameterFnk = newDiameterFnk;
     this->getCircleDiameterFnk = getDiameterFnk;
 
@@ -235,6 +233,8 @@ namespace EuMax01
     this->TextCam1Xaxis =(char*)"Cam1 X-Axis";
     this->TextCam2Xaxis = (char*)"Cam2 X-Axis";
     this->TextZaxis = (char*)"Z-Axis";
+
+    this->iFaktorZAchse = Rezept::DefaultWalze;
 
     //wird in convertCamPos benötigt
     if(sdlw/2>camw)
@@ -637,7 +637,7 @@ namespace EuMax01
     Cam1ZaxisCur = val;
     Cam1ZaxisDif = Cam1ZaxisCur - this->theRezept->getZPosition(RezeptNummer);
     thePosDialog->showDifferenceZ(val,this->theRezept->getZPosition(RezeptNummer));
-    showVal = this->convertMBProtData(val,this->fFaktorZAchse);
+    showVal = this->convertMBProtData(val,this->iFaktorZAchse);
 
     sprintf(this->thePosDialog->pcLabelZ[PosDialog::iCurr],"%7.2f%s",	\
 	    showVal,					\
@@ -675,7 +675,7 @@ namespace EuMax01
 	  setText(thePosDialog->pcLabelCam2[PosDialog::iStep]);
 
 	sprintf(thePosDialog->pcLabelZ[PosDialog::iStep],	\
-		"%7.2f mm",(float)theRezept->getZPosition(nummer)/100*this->fFaktorZAchse);
+		"%7.2f mm",(float)theRezept->getZPosition(nummer)/100*this->getFaktorZAchse());
 	thePosDialog->pLabelZ[PosDialog::iStep]->	\
 	  setText(thePosDialog->pcLabelZ[PosDialog::iStep]);
 
@@ -769,7 +769,7 @@ namespace EuMax01
     float ret = 0.0;
     int i = (int)dat;
     ret = (float)i/100;
-    ret = ret*faktor;
+    ret = ret*faktor*3.14159265359;
 
     //    sprintf(this->thePosDialog->pcLabelZ[PosDialog::iCurr],"%7.2f%s",
     //	    (float)Cam1ZaxisCur+1/100*this->fFaktorZAchse,
@@ -912,14 +912,14 @@ namespace EuMax01
 	prt_sendmsg_uint(cmd,val);
   }
 
-  void ArbeitsDialog::setFaktorZAchse(float f)
+  void ArbeitsDialog::setFaktorZAchse(int i)
   {
-    this->fFaktorZAchse = f;
+    this->iFaktorZAchse = i;
   }
 
-  float ArbeitsDialog::getFaktorZAchse(void)
+  int ArbeitsDialog::getFaktorZAchse(void)
   {
-    return this->fFaktorZAchse;
+    return this->iFaktorZAchse;
   }
 
   bool ArbeitsDialog::useTheGUI()

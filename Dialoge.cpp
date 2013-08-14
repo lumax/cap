@@ -1832,6 +1832,7 @@ namespace EuMax01
   void NewDialog::walzeDurchmesserReturn(int durchmesser)
   {
     this->tmpRezept->Rezepte[0].cams[0].walze = durchmesser;
+    this->Parent->setFaktorZAchse(durchmesser);
 
     preparePhaseRecipeSteps();
     if(getStep()==0)

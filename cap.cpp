@@ -75,7 +75,7 @@ static const unsigned int MAXCAMWIDTH = 1280;
 static unsigned char oneLineColor[MAXCAMWIDTH*2];
 static int circleQuarterX[MAXCAMWIDTH/2];
 
-static double FaktorZ1 = 1.0;
+//static double FaktorZ1 = 1.0;
 
 static CamControl * camCtrl;
 
@@ -1339,11 +1339,11 @@ int main(int argc, char *argv[])
     {
       HideMouseCursor=true;
     }
-  if(!iniParser_getParam(confpath,(char*)"FAKTOR_Z1",tmp,64))
+   /*  if(!iniParser_getParam(confpath,(char*)"FAKTOR_Z1",tmp,64))
     {
       FaktorZ1 = atof(tmp);
       printf("FAKTOR_Z1 = %f\n",(float)FaktorZ1);
-    }
+      }*/
   if(!iniParser_getParam(confpath,(char*)"DIAMETER",tmp,64))
     {
       RectBreite = atoi(tmp);//wird in der Funktion prepareOverlayCircle Untersucht und Begrenzt
@@ -1466,7 +1466,7 @@ int main(int argc, char *argv[])
 				       setFadenkreuzBreite,\
 				       saveFadenkreuzBreite,\
 				       getFadenkreuzBreite);
-  theArbeitsDialog->setFaktorZAchse((float)FaktorZ1);
+  //theArbeitsDialog->setFaktorZAchse((float)FaktorZ1);
 
   theGUI->eventLoop();
 }
