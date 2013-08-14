@@ -57,6 +57,8 @@ namespace EuMax01
      *  \returns den tar Puffer
      */
     char * int2string(char * tar,int len,int data,char * suffix);
+
+    char * int2string(char * tar,int len,int data,char * suffix,unsigned int zFaktor);
     //    void showRezept(Rezept * pRezept,int nummer);
     void showRezept(int nummer);
     void incRezeptNummer();

@@ -321,9 +321,9 @@ namespace EuMax01
     setXXData(dat,CalibrationDialog::iQ2,(char*)" mm");
   }
 
-  void CalibrationDialog::setZ1(unsigned int dat,char*suffix)
+  void CalibrationDialog::setZ1(unsigned int dat,char*suffix,unsigned int zFaktor)
   {
-    setXXData(dat,CalibrationDialog::iZ1,suffix);    
+    setXXData(dat,CalibrationDialog::iZ1,suffix,zFaktor);
   }
 
   void CalibrationDialog::setZ2(unsigned int dat,char*suffix)
@@ -338,6 +338,19 @@ namespace EuMax01
     if(MyStep==this->ActualStep)
       {
 	showValue = this->Parent->convertMBProtData(dat);
+	sprintf(this->Value,"%7.2f%s",showValue,suffix);
+	this->Label_Value->setText(this->Value);
+	this->Label_Value->show(this->Parent->theGUI->getMainSurface());
+      }
+  }
+
+  void CalibrationDialog::setXXData(unsigned int dat,int MyStep,char*suffix,unsigned int zFaktor)
+  {
+    float showValue;
+
+    if(MyStep==this->ActualStep)
+      {
+	showValue = this->Parent->convertMBProtData(dat,(float)zFaktor);
 	sprintf(this->Value,"%7.2f%s",showValue,suffix);
 	this->Label_Value->setText(this->Value);
 	this->Label_Value->show(this->Parent->theGUI->getMainSurface());
@@ -1661,9 +1674,19 @@ namespace EuMax01
   void NewDialog::setNewPositionValue(int pos, unsigned int value,char* suffix)
   {
     this->usWerte[pos] = value;
-    this->LabelWerte[pos]->setText(this->Parent->int2string(this->pcWerte[pos],	\
-							    32,(int)value,\
-							    suffix));
+    this->LabelWerte[pos]->setText(this->Parent->int2string(this->pcWerte[pos], \
+							      32,(int)value, \
+							      suffix));
+    //Label::showLabel((void*)this->LabelWerte[pos],this->Parent->theGUI->getMainSurface());
+    this->show(Parent->theGUI->getMainSurface());
+  }
+
+  void NewDialog::setNewPositionValue(int pos, unsigned int value,char* suffix,unsigned int zfaktor)
+  {
+    this->usWerte[pos] = value;
+    this->LabelWerte[pos]->setText(this->Parent->int2string(this->pcWerte[pos], \
+							      32,(int)value, \
+							    suffix,zfaktor));
     //Label::showLabel((void*)this->LabelWerte[pos],this->Parent->theGUI->getMainSurface());
     this->show(Parent->theGUI->getMainSurface());
   }
@@ -1690,8 +1713,9 @@ namespace EuMax01
 
 	LabelRezept[NewDialog::iPosZ]->setText(			\
 		 Parent->int2string(pcRezept[NewDialog::iPosZ],64, \
-				    tmpRezept->Rezepte[rzpStep].cams[0].z_pos*this->Parent->getFaktorZAchse(), \
-				    (char*)" mm"));
+				    tmpRezept->Rezepte[rzpStep].cams[0].z_pos,\
+				    (char*)" mm"));/*			\
+									tmpRezept->Rezepte[0].cams[0].walze));*/
 
 	LabelRezept[NewDialog::iPosX2]->setText(			\
 		 Parent->int2string(pcRezept[NewDialog::iPosX2],64, \

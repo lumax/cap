@@ -18,7 +18,7 @@ namespace EuMax01
     ArbeitsDialog * Parent;
     void setQ1(unsigned int dat);
     void setQ2(unsigned int dat);
-    void setZ1(unsigned int dat,char*suffix);
+    void setZ1(unsigned int dat,char*suffix,unsigned int zFaktor);
     void setZ2(unsigned int dat,char*suffix);
     void resetStepValue();
     void incStep();
@@ -42,6 +42,7 @@ namespace EuMax01
 
     int ActualStep;
     void setXXData(unsigned int dat,int MyStep,char * suffix);
+    void setXXData(unsigned int dat,int MyStep,char * suffix,unsigned int zFaktor);
 
     struct t_MenuBarSettings theMenuBarSettings;
     MenuBar * theMenu;
@@ -204,6 +205,7 @@ namespace EuMax01
     unsigned short usWerte[6];
 
     void setNewPositionValue(int pos, unsigned int value,char * suffix);
+    void setNewPositionValue(int pos, unsigned int value,char * suffix,unsigned int zfaktor);
     void copyValuesToRezept();
 
     Label * LabelRezept[3];

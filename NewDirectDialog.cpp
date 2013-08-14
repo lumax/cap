@@ -329,7 +329,9 @@ namespace EuMax01
       }
     else if(2==this->ActualStep)
       {
-	snprintf(buf,len,"%7.2f mm",(float)thePosSet.cams[0].z_pos/100*this->Parent->Parent->getFaktorZAchse());
+	//printf("getSchritteValues 2==this->ActualStep\n");
+	snprintf(buf,len,"%7.2f mm",(float)thePosSet.cams[0].z_pos/100);
+	//*this->Parent->Parent->getFaktorZAchse());
       }
     else if(3==this->ActualStep)
       {
@@ -350,7 +352,7 @@ namespace EuMax01
 
   void NewDirectDialog::confirmValue(int val)
   {
-    printf("confirmValue Wert:%i\n",val);
+    //printf("confirmValue Wert:%i\n",val);
     if(0==this->ActualStep)
       {
 	if(val<0)

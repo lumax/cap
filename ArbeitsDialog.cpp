@@ -659,6 +659,8 @@ namespace EuMax01
       {
 	RezeptNummer = nummer;
 
+	this->iFaktorZAchse = theRezept->Rezepte[RezeptNummer].cams[0].walze;
+
 	cap_cam_setCrossX(0,theRezept->Rezepte[RezeptNummer].cams[0].x_cross);
 	cap_cam_setCrossX(1,theRezept->Rezepte[RezeptNummer].cams[1].x_cross);
 
@@ -674,8 +676,9 @@ namespace EuMax01
 	thePosDialog->pLabelCam2[PosDialog::iStep]->	\
 	  setText(thePosDialog->pcLabelCam2[PosDialog::iStep]);
 
-	sprintf(thePosDialog->pcLabelZ[PosDialog::iStep],	\
-		"%7.2f mm",(float)theRezept->getZPosition(nummer)/100*this->getFaktorZAchse());
+	sprintf(thePosDialog->pcLabelZ[PosDialog::iStep],		\
+		"%7.2f mm",(float)theRezept->getZPosition(nummer)/100/**this->getFaktorZAchse()*/);
+
 	thePosDialog->pLabelZ[PosDialog::iStep]->	\
 	  setText(thePosDialog->pcLabelZ[PosDialog::iStep]);
 
@@ -755,6 +758,22 @@ namespace EuMax01
     return tar;
   }
 
+  char * ArbeitsDialog::int2string(char * tar,int len,int data,char * suffix,unsigned int zFaktor)
+  {
+    float showValue;
+
+    showValue = this->convertMBProtData(data,(float)zFaktor);
+    if(suffix)
+      {
+	snprintf(tar,len,"%7.2f%s",showValue,suffix);
+      }
+    else
+      {
+	snprintf(tar,len,"%7.2f",showValue);
+      }
+    return tar;
+  }
+
   float ArbeitsDialog::convertMBProtData(unsigned int dat)
   {
     float ret = 0.0;
@@ -764,12 +783,16 @@ namespace EuMax01
     return ret;
   }
 
+  //Faktor ist der Durchmesser (F11 sleeve)
+  //Umfang = d*PI
+  //MBruch gibt mir 65535 Werte pro Umfang
+  //Strecke = MBruchsWerte * (Faktor*PI)/65536
   float ArbeitsDialog::convertMBProtData(unsigned int dat,float faktor)
   {
     float ret = 0.0;
     int i = (int)dat;
     ret = (float)i/100;
-    ret = ret*faktor*3.14159265359;
+    ret = ret * ((faktor/100)*3.14159265359 )/65536;
 
     //    sprintf(this->thePosDialog->pcLabelZ[PosDialog::iCurr],"%7.2f%s",
     //	    (float)Cam1ZaxisCur+1/100*this->fFaktorZAchse,
@@ -827,12 +850,12 @@ namespace EuMax01
     if(iActiveDialog==ArbeitsDialog::ArbeitsDialogIsActive)
       setCam1ZaxisCur(dat,(char*)" mm");
     else if(iActiveDialog==ArbeitsDialog::CalDialogIsActive)
-      this->theCalDialog->setZ1(dat,(char*)" mm");
+      this->theCalDialog->setZ1(dat,(char*)" mm",this->iFaktorZAchse);
     else if(iActiveDialog==ArbeitsDialog::NewDialogIsActive)
       {
 	this->theNewDialog->setNewPositionValue(NewDialog::iPosZ,	\
 						dat,			\
-						(char*)" mm");
+						(char*)" mm",this->iFaktorZAchse);
       }
   }
   void ArbeitsDialog::Z2_evt(unsigned int dat)
