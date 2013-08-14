@@ -164,7 +164,7 @@ namespace EuMax01
     theMenuBarSettings.evtFnks[6]=escape_listener;
     theMenuBarSettings.evtFnks[7]=return_listener;
 
-    theMenu = new MenuBar((int)MLinks_x,(int)Zeile5_y,(int)MZeile_h,(char*)"Barrel", \
+    theMenu = new MenuBar((int)MLinks_x,(int)Zeile5_y,(int)MZeile_h,(char*)"Sleeve", \
 			  &this->theMenuBarSettings,Parent->Parent);
 
     this->pTSource = this;//EvtTarget Quelle setzen, damit der EvtListener die Quelle mitteilen kann
