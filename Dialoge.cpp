@@ -1620,7 +1620,7 @@ namespace EuMax01
       }
     resetEvtTargets();
     Parent->theGUI->activateScreen(newDirect);
-    newDirect->useNewDirectDialog(&this->tmpRezept->Rezepte[rzpStep]);
+    newDirect->useNewDirectDialog(&this->tmpRezept->Rezepte[rzpStep],rzpStep+1);
   }
 
   void NewDialog::preparePhaseWalzeDurchmesser()

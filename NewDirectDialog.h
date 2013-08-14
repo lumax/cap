@@ -27,7 +27,7 @@ namespace EuMax01
     int getEingabeSchritt();
     void showEingabeSchritt();
     PositionSet * getPositionSet();
-    void useNewDirectDialog(PositionSet * thePositionSet);
+    void useNewDirectDialog(PositionSet * thePositionSet,int theStep);
 
     static void NewDirectKeyListener(void * src, SDL_Event * evt);
     //void crosshairsKeyListener(SDL_KeyboardEvent * key);
@@ -38,6 +38,7 @@ namespace EuMax01
     static void return_listener(void * src, SDL_Event * evt);
 
   private:
+    int theStep;
     static const int AnzahlEingabeSchritte = 3;//camx1,camx2,z,/*cross1,cross2*/
     char * SchrittTexte[NewDirectDialog::AnzahlEingabeSchritte];
     void getSchritteValueNames(char * buf,int len);

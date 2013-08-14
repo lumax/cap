@@ -145,11 +145,13 @@ namespace EuMax01
     this->thePosSet.cams[1].z_pos = 0;
     this->thePosSet.cams[1].x_cross = 0;
 
-    SchrittTexte[0] = (char *)"Enter x-axis position for cam 1:";
-    SchrittTexte[1] = (char *)"Enter x-axis position for cam 2:";
-    SchrittTexte[2] = (char *)"Enter z-axis position:";
-    SchrittTexte[3] = (char *)"Enter crossair position in percent:";
-    SchrittTexte[4] = (char *)"Enter crossair position in percent:";
+    this->theStep = 1;
+
+    SchrittTexte[0] = (char *)"Enter x-axis position cam 1 for step";
+    SchrittTexte[1] = (char *)"Enter x-axis position cam 2 for step";
+    SchrittTexte[2] = (char *)"Enter z-axis position for step";
+    SchrittTexte[3] = (char *)"Enter crossair position in percent for step";
+    SchrittTexte[4] = (char *)"Enter crossair position in percent for step";
     
     M_y = sdlh - yPos;
     if(M_y<=84)
@@ -270,8 +272,9 @@ namespace EuMax01
     return this->ActualStep;
   }
 
-  void NewDirectDialog::useNewDirectDialog(PositionSet * thePositionSet)
+  void NewDirectDialog::useNewDirectDialog(PositionSet * thePositionSet,int step)
   {
+    this->theStep = step;
     this->ActualStep = 0;
     TF_Value->setText((char *)"");//hidden TextField reset
     if(thePositionSet)
@@ -413,7 +416,9 @@ namespace EuMax01
 	this->Label_OldValue->setText(this->OldValue);
 	this->Label_OldValue->show(this->Parent->Parent->theGUI->getMainSurface());
 	//}
-    this->Label_Step->setText(SchrittTexte[this->ActualStep]);
+
+	snprintf(this->StepText,256,"%s %i :",SchrittTexte[this->ActualStep],this->theStep);
+	this->Label_Step->setText(this->StepText);
 
     this->getSchritteValueNames(this->ValueName,16);
     this->Label_ValueName->setText(this->ValueName);
