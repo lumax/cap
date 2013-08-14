@@ -786,16 +786,15 @@ namespace EuMax01
   //Faktor ist der Durchmesser (F11 sleeve)
   //Umfang = d*PI
   //MBruch gibt mir 65535 Werte pro Umfang
-  //Strecke = MBruchsWerte * (Faktor*PI)/65536
+  //Strecke = MBruchsWerte * (Faktor*PI)/(65536*2 wegen Michaels Interface)
+  //
   float ArbeitsDialog::convertMBProtData(unsigned int dat,float faktor)
   {
     float ret = 0.0;
     int i = (int)dat;
-    ret = (float)i/100;
-    ret = ret * ((faktor/100)*3.14159265359 )/65536;
+    ret = (float)i;
+    ret = ret * ((faktor/100)*3.14159265359 )/(65536*2);
 
-    //    sprintf(this->thePosDialog->pcLabelZ[PosDialog::iCurr],"%7.2f%s",
-    //	    (float)Cam1ZaxisCur+1/100*this->fFaktorZAchse,
     return ret;
   }
 
