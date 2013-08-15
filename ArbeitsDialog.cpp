@@ -436,6 +436,7 @@ namespace EuMax01
     else
       {
 	this->iActiveDialog = ArbeitsDialog::LoadDialogIsActive;
+	this->theLoadDialog->clearFilter();
 	this->theLoadDialog->setLoadMode(loadMode);
 	this->blankMenuArea();
 	this->theGUI->activateScreen(theLoadDialog);
