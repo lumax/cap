@@ -44,7 +44,7 @@ struct PositionSet
     static const int AnzahlRezepte = 8;
     static const int NameLength = 17;
     static const int DefaultDiameter = 200;
-    static const int DefaultWalze = 200;
+    static const int DefaultWalze = 20000;
     char Name[17];
     struct PositionSet Rezepte[8];
     int writeToFile(char * SaveDir);
