@@ -161,6 +161,8 @@ namespace EuMax01
 
     void clearFilter(void);
 
+    char DeletePath[1024];
+
   private:
     bool LoadMode;
     unsigned int ActiveRecipe;

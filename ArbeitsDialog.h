@@ -19,6 +19,7 @@ namespace EuMax01
   class InfoDialog;
   class OptionsDialog;
   class FadenkreuzDialog;
+  class AbfrageDialog;
   //class IMBProtListener;
   class MenuBar;
 
@@ -112,6 +113,7 @@ namespace EuMax01
     void showInfoDialog();
     void showOptionsDialog();
     void showFadenkreuzDialog();
+    void showFileDeleteAbfrageDialog(char* delPath,char* fileName);
 
     static const int ArbeitsDialogIsActive = 0;
     static const int LoadDialogIsActive = 1;
@@ -123,7 +125,8 @@ namespace EuMax01
     static const int InfoDialogIsActive = 7;
     static const int SplashScreenIsActive = 8;
     static const int OptionsDialogIsActive = 9;
-    static const int FadenkreuzDialogIsActive = 9;
+    static const int FadenkreuzDialogIsActive = 10;
+    static const int FileDeleteAbfrageDialogIsActive = 11;
 
     int theActiveDialogNumber();
 
@@ -190,6 +193,7 @@ namespace EuMax01
     InfoDialog * theInfoDialog;
     OptionsDialog * theOptionsDialog;
     FadenkreuzDialog * theFadenkreuzDialog;
+    AbfrageDialog * theFileDeleteAbfrageDialog;
 
     PosDialog * thePosDialog;
     

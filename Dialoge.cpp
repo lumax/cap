@@ -1048,7 +1048,6 @@ namespace EuMax01
   void LoadDialog::naviRight(){this->addToActiveRecipe(+1);}
   void LoadDialog::naviReturn()
   {
-    char tmpBuf[1024];
     if(this->LoadMode)
       {
 	if(!tmpRezept->readFromFile(Parent->pcSaveFilePath,DateiNamen[ActiveRecipe]))
@@ -1066,18 +1065,10 @@ namespace EuMax01
       }
     else //delete Mode
       {
-	snprintf(tmpBuf,1024,"%s%s",\
+	snprintf(DeletePath,1024,"%s%s",\
 		 Parent->pcSaveFilePath,\
 		 DateiNamen[ActiveRecipe]);
-	if(remove(tmpBuf))
-	  {
-	    printf( "Error deleting file: %s\n", strerror( errno ) );
-	    this->Parent->showErrorDialog((char*)"Error Deleting Recipe File");
-	  }
-	else
-	  {
-	    this->Parent->showLoadDialog(0,false);
-	  }
+	this->Parent->showFileDeleteAbfrageDialog(DeletePath,DateiNamen[ActiveRecipe]);
       }
   }
 

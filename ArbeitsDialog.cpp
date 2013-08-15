@@ -31,6 +31,7 @@ Bastian Ruppert
 #include "ErrorDialog.h"
 #include "InfoDialog.h"
 #include "FadenkreuzDialog.h"
+#include "AbfrageDialog.h"
 
 #include "ArbeitsDialog.h"
 
@@ -296,6 +297,7 @@ namespace EuMax01
     theInfoDialog = new InfoDialog(sdlw,sdlh,camw,camh,yPos,this);
     theOptionsDialog = new OptionsDialog(sdlw,sdlh,camw,camh,yPos,this);
     theFadenkreuzDialog = new FadenkreuzDialog(sdlw,sdlh,camw,camh,yPos,this);
+    theFileDeleteAbfrageDialog = new AbfrageDialog(sdlw,sdlh,camw,camh,yPos,this);
 
     cap_cam_setCrossX(0,MitteCrossCam1);
     cap_cam_setCrossX(1,MitteCrossCam2);
@@ -545,6 +547,16 @@ namespace EuMax01
     this->iActiveDialog = ArbeitsDialog::FadenkreuzDialogIsActive;
     this->blankMenuArea();
     this->theGUI->activateScreen(theFadenkreuzDialog);
+  }
+
+  void ArbeitsDialog::showFileDeleteAbfrageDialog(char* delPath,char* fileName)
+  {
+    if(!useGUI)
+      return;
+    this->theFileDeleteAbfrageDialog->setFileToDelete(delPath,fileName);
+    this->iActiveDialog = ArbeitsDialog::FileDeleteAbfrageDialogIsActive;
+    this->blankMenuArea();
+    this->theGUI->activateScreen(theFileDeleteAbfrageDialog);
   }
 
   int ArbeitsDialog::theActiveDialogNumber()
