@@ -599,6 +599,7 @@ namespace EuMax01
 
   void ArbeitsDialog::incRezeptNummer()
   {
+    //this->Z1_evt(32768);
     this->RezeptNummer++;
     if(this->RezeptNummer>=Rezept::AnzahlRezepte)
       this->RezeptNummer = Rezept::AnzahlRezepte-1;
@@ -606,6 +607,7 @@ namespace EuMax01
 
   void ArbeitsDialog::decRezeptNummer()
   {
+    //this->Z1_evt(10000);
     this->RezeptNummer--;
     if(this->RezeptNummer<0)
       this->RezeptNummer = 0;
@@ -644,12 +646,17 @@ namespace EuMax01
     thePosDialog->pLabelCam2[PosDialog::iCurr]->show(this->theGUI->getMainSurface());
   }
 
-  void ArbeitsDialog::setCam1ZaxisCur(int val,char*suffix)
+  void ArbeitsDialog::setCam1ZaxisCur(int val,char*suffix,unsigned int zfaktor)
   {
-    float showVal;
+    float showVal,ftmp;
+    //printf("setCam1ZaxisCur val %i\n",val);
+    ftmp = this->convertMBProtData(val,zfaktor);
+    ftmp = ftmp*100;
+
     Cam1ZaxisCur = val;
     Cam1ZaxisDif = Cam1ZaxisCur - this->theRezept->getZPosition(RezeptNummer);
-    thePosDialog->showDifferenceZ(val,this->theRezept->getZPosition(RezeptNummer));
+    //printf("Cam1ZaxisDif = %i\n",Cam1ZaxisDif);
+    thePosDialog->showDifferenceZ((unsigned int)ftmp,this->theRezept->getZPosition(RezeptNummer));
     showVal = this->convertMBProtData(val,this->iFaktorZAchse);
 
     sprintf(this->thePosDialog->pcLabelZ[PosDialog::iCurr],"%7.2f%s",	\
@@ -660,7 +667,7 @@ namespace EuMax01
     thePosDialog->pLabelZ[PosDialog::iCurr]->show(this->theGUI->getMainSurface());
   }
 
-  void ArbeitsDialog::setCam2ZaxisCur(int val,char*suffix)
+  void ArbeitsDialog::setCam2ZaxisCur(int val,char*suffix,unsigned int FaktorZAchse)
   {
     //nur eine Z-Achse vorhanden
     //printf("ArbeitsDialog::setCam2ZaxisCur(int val)\n");
@@ -751,8 +758,8 @@ namespace EuMax01
 	//Difference Berechnen
 	this->setCam1XaxisCur(this->Cam1XaxisCur);
 	this->setCam2XaxisCur(this->Cam2XaxisCur);
-	this->setCam1ZaxisCur(this->Cam1ZaxisCur,(char*)(" mm"));
-	this->setCam2ZaxisCur(this->Cam2ZaxisCur,(char*)(" mm"));
+	this->setCam1ZaxisCur(this->Cam1ZaxisCur,(char*)(" mm"),this->iFaktorZAchse);
+	this->setCam2ZaxisCur(this->Cam2ZaxisCur,(char*)(" mm"),this->iFaktorZAchse);
       }
   }
 
@@ -861,7 +868,7 @@ namespace EuMax01
   void ArbeitsDialog::Z1_evt(unsigned int dat)
   {
     if(iActiveDialog==ArbeitsDialog::ArbeitsDialogIsActive)
-      setCam1ZaxisCur(dat,(char*)" mm");
+      setCam1ZaxisCur(dat,(char*)" mm",this->iFaktorZAchse);
     else if(iActiveDialog==ArbeitsDialog::CalDialogIsActive)
       this->theCalDialog->setZ1(dat,(char*)" mm",this->iFaktorZAchse);
     else if(iActiveDialog==ArbeitsDialog::NewDialogIsActive)

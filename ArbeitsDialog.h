@@ -67,8 +67,8 @@ namespace EuMax01
     int getRezeptNummer();
     void setCam1XaxisCur(int val);
     void setCam2XaxisCur(int val);
-    void setCam1ZaxisCur(int val,char*suffix);
-    void setCam2ZaxisCur(int val,char*suffix);
+    void setCam1ZaxisCur(int val,char*suffix,unsigned int FaktorZAchse);
+    void setCam2ZaxisCur(int val,char*suffix,unsigned int FaktorZAchse);
     void setCross1Ref();
     void setCross2Ref();
     //void showRecipe(Rezept * rez);
