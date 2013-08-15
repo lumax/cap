@@ -1103,7 +1103,7 @@ namespace EuMax01
     ad->setMenuBarForNewMain();
     //ad->Label_Menu->setText(NewDialogMainMenuText);
     //ad->Label_Menu->show(ad->Parent->theGUI->getMainSurface());
-    
+
     ad->copyValuesToRezept();
     if(ad->getStep()<8)
       ad->incStep();
@@ -1675,7 +1675,10 @@ namespace EuMax01
 
   void NewDialog::setNewPositionValue(int pos, unsigned int value,char* suffix,unsigned int zfaktor)
   {
-    this->usWerte[pos] = value;
+    float ftmp = 0.0;
+    ftmp = this->Parent->convertMBProtData(value,zfaktor);
+    ftmp = ftmp*100;
+    this->usWerte[pos] = (unsigned int)ftmp;
     this->LabelWerte[pos]->setText(this->Parent->int2string(this->pcWerte[pos], \
 							      32,(int)value, \
 							    suffix,zfaktor));
@@ -1735,6 +1738,8 @@ namespace EuMax01
 
 	tmpRezept->Rezepte[rzpStep].cams[0].diameter = this->Parent->getCircleDiameterFnk();
 	tmpRezept->Rezepte[rzpStep].cams[1].diameter = this->Parent->getCircleDiameterFnk();
+
+	tmpRezept->Rezepte[0].cams[0].walze = this->Parent->getFaktorZAchse();
 
 	tmpRezept->Rezepte[rzpStep].cams[0].x_cross = usWerte[NewDialog::iPosFP1];
 	tmpRezept->Rezepte[rzpStep].cams[1].z_pos = usWerte[NewDialog::iPosZ2];

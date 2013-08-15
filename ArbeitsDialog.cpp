@@ -672,7 +672,8 @@ namespace EuMax01
       {
 	RezeptNummer = nummer;
 
-	this->iFaktorZAchse = theRezept->Rezepte[RezeptNummer].cams[0].walze;
+	//walze ist nur in Rezepte[0].cams[0].walze aktuell!!!
+	this->iFaktorZAchse = theRezept->Rezepte[0].cams[0].walze;
 
 	cap_cam_setCrossX(0,theRezept->Rezepte[RezeptNummer].cams[0].x_cross);
 	cap_cam_setCrossX(1,theRezept->Rezepte[RezeptNummer].cams[1].x_cross);
@@ -807,7 +808,7 @@ namespace EuMax01
     int i = (int)dat;
     ret = (float)i;
     ret = ret * ((faktor/100)*3.14159265359 )/(65536*2);
-
+    //printf("convertMBProtData %f\n",faktor);
     return ret;
   }
 

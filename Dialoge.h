@@ -204,7 +204,7 @@ namespace EuMax01
     int sdlw;
     int camw;
 
-    unsigned short usWerte[6];
+    unsigned int usWerte[6];
 
     void setNewPositionValue(int pos, unsigned int value,char * suffix);
     void setNewPositionValue(int pos, unsigned int value,char * suffix,unsigned int zfaktor);
