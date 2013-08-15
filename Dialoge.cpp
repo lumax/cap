@@ -951,9 +951,10 @@ namespace EuMax01
       }
     if(strlen(pTF_Filter4dirFilter->getText())>0)
       {
-	if(0==strncmp(dir->d_name,				\
+	/*if(0==strncmp(dir->d_name,				\
 		      pTF_Filter4dirFilter->getText(),		\
-		      strlen(pTF_Filter4dirFilter->getText())))
+		      strlen(pTF_Filter4dirFilter->getText())))*/
+	if(strstr(dir->d_name,pTF_Filter4dirFilter->getText()))
 	  {
 	    goto out_eins;
 	  }
