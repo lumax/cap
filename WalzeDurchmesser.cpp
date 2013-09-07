@@ -195,7 +195,6 @@ namespace EuMax01
     derDurchmesser = durchmesser;
     TF_Value->setText((char *)"");//hidden TextField reset
     snprintf(Value,64,"%i",derDurchmesser);
-    TF_Value->setText(Value);
     this->showEingabeSchritt();
   }
 
