@@ -257,7 +257,8 @@ static inline void zeichneSpalte(int w,	\
   for(int ii=0;ii<hoehe;ii++)
     {
       for(int i=-CrossBreite/2;i<=(CrossBreite/2);i++){
-	memcpy(&pc[start+i*4],oneLineColor,4);
+	if(i==-CrossBreite/2||i==CrossBreite/2)
+	  memcpy(&pc[start+i*4],oneLineColor,4);
       }
       start+=w*2;
       if(start>=MaxValueInPC)
@@ -361,32 +362,30 @@ static void overlayAndCircle(struct v4l_capture* cap,char * pc,size_t len)
     }
 
 
-    for(int i=0;i<=RectHoehe/2;i++)
+    for(int i=0;i<=RectHoehe/2;i++)//Kreis
       {
 	zeichneZeile(w,h,crossX+circleQuarterX[i],i+h/2,2,pc);//rechts mitte nach unten
 	zeichneZeile(w,h,crossX+circleQuarterX[i],h/2-i,2,pc);//rechts mitte nach oben
 
 	zeichneZeile(w,h,crossX-circleQuarterX[i],i+h/2,2,pc);
 	zeichneZeile(w,h,crossX-circleQuarterX[i],h/2-i,2,pc);// links mitte nach oben
-
       }
     zeichneSpalte(w,h,crossX,0,h,pc);//Vertikal
-    //    zeichneSpalte(w,h,crossX,0,h/2-RectHoehe/2,pc);//vMitteOben
-    //zeichneSpalte(w,h,crossX,h/2+RectHoehe/2,h/2-RectHoehe/2,pc);//vMitteUnten
-for(int i=-CrossBreite;i<=CrossBreite;i++)
-  {
-    zeichneZeile(w,h,0,(h/2)+i,w,pc);//horizontal
-    //    zeichneZeile(w,h,0,(h/2)+i,crossX-RectBreite/2,pc);//hMitteLinks
-    //zeichneZeile(w,h,crossX+RectBreite/2,(h/2)+i,w-(crossX+RectBreite/2),pc);//hMitteRechts
-  }
+
+    for(int i=-CrossBreite;i<=CrossBreite;i++)
+      {
+	if(i==-CrossBreite||i==CrossBreite)
+	  zeichneZeile(w,h,0,(h/2)+i,w,pc);//horizontal
+      }
+
     //auf Overlay kopieren
-  for(i=0;i<h;i++)
-    {
-      memcpy(cap->sdlOverlay->pixels[0]+i*wMalVier+offset,	\
-	     pc+alles,						\
-	     wMalZwei);
-	  alles += w*2;
-    }
+    for(i=0;i<h;i++)
+      {
+	memcpy(cap->sdlOverlay->pixels[0]+i*wMalVier+offset,	\
+	       pc+alles,					\
+	       wMalZwei);
+	alles += w*2;
+      }
 }
 
 static void overlayAndCircleOneCam(struct v4l_capture* cap,char * pc,size_t len)
