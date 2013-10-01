@@ -117,6 +117,47 @@ namespace EuMax01
     this->Label_Info->setText(Message);
   }
 
+  static void FlexibleErrorDialogKeyListener(void * src, SDL_Event * evt)
+  {
+    FlexibleErrorDialog* ad = (FlexibleErrorDialog*)src;//KeyListener
+    SDL_KeyboardEvent * key = (SDL_KeyboardEvent *)&evt->key;
+
+    if( key->type == SDL_KEYUP )
+      {
+	if(key->keysym.sym == SDLK_ESCAPE || \
+	   key->keysym.sym == SDLK_RETURN || \
+	   key->keysym.sym == SDLK_KP_ENTER)
+	  {
+	    if(ad->getReturnDialogID()==ArbeitsDialog::BackupMenuDialogIsActive)
+	      ad->Parent->showBackupMenuDialog();
+	    else
+	      ad->Parent->showArbeitsDialog();
+	  }
+      }
+  }
+
+  FlexibleErrorDialog::FlexibleErrorDialog(int sdlw,	\
+				   int sdlh,	\
+				   int camw,				\
+				   int camh,				\
+				   int yPos,ArbeitsDialog * parent):\
+    ErrorDialog(sdlw,sdlh,camw,camh,yPos,parent)
+  {
+    this->Label_Error->setText("FlexibleError");
+    this->setKeyboardUpEvtHandler(FlexibleErrorDialogKeyListener);
+    this->EvtTargetID=(char*)"FlexlibleErrorDialog";
+  }
+
+  void FlexibleErrorDialog::setReturnDialogID(int id)
+  {
+    this->DialogID=id;
+  }
+
+  int FlexibleErrorDialog::getReturnDialogID()
+  {
+    return this->DialogID;
+  }
+
   static void ConfirmEnter(void * src, SDL_Event * evt)
   {
     exit(12);

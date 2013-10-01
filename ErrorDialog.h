@@ -17,10 +17,21 @@ namespace EuMax01
 		ArbeitsDialog * parent);
     ArbeitsDialog * Parent;
     void setErrorMsg(char * Message);
-  private:
+  protected:
     Label * Label_Error;
     Label * Label_Info;
     Label * Label_OK;
+  };
+
+  class FlexibleErrorDialog : public ErrorDialog
+  {
+  public:
+    FlexibleErrorDialog(int sdlw,int sdlh, int camw,int camh,int yPos,	\
+			ArbeitsDialog * parent);
+    void setReturnDialogID(int id);
+    int getReturnDialogID();
+  private:
+    int DialogID;
   };
 
   class ConfirmDialog : public Screen
