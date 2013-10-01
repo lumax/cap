@@ -20,6 +20,10 @@ namespace EuMax01
   class OptionsDialog;
   class FadenkreuzDialog;
   class AbfrageDialog;
+  class BackupDialog;
+  class BackupMenuDialog;
+  class FlexibleErrorDialog;
+
   //class IMBProtListener;
   class MenuBar;
 
@@ -114,6 +118,9 @@ namespace EuMax01
     void showOptionsDialog();
     void showFadenkreuzDialog();
     void showFileDeleteAbfrageDialog(char* delPath,char* fileName);
+    void showBackupDialog();
+    void showBackupMenuDialog();
+    void showFlexibleErrorDialog(char * errorMsg,int DialogID);
 
     static const int ArbeitsDialogIsActive = 0;
     static const int LoadDialogIsActive = 1;
@@ -127,6 +134,9 @@ namespace EuMax01
     static const int OptionsDialogIsActive = 9;
     static const int FadenkreuzDialogIsActive = 10;
     static const int FileDeleteAbfrageDialogIsActive = 11;
+    static const int BackupDialogIsActive = 12;
+    static const int BackupMenuDialogIsActive = 13;
+    static const int FlexibleErrorDialogIsActive = 14;
 
     int theActiveDialogNumber();
 
@@ -194,6 +204,9 @@ namespace EuMax01
     OptionsDialog * theOptionsDialog;
     FadenkreuzDialog * theFadenkreuzDialog;
     AbfrageDialog * theFileDeleteAbfrageDialog;
+    BackupDialog * theBackupDialog;
+    BackupMenuDialog * theBackupMenuDialog;
+    FlexibleErrorDialog * theFlexibleErrorDialog;
 
     PosDialog * thePosDialog;
     

@@ -151,6 +151,7 @@ namespace EuMax01
     Rezept * tmpRezept;
 
     static void escape_listener(void * src, SDL_Event * evt);
+    static void backup_listener(void * src, SDL_Event * evt);
     static void filter_listener(void * src, SDL_Event * evt);
     static void pgup_listener(void * src, SDL_Event * evt);
     static void pgdown_listener(void * src, SDL_Event * evt);

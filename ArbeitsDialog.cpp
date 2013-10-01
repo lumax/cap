@@ -32,6 +32,7 @@ Bastian Ruppert
 #include "InfoDialog.h"
 #include "FadenkreuzDialog.h"
 #include "AbfrageDialog.h"
+#include "BackupDialog.h"
 
 #include "ArbeitsDialog.h"
 
@@ -298,6 +299,9 @@ namespace EuMax01
     theOptionsDialog = new OptionsDialog(sdlw,sdlh,camw,camh,yPos,this);
     theFadenkreuzDialog = new FadenkreuzDialog(sdlw,sdlh,camw,camh,yPos,this);
     theFileDeleteAbfrageDialog = new AbfrageDialog(sdlw,sdlh,camw,camh,yPos,this);
+    theBackupDialog = new BackupDialog(sdlw,sdlh,camw,camh,yPos,this);
+    theBackupMenuDialog = new BackupMenuDialog(sdlw,sdlh,camw,camh,yPos,this);
+    theFlexibleErrorDialog = new FlexibleErrorDialog(sdlw,sdlh,camw,camh,yPos,this);
 
     cap_cam_setCrossX(0,MitteCrossCam1);
     cap_cam_setCrossX(1,MitteCrossCam2);
@@ -443,6 +447,42 @@ namespace EuMax01
       }
   }
 
+  void ArbeitsDialog::showBackupDialog(void)
+  {
+    //int ret=0;
+    if(!useGUI)
+      return;
+    /*ret = theBackupDialog->readSaveDirectory(pcSaveFilePath,page);
+       if(1==ret)//keine Files vorhanden
+      {
+	return;
+      }
+    else if(-1==ret)//Fehler
+      {
+	showErrorDialog((char*)"Error reading save directory");
+	return;
+      }
+    else
+      {*/
+	this->iActiveDialog = ArbeitsDialog::BackupDialogIsActive;
+	//this->theLoadDialog->clearFilter();
+	//this->theLoadDialog->setLoadMode(loadMode);
+	this->blankMenuArea();
+	this->theGUI->activateScreen(theBackupDialog);
+	//}
+  }
+
+  void ArbeitsDialog::showBackupMenuDialog(void)
+  {
+    //int ret=0;
+    if(!useGUI)
+      return;
+
+    this->iActiveDialog = ArbeitsDialog::BackupMenuDialogIsActive;
+    this->blankMenuArea();
+    this->theGUI->activateScreen(theBackupMenuDialog);
+  }
+
   void ArbeitsDialog::showArbeitsDialog()
   {
     this->iActiveDialog = ArbeitsDialog::ArbeitsDialogIsActive;
@@ -558,6 +598,17 @@ namespace EuMax01
     this->iActiveDialog = ArbeitsDialog::FileDeleteAbfrageDialogIsActive;
     this->blankMenuArea();
     this->theGUI->activateScreen(theFileDeleteAbfrageDialog);
+  }
+
+  void ArbeitsDialog::showFlexibleErrorDialog(char * msg,int DialogID)
+  {
+    if(!useGUI)//TODO errors im BlindMode evtl. zulassen
+      return;
+    this->iActiveDialog = ArbeitsDialog::FlexibleErrorDialogIsActive;
+    this->theFlexibleErrorDialog->setErrorMsg(msg);
+    this->theFlexibleErrorDialog->setReturnDialogID(DialogID);
+    this->blankMenuArea();
+    this->theGUI->activateScreen(this->theFlexibleErrorDialog);
   }
 
   int ArbeitsDialog::theActiveDialogNumber()

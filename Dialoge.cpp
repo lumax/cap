@@ -679,6 +679,12 @@ namespace EuMax01
     ad->Parent->showArbeitsDialog();
   }
 
+  void LoadDialog::backup_listener(void * src, SDL_Event * evt)
+  {
+    LoadDialog* ad = (LoadDialog*)src;//KeyListener
+    ad->Parent->showBackupMenuDialog();
+  }
+
   void LoadDialog::filter_listener(void * src, SDL_Event * evt)
   {
     LoadDialog* ad = (LoadDialog*)src;//KeyListener
@@ -713,6 +719,10 @@ namespace EuMax01
 	if(key->keysym.sym == SDLK_ESCAPE)
 	  {
 	    ad->escape_listener(src,evt);
+	  }
+	else if(key->keysym.sym == SDLK_F1)
+	  {
+	    ad->backup_listener(src,evt);
 	  }
 	else if(key->keysym.sym == SDLK_F2)
 	  {
@@ -812,7 +822,7 @@ namespace EuMax01
     Rezepte_y = yPos + 1*MSpace_h + 0*MZeile_h;
     Rezepte_w = 125;
 
-    theMenuBarSettings.Text[0]=0;
+    theMenuBarSettings.Text[0]=(char *)"F1 backup";
     theMenuBarSettings.Text[1]=(char *)"F2 filter";
     theMenuBarSettings.Text[2]=0;//Nummer 2 und Nummer 3 sind in LoadMenueBar nicht vorhanden!
     theMenuBarSettings.Text[3]=0;//Nummer 2 und Nummer 3 sind in LoadMenueBar nicht vorhanden!
@@ -823,7 +833,7 @@ namespace EuMax01
 
     theMenuBarSettings.evtSource = (void*)this;
 
-    theMenuBarSettings.evtFnks[0]=0;
+    theMenuBarSettings.evtFnks[0]=backup_listener;
     theMenuBarSettings.evtFnks[1]=filter_listener;
     theMenuBarSettings.evtFnks[2]=0;//Nummer 2 und Nummer 3 sind in LoadMenueBar nicht vorhanden!
     theMenuBarSettings.evtFnks[3]=0;//Nummer 2 und Nummer 3 sind in LoadMenueBar nicht vorhanden!
