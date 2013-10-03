@@ -289,6 +289,11 @@ namespace EuMax01
 				  Globals::GlobalUint32Color3,		\
 				  Globals::GlobalUint32Color4);
 
+    AlertSet = new ButtonSettings(Globals::getFontButtonBig(),		\
+				  &Globals::GlobalSDL_ColorBlack,	\
+				  Globals::GlobalUint32Color3,		\
+				  Globals::GlobalUint32Color3);
+
     theLoadDialog = new LoadDialog(sdlw,sdlh,camw,camh,yPos,this);
     theErrorDialog = new ErrorDialog(sdlw,sdlh,camw,camh,yPos,this);
     theConfirmDialog = new ConfirmDialog(sdlw,sdlh,camw,camh,yPos,this);

@@ -157,6 +157,7 @@ namespace EuMax01
     ButtonSettings * MenuSet;
     ButtonSettings * DialogSet;
     ButtonSettings * WerteSet;
+    ButtonSettings * AlertSet;
 
     void blankMenuArea();
     void blankButton(Button * b);
