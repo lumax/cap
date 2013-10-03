@@ -48,13 +48,19 @@ namespace EuMax01
       {
 	if(key->keysym.sym == SDLK_ESCAPE)
 	  {
-	    ad->Parent->showArbeitsDialog();
+	    ad->return_listener(src,evt);
 	  }
 	else if(key->keysym.sym == SDLK_RETURN || key->keysym.sym == SDLK_KP_ENTER)
 	  {
-	    ad->Parent->showArbeitsDialog();
+	    ad->return_listener(src,evt);
 	  }
       }
+  }
+
+  void ErrorDialog::return_listener(void * src, SDL_Event * evt)
+  {
+    ErrorDialog* ad = (ErrorDialog*)src;//KeyListener
+    ad->Parent->showArbeitsDialog();
   }
 
   ErrorDialog::ErrorDialog(int sdlw,		\
@@ -67,7 +73,7 @@ namespace EuMax01
     short MLinks_x;
     unsigned short MSpace_h;
     unsigned short MZeile_h;
-    //short MLoadName_y;
+    short Zeile5_y;
 
     this->Parent = parent;
 
@@ -85,23 +91,29 @@ namespace EuMax01
       }
 
     MLinks_x = sdlw/2 - 506;
+    Zeile5_y = yPos + 5*MSpace_h + 4*MZeile_h;
+
 
     //MLoadName_y  = yPos + 1*MSpace_h + 0*MZeile_h;
 
     Label_Error = new Label("Error",					\
 			    MLinks_x,					\
 			    yPos + 1*MSpace_h + 0*MZeile_h,		\
-			    506*2,MZeile_h);
+			    506*2,MZeile_h,Parent->AlertSet);
     
     Label_Info = new Label("----",					\
 			   MLinks_x,					\
 			   yPos + 2*MSpace_h + 1*MZeile_h,		\
-			   506*2,MZeile_h);
+			   506*2,MZeile_h,Parent->MenuSet);
     
-    Label_OK = new Label("OK  (Enter)",					\
-			 MLinks_x,					\
-			 yPos + 4*MSpace_h + 3*MZeile_h,		\
-			 506,MZeile_h);
+    Button_OK = new Button("OK  (Enter)",					\
+			 MLinks_x,				\
+			 Zeile5_y,		\
+			 506*2,MZeile_h,		\
+			 Parent->MenuSet);
+
+    this->Button_OK->setLMButtonUpEvtHandler(return_listener);
+    this->Button_OK->pTSource = this;
     
     this->pTSource = this;//EvtTarget Quelle setzen
     this->EvtTargetID=(char*)"ErrorDialog";
@@ -109,7 +121,7 @@ namespace EuMax01
     this->addEvtTarget(this);//den Screen Key Listener bei sich selber anmelden!
     this->addEvtTarget(Label_Error);
     this->addEvtTarget(Label_Info);
-    this->addEvtTarget(Label_OK);
+    this->addEvtTarget(Button_OK);
   }
 
   void ErrorDialog::setErrorMsg(char * Message)
@@ -128,12 +140,18 @@ namespace EuMax01
 	   key->keysym.sym == SDLK_RETURN || \
 	   key->keysym.sym == SDLK_KP_ENTER)
 	  {
-	    if(ad->getReturnDialogID()==ArbeitsDialog::BackupMenuDialogIsActive)
-	      ad->Parent->showBackupMenuDialog();
-	    else
-	      ad->Parent->showArbeitsDialog();
+	    ad->flexible_return_listener(src,evt);
 	  }
       }
+  }
+
+  void FlexibleErrorDialog::flexible_return_listener(void * src, SDL_Event * evt)
+  {
+    FlexibleErrorDialog* ad = (FlexibleErrorDialog*)src;//KeyListener
+    if(ad->getReturnDialogID()==ArbeitsDialog::BackupMenuDialogIsActive)
+      ad->Parent->showBackupMenuDialog();
+    else
+      ad->Parent->showArbeitsDialog();
   }
 
   FlexibleErrorDialog::FlexibleErrorDialog(int sdlw,	\
@@ -143,6 +161,7 @@ namespace EuMax01
 				   int yPos,ArbeitsDialog * parent):\
     ErrorDialog(sdlw,sdlh,camw,camh,yPos,parent)
   {
+    this->Button_OK->setLMButtonUpEvtHandler(flexible_return_listener);
     this->Label_Error->setText("FlexibleError");
     this->setKeyboardUpEvtHandler(FlexibleErrorDialogKeyListener);
     this->EvtTargetID=(char*)"FlexlibleErrorDialog";

@@ -17,10 +17,12 @@ namespace EuMax01
 		ArbeitsDialog * parent);
     ArbeitsDialog * Parent;
     void setErrorMsg(char * Message);
+    static void return_listener(void * src, SDL_Event * evt);
+
   protected:
     Label * Label_Error;
     Label * Label_Info;
-    Label * Label_OK;
+    Button * Button_OK;
   };
 
   class FlexibleErrorDialog : public ErrorDialog
@@ -30,6 +32,7 @@ namespace EuMax01
 			ArbeitsDialog * parent);
     void setReturnDialogID(int id);
     int getReturnDialogID();
+    static void flexible_return_listener(void * src, SDL_Event * evt);
   private:
     int DialogID;
   };
