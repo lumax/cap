@@ -694,87 +694,64 @@ namespace EuMax01
 
   void CreateBackupDialog::return_listener(void * src, SDL_Event * evt)
   {
-    CreateBackupDialog* ad = (CreateBackupDialog*)src;
-    BackupMenuDialog* bm = ad->Parent->getBackupMenuDialog();
-
     char * BackupDirPath;
     char cpBefehl[512];
     int filecount = 0;
+    char tmp[512];
 
-    //kein NAme angegeben?
-    if(strlen(ad->TextField_Name->getText())<=0)
+    CreateBackupDialog* ad = (CreateBackupDialog*)src;
+    BackupMenuDialog* bm = ad->Parent->getBackupMenuDialog();
+
+
+    //kein Name angegeben?
+    if(strlen(ad->TextField_Name->getText())<=0){
       ad->Parent->showFlexibleErrorDialog((char*)"please enter backup dir name", \
 					  ArbeitsDialog::CreateBackupDialogIsActive);
+      return;
+    }
 
     //Directory existiert bereits?
     if(bm->backupDirAlreadyExists(ad->TextField_Name->getText())){
       ad->TextField_Name->setText((char*)"");
       ad->Parent->showFlexibleErrorDialog((char*)"backup dir name already exists", \
 					  ArbeitsDialog::CreateBackupDialogIsActive);
+      return;
     }
 
     BackupDirPath = bm->getCompleteBackupPath(ad->TextField_Name->getText());
     //Directory erzeugen
-    if(mkdir(BackupDirPath,0700)<0)
+    if(mkdir(BackupDirPath,0700)<0){
       ad->Parent->showFlexibleErrorDialog((char*)"cannot create backup dir", \
 					  ArbeitsDialog::ArbeitsDialogIsActive);
+      return;
+    }
 
     filecount = bm->getAmountOfFilesInDir(ad->Parent->pcSaveFilePath);
 
+    //Kopierbefehl
     snprintf(cpBefehl,512,"cp %s* %s",ad->Parent->pcSaveFilePath,BackupDirPath);
 
-    
+    //printf("directory created: %s\n",BackupDirPath);
+    //printf("copy Befehl: %s copy %i files\n",cpBefehl,filecount);
+    //printf("make sure there is enough space for %i recipes\n",filecount);
 
-    printf("directory created: %s\n",BackupDirPath);
-    printf("copy Befehl: %s copy %i files\n",cpBefehl,filecount);
-    printf("make sure ther is enough space for %i recipes\n");
-
-FILE *fp;
-int status;
-char path[PATH_MAX];
-
-
-fp = popen("ls *", "r");
-if (fp == NULL)
-    /* Handle error */;
-
-
-while (fgets(path, PATH_MAX, fp) != NULL)
-    printf("%s", path);
-
-
-status = pclose(fp);
-if (status == -1) {
-    /* Error reported by pclose() */
-    //...
-} else {
-    /* Use macros described under wait() to inspect `status' in order
-       to determine success/failure of command executed by popen() */
-    //...
-}
-
-    /*ad->Parent->showFlexibleErrorDialog((char*)"copy recipes to backup dir failed", \
-      ArbeitsDialog::ArbeitsDialogIsActive);*/
+    //Erfolgsmeldung vorbereiten
+    snprintf(tmp,512,"Created backup for %i recipes in \"%s\" .",	\
+	     filecount,							\
+	     bm->getCompleteBackupName(ad->TextField_Name->getText()));
 
     if(system(cpBefehl)<0)
-      ad->Parent->showFlexibleErrorDialog((char*)"copy recipes to backup dir failed", \
+      {
+	ad->Parent->showFlexibleErrorDialog((char*)"copy recipes to backup dir failed", \
 					  ArbeitsDialog::ArbeitsDialogIsActive);
-    else{
-      printf("alles super soweit\n");
-      ad->Parent->showBackupMenuDialog();
-    }
-
-
-
-    /*    backupDirAlreadyExists(char * dirSuffix)
-    ad->Parent->showArbeitsDialog();
-
-    if(ad->checkForUSBStick1()||ad->checkForUSBStick2())
-      ad->Parent->showCreateBackupDialog();
+	return;
+      }
     else
-      ad->Parent->showFlexibleErrorDialog((char*)"can`t find USB mass storage device",\
-					  ArbeitsDialog::BackupMenuDialogIsActive);
-    */
+      {
+	ad->Parent->showFlexibleInfoDialog(tmp, \
+					    ArbeitsDialog::BackupMenuDialogIsActive);
+	return;
+      }
   }
 
   void CreateBackupDialog::CreateBackupDialogKeyListener(void * src, SDL_Event * evt)
