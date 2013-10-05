@@ -7,6 +7,9 @@ Bastian Ruppert
 #include <dirent.h>
 #include <termios.h>
 
+#include <sys/stat.h>
+#include <unistd.h>
+
 #include <string.h>
 
 #include <errno.h>
@@ -451,15 +454,19 @@ namespace EuMax01
   void BackupMenuDialog::backupMenu_create_listener(void * src, SDL_Event * evt)
   {
     BackupMenuDialog* ad = (BackupMenuDialog*)src;//KeyListener
-    //ad->decEingabeSchritt();
-    printf("BackupMenu create_listener\n");
-    ad->Parent->showFlexibleErrorDialog("backupMenu create failed",ArbeitsDialog::BackupMenuDialogIsActive);
+    ad->Parent->showCreateBackupDialog();
+    if(ad->checkForUSBStick1()||ad->checkForUSBStick2())
+      ad->Parent->showCreateBackupDialog();
+    else
+      ad->Parent->showFlexibleErrorDialog((char*)"can`t find USB mass storage device",\
+					  ArbeitsDialog::BackupMenuDialogIsActive);
   }
 
   void BackupMenuDialog::backupMenu_load_listener(void * src, SDL_Event * evt)
   {
     BackupMenuDialog* ad = (BackupMenuDialog*)src;//KeyListener
-    ad->Parent->showBackupDialog();
+    //ad->Parent->showBackupDialog();
+    ad->Parent->showErrorDialog((char*)"backupMenu load failed");
   }
   
   void BackupMenuDialog::BackupMenuKeyListener(void * src, SDL_Event * evt)
@@ -535,11 +542,16 @@ namespace EuMax01
     x2 = x1 + button_breit + x_space;
     x3 = x2 + button_schmal + x_space;
 
+    this->STICKPATH1 = (char *)"/media/SERVICE_USB_STICK/";
+    this->STICKPATH2 = (char *)"/media/KINGSTON/";
+
+    this->BackupFilePrefix = (char *)"ExaktBackup_";
+
     snprintf(this->StepText,256,\
 	     "create or load recipes backup:");
-    Label_Step = new Label(this->StepText,			\
+    Label_Step = new Label(this->StepText,				\
 			   MLinks_x,Zeile1_y,506*2,MZeile_h,Parent->MenuSet);
-
+    
   
     theMenuBarSettings.Text[0]=0;
     theMenuBarSettings.Text[1]=0;
@@ -571,6 +583,306 @@ namespace EuMax01
 
     addEvtTarget(Label_Step);
     theMenu->addToEvtTarget(this);
+  }
+
+  bool BackupMenuDialog::checkForUSBStick1(void)
+  {
+    struct stat st;
+
+    if(stat(BackupMenuDialog::STICKPATH1,&st) == 0){
+	if((st.st_mode & S_IFDIR) != 0){
+	  //printf(" %s is present\n",BackupMenuDialog::STICKPATH1);
+	  return true;
+	}
+    }
+    return false;
+  }
+
+  bool BackupMenuDialog::checkForUSBStick2(void)
+  {
+    struct stat st;
+
+    if(stat(BackupMenuDialog::STICKPATH2,&st) == 0){
+      if((st.st_mode & S_IFDIR) != 0){
+	//printf(" %s is present\n",BackupMenuDialog::STICKPATH2);
+	return true;
+      }
+    }
+    return false;
+  }
+
+  bool BackupMenuDialog::backupDirAlreadyExists(char * dirSuffix)
+  {
+    struct stat st;
+    char tmp[256];
+    bool ret = false;
+
+    snprintf(tmp,256,"%s%s",BackupMenuDialog::STICKPATH1,getCompleteBackupName(dirSuffix));
+    if(stat(tmp,&st) == 0){
+      if((st.st_mode & S_IFDIR) != 0){
+	  //printf(" Dir %s already exists\n",tmp);
+	ret = true;
+      }
+    }
+
+    snprintf(tmp,256,"%s%s",BackupMenuDialog::STICKPATH2,getCompleteBackupName(dirSuffix));
+    if(stat(tmp,&st) == 0){
+      if((st.st_mode & S_IFDIR) != 0){
+	  //printf(" Dir %s already exists\n",tmp);
+	ret = true;
+      }
+    }
+
+    return ret;
+  }
+
+  char* BackupMenuDialog::getCompleteBackupName(char * dirSuffix)
+  {
+    snprintf(this->BackupDirName,64,"%s%s",this->BackupFilePrefix,dirSuffix);
+    return this->BackupDirName;
+  }
+
+  char* BackupMenuDialog::getCompleteBackupPath(char * dirSuffix)
+  {
+    struct stat st;
+    
+    for(int i=0;i<126;i++)
+      this->BackupPathName[0] = '\0'; 
+
+    //StickPath1 ist aktiv
+    if(stat(BackupMenuDialog::STICKPATH1,&st) == 0)
+      {
+	snprintf(this->BackupPathName,256,"%s%s%s",	\
+		 BackupMenuDialog::STICKPATH1,		\
+		 BackupMenuDialog::BackupFilePrefix,	\
+		 dirSuffix);
+      }
+    else
+      { //StickPath2 ist aktiv
+	snprintf(this->BackupPathName,256,"%s%s%s",	\
+		 BackupMenuDialog::STICKPATH2,		\
+		 BackupMenuDialog::BackupFilePrefix,	\
+		 dirSuffix);	
+      }
+
+    return this->BackupPathName;
+  }
+
+  int BackupMenuDialog::getAmountOfFilesInDir(char * dir)
+  {
+    int file_count = 0;
+    DIR * dirp;
+    struct dirent * entry;
+
+    dirp = opendir(dir);
+    if(dirp==NULL)
+      return -1;
+    while ((entry = readdir(dirp)) != NULL) {
+      if (entry->d_type == DT_REG) { /* If the entry is a regular file */
+	file_count++;
+      }
+    }
+    closedir(dirp);
+    return file_count;
+  }
+
+  void CreateBackupDialog::escape_listener(void * src, SDL_Event * evt)
+  {
+    CreateBackupDialog* ad = (CreateBackupDialog*)src;
+    ad->Parent->showBackupMenuDialog();
+  }
+
+  void CreateBackupDialog::return_listener(void * src, SDL_Event * evt)
+  {
+    CreateBackupDialog* ad = (CreateBackupDialog*)src;
+    BackupMenuDialog* bm = ad->Parent->getBackupMenuDialog();
+
+    char * BackupDirPath;
+    char cpBefehl[512];
+    int filecount = 0;
+
+    //kein NAme angegeben?
+    if(strlen(ad->TextField_Name->getText())<=0)
+      ad->Parent->showFlexibleErrorDialog((char*)"please enter backup dir name", \
+					  ArbeitsDialog::CreateBackupDialogIsActive);
+
+    //Directory existiert bereits?
+    if(bm->backupDirAlreadyExists(ad->TextField_Name->getText())){
+      ad->TextField_Name->setText((char*)"");
+      ad->Parent->showFlexibleErrorDialog((char*)"backup dir name already exists", \
+					  ArbeitsDialog::CreateBackupDialogIsActive);
+    }
+
+    BackupDirPath = bm->getCompleteBackupPath(ad->TextField_Name->getText());
+    //Directory erzeugen
+    if(mkdir(BackupDirPath,0700)<0)
+      ad->Parent->showFlexibleErrorDialog((char*)"cannot create backup dir", \
+					  ArbeitsDialog::ArbeitsDialogIsActive);
+
+    filecount = bm->getAmountOfFilesInDir(ad->Parent->pcSaveFilePath);
+
+    snprintf(cpBefehl,512,"cp %s* %s",ad->Parent->pcSaveFilePath,BackupDirPath);
+
+    
+
+    printf("directory created: %s\n",BackupDirPath);
+    printf("copy Befehl: %s copy %i files\n",cpBefehl,filecount);
+    printf("make sure ther is enough space for %i recipes\n");
+
+FILE *fp;
+int status;
+char path[PATH_MAX];
+
+
+fp = popen("ls *", "r");
+if (fp == NULL)
+    /* Handle error */;
+
+
+while (fgets(path, PATH_MAX, fp) != NULL)
+    printf("%s", path);
+
+
+status = pclose(fp);
+if (status == -1) {
+    /* Error reported by pclose() */
+    //...
+} else {
+    /* Use macros described under wait() to inspect `status' in order
+       to determine success/failure of command executed by popen() */
+    //...
+}
+
+    /*ad->Parent->showFlexibleErrorDialog((char*)"copy recipes to backup dir failed", \
+      ArbeitsDialog::ArbeitsDialogIsActive);*/
+
+    if(system(cpBefehl)<0)
+      ad->Parent->showFlexibleErrorDialog((char*)"copy recipes to backup dir failed", \
+					  ArbeitsDialog::ArbeitsDialogIsActive);
+    else{
+      printf("alles super soweit\n");
+      ad->Parent->showBackupMenuDialog();
+    }
+
+
+
+    /*    backupDirAlreadyExists(char * dirSuffix)
+    ad->Parent->showArbeitsDialog();
+
+    if(ad->checkForUSBStick1()||ad->checkForUSBStick2())
+      ad->Parent->showCreateBackupDialog();
+    else
+      ad->Parent->showFlexibleErrorDialog((char*)"can`t find USB mass storage device",\
+					  ArbeitsDialog::BackupMenuDialogIsActive);
+    */
+  }
+
+  void CreateBackupDialog::CreateBackupDialogKeyListener(void * src, SDL_Event * evt)
+  {
+    CreateBackupDialog* ad = (CreateBackupDialog*)src;//KeyListener
+    SDL_KeyboardEvent * key = (SDL_KeyboardEvent *)&evt->key;
+    if( key->type == SDL_KEYUP )
+      {
+	if(key->keysym.sym == SDLK_ESCAPE)
+	  {
+	    ad->escape_listener(src,evt);
+	  }
+	else if(key->keysym.sym == SDLK_RETURN || key->keysym.sym == SDLK_KP_ENTER)
+	  {
+	    ad->return_listener(src,evt);
+	  }
+      }
+  }
+
+  CreateBackupDialog::CreateBackupDialog(int sdlw,					\
+					 int sdlh,			\
+					 int camw,			\
+					 int camh,			\
+					 int yPos,			\
+					 ArbeitsDialog * parent):Screen()
+  {
+    short M_y;
+    unsigned short MSpace_h;
+    unsigned short MZeile_h;
+    //unsigned short Rezepte_y;
+    //short Rezepte_w;
+    short Zeile1_y,Zeile2_y,Zeile3_y,Zeile4_y,Zeile5_y;
+    short Spalte1_x, Spalte2_x, Spalte3_x;
+
+    short Button_w = 332;
+    short x_space = 8;
+
+    this->Parent = parent;
+
+    M_y = sdlh - yPos;
+    if(M_y<=84)
+      {
+	MSpace_h = 2;
+	MZeile_h = 18;
+      }
+    else
+      {
+	MSpace_h = 5;
+	MZeile_h = 28;
+      }
+
+    Zeile1_y = yPos + 1*MSpace_h + 0*MZeile_h;
+    Zeile2_y = yPos + 2*MSpace_h + 1*MZeile_h;
+    Zeile3_y = yPos + 3*MSpace_h + 2*MZeile_h;
+    Zeile4_y = yPos + 4*MSpace_h + 3*MZeile_h;
+    Zeile5_y = yPos + 5*MSpace_h + 4*MZeile_h;
+    //Rezepte_w = 108;
+
+    Spalte1_x = sdlw/2 - 506;
+    Spalte2_x = Spalte1_x + 1*Button_w+1*x_space;
+    Spalte3_x = Spalte1_x + 2*Button_w+2*x_space;
+
+    Label_Name = new Label("Enter backup name",\
+			   Spalte1_x,Zeile1_y,Button_w,MZeile_h,Parent->MenuSet);
+
+    Label_Info = new Label("Backup Name",Spalte3_x,Zeile1_y,Button_w,MZeile_h,Parent->DialogSet);
+
+    TextField_Name = new TextField(0,CreateBackupDialog::BackupNameMaxLen, \
+				   Spalte2_x,				\
+				   Zeile1_y,Button_w,			\
+				   MZeile_h,				\
+				   Parent->WerteSet);
+    TextField_Name->setFont(Globals::getFontButtonBig());
+    TextField_Name->setActive(true);
+    
+
+    theMenuBarSettings.Text[0]=0;//(char *)"F1 huhuhu";
+    theMenuBarSettings.Text[1]=0;
+    theMenuBarSettings.Text[2]=0;
+    theMenuBarSettings.Text[3]=0;
+    theMenuBarSettings.Text[4]=0;
+    theMenuBarSettings.Text[5]=0;
+    theMenuBarSettings.Text[6]=(char *)"ESC";
+    theMenuBarSettings.Text[7]=(char *)"ENTER";
+
+    theMenuBarSettings.evtSource = (void*)this;
+
+    theMenuBarSettings.evtFnks[0]=0;
+    theMenuBarSettings.evtFnks[1]=0;
+    theMenuBarSettings.evtFnks[2]=0;
+    theMenuBarSettings.evtFnks[3]=0;
+    theMenuBarSettings.evtFnks[4]=0;
+    theMenuBarSettings.evtFnks[5]=0;
+    theMenuBarSettings.evtFnks[6]=escape_listener;
+    theMenuBarSettings.evtFnks[7]=return_listener;
+
+
+    theMenu = new MenuBar((int)Spalte1_x,(int)Zeile5_y,(int)MZeile_h,(char*)"create backup", \
+			  &this->theMenuBarSettings,Parent);
+
+    this->pTSource = this;//EvtTarget Quelle setzen
+    this->EvtTargetID=(char*)"CreateBackupDialog";
+    this->setKeyboardUpEvtHandler(CreateBackupDialogKeyListener);
+    this->addEvtTarget(this);//den Screen Key Listener bei sich selber anmelden!
+    theMenu->addToEvtTarget(this);
+    this->addEvtTarget(Label_Info);
+    this->addEvtTarget(TextField_Name);
+    this->addEvtTarget(Label_Name);
   }
 
 }
