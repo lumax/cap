@@ -307,6 +307,8 @@ namespace EuMax01
     theBackupDialog = new BackupDialog(sdlw,sdlh,camw,camh,yPos,this);
     theBackupMenuDialog = new BackupMenuDialog(sdlw,sdlh,camw,camh,yPos,this);
     theFlexibleErrorDialog = new FlexibleErrorDialog(sdlw,sdlh,camw,camh,yPos,this);
+    theCreateBackupDialog = new CreateBackupDialog(sdlw,sdlh,camw,camh,yPos,this);
+    theFlexibleInfoDialog = new FlexibleInfoDialog(sdlw,sdlh,camw,camh,yPos,this);
 
     cap_cam_setCrossX(0,MitteCrossCam1);
     cap_cam_setCrossX(1,MitteCrossCam2);
@@ -477,6 +479,16 @@ namespace EuMax01
 	//}
   }
 
+  void ArbeitsDialog::showCreateBackupDialog(void)
+  {
+    if(!useGUI)
+      return;
+    this->iActiveDialog = ArbeitsDialog::CreateBackupDialogIsActive;
+    this->blankMenuArea();
+    theCreateBackupDialog->TextField_Name->setText((char*)"");
+    this->theGUI->activateScreen(theCreateBackupDialog);
+  }
+
   void ArbeitsDialog::showBackupMenuDialog(void)
   {
     //int ret=0;
@@ -614,6 +626,17 @@ namespace EuMax01
     this->theFlexibleErrorDialog->setReturnDialogID(DialogID);
     this->blankMenuArea();
     this->theGUI->activateScreen(this->theFlexibleErrorDialog);
+  }
+
+  void ArbeitsDialog::showFlexibleInfoDialog(char * msg,int DialogID)
+  {
+    if(!useGUI)//TODO errors im BlindMode evtl. zulassen
+      return;
+    this->iActiveDialog = ArbeitsDialog::FlexibleInfoDialogIsActive;
+    this->theFlexibleInfoDialog->setErrorMsg(msg);
+    this->theFlexibleInfoDialog->setReturnDialogID(DialogID);
+    this->blankMenuArea();
+    this->theGUI->activateScreen(this->theFlexibleInfoDialog);
   }
 
   int ArbeitsDialog::theActiveDialogNumber()
@@ -1029,5 +1052,10 @@ namespace EuMax01
   void ArbeitsDialog::clearFilter(void)
   {
     theLoadDialog->clearFilter();
+  }
+
+  BackupMenuDialog * ArbeitsDialog::getBackupMenuDialog(void)
+  {
+    return this->theBackupMenuDialog;
   }
 }//end Namespace

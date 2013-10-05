@@ -150,6 +150,8 @@ namespace EuMax01
     FlexibleErrorDialog* ad = (FlexibleErrorDialog*)src;//KeyListener
     if(ad->getReturnDialogID()==ArbeitsDialog::BackupMenuDialogIsActive)
       ad->Parent->showBackupMenuDialog();
+    else if(ad->getReturnDialogID()==ArbeitsDialog::CreateBackupDialogIsActive)
+      ad->Parent->showCreateBackupDialog();
     else
       ad->Parent->showArbeitsDialog();
   }
@@ -162,7 +164,7 @@ namespace EuMax01
     ErrorDialog(sdlw,sdlh,camw,camh,yPos,parent)
   {
     this->Button_OK->setLMButtonUpEvtHandler(flexible_return_listener);
-    this->Label_Error->setText("FlexibleError");
+    this->Label_Error->setText("Error");
     this->setKeyboardUpEvtHandler(FlexibleErrorDialogKeyListener);
     this->EvtTargetID=(char*)"FlexlibleErrorDialog";
   }
@@ -176,6 +178,18 @@ namespace EuMax01
   {
     return this->DialogID;
   }
+
+  FlexibleInfoDialog::FlexibleInfoDialog(int sdlw,	\
+				   int sdlh,	\
+				   int camw,				\
+				   int camh,				\
+				   int yPos,ArbeitsDialog * parent):\
+    FlexibleErrorDialog(sdlw,sdlh,camw,camh,yPos,parent)
+  {
+    this->Label_Error->setText("Info");
+    this->EvtTargetID=(char*)"FlexlibleInfoDialog";
+  }
+
 
   static void ConfirmEnter(void * src, SDL_Event * evt)
   {

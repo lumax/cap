@@ -37,6 +37,14 @@ namespace EuMax01
     int DialogID;
   };
 
+ class FlexibleInfoDialog : public FlexibleErrorDialog
+  {
+  public:
+    FlexibleInfoDialog(int sdlw,int sdlh, int camw,int camh,int yPos,	\
+			ArbeitsDialog * parent);
+  private:
+  };
+
   class ConfirmDialog : public Screen
   {
   public:

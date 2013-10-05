@@ -23,6 +23,8 @@ namespace EuMax01
   class BackupDialog;
   class BackupMenuDialog;
   class FlexibleErrorDialog;
+  class CreateBackupDialog;
+  class FlexibleInfoDialog;
 
   //class IMBProtListener;
   class MenuBar;
@@ -106,7 +108,9 @@ namespace EuMax01
     const char * TextCam1Xaxis;
     const char * TextCam2Xaxis;
     const char * TextZaxis;
-    
+
+    BackupMenuDialog * getBackupMenuDialog(void);
+
     void showLoadDialog(unsigned int page,bool loadmode);
     void showArbeitsDialog();
     void showErrorDialog(char * errorMsg);
@@ -121,6 +125,8 @@ namespace EuMax01
     void showBackupDialog();
     void showBackupMenuDialog();
     void showFlexibleErrorDialog(char * errorMsg,int DialogID);
+    void showCreateBackupDialog();
+    void showFlexibleInfoDialog(char * errorMsg,int DialogID);
 
     static const int ArbeitsDialogIsActive = 0;
     static const int LoadDialogIsActive = 1;
@@ -137,6 +143,8 @@ namespace EuMax01
     static const int BackupDialogIsActive = 12;
     static const int BackupMenuDialogIsActive = 13;
     static const int FlexibleErrorDialogIsActive = 14;
+    static const int CreateBackupDialogIsActive = 15;
+    static const int FlexibleInfoDialogIsActive = 14;
 
     int theActiveDialogNumber();
 
@@ -208,6 +216,8 @@ namespace EuMax01
     BackupDialog * theBackupDialog;
     BackupMenuDialog * theBackupMenuDialog;
     FlexibleErrorDialog * theFlexibleErrorDialog;
+    CreateBackupDialog * theCreateBackupDialog;
+    FlexibleInfoDialog * theFlexibleInfoDialog;
 
     PosDialog * thePosDialog;
     
