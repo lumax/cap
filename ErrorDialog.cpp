@@ -187,6 +187,8 @@ namespace EuMax01
     FlexibleErrorDialog(sdlw,sdlh,camw,camh,yPos,parent)
   {
     this->Label_Error->setText("Info");
+    this->Label_Error->setNormalColor(Globals::GlobalUint32Color4);
+    this->Label_Error->setMarkedColor(Globals::GlobalUint32Color4);
     this->EvtTargetID=(char*)"FlexlibleInfoDialog";
   }
 
