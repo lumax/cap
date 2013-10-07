@@ -435,11 +435,12 @@ namespace EuMax01
     if(!useGUI)
       return;
     ret = theLoadDialog->readSaveDirectory(pcSaveFilePath,page);
-    if(1==ret)//keine Files vorhanden
+    /*if(1==ret)//keine Files vorhanden
       {
 	return;
       }
-    else if(-1==ret)//Fehler
+    else*/
+      if(-1==ret)//Fehler
       {
 	showErrorDialog((char*)"Error reading save directory");
 	return;
@@ -456,27 +457,27 @@ namespace EuMax01
 
   void ArbeitsDialog::showBackupDialog(void)
   {
-    //int ret=0;
+    int ret=0;
     if(!useGUI)
       return;
-    /*ret = theBackupDialog->readSaveDirectory(pcSaveFilePath,page);
-       if(1==ret)//keine Files vorhanden
+    ret = theBackupDialog->readUSBStickDirectory(0);
+    if(1==ret)//keine Files vorhanden
       {
 	return;
       }
     else if(-1==ret)//Fehler
       {
-	showErrorDialog((char*)"Error reading save directory");
+	showErrorDialog((char*)"Error reading USB Stick");
 	return;
       }
     else
-      {*/
+      {
 	this->iActiveDialog = ArbeitsDialog::BackupDialogIsActive;
 	//this->theLoadDialog->clearFilter();
 	//this->theLoadDialog->setLoadMode(loadMode);
 	this->blankMenuArea();
 	this->theGUI->activateScreen(theBackupDialog);
-	//}
+      }
   }
 
   void ArbeitsDialog::showCreateBackupDialog(void)

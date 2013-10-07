@@ -922,7 +922,7 @@ namespace EuMax01
       nr=0;
     if(nr>=LoadDialog::RezepteLen)
       nr=LoadDialog::RezepteLen-1;
-    if(nr>=this->MaxRecipesToDisplay)
+    if(nr>=this->MaxRecipesToDisplay&&this->MaxRecipesToDisplay>0)
       nr=this->MaxRecipesToDisplay-1;
     if(nr<0)
       {
