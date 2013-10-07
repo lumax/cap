@@ -454,7 +454,6 @@ namespace EuMax01
   void BackupMenuDialog::backupMenu_create_listener(void * src, SDL_Event * evt)
   {
     BackupMenuDialog* ad = (BackupMenuDialog*)src;//KeyListener
-    ad->Parent->showCreateBackupDialog();
     if(ad->checkForUSBStick1()||ad->checkForUSBStick2())
       ad->Parent->showCreateBackupDialog();
     else
@@ -465,8 +464,11 @@ namespace EuMax01
   void BackupMenuDialog::backupMenu_load_listener(void * src, SDL_Event * evt)
   {
     BackupMenuDialog* ad = (BackupMenuDialog*)src;//KeyListener
-    //ad->Parent->showBackupDialog();
-    ad->Parent->showErrorDialog((char*)"backupMenu load failed");
+    if(ad->checkForUSBStick1()||ad->checkForUSBStick2())
+      ad->Parent->showBackupDialog();
+    else
+      ad->Parent->showFlexibleErrorDialog((char*)"can`t find USB mass storage device",\
+					  ArbeitsDialog::BackupMenuDialogIsActive);
   }
   
   void BackupMenuDialog::BackupMenuKeyListener(void * src, SDL_Event * evt)
@@ -736,7 +738,7 @@ namespace EuMax01
     //printf("make sure there is enough space for %i recipes\n",filecount);
 
     //Erfolgsmeldung vorbereiten
-    snprintf(tmp,512,"Created backup for %i recipes in \"%s\" .",	\
+    snprintf(tmp,512,"Backup created for %i recipes in \"%s\" .",	\
 	     filecount,							\
 	     bm->getCompleteBackupName(ad->TextField_Name->getText()));
 
@@ -749,7 +751,7 @@ namespace EuMax01
     else
       {
 	ad->Parent->showFlexibleInfoDialog(tmp, \
-					    ArbeitsDialog::BackupMenuDialogIsActive);
+					    ArbeitsDialog::LoadDialogIsActive);
 	return;
       }
   }
