@@ -31,24 +31,29 @@ namespace EuMax01
     void naviDown();
     void naviLeft();
     void naviRight();
-    void naviReturn();
-    void naviPageup();
-    void naviPagedown();
-    int readSaveDirectory(char * dirName,unsigned int page);
+    //void naviReturn();
+    //void naviPageup();
+    //void naviPagedown();
+    void overwriteBackup();
+
+    int readUSBStickDirectory(int page);
 
     Rezept * tmpRezept;
 
     static void escape_listener(void * src, SDL_Event * evt);
-    static void backup_listener(void * src, SDL_Event * evt);
-    static void filter_listener(void * src, SDL_Event * evt);
-    static void pgup_listener(void * src, SDL_Event * evt);
-    static void pgdown_listener(void * src, SDL_Event * evt);
-    static void return_listener(void * src, SDL_Event * evt);
-    
+    //static void backup_listener(void * src, SDL_Event * evt);
+    //static void filter_listener(void * src, SDL_Event * evt);
+    //static void pgup_listener(void * src, SDL_Event * evt);
+    //static void pgdown_listener(void * src, SDL_Event * evt);
+    //static void return_listener(void * src, SDL_Event * evt);
+    static void overwrite_listener(void * src,SDL_Event * evt);
+
+    static int dirBackupFilter(const struct dirent * dir);    
+
     unsigned int getMaxRecipesToDisplay();
     unsigned int getActiveRecipe();
 
-    void clearFilter(void);
+    //void clearFilter(void);
 
     char DeletePath[1024];
 
@@ -64,7 +69,7 @@ namespace EuMax01
     char DateiNamen[BackupDialog::RezepteLen][32];
     char * blankText;
     struct t_MenuBarSettings theMenuBarSettings;
-    LoadMenuBar * theMenu;
+    MenuBar * theMenu;
   };
 
   class BackupMenuDialog : public Screen

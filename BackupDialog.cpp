@@ -47,36 +47,43 @@ namespace EuMax01
     ad->Parent->showBackupMenuDialog();
   }
 
-  void BackupDialog::backup_listener(void * src, SDL_Event * evt)
+  void BackupDialog::overwrite_listener(void * src, SDL_Event * evt)
+  {
+    BackupDialog* ad = (BackupDialog*)src;//KeyListener
+    ad->overwriteBackup();
+    //   ad->Parent->showBackupMenuDialog();
+  }
+
+  /*void BackupDialog::backup_listener(void * src, SDL_Event * evt)
   {
     BackupDialog* ad = (BackupDialog*)src;//KeyListener
     ad->Parent->showBackupDialog();
     printf("BackupDialog backup_listener\n");
-  }
+    }*/
 
-  void BackupDialog::filter_listener(void * src, SDL_Event * evt)
+  /*void BackupDialog::filter_listener(void * src, SDL_Event * evt)
   {
     BackupDialog* ad = (BackupDialog*)src;//KeyListener
     ad->Parent->showBackupDialog();
-  }
+    }*/
 
-  void BackupDialog::pgup_listener(void * src, SDL_Event * evt)
+  /*void BackupDialog::pgup_listener(void * src, SDL_Event * evt)
   {
     BackupDialog* ad = (BackupDialog*)src;//KeyListener
     ad->naviPageup();
-  }
+    }
 
   void BackupDialog::pgdown_listener(void * src, SDL_Event * evt)
   {
     BackupDialog* ad = (BackupDialog*)src;//KeyListener
     ad->naviPagedown();
-  }
+    }*/
 
-  void BackupDialog::return_listener(void * src, SDL_Event * evt)
+  /*void BackupDialog::return_listener(void * src, SDL_Event * evt)
   {
     BackupDialog* ad = (BackupDialog*)src;//KeyListener
     ad->naviReturn();
-  }
+    }*/
 
   static void BackupDialogKeyListener(void * src, SDL_Event * evt)
   {
@@ -91,11 +98,11 @@ namespace EuMax01
 	  }
 	else if(key->keysym.sym == SDLK_F1)
 	  {
-	    ad->backup_listener(src,evt);
+	    //ad->backup_listener(src,evt);
 	  }
 	else if(key->keysym.sym == SDLK_F2)
 	  {
-	    ad->filter_listener(src,evt);
+	    //ad->filter_listener(src,evt);
 	  }
 	else if(key->keysym.sym == SDLK_UP)
 	  {
@@ -115,15 +122,23 @@ namespace EuMax01
 	  }
 	else if(key->keysym.sym == SDLK_RETURN || key->keysym.sym == SDLK_KP_ENTER)
 	  {
-	    ad->return_listener(src,evt);
+	    //ad->return_listener(src,evt);
 	  }
-	else if(key->keysym.sym == SDLK_PAGEDOWN || key->keysym.sym == SDLK_F6)
+	else if( key->keysym.sym == SDLK_F5)
 	  {
-	    ad->pgdown_listener(src,evt);
+	    //ad->overwrite_listener(src,evt);
 	  }
-	else if(key->keysym.sym == SDLK_PAGEUP || key->keysym.sym == SDLK_F5)
+	else if( key->keysym.sym == SDLK_F6)
 	  {
-	    ad->pgup_listener(src,evt);
+	    ad->overwrite_listener(src,evt);
+	  }
+	else if(key->keysym.sym == SDLK_PAGEDOWN)
+	  {
+	    //ad->pgdown_listener(src,evt);
+	  }
+	else if(key->keysym.sym == SDLK_PAGEUP)
+	  {
+	    //ad->pgup_listener(src,evt);
 	  }
       }
   }
@@ -135,11 +150,11 @@ namespace EuMax01
     lc =(struct t_LoadDialogButtonEventContainer *)src;
     ld = (BackupDialog *)lc->theLoadDialog;
     
-    if(lc->index==ld->getActiveRecipe())
+    /*   if(lc->index==ld->getActiveRecipe())
       {
 	ld->naviReturn();
 	return;
-      }
+	}*/
     
     if(lc->index < ld->getMaxRecipesToDisplay())
       {
@@ -147,7 +162,8 @@ namespace EuMax01
       }
   }
 
-  static TextField * pTF_Filter4dirFilter=0;
+  //static TextField * pTF_Filter4dirFilter=0;
+  static BackupDialog * pBackupDialog;
 
   BackupDialog::BackupDialog(int sdlw,		\
 			 int sdlh,		\
@@ -172,6 +188,8 @@ namespace EuMax01
     this->tmpRezept = new Rezept();
     this->LoadMode = false;
 
+    pBackupDialog = this;
+
     M_y = sdlh - yPos;
     if(M_y<=84)
       {
@@ -191,30 +209,29 @@ namespace EuMax01
     Rezepte_y = yPos + 1*MSpace_h + 0*MZeile_h;
     Rezepte_w = 125;
 
-    theMenuBarSettings.Text[0]=(char *)"F1 backup";
-    theMenuBarSettings.Text[1]=(char *)"F2 filter";
-    theMenuBarSettings.Text[2]=0;//Nummer 2 und Nummer 3 sind in LoadMenueBar nicht vorhanden!
-    theMenuBarSettings.Text[3]=0;//Nummer 2 und Nummer 3 sind in LoadMenueBar nicht vorhanden!
-    theMenuBarSettings.Text[4]=(char *)"F5 prev";
-    theMenuBarSettings.Text[5]=(char *)"F6 next";
+    theMenuBarSettings.Text[0]=0;//(char *)"F1 backup";
+    theMenuBarSettings.Text[1]=0;//(char *)"F2 filter";
+    theMenuBarSettings.Text[2]=0;
+    theMenuBarSettings.Text[3]=0;
+    theMenuBarSettings.Text[4]=0;
+    theMenuBarSettings.Text[5]=(char *)"F6 copy";//(char *)"F6 next";
     theMenuBarSettings.Text[6]=(char *)"ESC";
-    theMenuBarSettings.Text[7]=(char *)"ENTER";
+    theMenuBarSettings.Text[7]=0;//(char *)"ENTER";
 
     theMenuBarSettings.evtSource = (void*)this;
 
-    theMenuBarSettings.evtFnks[0]=backup_listener;
-    theMenuBarSettings.evtFnks[1]=filter_listener;
-    theMenuBarSettings.evtFnks[2]=0;//Nummer 2 und Nummer 3 sind in LoadMenueBar nicht vorhanden!
-    theMenuBarSettings.evtFnks[3]=0;//Nummer 2 und Nummer 3 sind in LoadMenueBar nicht vorhanden!
-    theMenuBarSettings.evtFnks[4]=pgup_listener;
-    theMenuBarSettings.evtFnks[5]=pgdown_listener;
+    theMenuBarSettings.evtFnks[0]=0;//backup_listener;
+    theMenuBarSettings.evtFnks[1]=0;//filter_listener;
+    theMenuBarSettings.evtFnks[2]=0;
+    theMenuBarSettings.evtFnks[3]=0;
+    theMenuBarSettings.evtFnks[4]=0;//pgup_listener;
+    theMenuBarSettings.evtFnks[5]=overwrite_listener;//pgdown_listener;
     theMenuBarSettings.evtFnks[6]=escape_listener;
-    theMenuBarSettings.evtFnks[7]=return_listener;
+    theMenuBarSettings.evtFnks[7]=0;//return_listener;
 
-    theMenu = new LoadMenuBar((int)MLinks_x,(int)MLoadName_y,(int)MZeile_h, \
+    theMenu = new MenuBar((int)MLinks_x,(int)MLoadName_y,(int)MZeile_h, \
 			      (char*)"Load backup",				\
-			      &this->theMenuBarSettings,Parent,\
-			      BackupDialog::MaxRezeptFileLaenge);
+			  &this->theMenuBarSettings,Parent/*,BackupDialog::MaxRezeptFileLaenge*/);
 
     unsigned int ii = 0;
     //char tmpc[16] = { ' '};
@@ -243,7 +260,7 @@ namespace EuMax01
 	this->addEvtTarget(pLabel_Rezepte[i]);
       }
 
-    pTF_Filter4dirFilter = theMenu->TextField_Filter;
+    //pTF_Filter4dirFilter = theMenu->TextField_Filter;
 
     this->pTSource = this;
     this->setKeyboardUpEvtHandler(BackupDialogKeyListener);
@@ -293,11 +310,15 @@ namespace EuMax01
     this->setActiveRecipe(nr);
   }
 
-  int dirBackupFilter(const struct dirent * dir)
+  int BackupDialog::dirBackupFilter(const struct dirent * dir)
   {
     int ret = 0;
-
-    if(strlen(dir->d_name)>BackupDialog::MaxRezeptFileLaenge)
+    int prefixlen = strlen(pBackupDialog->Parent->getBackupMenuDialog()->BackupFilePrefix);
+    /*    printf("BackupDialog dirBackupFilter %s, prefix: %s, prefixlen: %i\n", \
+	   dir->d_name,\
+	   (char*)pBackupDialog->Parent->getBackupMenuDialog()->BackupFilePrefix,\
+	   prefixlen);*/
+    if(strlen(dir->d_name)>(BackupDialog::MaxRezeptFileLaenge+prefixlen))
       {
 	goto out_null;
       }
@@ -309,23 +330,18 @@ namespace EuMax01
       {
 	goto out_null;
       }
-    if(strlen(pTF_Filter4dirFilter->getText())>0)
+    if(dir->d_type != DT_DIR)
       {
-	/*if(0==strncmp(dir->d_name,				\
-		      pTF_Filter4dirFilter->getText(),		\
-		      strlen(pTF_Filter4dirFilter->getText())))*/
-	if(strstr(dir->d_name,pTF_Filter4dirFilter->getText()))
-	  {
-	    goto out_eins;
-	  }
-	else
-	  {
-	    goto out_null;
-	  }
+	goto out_null;
+      }
+    if(strncmp((char*)pBackupDialog->Parent->getBackupMenuDialog()->BackupFilePrefix,\
+	       dir->d_name,prefixlen)==0)
+      {
+	goto out_eins;
       }
     else
       {
-	goto out_eins;
+	goto out_null;
       }
 
   out_eins:
@@ -335,29 +351,24 @@ namespace EuMax01
     return ret;
   }
 
-  void BackupDialog::clearFilter(void)
-  {
-    pTF_Filter4dirFilter->setText((char*)"");
-  }
-
-  int BackupDialog::readSaveDirectory(char * dirName,unsigned int page)
+  int BackupDialog::readUSBStickDirectory(int page)
   {
     struct dirent **namelist;
     int n;
     int fileToShow;
+    char * dirName = 0;
 
-    //this->EvtTargets.Next = 0;     //alle FileLabels deaktivieren
-    //this->Next = 0;                //alles nach dem Keylistener = 0
-    //this->addEvtTarget(this);      //den Screen Key Listener bei sich selber anmelden!
-    /*    this->Label_LadenName->Next = 0; //Laden Label anzeigen
-    this->addEvtTarget(Label_LadenName);
-    this->Label_MenuText->Next = 0; //Laden MenuText anzeigen
-    this->addEvtTarget(Label_MenuText);
-    */
-    //theMenu->addToEvtTarget(this);
+    int prefixlen = strlen(this->Parent->getBackupMenuDialog()->BackupFilePrefix);
+
+    if(this->Parent->getBackupMenuDialog()->checkForUSBStick1())
+      dirName = (char *)this->Parent->getBackupMenuDialog()->STICKPATH1;
+    else if (this->Parent->getBackupMenuDialog()->checkForUSBStick2())
+      dirName = (char *)this->Parent->getBackupMenuDialog()->STICKPATH2;
+    else
+      return -1;
+    //printf("readUSBStickDirectory completeBackupPath: %s\n",dirName);
 
     this->ActiveSavePage = page;
-
     n = scandir(dirName, &namelist, dirBackupFilter, alphasort);
 
     if (n < 0)
@@ -386,7 +397,7 @@ namespace EuMax01
 	unsigned int i2 = 0;
 	for(i=fileToShow,i2=0;i<n&&i2<BackupDialog::RezepteLen;i++,i2++)
 	  {
-	    strncpy(DateiNamen[i2],namelist[i]->d_name,BackupDialog::MaxRezeptFileLaenge);
+	    strncpy(DateiNamen[i2],&namelist[i]->d_name[prefixlen],BackupDialog::MaxRezeptFileLaenge);
 	    pLabel_Rezepte[i2]->setText(DateiNamen[i2]); //neuen Text setzen
 	    //pLabel_Rezepte[i2]->Next = 0;  // alles hinter diesem Label = 0
 	    //this->addEvtTarget(pLabel_Rezepte[i2]);
@@ -407,7 +418,52 @@ namespace EuMax01
   void BackupDialog::naviDown(){this->addToActiveRecipe(+BackupDialog::RezepteProZeile);} 
   void BackupDialog::naviLeft(){this->addToActiveRecipe(-1);}
   void BackupDialog::naviRight(){this->addToActiveRecipe(+1);}
-  void BackupDialog::naviReturn()
+
+  void BackupDialog::overwriteBackup()
+  {
+    char * BackupPathName;
+    char cpBefehl[512];
+    int filecount = 0;
+    char tmp[512];
+
+    //CreateBackupDialog* ad = (CreateBackupDialog*)src;
+    //BackupMenuDialog* bm = ad->Parent->getBackupMenuDialog();
+
+    BackupPathName=Parent->getBackupMenuDialog()->getCompleteBackupPath(DateiNamen[ActiveRecipe]);
+
+    printf("BackupDialog::overwriteBackup : %s completePath = %s\n",	\
+	   DateiNamen[ActiveRecipe],BackupPathName);
+
+    filecount = Parent->getBackupMenuDialog()->getAmountOfFilesInDir(BackupPathName);
+
+    printf("filecount : %i in %s\n",filecount,BackupPathName);
+
+    //Kopierbefehl
+    snprintf(cpBefehl,512,"cp -f %s/* %s",BackupPathName,Parent->pcSaveFilePath);
+
+    //Erfolgsmeldung vorbereiten
+    snprintf(tmp,512,"%i recipes copied from backup file in \"%s\" .",	\
+	     filecount,							\
+	     Parent->getBackupMenuDialog()->getCompleteBackupName(DateiNamen[ActiveRecipe]));
+
+    printf("copy Befehl: %s\n",cpBefehl);
+    printf("Erfolgsmeldung: %s\n",tmp);
+
+    /*    if(system(cpBefehl)<0)
+      {
+	ad->Parent->showFlexibleErrorDialog((char*)"copy recipes to backup dir failed", \
+					  ArbeitsDialog::ArbeitsDialogIsActive);
+	return;
+      }
+    else
+      {
+	ad->Parent->showFlexibleInfoDialog(tmp, \
+					    ArbeitsDialog::LoadDialogIsActive);
+	return;
+	}*/
+  }
+
+  /*void BackupDialog::naviReturn()
   {
     if(this->LoadMode)
       {
@@ -431,9 +487,9 @@ namespace EuMax01
 		 DateiNamen[ActiveRecipe]);
 	this->Parent->showFileDeleteAbfrageDialog(DeletePath,DateiNamen[ActiveRecipe]);
       }
-  }
+      }*/
 
-  void BackupDialog::naviPageup()
+  /*void BackupDialog::naviPageup()
   {
     if(this->ActiveSavePage>=1)
       this->Parent->showBackupDialog();
@@ -443,7 +499,7 @@ namespace EuMax01
   {
     if(this->ActiveSavePage<this->MaxSavePages)
       this->Parent->showBackupDialog();
-  }
+      }*/
 
   void BackupMenuDialog::backupMenu_escape_listener(void * src, SDL_Event * evt)
   {
@@ -648,7 +704,7 @@ namespace EuMax01
   {
     struct stat st;
     
-    for(int i=0;i<126;i++)
+    for(int i=0;i<256;i++)
       this->BackupPathName[0] = '\0'; 
 
     //StickPath1 ist aktiv
