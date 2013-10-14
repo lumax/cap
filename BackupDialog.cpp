@@ -50,8 +50,26 @@ namespace EuMax01
   void BackupDialog::overwrite_listener(void * src, SDL_Event * evt)
   {
     BackupDialog* ad = (BackupDialog*)src;//KeyListener
-    ad->overwriteBackup();
-    //   ad->Parent->showBackupMenuDialog();
+    ad->prepareOkCancelDialog(BackupDialog::OverwriteIsActive);
+    ad->Parent->showBackupOkCancelDialog();
+  }
+
+  void BackupDialog::OkCancel_return_listener(void * src,SDL_Event * evt)
+  {
+    OkCancelDialog * ok = (OkCancelDialog*)src;
+    BackupDialog * ad = (BackupDialog*)ok->getDialogSource();
+
+    if(!ad->overwriteBackup())
+      printf("BackupDialog::OkCancel_return_listener overwriteBackup OK\n");
+    else
+      printf("BackupDialog::OkCancel_return_listener overwriteBackup NICHT OK\n");
+  }
+
+  void BackupDialog::OkCancel_escape_listener(void * src,SDL_Event * evt)
+  {
+    OkCancelDialog * ok = (OkCancelDialog*)src;
+    printf("BackupDialog::OkCancel_escape_listener\n");
+    ok->Parent->showBackupDialog();
   }
 
   /*void BackupDialog::backup_listener(void * src, SDL_Event * evt)
@@ -188,6 +206,12 @@ namespace EuMax01
     this->tmpRezept = new Rezept();
     this->LoadMode = false;
 
+    theOkCancelDialog = new OkCancelDialog(sdlw,sdlh,camw,camh,yPos,parent);
+    theOkCancelDialog->setDialogSource((void *)this);
+
+    theOkCancelDialog->setOKFnk(BackupDialog::OkCancel_return_listener);
+    theOkCancelDialog->setCancelFnk(BackupDialog::OkCancel_escape_listener);
+
     pBackupDialog = this;
 
     M_y = sdlh - yPos;
@@ -266,6 +290,21 @@ namespace EuMax01
     this->setKeyboardUpEvtHandler(BackupDialogKeyListener);
     this->addEvtTarget(this);//den Screen Key Listener bei sich selber anmelden!
     theMenu->addToEvtTarget(this);
+  }
+
+  void BackupDialog::prepareOkCancelDialog(int DialogID)
+  {
+    if(DialogID == BackupDialog::OverwriteIsActive){
+    theOkCancelDialog->setMsg((char*)"Overwrite all existing recipes from backup directory?");
+    theOkCancelDialog->setHeadline((char*)"Backup Overwrite");
+    }else{//DialogID == BackupDialog::SkipIsActive
+
+    }
+  }
+
+  OkCancelDialog * BackupDialog::getOkCancelDialog()
+  {
+    return this->theOkCancelDialog;
   }
 
   unsigned int BackupDialog::getMaxRecipesToDisplay()
@@ -419,7 +458,7 @@ namespace EuMax01
   void BackupDialog::naviLeft(){this->addToActiveRecipe(-1);}
   void BackupDialog::naviRight(){this->addToActiveRecipe(+1);}
 
-  void BackupDialog::overwriteBackup()
+  int BackupDialog::overwriteBackup()
   {
     char * BackupPathName;
     char cpBefehl[512];
@@ -448,6 +487,8 @@ namespace EuMax01
 
     printf("copy Befehl: %s\n",cpBefehl);
     printf("Erfolgsmeldung: %s\n",tmp);
+
+    return 0;
 
     /*    if(system(cpBefehl)<0)
       {

@@ -77,6 +77,39 @@ namespace EuMax01
     int loadImage(char * path);
     char Versionsnummer[1024];
   };
- 
+
+  class OkCancelDialog : public Screen
+  {
+  public:
+    OkCancelDialog(int sdlw,int sdlh, int camw,int camh,int yPos,	\
+		ArbeitsDialog * parent);
+    ArbeitsDialog * Parent;
+    void setMsg(char * Message);
+    void setHeadline(char * headline);
+    void setDialogID(int id);
+    int getDialogID();
+
+    void setDialogSource(void * source);
+    void * getDialogSource();
+
+    static void OkCancelDialogKeyListener(void * src, SDL_Event * evt);
+    static void return_listener(void * src, SDL_Event * evt);
+    static void esc_listener(void * src,SDL_Event * evt);
+
+    void setOKFnk(void (*OKFnk)(void * src, SDL_Event * evt));
+    void setCancelFnk(void (*CancelFnk)(void * src, SDL_Event * evt));
+
+    void (*OKFnk)(void * src, SDL_Event * evt);
+    void (*CancelFnk)(void * src, SDL_Event * evt);
+
+  protected:
+    void * src;
+    int DialogID;
+    Label * Label_Error;
+    Label * Label_Info;
+    Button * Button_OK;
+    Button * Button_Cancel;
+  };
+
 #endif /* __ERRORDIALOG_H__*/
 }//end namespace

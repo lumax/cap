@@ -310,6 +310,8 @@ namespace EuMax01
     theCreateBackupDialog = new CreateBackupDialog(sdlw,sdlh,camw,camh,yPos,this);
     theFlexibleInfoDialog = new FlexibleInfoDialog(sdlw,sdlh,camw,camh,yPos,this);
 
+    theBackupOkCancelDialog = theBackupDialog->getOkCancelDialog();
+
     cap_cam_setCrossX(0,MitteCrossCam1);
     cap_cam_setCrossX(1,MitteCrossCam2);
 
@@ -638,6 +640,15 @@ namespace EuMax01
     this->theFlexibleInfoDialog->setReturnDialogID(DialogID);
     this->blankMenuArea();
     this->theGUI->activateScreen(this->theFlexibleInfoDialog);
+  }
+
+  void ArbeitsDialog::showBackupOkCancelDialog()
+  {
+    if(!useGUI)//TODO errors im BlindMode evtl. zulassen
+      return;
+    this->iActiveDialog = ArbeitsDialog::BackupOkCancelDialogIsActive;
+    this->blankMenuArea();
+    this->theGUI->activateScreen(this->theBackupOkCancelDialog);
   }
 
   int ArbeitsDialog::theActiveDialogNumber()

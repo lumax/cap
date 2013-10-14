@@ -16,6 +16,8 @@ namespace EuMax01
     unsigned int index;
     };*/
 
+  class OkCancelDialog;
+
   class BackupDialog : public Screen
   {
   public:
@@ -34,7 +36,9 @@ namespace EuMax01
     //void naviReturn();
     //void naviPageup();
     //void naviPagedown();
-    void overwriteBackup();
+    int overwriteBackup();
+
+    OkCancelDialog * getOkCancelDialog();
 
     int readUSBStickDirectory(int page);
 
@@ -45,10 +49,18 @@ namespace EuMax01
     //static void filter_listener(void * src, SDL_Event * evt);
     //static void pgup_listener(void * src, SDL_Event * evt);
     //static void pgdown_listener(void * src, SDL_Event * evt);
-    //static void return_listener(void * src, SDL_Event * evt);
     static void overwrite_listener(void * src,SDL_Event * evt);
 
     static int dirBackupFilter(const struct dirent * dir);    
+
+    static void OkCancel_return_listener(void * src,SDL_Event * evt);
+    static void OkCancel_escape_listener(void * src,SDL_Event * evt);
+
+    static const int OverwriteIsActive = 1;
+    static const int SkipIsActive = 2;
+    static const int CleanupBeforeBackupIsActive = 3;
+
+    void prepareOkCancelDialog(int DialogID);
 
     unsigned int getMaxRecipesToDisplay();
     unsigned int getActiveRecipe();
@@ -70,6 +82,7 @@ namespace EuMax01
     char * blankText;
     struct t_MenuBarSettings theMenuBarSettings;
     MenuBar * theMenu;
+    OkCancelDialog * theOkCancelDialog;
   };
 
   class BackupMenuDialog : public Screen

@@ -518,4 +518,158 @@ namespace EuMax01
 	  }
       }
   }
+
+  void OkCancelDialog::OkCancelDialogKeyListener(void * src, SDL_Event * evt)
+  {
+    //OkCancelDialog* ad = (OkCancelDialog*)src;//KeyListener
+    SDL_KeyboardEvent * key = (SDL_KeyboardEvent *)&evt->key;
+
+    if( key->type == SDL_KEYUP )
+      {
+	if(key->keysym.sym == SDLK_ESCAPE)
+	  {
+	    OkCancelDialog::esc_listener(src,evt);
+	  }
+	else if(key->keysym.sym == SDLK_RETURN || key->keysym.sym == SDLK_KP_ENTER)
+	  {
+	    OkCancelDialog::return_listener(src,evt);
+	  }
+      }
+  }
+
+  void OkCancelDialog::return_listener(void * src, SDL_Event * evt)
+  {
+    OkCancelDialog* ad = (OkCancelDialog*)src;//KeyListener
+    printf("OkCancelDialogKeyListener RETURN\n");
+    if(ad->OKFnk)
+      ad->OKFnk(src,evt);
+  }
+
+  void OkCancelDialog::esc_listener(void * src, SDL_Event * evt)
+  {
+    OkCancelDialog* ad = (OkCancelDialog*)src;//KeyListener
+    printf("OkCancelDialogKeyListener ESC\n");
+    if(ad->CancelFnk)
+      ad->CancelFnk(src,evt);
+  }
+
+  OkCancelDialog::OkCancelDialog(int sdlw,		\
+				 int sdlh,		\
+				 int camw,				\
+				 int camh,				\
+				 int yPos,ArbeitsDialog * parent):Screen()
+  {
+    short M_y;
+    short MLinks_x,x_space;
+    unsigned short MSpace_h;
+    unsigned short MZeile_h;
+    short Zeile5_y;
+
+    this->Parent = parent;
+    this->OKFnk = 0;
+    this->CancelFnk = 0;
+    this->DialogID = 0;
+    this->src = 0;
+
+    x_space = 4;
+
+    M_y = sdlh - yPos;
+
+    if(M_y<=84)
+      {
+	MSpace_h = 2;
+	MZeile_h = 18;
+      }
+    else
+      {
+	MSpace_h = 5;
+	MZeile_h = 28;
+      }
+
+    MLinks_x = sdlw/2 - 506;
+    Zeile5_y = yPos + 5*MSpace_h + 4*MZeile_h;
+
+
+    //MLoadName_y  = yPos + 1*MSpace_h + 0*MZeile_h;
+
+    Label_Error = new Label("Error",					\
+			    MLinks_x,					\
+			    yPos + 1*MSpace_h + 0*MZeile_h,		\
+			    506*2,MZeile_h,Parent->AlertSet);
+
+    Label_Info = new Label("----",					\
+			   MLinks_x,					\
+			   yPos + 2*MSpace_h + 1*MZeile_h,		\
+			   506*2,MZeile_h,Parent->MenuSet);
+
+    Button_OK = new Button("OK  (Enter)",					\
+			 MLinks_x,				\
+			 Zeile5_y,		\
+			 506-2,MZeile_h,		\
+			 Parent->MenuSet);
+
+    Button_Cancel = new Button("Cancel  (ESC)",					\
+			 MLinks_x+506-2+x_space,				\
+			 Zeile5_y,		\
+			 506,MZeile_h,		\
+			 Parent->MenuSet);
+
+    this->Label_Error->setNormalColor(Globals::GlobalUint32Color4);
+    this->Label_Error->setMarkedColor(Globals::GlobalUint32Color4);
+
+    this->Button_OK->setLMButtonUpEvtHandler(OkCancelDialog::return_listener);
+    this->Button_OK->pTSource = this;
+
+    this->Button_Cancel->setLMButtonUpEvtHandler(OkCancelDialog::esc_listener);
+    this->Button_Cancel->pTSource = this;
+
+    this->pTSource = this;//EvtTarget Quelle setzen
+    this->EvtTargetID=(char*)"OkCancelDialog";
+    this->setKeyboardUpEvtHandler(OkCancelDialogKeyListener);
+    this->addEvtTarget(this);//den Screen Key Listener bei sich selber anmelden!
+    this->addEvtTarget(Label_Error);
+    this->addEvtTarget(Label_Info);
+    this->addEvtTarget(Button_OK);
+    this->addEvtTarget(Button_Cancel);
+  }
+
+  void OkCancelDialog::setMsg(char * Message)
+  {
+    this->Label_Info->setText(Message);
+  }
+
+  void OkCancelDialog::setHeadline(char * headline)
+  {
+    this->Label_Error->setText(headline);
+  }
+
+  void OkCancelDialog::setOKFnk(void (*OkFnk)(void * src, SDL_Event * evt))
+  {
+    this->OKFnk = OkFnk;
+  }
+
+  void OkCancelDialog::setCancelFnk(void (*CancelFunc)(void * src, SDL_Event * evt))
+  {
+    this->CancelFnk = CancelFunc;
+  }
+
+  void OkCancelDialog::setDialogID(int id)
+  {
+    this->DialogID = id;
+  }
+
+  int OkCancelDialog::getDialogID()
+  {
+    return this->DialogID;
+  }
+
+  void OkCancelDialog::setDialogSource(void * source)
+  {
+    this->src = source;
+  }
+
+  void * OkCancelDialog::getDialogSource()
+  {
+    return this->src;
+  }
 }
