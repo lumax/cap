@@ -54,54 +54,47 @@ namespace EuMax01
     ad->Parent->showBackupOkCancelDialog();
   }
 
+  void BackupDialog::skip_listener(void * src, SDL_Event * evt)
+  {
+    BackupDialog* ad = (BackupDialog*)src;//KeyListener
+    ad->prepareOkCancelDialog(BackupDialog::SkipIsActive);
+    ad->Parent->showBackupOkCancelDialog();
+  }
+
   void BackupDialog::OkCancel_return_listener(void * src,SDL_Event * evt)
   {
     OkCancelDialog * ok = (OkCancelDialog*)src;
     BackupDialog * ad = (BackupDialog*)ok->getDialogSource();
+    int DialogID = ad->getDialogID();
 
-    if(!ad->overwriteBackup())
-      printf("BackupDialog::OkCancel_return_listener overwriteBackup OK\n");
-    else
-      printf("BackupDialog::OkCancel_return_listener overwriteBackup NICHT OK\n");
+    if(DialogID == BackupDialog::OverwriteIsActive){
+      if(!ad->overwriteBackup()){
+	ad->Parent->showLoadDialog(0,true);//page0; loadMode=true
+	return;
+      }else{
+	ad->Parent->showFlexibleErrorDialog((char*)"overwrite with backup failed!", \
+					  ArbeitsDialog::ArbeitsDialogIsActive);
+	return;
+      }
+    }else{//DialogID == BackupDialog::SkipIsActive
+      if(!ad->skipBackup()){
+	ad->Parent->showLoadDialog(0,true);//page0; loadMode=true
+	return;
+      }else{
+	ad->Parent->showFlexibleErrorDialog((char*)"copy from backup failed!", \
+					  ArbeitsDialog::ArbeitsDialogIsActive);
+	return;
+      }
+      return;
+    }
   }
 
   void BackupDialog::OkCancel_escape_listener(void * src,SDL_Event * evt)
   {
     OkCancelDialog * ok = (OkCancelDialog*)src;
-    printf("BackupDialog::OkCancel_escape_listener\n");
+    //printf("BackupDialog::OkCancel_escape_listener\n");
     ok->Parent->showBackupDialog();
   }
-
-  /*void BackupDialog::backup_listener(void * src, SDL_Event * evt)
-  {
-    BackupDialog* ad = (BackupDialog*)src;//KeyListener
-    ad->Parent->showBackupDialog();
-    printf("BackupDialog backup_listener\n");
-    }*/
-
-  /*void BackupDialog::filter_listener(void * src, SDL_Event * evt)
-  {
-    BackupDialog* ad = (BackupDialog*)src;//KeyListener
-    ad->Parent->showBackupDialog();
-    }*/
-
-  /*void BackupDialog::pgup_listener(void * src, SDL_Event * evt)
-  {
-    BackupDialog* ad = (BackupDialog*)src;//KeyListener
-    ad->naviPageup();
-    }
-
-  void BackupDialog::pgdown_listener(void * src, SDL_Event * evt)
-  {
-    BackupDialog* ad = (BackupDialog*)src;//KeyListener
-    ad->naviPagedown();
-    }*/
-
-  /*void BackupDialog::return_listener(void * src, SDL_Event * evt)
-  {
-    BackupDialog* ad = (BackupDialog*)src;//KeyListener
-    ad->naviReturn();
-    }*/
 
   static void BackupDialogKeyListener(void * src, SDL_Event * evt)
   {
@@ -144,7 +137,7 @@ namespace EuMax01
 	  }
 	else if( key->keysym.sym == SDLK_F5)
 	  {
-	    //ad->overwrite_listener(src,evt);
+	    ad->skip_listener(src,evt);
 	  }
 	else if( key->keysym.sym == SDLK_F6)
 	  {
@@ -205,6 +198,7 @@ namespace EuMax01
     this->MaxSavePages = 0;
     this->tmpRezept = new Rezept();
     this->LoadMode = false;
+    this->DialogID = 0;
 
     theOkCancelDialog = new OkCancelDialog(sdlw,sdlh,camw,camh,yPos,parent);
     theOkCancelDialog->setDialogSource((void *)this);
@@ -233,25 +227,25 @@ namespace EuMax01
     Rezepte_y = yPos + 1*MSpace_h + 0*MZeile_h;
     Rezepte_w = 125;
 
-    theMenuBarSettings.Text[0]=0;//(char *)"F1 backup";
-    theMenuBarSettings.Text[1]=0;//(char *)"F2 filter";
+    theMenuBarSettings.Text[0]=0;
+    theMenuBarSettings.Text[1]=0;
     theMenuBarSettings.Text[2]=0;
     theMenuBarSettings.Text[3]=0;
-    theMenuBarSettings.Text[4]=0;
-    theMenuBarSettings.Text[5]=(char *)"F6 copy";//(char *)"F6 next";
+    theMenuBarSettings.Text[4]=(char *)"F5 skip";
+    theMenuBarSettings.Text[5]=(char *)"F6 overw.";//(char *)"F6 next";
     theMenuBarSettings.Text[6]=(char *)"ESC";
     theMenuBarSettings.Text[7]=0;//(char *)"ENTER";
 
     theMenuBarSettings.evtSource = (void*)this;
 
-    theMenuBarSettings.evtFnks[0]=0;//backup_listener;
-    theMenuBarSettings.evtFnks[1]=0;//filter_listener;
+    theMenuBarSettings.evtFnks[0]=0;
+    theMenuBarSettings.evtFnks[1]=0;
     theMenuBarSettings.evtFnks[2]=0;
     theMenuBarSettings.evtFnks[3]=0;
-    theMenuBarSettings.evtFnks[4]=0;//pgup_listener;
-    theMenuBarSettings.evtFnks[5]=overwrite_listener;//pgdown_listener;
+    theMenuBarSettings.evtFnks[4]=skip_listener;
+    theMenuBarSettings.evtFnks[5]=overwrite_listener;
     theMenuBarSettings.evtFnks[6]=escape_listener;
-    theMenuBarSettings.evtFnks[7]=0;//return_listener;
+    theMenuBarSettings.evtFnks[7]=0;
 
     theMenu = new MenuBar((int)MLinks_x,(int)MLoadName_y,(int)MZeile_h, \
 			      (char*)"Load backup",				\
@@ -294,12 +288,24 @@ namespace EuMax01
 
   void BackupDialog::prepareOkCancelDialog(int DialogID)
   {
+    this->setDialogID(DialogID);
     if(DialogID == BackupDialog::OverwriteIsActive){
-    theOkCancelDialog->setMsg((char*)"Overwrite all existing recipes from backup directory?");
-    theOkCancelDialog->setHeadline((char*)"Backup Overwrite");
+      theOkCancelDialog->setMsg((char*)"Overwrite all existing recipes from backup directory?");
+      theOkCancelDialog->setHeadline((char*)"Backup Overwrite Existing Recipes");
     }else{//DialogID == BackupDialog::SkipIsActive
-
+      theOkCancelDialog->setMsg((char*)"Copy recipes from backup directory but skipping existing recipes?");
+      theOkCancelDialog->setHeadline((char*)"Backup Skipping Existing Recipes");
     }
+  }
+
+  void BackupDialog::setDialogID(int id)
+  {
+    this->DialogID = id;
+  }
+
+  int BackupDialog::getDialogID()
+  {
+    return this->DialogID;
   }
 
   OkCancelDialog * BackupDialog::getOkCancelDialog()
@@ -465,82 +471,65 @@ namespace EuMax01
     int filecount = 0;
     char tmp[512];
 
-    //CreateBackupDialog* ad = (CreateBackupDialog*)src;
-    //BackupMenuDialog* bm = ad->Parent->getBackupMenuDialog();
-
     BackupPathName=Parent->getBackupMenuDialog()->getCompleteBackupPath(DateiNamen[ActiveRecipe]);
 
-    printf("BackupDialog::overwriteBackup : %s completePath = %s\n",	\
-	   DateiNamen[ActiveRecipe],BackupPathName);
+    //    printf("BackupDialog::overwriteBackup : %s completePath = %s\n",DateiNamen[ActiveRecipe],BackupPathName);
 
     filecount = Parent->getBackupMenuDialog()->getAmountOfFilesInDir(BackupPathName);
 
-    printf("filecount : %i in %s\n",filecount,BackupPathName);
+    //printf("filecount : %i in %s\n",filecount,BackupPathName);
 
     //Kopierbefehl
-    snprintf(cpBefehl,512,"cp -f %s/* %s",BackupPathName,Parent->pcSaveFilePath);
+    snprintf(cpBefehl,512,"cp -f -P %s/* %s",BackupPathName,Parent->pcSaveFilePath);
 
     //Erfolgsmeldung vorbereiten
     snprintf(tmp,512,"%i recipes copied from backup file in \"%s\" .",	\
 	     filecount,							\
 	     Parent->getBackupMenuDialog()->getCompleteBackupName(DateiNamen[ActiveRecipe]));
-
-    printf("copy Befehl: %s\n",cpBefehl);
-    printf("Erfolgsmeldung: %s\n",tmp);
-
-    return 0;
-
-    /*    if(system(cpBefehl)<0)
+    //printf("copy Befehl: %s\n",cpBefehl);
+    //printf("Erfolgsmeldung: %s\n",tmp);
+    if(system(cpBefehl)<0)
       {
-	ad->Parent->showFlexibleErrorDialog((char*)"copy recipes to backup dir failed", \
-					  ArbeitsDialog::ArbeitsDialogIsActive);
-	return;
+	/*this->Parent->showFlexibleErrorDialog((char*)"copy recipes from backup dir failed", \
+	  ArbeitsDialog::ArbeitsDialogIsActive);*/
+	return -1;
       }
     else
       {
-	ad->Parent->showFlexibleInfoDialog(tmp, \
-					    ArbeitsDialog::LoadDialogIsActive);
-	return;
-	}*/
+	/*this->Parent->showFlexibleInfoDialog(tmp,			\
+	  ArbeitsDialog::LoadDialogIsActive);*/
+	return 0;
+	}
   }
 
-  /*void BackupDialog::naviReturn()
+  int BackupDialog::skipBackup()
   {
-    if(this->LoadMode)
-      {
-	if(!tmpRezept->readFromFile(Parent->pcSaveFilePath,DateiNamen[ActiveRecipe]))
-	  {
-	    Rezept::copy(tmpRezept,Parent->theRezept);
-	    //Rezept::copy();
-	    Parent->showRezept(0);
-	    Parent->showArbeitsDialog();
-	    //printf("ArbeitsDialog Update Recipe Daten\n");
-	  }
-	else
-	  {
-	    this->Parent->showErrorDialog((char*)"Error Reading SaveFile");
-	  }
-      }
-    else //delete Mode
-      {
-	snprintf(DeletePath,1024,"%s%s",\
-		 Parent->pcSaveFilePath,\
-		 DateiNamen[ActiveRecipe]);
-	this->Parent->showFileDeleteAbfrageDialog(DeletePath,DateiNamen[ActiveRecipe]);
-      }
-      }*/
+    char * BackupPathName;
+    char cpBefehl[512];
+    int filecount = 0;
+    //char tmp[512];
 
-  /*void BackupDialog::naviPageup()
-  {
-    if(this->ActiveSavePage>=1)
-      this->Parent->showBackupDialog();
+    BackupPathName=Parent->getBackupMenuDialog()->getCompleteBackupPath(DateiNamen[ActiveRecipe]);
+
+    //printf("BackupDialog::skipBackup : %s completePath = %s\n",DateiNamen[ActiveRecipe],BackupPathName);
+
+    filecount = Parent->getBackupMenuDialog()->getAmountOfFilesInDir(BackupPathName);
+
+    //printf("filecount : %i in %s\n",filecount,BackupPathName);
+
+    //Kopierbefehl
+    snprintf(cpBefehl,512,"cp -n -P %s/* %s",BackupPathName,Parent->pcSaveFilePath);//hier steckt der Unterschied zu overwrite
+
+    //Erfolgsmeldung vorbereiten
+    /*snprintf(tmp,512,"recipes copied from backup file in \"%s\" .",	\
+      Parent->getBackupMenuDialog()->getCompleteBackupName(DateiNamen[ActiveRecipe]));*/
+    //printf("copy Befehl: %s\n",cpBefehl);
+    //printf("Erfolgsmeldung: %s\n",tmp);
+    if(system(cpBefehl)<0)
+      return -1;
+    else
+      return 0;
   }
-
-  void BackupDialog::naviPagedown()
-  {
-    if(this->ActiveSavePage<this->MaxSavePages)
-      this->Parent->showBackupDialog();
-      }*/
 
   void BackupMenuDialog::backupMenu_escape_listener(void * src, SDL_Event * evt)
   {

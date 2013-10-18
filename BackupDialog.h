@@ -37,6 +37,7 @@ namespace EuMax01
     //void naviPageup();
     //void naviPagedown();
     int overwriteBackup();
+    int skipBackup();
 
     OkCancelDialog * getOkCancelDialog();
 
@@ -50,6 +51,7 @@ namespace EuMax01
     //static void pgup_listener(void * src, SDL_Event * evt);
     //static void pgdown_listener(void * src, SDL_Event * evt);
     static void overwrite_listener(void * src,SDL_Event * evt);
+    static void skip_listener(void * src,SDL_Event * evt);
 
     static int dirBackupFilter(const struct dirent * dir);    
 
@@ -59,6 +61,9 @@ namespace EuMax01
     static const int OverwriteIsActive = 1;
     static const int SkipIsActive = 2;
     static const int CleanupBeforeBackupIsActive = 3;
+
+    void setDialogID(int id);
+    int getDialogID();
 
     void prepareOkCancelDialog(int DialogID);
 
@@ -70,6 +75,7 @@ namespace EuMax01
     char DeletePath[1024];
 
   private:
+    int DialogID;
     bool LoadMode;
     unsigned int ActiveRecipe;
     unsigned int MaxRecipesToDisplay;
