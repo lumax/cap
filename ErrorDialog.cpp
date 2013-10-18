@@ -540,7 +540,7 @@ namespace EuMax01
   void OkCancelDialog::return_listener(void * src, SDL_Event * evt)
   {
     OkCancelDialog* ad = (OkCancelDialog*)src;//KeyListener
-    printf("OkCancelDialogKeyListener RETURN\n");
+    //printf("OkCancelDialogKeyListener RETURN\n");
     if(ad->OKFnk)
       ad->OKFnk(src,evt);
   }
@@ -548,7 +548,7 @@ namespace EuMax01
   void OkCancelDialog::esc_listener(void * src, SDL_Event * evt)
   {
     OkCancelDialog* ad = (OkCancelDialog*)src;//KeyListener
-    printf("OkCancelDialogKeyListener ESC\n");
+    //printf("OkCancelDialogKeyListener ESC\n");
     if(ad->CancelFnk)
       ad->CancelFnk(src,evt);
   }
@@ -651,16 +651,6 @@ namespace EuMax01
   void OkCancelDialog::setCancelFnk(void (*CancelFunc)(void * src, SDL_Event * evt))
   {
     this->CancelFnk = CancelFunc;
-  }
-
-  void OkCancelDialog::setDialogID(int id)
-  {
-    this->DialogID = id;
-  }
-
-  int OkCancelDialog::getDialogID()
-  {
-    return this->DialogID;
   }
 
   void OkCancelDialog::setDialogSource(void * source)

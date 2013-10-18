@@ -86,8 +86,6 @@ namespace EuMax01
     ArbeitsDialog * Parent;
     void setMsg(char * Message);
     void setHeadline(char * headline);
-    void setDialogID(int id);
-    int getDialogID();
 
     void setDialogSource(void * source);
     void * getDialogSource();
