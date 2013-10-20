@@ -38,6 +38,7 @@ namespace EuMax01
     //void naviPagedown();
     int overwriteBackup();
     int skipBackup();
+    int cleanBeforeBackup();
 
     OkCancelDialog * getOkCancelDialog();
 
@@ -52,6 +53,7 @@ namespace EuMax01
     //static void pgdown_listener(void * src, SDL_Event * evt);
     static void overwrite_listener(void * src,SDL_Event * evt);
     static void skip_listener(void * src,SDL_Event * evt);
+    static void clean_listener(void * src,SDL_Event * evt);
 
     static int dirBackupFilter(const struct dirent * dir);    
 

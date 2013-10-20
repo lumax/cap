@@ -20,3 +20,39 @@ F7 -> F1 cross: crosshair mit "h", ESC und ENTER angeordnet.
 F7 -> F7 calib: Buttons mit prev und next beschriftet, ESC und ENTER angeordnet.
 
 F12 -> Beschriftungen der Buttons klein, ESC und ENTER angeordnet.
+
+
+Backup Funktionalität:
+
+Im LoadDialog ist der BackupDialog zu erreichen.
+LoadDialog: "F1 backup" -> BackupDialog
+
+Der BackupDialog kennt "create" und "load" Backup.
+Backup: "F5 create": Backup erzeugen
+Backup: "F5 load": vorhandenes Backup laden
+
+Es kann ein Backup erzeugt oder geladen werden, wenn der SERVICE USB-Stick
+am Gerät angeschlossen ist.
+Beim erzeugen des Backups muss ein Backup Name angegeben werden (z.B. "name").
+Die Rezepte des Backups werden dann auf dem SERVICE USB-Stick unter dem
+Verzeichnis : "ExaktBackup_name" abgelegt.
+
+Beim Laden eines Backups werden alle Verzeichnisse auf dem SERVICE USB-Stick,
+die mit ExaktBackup_ beginnen als zur Verfügung stehendes Backup angezeigt.
+Es werden nur die vom Benutzer angegebenen Namen angezeigt, die Zeichenkette
+"ExaktBackup_" ist nicht zu sehen.
+Die Anzeige kann lediglich eine begrenzte Anzahl an Backup Verzeichnissen
+anzeigen.
+Es stehen drei Arten ein ausgewähltes Backup zu laden zur Verfügung:
+
+Load backup: "F4 clean":  Alle vorhandenen Rezepte werden entfernt, der
+                          Inhalt des ausgewählten Backup Verzeichnisses
+                          wird kopiert.
+
+Load backup: "F5 skip":  Alle vorhandenen Rezepte bleiben erhalten. Rezepte
+      	     	 	 aus dem Backupfile mit gleichem Namen wie vorhandene
+			 Rezepte WERDEN NICHT vom Backup überschrieben.
+
+Load backup: "F6 overw.": Alle vorhandenen Rezepte bleiben erhalten. Rezepte
+      	     	 	 aus dem Backupfile mit gleichem Namen wie vorhandene
+			 Rezepte WERDEN vom Backup überschrieben.

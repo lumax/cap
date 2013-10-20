@@ -152,6 +152,8 @@ namespace EuMax01
       ad->Parent->showBackupMenuDialog();
     else if(ad->getReturnDialogID()==ArbeitsDialog::CreateBackupDialogIsActive)
       ad->Parent->showCreateBackupDialog();
+    else if(ad->getReturnDialogID()==ArbeitsDialog::LoadDialogIsActive)
+      ad->Parent->showLoadDialog(0,true);//page0, loadMode==true
     else
       ad->Parent->showArbeitsDialog();
   }
