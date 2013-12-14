@@ -495,7 +495,7 @@ namespace EuMax01
     char * BackupPathName;
     char cpBefehl[512];
     int filecount = 0;
-    char tmp[512];
+    static char tmp[512];
 
     BackupPathName=Parent->getBackupMenuDialog()->getCompleteBackupPath(DateiNamen[ActiveRecipe]);
 
@@ -842,7 +842,7 @@ namespace EuMax01
     char * BackupDirPath;
     char cpBefehl[512];
     int filecount = 0;
-    char tmp[512];
+    static char tmp[512];
 
     CreateBackupDialog* ad = (CreateBackupDialog*)src;
     BackupMenuDialog* bm = ad->Parent->getBackupMenuDialog();
