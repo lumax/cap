@@ -109,7 +109,7 @@ namespace EuMax01
   static void F12_ListenerArbeitsDialog(void * src, SDL_Event * evt)
   {
     ArbeitsDialog* ad = (ArbeitsDialog*)src;
-    ad->showConfirmDialog((char *)"Exit Programm");
+    ad->showConfirmDialog(ad->getSplashScreen()->getExitMessage());
   }
 
   static void ArbeitsDialogKeyListener(void * src, SDL_Event * evt)
@@ -649,6 +649,11 @@ namespace EuMax01
     this->iActiveDialog = ArbeitsDialog::BackupOkCancelDialogIsActive;
     this->blankMenuArea();
     this->theGUI->activateScreen(this->theBackupOkCancelDialog);
+  }
+
+  SplashScreen * ArbeitsDialog::getSplashScreen()
+  {
+    return this->theSplashScreen;
   }
 
   int ArbeitsDialog::theActiveDialogNumber()

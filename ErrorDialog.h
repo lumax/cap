@@ -66,6 +66,7 @@ namespace EuMax01
     ~SplashScreen();
     ArbeitsDialog * Parent;
     void showCrossPosition(int cam,int wert);
+    char * getExitMessage();
   private:
     Label * Label_Info;
     Label * Label_CrossPosLeft;
@@ -76,6 +77,7 @@ namespace EuMax01
     SDL_Surface * pLogo;
     int loadImage(char * path);
     char Versionsnummer[1024];
+    char ExitMessage[1024];
   };
 
   class OkCancelDialog : public Screen

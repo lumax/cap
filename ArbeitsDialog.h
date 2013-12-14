@@ -130,6 +130,8 @@ namespace EuMax01
     void showFlexibleInfoDialog(char * errorMsg,int DialogID);
     void showBackupOkCancelDialog();
 
+    SplashScreen * getSplashScreen();
+
     static const int ArbeitsDialogIsActive = 0;
     static const int LoadDialogIsActive = 1;
     static const int ErrorDialogIsActive = 2;

@@ -345,7 +345,7 @@ namespace EuMax01
   {
     SplashScreen* ad = (SplashScreen*)src;
     //printf("SplashF12\n");
-    ad->Parent->showConfirmDialog((char *)"Exit Programm");
+    ad->Parent->showConfirmDialog((char *)ad->getExitMessage());
   }
 
   static void SplashScreenKeyListener(void * src, SDL_Event * evt)
@@ -425,6 +425,9 @@ namespace EuMax01
     sprintf(this->Versionsnummer,"%s",CAPTURE_VERSION);
     sprintf(this->Versionsnummer,\
 	    "PlateExakt V%s © 2012 raantec GmbH & C0. KG, Nienkamp 21, 33829 Borgholzhausen", \
+	    CAPCOMPILEDATE);
+    sprintf(this->ExitMessage,\
+	    "Exit PlateExakt V%s", \
 	    CAPCOMPILEDATE);
 
     Label_Info = new Label(Versionsnummer,\
@@ -519,6 +522,11 @@ namespace EuMax01
 	    Label_CrossPosRight->setText(this->pcCrossPosRight);
 	  }
       }
+  }
+
+  char * SplashScreen::getExitMessage()
+  {
+    return this->ExitMessage;
   }
 
   void OkCancelDialog::OkCancelDialogKeyListener(void * src, SDL_Event * evt)
