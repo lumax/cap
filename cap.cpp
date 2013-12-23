@@ -30,7 +30,7 @@
 #endif
 #include "Version.h"
 #include "v4l_capture.h"
-#include <linux/videodev.h>
+#include "videodev.h"
 #include "V4L2_utils.h"
 #include "iniParser.h"
 

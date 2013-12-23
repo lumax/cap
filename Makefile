@@ -81,4 +81,5 @@ links:
 	ln -fs ../fsgpp/Poll.h
 	ln -fs ../fsgpp/v4l_capture.c
 	ln -fs ../fsgpp/v4l_capture.h
+	ln -fs ../rv4l/videodev.h
 	cp ../fsgpp/aispec.ttf .

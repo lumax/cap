@@ -31,3 +31,4 @@ v4l_capture.h
 aispec.ttf
 CapCompileDate
 Version.h
+videodev.h

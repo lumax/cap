@@ -33,7 +33,7 @@ Bastian Ruppert
 #include "NewDirectDialog.h"
 #include "InfoDialog.h"
 
-#include <linux/videodev.h>
+#include "videodev.h"
 #include "V4L2_utils.h"
 #include "CamCtrl.h"
 
