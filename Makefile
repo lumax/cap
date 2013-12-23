@@ -83,3 +83,4 @@ links:
 	ln -fs ../fsgpp/v4l_capture.h
 	ln -fs ../rv4l/videodev.h
 	cp ../fsgpp/aispec.ttf .
+	cp ../fsgpp/LiberationMono-Regular.ttf .
