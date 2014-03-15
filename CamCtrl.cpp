@@ -55,7 +55,7 @@ namespace EuMax01
     //unsigned short MZeile_h;
     //unsigned short Rezepte_y;
     //short Rezepte_w;
-    short x1,x2,x3,x4,x_space, wAll;
+    short x1,x2,x3,x4,x_space;
     int wName,wButton;
 
     this->camNumber = camNumber;
@@ -79,7 +79,7 @@ namespace EuMax01
     pcAkt[2] = '-';   
 
     x_space = 10;
-    wAll = 506;
+    //wAll = 506;
     wName = 233;
     wButton = 79;
 

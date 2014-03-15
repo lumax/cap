@@ -655,7 +655,7 @@ namespace EuMax01
     unsigned short MZeile_h;
     //unsigned short Rezepte_y;
     //short Rezepte_w;
-    short Zeile1_y,Zeile2_y,Zeile3_y,Zeile4_y,Zeile5_y,x1,x2,x3,x_space,button_breit,button_schmal;
+    short Zeile1_y,Zeile5_y;
 
     this->Parent = parent;
     
@@ -674,18 +674,18 @@ namespace EuMax01
     MLinks_x = sdlw/2 - 506;
 
     Zeile1_y = yPos + 1*MSpace_h + 0*MZeile_h;
-    Zeile2_y = yPos + 2*MSpace_h + 1*MZeile_h;
-    Zeile3_y = yPos + 3*MSpace_h + 2*MZeile_h;
-    Zeile4_y = yPos + 4*MSpace_h + 3*MZeile_h;
+    //Zeile2_y = yPos + 2*MSpace_h + 1*MZeile_h;
+    //Zeile3_y = yPos + 3*MSpace_h + 2*MZeile_h;
+    //Zeile4_y = yPos + 4*MSpace_h + 3*MZeile_h;
     Zeile5_y = yPos + 5*MSpace_h + 4*MZeile_h;
     //Rezepte_w = 108;
 
-    button_breit = 400;
-    button_schmal = 200;
-    x_space = 6;
-    x1 = MLinks_x;
-    x2 = x1 + button_breit + x_space;
-    x3 = x2 + button_schmal + x_space;
+    //button_breit = 400;
+    //button_schmal = 200;
+    //x_space = 6;
+    //x1 = MLinks_x;
+    //x2 = x1 + button_breit + x_space;
+    //x3 = x2 + button_schmal + x_space;
 
     this->STICKPATH1 = (char *)"/media/SERVICE_USB_STICK/";
     this->STICKPATH2 = (char *)"/media/KINGSTON/";
@@ -928,7 +928,7 @@ namespace EuMax01
     unsigned short MZeile_h;
     //unsigned short Rezepte_y;
     //short Rezepte_w;
-    short Zeile1_y,Zeile2_y,Zeile3_y,Zeile4_y,Zeile5_y;
+    short Zeile1_y,Zeile5_y;
     short Spalte1_x, Spalte2_x, Spalte3_x;
 
     short Button_w = 332;
@@ -949,9 +949,9 @@ namespace EuMax01
       }
 
     Zeile1_y = yPos + 1*MSpace_h + 0*MZeile_h;
-    Zeile2_y = yPos + 2*MSpace_h + 1*MZeile_h;
-    Zeile3_y = yPos + 3*MSpace_h + 2*MZeile_h;
-    Zeile4_y = yPos + 4*MSpace_h + 3*MZeile_h;
+    //Zeile2_y = yPos + 2*MSpace_h + 1*MZeile_h;
+    //Zeile3_y = yPos + 3*MSpace_h + 2*MZeile_h;
+    //Zeile4_y = yPos + 4*MSpace_h + 3*MZeile_h;
     Zeile5_y = yPos + 5*MSpace_h + 4*MZeile_h;
     //Rezepte_w = 108;
 

@@ -191,19 +191,21 @@ namespace EuMax01
   {
     short M_y;
     short MLinks_x;
-    short MRechts_x;
+    //short MRechts_x;
     unsigned short MSpace_h;
     unsigned short MZeile_h;
-    short MName_y,MInfo_y;
+    //short MName_y;
+    short MInfo_y;
 
-    unsigned short MName_w;
-    unsigned short MNameNr_w;
-    short MNameSpace_w;
-    short MNameNr1_x,MNameNr2_x,MNameNr3_x,MNameNr4_x,MNameNr5_x,MNameNr6_x,MNameNr7_x,MNameNr8_x;
+    //unsigned short MName_w;
+    //unsigned short MNameNr_w;
+    //short MNameSpace_w;
+    //short MNameNr1_x,MNameNr2_x,MNameNr3_x,MNameNr4_x,MNameNr5_x,MNameNr6_x,MNameNr7_x,MNameNr8_x;
 
     unsigned short MInfo_w;
     short MInfoSpace_w;
-    short MInfoF1_x,MInfoF2_x,MInfoF3_x,MInfoF5_x,MInfoF6_x,MInfoF7_x,MInfoF8_x,MInfoF12_x;
+    short MInfoF1_x;
+    //MInfoF2_x,MInfoF3_x,MInfoF5_x,MInfoF6_x,MInfoF7_x,MInfoF8_x,MInfoF12_x;
 
     RezeptNummer = 0;
     iActiveDialog = 0;
@@ -316,7 +318,7 @@ namespace EuMax01
     cap_cam_setCrossX(1,MitteCrossCam2);
 
     MLinks_x = sdlw/2 - 506;
-    MRechts_x = sdlw/2 + 6;
+    //MRechts_x = sdlw/2 + 6;
 
     M_y = sdlh - yPos;
     if(M_y<=84)
@@ -335,23 +337,24 @@ namespace EuMax01
     Area.w = sdlw;
     Area.h = M_y;
 
-    MName_y = yPos + 2*MSpace_h + 1*MZeile_h;
+    //MName_y = yPos + 2*MSpace_h + 1*MZeile_h;
     MInfo_y = yPos + 4*MSpace_h + 4*MZeile_h+5;
 
-    if(M_y<=84)
+    /*    if(M_y<=84)
       {
-	MName_w = 90;     //5*MZeile_h
-	MNameNr_w = 54;   //3*MZeile_h
-	MNameSpace_w = 61;//(1012 - (MName_w+MNameNr_w*8))/8 = 61,25
+	//MName_w = 90;     //5*MZeile_h
+	//MNameNr_w = 54;   //3*MZeile_h
+	//MNameSpace_w = 61;//(1012 - (MName_w+MNameNr_w*8))/8 = 61,25
       }
     else
       {
-	MName_w = 112;     //4*MZeile_h
-	MNameNr_w = 56;    //2*MZeile_h
-	MNameSpace_w = 56; //(1012 - (MName_w+MNameNr_w*8))/8 = 56
+	//MName_w = 112;     //4*MZeile_h
+	//MNameNr_w = 56;    //2*MZeile_h
+	//MNameSpace_w = 56; //(1012 - (MName_w+MNameNr_w*8))/8 = 56
       }
+    */
 
-    MNameNr1_x = MLinks_x + MName_w + 1*MNameSpace_w + 0*MNameNr_w;
+    /*    MNameNr1_x = MLinks_x + MName_w + 1*MNameSpace_w + 0*MNameNr_w;
     MNameNr2_x = MLinks_x + MName_w + 2*MNameSpace_w + 1*MNameNr_w;
     MNameNr3_x = MLinks_x + MName_w + 3*MNameSpace_w + 2*MNameNr_w;
     MNameNr4_x = MLinks_x + MName_w + 4*MNameSpace_w + 3*MNameNr_w;
@@ -359,18 +362,18 @@ namespace EuMax01
     MNameNr6_x = MLinks_x + MName_w + 6*MNameSpace_w + 5*MNameNr_w;
     MNameNr7_x = MLinks_x + MName_w + 7*MNameSpace_w + 6*MNameNr_w;
     MNameNr8_x = MLinks_x + MName_w + 8*MNameSpace_w + 7*MNameNr_w;
-
+    */
     MInfoSpace_w = 3;
     MInfo_w = (1012-(6*MInfoSpace_w))/8;
     MInfoF1_x  = MLinks_x + 0*MInfo_w + 0*MInfoSpace_w;
-    MInfoF2_x  = MLinks_x + 1*MInfo_w + 1*MInfoSpace_w;
+    /*   MInfoF2_x  = MLinks_x + 1*MInfo_w + 1*MInfoSpace_w;
     MInfoF3_x  = MLinks_x + 2*MInfo_w + 2*MInfoSpace_w;
     MInfoF5_x  = MLinks_x + 3*MInfo_w + 3*MInfoSpace_w;
     MInfoF6_x  = MLinks_x + 4*MInfo_w + 4*MInfoSpace_w;
     MInfoF7_x  = MLinks_x + 5*MInfo_w + 5*MInfoSpace_w;
     MInfoF8_x  = MLinks_x + 6*MInfo_w + 6*MInfoSpace_w;
     MInfoF12_x = MLinks_x + 7*MInfo_w + 7*MInfoSpace_w;
-
+    */
     thePosDialog = new PosDialog(theRezept->Name,sdlw,sdlh,camw,camh,yPos,this);
 
     theMenuBarSettings.Text[0]=(char *)"F1 load";

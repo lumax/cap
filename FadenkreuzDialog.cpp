@@ -142,11 +142,11 @@ namespace EuMax01
     unsigned short MZeile_h;
     //unsigned short Rezepte_y;
     //short Rezepte_w;
-    short Zeile1_y,Zeile2_y,Zeile3_y,Zeile4_y,Zeile5_y;
-    short Spalte1_x, Spalte2_x, Spalte3_x, x1, x2, x3, button_breit,button_schmal;
+    short Zeile1_y,Zeile5_y;
+    short Spalte1_x;
 
-    short Button_w = 332;
-    short x_space = 8;
+    //short Button_w = 332;
+    //short x_space = 8;
 
     this->Parent = parent;
 
@@ -166,22 +166,22 @@ namespace EuMax01
     MLinks_x = sdlw/2 - 506;
 
     Zeile1_y = yPos + 1*MSpace_h + 0*MZeile_h;
-    Zeile2_y = yPos + 2*MSpace_h + 1*MZeile_h;
-    Zeile3_y = yPos + 3*MSpace_h + 2*MZeile_h;
-    Zeile4_y = yPos + 4*MSpace_h + 3*MZeile_h;
+    //Zeile2_y = yPos + 2*MSpace_h + 1*MZeile_h;
+    //Zeile3_y = yPos + 3*MSpace_h + 2*MZeile_h;
+    //Zeile4_y = yPos + 4*MSpace_h + 3*MZeile_h;
     Zeile5_y = yPos + 5*MSpace_h + 4*MZeile_h;
     //Rezepte_w = 108;
 
     Spalte1_x = sdlw/2 - 506;
-    Spalte2_x = Spalte1_x + 1*Button_w+1*x_space;
-    Spalte3_x = Spalte1_x + 2*Button_w+2*x_space;
+    //Spalte2_x = Spalte1_x + 1*Button_w+1*x_space;
+    //Spalte3_x = Spalte1_x + 2*Button_w+2*x_space;
 
-    button_breit = 400;
-    button_schmal = 200;
-    x_space = 6;
-    x1 = MLinks_x;
-    x2 = x1 + button_breit + x_space;
-    x3 = x2 + button_schmal + x_space;
+    //button_breit = 400;
+    //button_schmal = 200;
+    //x_space = 6;
+    //x1 = MLinks_x;
+    //x2 = x1 + button_breit + x_space;
+    //x3 = x2 + button_schmal + x_space;
 
     snprintf(this->StepText,256,\
 	     "Adjust crosshair width:");

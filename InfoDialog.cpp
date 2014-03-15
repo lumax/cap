@@ -118,10 +118,10 @@ namespace EuMax01
     //unsigned short Rezepte_y;
     //short Rezepte_w;
     short Zeile1_y,Zeile2_y,Zeile3_y,Zeile4_y,Zeile5_y;
-    short Spalte1_x, Spalte2_x, Spalte3_x;
+    short Spalte1_x;
 
-    short Button_w = 332;
-    short x_space = 8;
+    //short Button_w = 332;
+    //short x_space = 8;
 
     this->Parent = parent;
     this->aktCamCtrl = 0;
@@ -152,8 +152,8 @@ namespace EuMax01
     //Rezepte_w = 108;
 
     Spalte1_x = sdlw/2 - 506;
-    Spalte2_x = Spalte1_x + 1*Button_w+1*x_space;
-    Spalte3_x = Spalte1_x + 2*Button_w+2*x_space;
+    //Spalte2_x = Spalte1_x + 1*Button_w+1*x_space;
+    //Spalte3_x = Spalte1_x + 2*Button_w+2*x_space;
 
     /*
       Control Brightness
