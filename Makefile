@@ -27,7 +27,7 @@ LDFLAGS+=-ldsp_jpeg
 endif
 endif
 
-OBJS+= Version.h v4l_capture.o LL.o Screen.o Main.o Tools.o Globals.o \
+OBJS+= Version.h cap.o v4l_capture.o LL.o Screen.o Main.o Tools.o Globals.o \
 	Event.o Button.o Poll.o iniParser.o dsp_color.o Label.o \
 	Dialoge.o Rezept.o MBProt.o Protocol.o ArbeitsDialog.o NewDirectDialog.o \
 	ErrorDialog.o CamCtrl.o V4L2_utils.o InfoDialog.o MenuBar.o FadenkreuzDialog.o \
