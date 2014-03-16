@@ -74,6 +74,7 @@ static  int CrossBreite = 0;
 static const unsigned int MAXCAMWIDTH = 1280;
 static unsigned char oneLineColor[MAXCAMWIDTH*2];
 static int circleQuarterX[MAXCAMWIDTH/2];
+static int OneCam = 0;
 
 //static double FaktorZ1 = 1.0;
 
@@ -592,7 +593,10 @@ static void processImages(struct v4l_capture* cap,const void * p,int method,size
 
       char * pc = (char *)p;
 
-      overlayAndCircle(cap,(char *)pc,len);
+      if(1==OneCam)
+	overlayAndCircleOneCam(cap,(char *)pc,len);
+      else
+	overlayAndCircle(cap,(char *)pc,len);
 
       SDL_UnlockYUVOverlay(cap->sdlOverlay);
       SDL_UnlockSurface(cap->mainSurface);
@@ -970,16 +974,16 @@ void CamControl::pollTimerExpired(long us)
       if(this->PixelFormat)
 	{
 	  if(this->RGB_Mode)
-	    camfd=cap_cam_init(0,RectBreite/2,processRGBImages);
+	    camfd=cap_cam_init(0,RectBreite/2,OneCam,processRGBImages);
 	  else
-	    camfd=cap_cam_init(0,RectBreite/2,processMJPEG);
+	    camfd=cap_cam_init(0,RectBreite/2,OneCam,processMJPEG);
 	}
       else
 	{
 	  if(this->RGB_Mode)
-	    camfd=cap_cam_init(0,RectBreite/2,processRGBImages);
+	    camfd=cap_cam_init(0,RectBreite/2,OneCam,processRGBImages);
 	  else
-	    camfd=cap_cam_init(0,RectBreite/2,processImages);
+	    camfd=cap_cam_init(0,RectBreite/2,OneCam,processImages);
 	}
       if(camfd<0)
 	{
@@ -1010,16 +1014,16 @@ void CamControl::pollTimerExpired(long us)
       if(this->PixelFormat)
 	{
 	  if(this->RGB_Mode)
-	    camfd=cap_cam_init(1,RectBreite/2,processRGBImages);
+	    camfd=cap_cam_init(1,RectBreite/2,OneCam,processRGBImages);
 	  else
-	    camfd=cap_cam_init(1,RectBreite/2,processMJPEG);
+	    camfd=cap_cam_init(1,RectBreite/2,OneCam,processMJPEG);
 	}
       else
 	{
 	  if(this->RGB_Mode)
-	    camfd=cap_cam_init(1,RectBreite/2,processRGBImages);
+	    camfd=cap_cam_init(1,RectBreite/2,OneCam,processRGBImages);
 	  else
-	    camfd=cap_cam_init(1,RectBreite/2,processImages);
+	    camfd=cap_cam_init(1,RectBreite/2,OneCam,processImages);
 	  }
       if(camfd<0)
 	{
@@ -1346,6 +1350,10 @@ int main(int argc, char *argv[])
   if(!iniParser_getParam(confpath,(char*)"DIAMETER",tmp,64))
     {
       RectBreite = atoi(tmp);//wird in der Funktion prepareOverlayCircle Untersucht und Begrenzt
+    }
+  if(!iniParser_getParam(confpath,(char*)"ONECAM",tmp,64))
+    {
+      OneCam=1;
     }
   //das Muss der letzte Paramter sein der mit tmp geholt wird, da tmp
   //später noch ausgewertet wird!
