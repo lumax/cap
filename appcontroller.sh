@@ -149,7 +149,9 @@ function run_cap()
 
 function run_video()
 {
-    xterm -e "mplayer -loop 1 -fs ../video/PlateExakt08.wmv"
+    echo "PLAYING VIDEO"
+    mplayer -vo fbdev -nosound -zoom -fs ../PlateExakt.avi
+    clear
 }
 
 while true
