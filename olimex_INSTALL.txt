@@ -1,0 +1,51 @@
+sudo dpkg-reconfigure keyboard-configuration -> neustart
+/etc/network/interfaces -> disable static -> neustart -> ping sollte laufen
+/root/change_display*
+
+##ethernet aktivieren in ubuntu mit xfce: sudo /sbin/dhclient eth0
+
+#disable x system:
+/etc/rcX.d -> sudo mv S01slim K01slim
+
+#Console Layout auf Deutsch umstellen:
+sudo apt-get install console-data
+sudo apt-get install console-common
+sudo dpkg-reconfigure console-data
+
+#show in which groups a user is in:
+#groups USER
+#fbdev as user:
+sudo gpasswd -a YOUR_USERNAME video
+sudo gpasswd -a YOUR_USERNAME dialout
+ -> neu einloggen
+
+#framebuffer mouse SDL:
+-created a group called "mouse" ==> #groupadd -f mouse
+-added my user to the group mouse editing /etc/group
+-created /etc/udev/rules.d/76-mouse.rules 
+
+wrote in==> #vim /etc/udev/rules.d/76-mouse.rules
+
+KERNEL=="event?" NAME="input/%k", MODE="660", GROUP="mouse"
+KERNEL=="mouse?" NAME="input/%k", MODE="660", GROUP="mouse"
+KERNEL=="mice"   NAME="input/%k", MODE="660", GROUP="mouse"
+
+
+#autologin als user:
+c1:1235:respawn:/bin/login -f olimex tty1 </dev/tty1 >/dev/tty1 2>&1 
+
+#capmb in das entsprechende Verzeichnis OHNE finlalen "/" einbinden:
+ln -fs /opt/111201125501_capmb /opt/capmb
+
+#bashrc:
+cd /opt/capmb
+./appcontroller.sh
+
+#mplayer : mplayer im Softwarecenter installieren
+mplayer -vo fbdev -nosound -zoom -fs file.avi
+
+#wmv file in avi umwandeln:
+#$ sudo apt-get install mencoder
+#$ mencoder input.wmv -o output.avi -ofps 23.976 -ovc lavc -oac copy
+
+
