@@ -1421,8 +1421,8 @@ int main(int argc, char *argv[])
   props.width=sdlwidth;//1280;//720;
   props.height=sdlheight;//576;
   props.bpp=32;
-  //props.flags|=SDL_SWSURFACE;//SDL_HWSURFACE;//|SDL_DOUBLEBUF;
-  props.flags|=SDL_ANYFORMAT|SDL_HWSURFACE;
+  props.flags|=SDL_SWSURFACE;//SDL_HWSURFACE;//|SDL_DOUBLEBUF;
+  //props.flags|=SDL_ANYFORMAT|SDL_HWSURFACE;
 
   if(SDL_BYTEORDER==SDL_BIG_ENDIAN)
     {
