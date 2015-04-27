@@ -48,4 +48,6 @@ mplayer -vo fbdev -nosound -zoom -fs file.avi
 #$ sudo apt-get install mencoder
 #$ mencoder input.wmv -o output.avi -ofps 23.976 -ovc lavc -oac copy
 
-
+#halt und poweroff als user:
+-sudo chmod +s /sbin/halt
+-sudo chmod +s /sbin/shutdown
