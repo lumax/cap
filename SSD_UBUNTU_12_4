@@ -129,3 +129,11 @@ ACTION=="remove", ENV{service_usb_stick_mount}=="YES", RUN+="/bin/umount -l /med
 #ohne Netzwerkanschluss schnell gestartet werden kann.
 #mit "sudo dhclient eth0" kann das Netzwerk automatisch wieder aktiviert werden
 -sudo vi /etc/network/interfaces
+
+
+#Recovery Mode
+#Shutdown the computer
+#Boot into Recovery Mode --After BIOS load, hold down Shift key to access the grub menu 
+#--Once in grub menu, select the entry ending in "(recovery mode)"
+#From the next menu selected option to enter Root Session
+#At the root session, execute command mount -o remount,rw / to remount the filesystem as read-write
