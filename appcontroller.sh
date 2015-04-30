@@ -154,7 +154,9 @@ function run_video()
     clear
 }
 
-while true
+NEED_EXIT=0
+
+while [ $NEED_EXIT -eq 0 ]
 do
     run_cap
     rc=$?
@@ -170,7 +172,7 @@ do
 	    SHUTDOWNCMD=`cat ${SHUTDOWNCMD_CONFIG}`
 	fi
 	exec ${SHUTDOWNCMD}
-	exit
+	NEED_EXIT=1
     fi
     if [ $rc -eq 11 ]
     then
@@ -178,6 +180,6 @@ do
 	run_video
     else
 	echo "cap returns in Service Mode"
-	exit
+	NEED_EXIT=1
     fi
 done
