@@ -130,6 +130,20 @@ ACTION=="remove", ENV{service_usb_stick_mount}=="YES", RUN+="/bin/umount -l /med
 #mit "sudo dhclient eth0" kann das Netzwerk automatisch wieder aktiviert werden
 -sudo vi /etc/network/interfaces
 
+#error:
+SIOCSIFADDR: No such device
+eth0: ERROR while getting interface flags: No such device
+eth0: ERROR while getting interface flags: No such device
+#Loesung
+each time you give a new MAC address (in VBox guest settings) 
+Debian and Ubuntu guests udev assigns a new eth number
+edit /etc/udev/rules.d/70-persistent-net.rules or delete the file: 
+it will be recreated @ next boot
+
+
+
+
+
 
 #Recovery Mode
 #Shutdown the computer
