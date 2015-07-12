@@ -670,11 +670,12 @@ namespace EuMax01
 		       FSG_BACKGROUND,			\
 		       &this->Area);//TODO Rückgabewert
 
-    SDL_UpdateRect(this->theGUI->getMainSurface(),	\
+     SDL_UpdateRect(this->theGUI->getMainSurface(),	\
 		   this->Area.x,			\
 		   this->Area.y,			\
 		   this->Area.w,			\
 		   this->Area.h);
+    SDL_Flip(this->theGUI->getMainSurface());
   }
 
   void ArbeitsDialog::blankButton(Button * b)
@@ -694,6 +695,7 @@ namespace EuMax01
 		   tmpRect.y,			\
 		   tmpRect.w,			\
 		   tmpRect.h);
+    SDL_Flip(this->theGUI->getMainSurface());
   }
 
   void ArbeitsDialog::incRezeptNummer()
