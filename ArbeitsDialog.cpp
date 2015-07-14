@@ -675,7 +675,7 @@ namespace EuMax01
 		   this->Area.y,			\
 		   this->Area.w,			\
 		   this->Area.h);
-    SDL_Flip(this->theGUI->getMainSurface());
+     //SDL_Flip(this->theGUI->getMainSurface());
   }
 
   void ArbeitsDialog::blankButton(Button * b)
@@ -695,7 +695,7 @@ namespace EuMax01
 		   tmpRect.y,			\
 		   tmpRect.w,			\
 		   tmpRect.h);
-    SDL_Flip(this->theGUI->getMainSurface());
+    //SDL_Flip(this->theGUI->getMainSurface());
   }
 
   void ArbeitsDialog::incRezeptNummer()
