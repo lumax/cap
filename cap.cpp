@@ -604,7 +604,11 @@ static void processImages(struct v4l_capture* cap,const void * p,int method,size
     }
   else if(method==IO_METHOD_USERPTR)
     {
-      printf("IO_METHOD_USEPTR not supported in process_image2\n");
+      printf("IO_METHOD_USEPTR not supported in process_image\n");
+    }
+  else if(method==IO_METHOD_READ)
+    {
+      printf("IO_METHOD_READ not supported in process_image\n");
     }
   else
     {
@@ -936,19 +940,27 @@ void CamControl::pollReadEvent(PollSource * s)
 {
   if(s==pPollReaderCam0)
     {
+      //cap_triggerForRead(0);
+      //cap_blockForReadReady(0);
+
       //printf("0");
-      if(-1==cap_read_frame(0))
+      if(-1==cap_read_frame_into_buffer(0))
 	{
 	  printf("error on polling camera0\n");
 	}
+      cap_processCapFunction(0);
     }
     if(s==pPollReaderCam1)
     {
+      //cap_triggerForRead(1);
+      //cap_blockForReadReady(1);
+
       //printf("1");
-      if(-1==cap_read_frame(1))
+      if(-1==cap_read_frame_into_buffer(1))
 	{
 	  printf("error on polling camera1\n");
 	}
+      cap_processCapFunction(1);
     }
 }
 
