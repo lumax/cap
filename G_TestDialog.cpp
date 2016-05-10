@@ -177,7 +177,7 @@ namespace EuMax01
     theMenuBarSettings.evtFnks[6]=escape_listener;
     theMenuBarSettings.evtFnks[7]=return_listener;
 
-    theMenu = new MenuBar((int)MLinks_x,(int)Zeile5_y,(int)MZeile_h,(char*)"Calibration", \
+    theMenu = new MenuBar((int)MLinks_x,(int)Zeile5_y,(int)MZeile_h,(char*)"G-Test", \
 			  &this->theMenuBarSettings,Parent);
 
     addEvtTarget(Label_Step);
