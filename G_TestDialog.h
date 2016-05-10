@@ -9,6 +9,7 @@ namespace EuMax01
 #define __G_TESTDIALOG_H__
 
   class ArbeitsDialog;
+  struct t_MenuGLiftSettings;
 
   class G_TestDialog : public Screen
   {
@@ -25,6 +26,9 @@ namespace EuMax01
     //void decStep();
     //void showStep(int theNewStep);
 
+    static void GLiftUpListener(void*,SDL_Event * evt);
+    static void GLiftDownListener(void*,SDL_Event * evt);
+    static void GLiftSetSpeedListener(void*,SDL_Event * evt);
     static void escape_listener(void * src, SDL_Event * evt);
     static void left_listener(void * src, SDL_Event * evt);
     static void right_listener(void * src, SDL_Event * evt);
@@ -46,6 +50,9 @@ namespace EuMax01
 
     struct t_MenuBarSettings theMenuBarSettings;
     MenuBar * theMenu;
+
+    struct t_MenuGLiftSettings theMenuGLiftSettings;
+    MenuGLift * theMenuGLift;
 
   protected:
 

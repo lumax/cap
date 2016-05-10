@@ -32,6 +32,7 @@ Bastian Ruppert
 #include "ArbeitsDialog.h"
 #include "NewDirectDialog.h"
 #include "InfoDialog.h"
+#include "GMenu.h"
 
 //#include "videodev.h"
 //#include "V4L2_utils.h"
@@ -40,6 +41,21 @@ Bastian Ruppert
 
 namespace EuMax01
 {
+
+  void G_TestDialog::GLiftUpListener(void*,SDL_Event * evt)
+  {
+    printf("G_TestDialog MenuGLiftUpListener\n");
+  }
+
+  void G_TestDialog::GLiftDownListener(void*,SDL_Event * evt)
+  {
+    printf("G_TestDialog MenuGLiftDownListener\n");
+  }
+
+  void G_TestDialog::GLiftSetSpeedListener(void*,SDL_Event * evt)
+  {
+    printf("G_TestDialog MenuGLiftSetSpeedListener\n");
+  }
 
   void G_TestDialog::escape_listener(void * src, SDL_Event * evt)
   {
@@ -180,10 +196,21 @@ namespace EuMax01
     theMenu = new MenuBar((int)MLinks_x,(int)Zeile5_y,(int)MZeile_h,(char*)"G-Test", \
 			  &this->theMenuBarSettings,Parent);
 
+    theMenuGLiftSettings.evtSource = (void*)this;
+    theMenuGLiftSettings.evtFnkUp = GLiftUpListener;
+    theMenuGLiftSettings.evtFnkDown = GLiftDownListener;
+    theMenuGLiftSettings.evtFnkSetSpeed = GLiftSetSpeedListener;
+
+    theMenuGLift = new MenuGLift((int)MLinks_x,(int)Zeile1_y,MZeile_h,MSpace_h,506/4,\
+				 &this->theMenuGLiftSettings,Parent);
+
+
     addEvtTarget(Label_Step);
     addEvtTarget(Label_ValueName);
     addEvtTarget(Label_Value);
     theMenu->addToEvtTarget(this);
+
+    theMenuGLift->addToEvtTarget(this);
 
     this->pTSource = this;//EvtTarget Quelle setzen, damit der EvtListener die Quelle mitteilen kann
     this->setKeyboardUpEvtHandler(G_TestDialogKeyListener);

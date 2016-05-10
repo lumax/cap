@@ -33,6 +33,7 @@ Bastian Ruppert
 #include "FadenkreuzDialog.h"
 #include "AbfrageDialog.h"
 #include "BackupDialog.h"
+#include "GMenu.h"
 #include "G_TestDialog.h"
 
 #include "ArbeitsDialog.h"
