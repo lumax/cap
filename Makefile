@@ -3,7 +3,7 @@ PROJECT_NAME=cap
 DEFS+=-D_GNU_SOURCE=1 -D_REENTRANT
 INCLUDES+=-I/usr/include/SDL -I/usr/include
 #-I$(INCLUDE_DIR)/libruputils
-LIBS+=-lSDL -lSDL_ttf -lSDL_image -lpthread
+LIBS+=-lSDL -lSDL_ttf -lSDL_image 
 #-lruputils
 #-L$(LIB_DIR)/
 
