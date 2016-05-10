@@ -33,6 +33,7 @@ Bastian Ruppert
 #include "FadenkreuzDialog.h"
 #include "AbfrageDialog.h"
 #include "BackupDialog.h"
+#include "G_TestDialog.h"
 
 #include "ArbeitsDialog.h"
 
@@ -313,6 +314,8 @@ namespace EuMax01
     theFlexibleInfoDialog = new FlexibleInfoDialog(sdlw,sdlh,camw,camh,yPos,this);
 
     theBackupOkCancelDialog = theBackupDialog->getOkCancelDialog();
+
+    theG_TestDialog = new G_TestDialog(sdlw,sdlh,camw,camh,yPos,this);
 
     cap_cam_setCrossX(0,MitteCrossCam1);
     cap_cam_setCrossX(1,MitteCrossCam2);
@@ -652,6 +655,15 @@ namespace EuMax01
     this->iActiveDialog = ArbeitsDialog::BackupOkCancelDialogIsActive;
     this->blankMenuArea();
     this->theGUI->activateScreen(this->theBackupOkCancelDialog);
+  }
+
+  void ArbeitsDialog::showG_TestDialog()
+  {
+    //if(!useGUI)//TODO errors im BlindMode evtl. zulassen
+      //return;
+    this->iActiveDialog = ArbeitsDialog::G_TestDialogIsActive;
+    this->blankMenuArea();
+    this->theGUI->activateScreen(this->theG_TestDialog);
   }
 
   SplashScreen * ArbeitsDialog::getSplashScreen()

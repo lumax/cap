@@ -26,6 +26,7 @@ namespace EuMax01
   class CreateBackupDialog;
   class FlexibleInfoDialog;
   class OkCancelDialog;
+  class G_TestDialog;
 
   //class IMBProtListener;
   class MenuBar;
@@ -129,6 +130,7 @@ namespace EuMax01
     void showCreateBackupDialog();
     void showFlexibleInfoDialog(char * errorMsg,int DialogID);
     void showBackupOkCancelDialog();
+    void showG_TestDialog();
 
     SplashScreen * getSplashScreen();
 
@@ -150,6 +152,7 @@ namespace EuMax01
     static const int CreateBackupDialogIsActive = 15;
     static const int FlexibleInfoDialogIsActive = 16;
     static const int BackupOkCancelDialogIsActive = 17;
+    static const int G_TestDialogIsActive = 18;
 
     int theActiveDialogNumber();
 
@@ -224,6 +227,7 @@ namespace EuMax01
     CreateBackupDialog * theCreateBackupDialog;
     FlexibleInfoDialog * theFlexibleInfoDialog;
     OkCancelDialog * theBackupOkCancelDialog;
+    G_TestDialog * theG_TestDialog;
 
     PosDialog * thePosDialog;
     

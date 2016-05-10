@@ -1882,6 +1882,12 @@ namespace EuMax01
     ad->Parent->showFadenkreuzDialog();
   }
 
+ static void Options3(void * src, SDL_Event * evt)
+  {
+    OptionsDialog* ad = (OptionsDialog*)src;
+    ad->Parent->showG_TestDialog();
+  }
+
  static void Options5(void * src, SDL_Event * evt)
   {
     OptionsDialog* ad = (OptionsDialog*)src;
@@ -1917,6 +1923,10 @@ namespace EuMax01
 	else if(key->keysym.sym == SDLK_F1)
 	  {
 	    Options1(src,evt);
+	  }
+	else if(key->keysym.sym == SDLK_F3)
+	  {
+	    Options3(src,evt);
 	  }
 	else if(key->keysym.sym == SDLK_F5)
 	  {
@@ -1974,7 +1984,7 @@ namespace EuMax01
 
     theMenuBarSettings.Text[0]=(char *)"F1 cross";
     theMenuBarSettings.Text[1]=0;
-    theMenuBarSettings.Text[2]=0;
+    theMenuBarSettings.Text[2]=(char *)"F3 g test";
     theMenuBarSettings.Text[3]=0;
     theMenuBarSettings.Text[4]=(char *)"F5 alert";
     theMenuBarSettings.Text[5]=0;
