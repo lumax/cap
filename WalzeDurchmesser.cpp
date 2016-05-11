@@ -112,7 +112,7 @@ namespace EuMax01
 	MZeile_h = 28;
       }
 
-    MLinks_x = sdlw/2 - 506;
+    MLinks_x = sdlw/2 - 504;
 
     Zeile1_y = yPos + 1*MSpace_h + 0*MZeile_h;
     //Zeile2_y = yPos + 2*MSpace_h + 1*MZeile_h;
@@ -131,7 +131,7 @@ namespace EuMax01
     snprintf(this->StepText,256,\
 	     "Enter Sleeve diameter :");
     Label_Step = new Label(this->StepText,			\
-			   MLinks_x,Zeile1_y,506*2,MZeile_h,Parent->Parent->MenuSet);
+			   MLinks_x,Zeile1_y,504*2,MZeile_h,Parent->Parent->MenuSet);
 
     Label_ValueName = new Label(this->ValueName,			\
 				x1,Zeile3_y,				\

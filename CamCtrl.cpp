@@ -79,7 +79,7 @@ namespace EuMax01
     pcAkt[2] = '-';   
 
     x_space = 10;
-    //wAll = 506;
+    //wAll = 504;
     wName = 233;
     wButton = 79;
 

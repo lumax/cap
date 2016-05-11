@@ -90,7 +90,7 @@ namespace EuMax01
 	MZeile_h = 28;
       }
 
-    MLinks_x = sdlw/2 - 506;
+    MLinks_x = sdlw/2 - 504;
     Zeile5_y = yPos + 5*MSpace_h + 4*MZeile_h;
 
 
@@ -99,17 +99,17 @@ namespace EuMax01
     Label_Error = new Label("Error",					\
 			    MLinks_x,					\
 			    yPos + 1*MSpace_h + 0*MZeile_h,		\
-			    506*2,MZeile_h,Parent->AlertSet);
+			    504*2,MZeile_h,Parent->AlertSet);
     
     Label_Info = new Label("----",					\
 			   MLinks_x,					\
 			   yPos + 2*MSpace_h + 1*MZeile_h,		\
-			   506*2,MZeile_h,Parent->MenuSet);
+			   504*2,MZeile_h,Parent->MenuSet);
     
     Button_OK = new Button("OK  (Enter)",					\
 			 MLinks_x,				\
 			 Zeile5_y,		\
-			 506*2,MZeile_h,		\
+			 504*2,MZeile_h,		\
 			 Parent->MenuSet);
 
     this->Button_OK->setLMButtonUpEvtHandler(return_listener);
@@ -281,14 +281,14 @@ namespace EuMax01
     Zeile5_y = yPos + 5*MSpace_h + 4*MZeile_h;
     //Rezepte_w = 108;
 
-    Spalte1_x = sdlw/2 - 506;
+    Spalte1_x = sdlw/2 - 504;
     //Spalte2_x = Spalte1_x + 1*Button_w+1*x_space;
     //Spalte3_x = Spalte1_x + 2*Button_w+2*x_space;
 
     Label_Info = new Label("---",\
 			   Spalte1_x,\
 			   Zeile1_y,\
-			   506*2,\
+			   504*2,\
 			   MZeile_h,\
 			   Parent->DialogSet);
 
@@ -415,7 +415,7 @@ namespace EuMax01
     Zeile5_y = yPos + 5*MSpace_h + 4*MZeile_h;
     //Rezepte_w = 108;
 
-    Spalte1_x = sdlw/2 - 506;
+    Spalte1_x = sdlw/2 - 504;
     //Spalte2_x = Spalte1_x + 1*Button_w+1*x_space;
     //Spalte3_x = Spalte1_x + 2*Button_w+2*x_space;
 
@@ -433,7 +433,7 @@ namespace EuMax01
     Label_Info = new Label(Versionsnummer,\
 			   Spalte1_x,\
 			   Zeile5_y,\
-			   506*2,\
+			   504*2,\
 			   MZeile_h,\
 			   Parent->DialogSet);
 
@@ -445,7 +445,7 @@ namespace EuMax01
 			   Parent->DialogSet);
 
     Label_CrossPosRight = new Label("---",\
-			   Spalte1_x+1012-80,\
+			   Spalte1_x+1008-80,\
 			   yPos+4,\
 			   80,\
 			   MZeile_h,\
@@ -596,7 +596,7 @@ namespace EuMax01
 	MZeile_h = 28;
       }
 
-    MLinks_x = sdlw/2 - 506;
+    MLinks_x = sdlw/2 - 504;
     Zeile5_y = yPos + 5*MSpace_h + 4*MZeile_h;
 
 
@@ -605,23 +605,23 @@ namespace EuMax01
     Label_Error = new Label("Error",					\
 			    MLinks_x,					\
 			    yPos + 1*MSpace_h + 0*MZeile_h,		\
-			    506*2,MZeile_h,Parent->AlertSet);
+			    504*2,MZeile_h,Parent->AlertSet);
 
     Label_Info = new Label("----",					\
 			   MLinks_x,					\
 			   yPos + 2*MSpace_h + 1*MZeile_h,		\
-			   506*2,MZeile_h,Parent->MenuSet);
+			   504*2,MZeile_h,Parent->MenuSet);
 
     Button_OK = new Button("OK  (Enter)",					\
 			 MLinks_x,				\
 			 Zeile5_y,		\
-			 506-2,MZeile_h,		\
+			 504-2,MZeile_h,		\
 			 Parent->MenuSet);
 
     Button_Cancel = new Button("Cancel  (ESC)",					\
-			 MLinks_x+506-2+x_space,				\
+			 MLinks_x+504-2+x_space,				\
 			 Zeile5_y,		\
-			 506,MZeile_h,		\
+			 504,MZeile_h,		\
 			 Parent->MenuSet);
 
     this->Label_Error->setNormalColor(Globals::GlobalUint32Color4);

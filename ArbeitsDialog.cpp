@@ -321,7 +321,7 @@ namespace EuMax01
     cap_cam_setCrossX(0,MitteCrossCam1);
     cap_cam_setCrossX(1,MitteCrossCam2);
 
-    MLinks_x = sdlw/2 - 506;
+    MLinks_x = sdlw/2 - 504;
     //MRechts_x = sdlw/2 + 6;
 
     M_y = sdlh - yPos;
@@ -348,13 +348,13 @@ namespace EuMax01
       {
 	//MName_w = 90;     //5*MZeile_h
 	//MNameNr_w = 54;   //3*MZeile_h
-	//MNameSpace_w = 61;//(1012 - (MName_w+MNameNr_w*8))/8 = 61,25
+	//MNameSpace_w = 61;//(1008 - (MName_w+MNameNr_w*8))/8 = 61,25
       }
     else
       {
 	//MName_w = 112;     //4*MZeile_h
 	//MNameNr_w = 56;    //2*MZeile_h
-	//MNameSpace_w = 56; //(1012 - (MName_w+MNameNr_w*8))/8 = 56
+	//MNameSpace_w = 56; //(1008 - (MName_w+MNameNr_w*8))/8 = 56
       }
     */
 
@@ -368,7 +368,7 @@ namespace EuMax01
     MNameNr8_x = MLinks_x + MName_w + 8*MNameSpace_w + 7*MNameNr_w;
     */
     MInfoSpace_w = 3;
-    MInfo_w = (1012-(6*MInfoSpace_w))/8;
+    MInfo_w = (1008-(6*MInfoSpace_w))/8;
     MInfoF1_x  = MLinks_x + 0*MInfo_w + 0*MInfoSpace_w;
     /*   MInfoF2_x  = MLinks_x + 1*MInfo_w + 1*MInfoSpace_w;
     MInfoF3_x  = MLinks_x + 2*MInfo_w + 2*MInfoSpace_w;

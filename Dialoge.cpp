@@ -130,7 +130,7 @@ namespace EuMax01
 	MZeile_h = 28;
       }
 
-    MLinks_x = sdlw/2 - 506;
+    MLinks_x = sdlw/2 - 504;
 
     Zeile1_y = yPos + 1*MSpace_h + 0*MZeile_h;
     //Zeile2_y = yPos + 2*MSpace_h + 1*MZeile_h;
@@ -143,18 +143,18 @@ namespace EuMax01
     snprintf(this->StepText,256,\
 	     "Move camera 1 X-Axis in zero position :");
     Label_Step = new Label(this->StepText,			\
-			   MLinks_x,Zeile1_y,506*2,MZeile_h,Parent->MenuSet);
+			   MLinks_x,Zeile1_y,504*2,MZeile_h,Parent->MenuSet);
     Label_Step->setFontColor(&Globals::GlobalSDL_Color3);//ein rot
 
     Label_ValueName = new Label(this->ValueName,			\
 				MLinks_x,Zeile3_y,			\
-				506-MSpace_h,MZeile_h);  
+				504-MSpace_h,MZeile_h);  
     Label_ValueName->setText(Parent->TextCam1Xaxis);
 
     snprintf(this->Value,64,"---");
     Label_Value = new Label(Value,					\
-			    MLinks_x+506+MSpace_h,			\
-			    Zeile3_y,506-MSpace_h,			\
+			    MLinks_x+504+MSpace_h,			\
+			    Zeile3_y,504-MSpace_h,			\
 			    MZeile_h,Parent->WerteSet);
     Label_Value->setBorder(true);
 
@@ -510,9 +510,9 @@ namespace EuMax01
     Y4 = yPos + 4*MSpace_h + 3*MZeile_h;
 
     x_space = 5;
-    Bw = (1012-3*x_space)/4;
+    Bw = (1008-3*x_space)/4;
 
-    B1x = sdlw/2 - 506;
+    B1x = sdlw/2 - 504;
     B2x = B1x + 1*Bw+1*x_space;
     B3x = B1x + 2*Bw+2*x_space;
     B4x = B1x + 3*Bw+3*x_space;
@@ -816,7 +816,7 @@ namespace EuMax01
       }
 
     x_space = 2;
-    MLinks_x = sdlw/2 - 506;
+    MLinks_x = sdlw/2 - 504;
 
     MLoadName_y  = yPos + 5*MSpace_h + 4*MZeile_h;
     Rezepte_y = yPos + 1*MSpace_h + 0*MZeile_h;
@@ -1445,7 +1445,7 @@ namespace EuMax01
     Zeile5_y = yPos + 5*MSpace_h + 4*MZeile_h;
     //Rezepte_w = 108;
 
-    Spalte1_x = sdlw/2 - 506;
+    Spalte1_x = sdlw/2 - 504;
     Spalte2_x = Spalte1_x + 1*Button_w+1*x_space;
     Spalte3_x = Spalte1_x + 2*Button_w+2*x_space;
 
@@ -1976,7 +1976,7 @@ namespace EuMax01
     Zeile5_y = yPos + 5*MSpace_h + 4*MZeile_h;
     //Rezepte_w = 108;
 
-    Spalte1_x = sdlw/2 - 506;
+    Spalte1_x = sdlw/2 - 504;
     //Spalte2_x = Spalte1_x + 1*Button_w+1*x_space;
     //Spalte3_x = Spalte1_x + 2*Button_w+2*x_space;
 

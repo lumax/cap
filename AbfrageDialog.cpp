@@ -113,7 +113,7 @@ namespace EuMax01
 	MZeile_h = 28;
       }
 
-    MLinks_x = sdlw/2 - 506;
+    MLinks_x = sdlw/2 - 504;
 
     Zeile1_y = yPos + 1*MSpace_h + 0*MZeile_h;
     //Zeile2_y = yPos + 2*MSpace_h + 1*MZeile_h;
@@ -133,10 +133,10 @@ namespace EuMax01
     this->pPathToFile = 0;
 
     Label_Info = new Label("Are sou sure you want to delete file:",\
-			   MLinks_x,Zeile1_y,506*2,MZeile_h,Parent->DialogSet);
+			   MLinks_x,Zeile1_y,504*2,MZeile_h,Parent->DialogSet);
     /*			   Spalte1_x,		\
 			   Zeile1_y,\
-			   506*2,\
+			   504*2,\
 			   MZeile_h,\
 			   Parent->DialogSet);*/
 

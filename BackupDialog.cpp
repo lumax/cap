@@ -244,7 +244,7 @@ namespace EuMax01
       }
 
     x_space = 2;
-    MLinks_x = sdlw/2 - 506;
+    MLinks_x = sdlw/2 - 504;
 
     MLoadName_y  = yPos + 5*MSpace_h + 4*MZeile_h;
     Rezepte_y = yPos + 1*MSpace_h + 0*MZeile_h;
@@ -671,7 +671,7 @@ namespace EuMax01
 	MZeile_h = 28;
       }
 
-    MLinks_x = sdlw/2 - 506;
+    MLinks_x = sdlw/2 - 504;
 
     Zeile1_y = yPos + 1*MSpace_h + 0*MZeile_h;
     //Zeile2_y = yPos + 2*MSpace_h + 1*MZeile_h;
@@ -695,7 +695,7 @@ namespace EuMax01
     snprintf(this->StepText,256,\
 	     "create or load recipes backup:");
     Label_Step = new Label(this->StepText,				\
-			   MLinks_x,Zeile1_y,506*2,MZeile_h,Parent->MenuSet);
+			   MLinks_x,Zeile1_y,504*2,MZeile_h,Parent->MenuSet);
     
   
     theMenuBarSettings.Text[0]=0;
@@ -955,7 +955,7 @@ namespace EuMax01
     Zeile5_y = yPos + 5*MSpace_h + 4*MZeile_h;
     //Rezepte_w = 108;
 
-    Spalte1_x = sdlw/2 - 506;
+    Spalte1_x = sdlw/2 - 504;
     Spalte2_x = Spalte1_x + 1*Button_w+1*x_space;
     Spalte3_x = Spalte1_x + 2*Button_w+2*x_space;
 

@@ -160,10 +160,10 @@ namespace EuMax01
 	MZeile_h = 28;
       }
 
-    MLinks_x = sdlw/2 - 506;//Breite von 1012 und mittig
+    MLinks_x = sdlw/2 - 504;//Breite von 1008 und mittig
     wGLift = 126;//etwa ein Achtel der Gesamten Breite
-    xGLift = MLinks_x + 506*2 - wGLift;
-    //maxWidth = 506*2 - wGLift - MSpace_h;
+    xGLift = MLinks_x + 504*2 - wGLift;
+    //maxWidth = 504*2 - wGLift - MSpace_h;
 
     //vertikal fünf Zeilen
     Zeile1_y = yPos + 1*MSpace_h + 0*MZeile_h;
@@ -174,7 +174,7 @@ namespace EuMax01
     //Rezepte_w = 108;
 
     //horizontal acht Spalten
-    int width = 1012;
+    int width = 1008;
     int x_space = 3;
     int Bw = (width -7*x_space)/8;
     int B1x = sdlw/2 - width/2;
