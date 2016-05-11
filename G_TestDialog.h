@@ -33,28 +33,35 @@ namespace EuMax01
     static void left_listener(void * src, SDL_Event * evt);
     static void right_listener(void * src, SDL_Event * evt);
     static void return_listener(void * src, SDL_Event * evt);
+    static void GX_LeftListener(void*,SDL_Event * evt);
+    static void GX_RightListener(void*,SDL_Event * evt);
+    static void GX_SpeedListener(void*,SDL_Event * evt);
+    static void GY_LeftListener(void*,SDL_Event * evt);
+    static void GY_RightListener(void*,SDL_Event * evt);
+    static void GY_SpeedListener(void*,SDL_Event * evt);
+    static void GA_UpListener(void*,SDL_Event * evt);
+    static void GA_DownListener(void*,SDL_Event * evt);
+    static void GA_SpeedListener(void*,SDL_Event * evt);
 
   private:
-    Label * Label_Step;
-    char StepText[256];
-
-    Label * Label_ValueName;
-    char ValueName[16];
-
-    Label * Label_Value;
-    char Value[64];
-
-    int ActualStep;
     //void setXXData(unsigned int dat,int MyStep,char * suffix);
     //void setXXData(unsigned int dat,int MyStep,char * suffix,unsigned int zFaktor);
 
     struct t_MenuBarSettings theMenuBarSettings;
     MenuBar * theMenu;
 
+    struct t_MenuGHorizontalSettings theMenuGXSettings;
+    MenuGHorizontal * theMenuGX;
+
+    struct t_MenuGHorizontalSettings theMenuGYSettings;
+    MenuGHorizontal * theMenuGY;
+
+    struct t_MenuGHorizontalSettings theMenuGWalzeSettings;
+    MenuGHorizontal * theMenuGWalze;
+
     struct t_MenuGHorizontalSettings theMenuGLiftSettings;
     MenuGHorizontal * theMenuGLift;
 
-  protected:
 
   };
 

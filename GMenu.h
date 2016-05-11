@@ -18,6 +18,8 @@ namespace EuMax01
     void (*evtFnkUp)(void *,SDL_Event * evt);
     void (*evtFnkDown)(void *,SDL_Event * evt);
     void (*evtFnkSetSpeed)(void *,SDL_Event * evt);
+    char * btnUpText;
+    char * btnDownText;
   };
 
   class MenuGHorizontal

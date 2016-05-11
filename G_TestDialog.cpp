@@ -42,6 +42,51 @@ Bastian Ruppert
 namespace EuMax01
 {
 
+  void G_TestDialog::GX_LeftListener(void*,SDL_Event * evt)
+  {
+    
+  }
+
+  void G_TestDialog::GX_RightListener(void*,SDL_Event * evt)
+  {
+    
+  }
+
+  void G_TestDialog::GX_SpeedListener(void*,SDL_Event * evt)
+  {
+    
+  }
+
+  void G_TestDialog::GY_LeftListener(void*,SDL_Event * evt)
+  {
+    
+  }
+
+  void G_TestDialog::GY_RightListener(void*,SDL_Event * evt)
+  {
+    
+  }
+
+  void G_TestDialog::GY_SpeedListener(void*,SDL_Event * evt)
+  {
+    
+  }
+
+  void G_TestDialog::GA_UpListener(void*,SDL_Event * evt)
+  {
+    
+  }
+
+  void G_TestDialog::GA_DownListener(void*,SDL_Event * evt)
+  {
+    
+  }
+
+  void G_TestDialog::GA_SpeedListener(void*,SDL_Event * evt)
+  {
+    
+  }
+
   void G_TestDialog::GLiftUpListener(void*,SDL_Event * evt)
   {
     printf("G_TestDialog MenuGLiftUpListener\n");
@@ -109,13 +154,29 @@ namespace EuMax01
 	  {
 	    ad->GLiftUpListener(src,evt);
 	  }
-	else if(key->keysym.sym == SDLK_PAGEUP)
+	else if(key->keysym.sym == SDLK_PAGEDOWN)
 	  {
 	    ad->GLiftDownListener(src,evt);
 	  }
 	else if(key->keysym.sym == SDLK_s)
 	  {
 	    ad->GLiftSetSpeedListener(src,evt);
+	  }
+	else if(key->keysym.sym == SDLK_a)
+	  {
+	    ad->GX_LeftListener(src,evt);
+	  }
+	else if(key->keysym.sym == SDLK_d)
+	  {
+	    ad->GX_RightListener(src,evt);
+	  }
+	else if(key->keysym.sym == SDLK_LEFT)
+	  {
+	    ad->GY_LeftListener(src,evt);
+	  }
+	else if(key->keysym.sym == SDLK_RIGHT)
+	  {
+	    ad->GY_RightListener(src,evt);
 	  }
 	else if(key->keysym.sym == SDLK_p)
 	  {
@@ -139,7 +200,9 @@ namespace EuMax01
     short MLinks_x;
     unsigned short MSpace_h;
     unsigned short MZeile_h;
-    short Zeile1_y,Zeile3_y,Zeile5_y;
+    short Zeile1_y;
+    //short Zeile3_y;
+    short Zeile5_y;
 
     this->Parent = parent;
 
@@ -160,7 +223,7 @@ namespace EuMax01
     //vertikal fünf Zeilen
     Zeile1_y = yPos + 1*MSpace_h + 0*MZeile_h;
     //Zeile2_y = yPos + 2*MSpace_h + 1*MZeile_h;
-    Zeile3_y = yPos + 3*MSpace_h + 2*MZeile_h;
+    //Zeile3_y = yPos + 3*MSpace_h + 2*MZeile_h;
     //Zeile4_y = yPos + 4*MSpace_h + 3*MZeile_h;
     Zeile5_y = yPos + 5*MSpace_h + 4*MZeile_h;
     //Rezepte_w = 108;
@@ -171,31 +234,12 @@ namespace EuMax01
     int Bw = (width -7*x_space)/8;
     int B1x = sdlw/2 - width/2;
     //int B2x = B1x + 1*Bw+1*x_space;
-    //int B3x = B1x + 2*Bw+2*x_space;
+    int B3x = B1x + 2*Bw+2*x_space;
     //int B4x = B1x + 3*Bw+3*x_space;
     int B5x = B1x + 4*Bw+4*x_space;
     //int B6x = B1x + 5*Bw+5*x_space;
     int B7x = B1x + 6*Bw+6*x_space;
     //int B8x = B1x + 7*Bw+7*x_space;
-
-
-    snprintf(this->StepText,256,\
-	     "Move camera 1 X-Axis in zero position :");
-    Label_Step = new Label(this->StepText,			\
-			   B1x,Zeile1_y,6*Bw,MZeile_h,Parent->MenuSet);
-    Label_Step->setFontColor(&Globals::GlobalSDL_Color3);//ein rot
-
-    Label_ValueName = new Label(this->ValueName,			\
-				B1x,Zeile3_y,			\
-				4*Bw,MZeile_h);
-    Label_ValueName->setText(Parent->TextCam1Xaxis);
-
-    snprintf(this->Value,64,"---");
-    Label_Value = new Label(Value,					\
-			    B5x,					\
-			    Zeile3_y,2*Bw,			\
-			    MZeile_h,Parent->WerteSet);
-    Label_Value->setBorder(true);
 
     theMenuBarSettings.Text[0]=0;
     theMenuBarSettings.Text[1]=0;
@@ -220,10 +264,57 @@ namespace EuMax01
     theMenu = new MenuBar((int)MLinks_x,(int)Zeile5_y,(int)MZeile_h,(char*)"G-Test", \
 			  &this->theMenuBarSettings,Parent);
 
+    theMenuGXSettings.evtSource = (void*)this;
+    theMenuGXSettings.evtFnkUp = GX_LeftListener;
+    theMenuGXSettings.evtFnkDown = GX_RightListener;
+    theMenuGXSettings.evtFnkSetSpeed = GX_SpeedListener;
+    theMenuGXSettings.btnUpText = (char *)"<--a<--";
+    theMenuGXSettings.btnDownText = (char *)"-->d-->";
+
+    theMenuGYSettings.evtSource = (void*)this;
+    theMenuGYSettings.evtFnkUp = GY_LeftListener;
+    theMenuGYSettings.evtFnkDown = GY_RightListener;
+    theMenuGYSettings.evtFnkSetSpeed = GY_SpeedListener;
+    theMenuGYSettings.btnUpText = (char *)"<--Left";
+    theMenuGYSettings.btnDownText = (char *)"Right-->";
+
+    theMenuGWalzeSettings.evtSource = (void*)this;
+    theMenuGWalzeSettings.evtFnkUp = GA_UpListener;
+    theMenuGWalzeSettings.evtFnkDown = GA_DownListener;
+    theMenuGWalzeSettings.evtFnkSetSpeed = GA_SpeedListener;
+    theMenuGWalzeSettings.btnUpText = (char *)"Up";
+    theMenuGWalzeSettings.btnDownText = (char *)"Down";
+
     theMenuGLiftSettings.evtSource = (void*)this;
     theMenuGLiftSettings.evtFnkUp = GLiftUpListener;
     theMenuGLiftSettings.evtFnkDown = GLiftDownListener;
     theMenuGLiftSettings.evtFnkSetSpeed = GLiftSetSpeedListener;
+    theMenuGLiftSettings.btnUpText = (char *)"PgUp";
+    theMenuGLiftSettings.btnDownText = (char *)"PgDown";
+
+    theMenuGX = new MenuGHorizontal((char *)"X-Achse",			\
+				    B1x,				\
+				    (int)Zeile1_y,			\
+				    MZeile_h,				\
+				    MSpace_h,				\
+				    2*Bw,				\
+				    &this->theMenuGXSettings,Parent);
+
+    theMenuGY = new MenuGHorizontal((char *)"Y-Achse",			\
+				    B3x,				\
+				    (int)Zeile1_y,			\
+				    MZeile_h,				\
+				    MSpace_h,				\
+				    2*Bw,				\
+				    &this->theMenuGYSettings,Parent);
+
+    theMenuGWalze = new MenuGHorizontal((char *)"Walze",			\
+				 B5x,					\
+				 (int)Zeile1_y,				\
+				 MZeile_h,				\
+				 MSpace_h,				\
+				 2*Bw,				\
+				 &this->theMenuGWalzeSettings,Parent);
 
     theMenuGLift = new MenuGHorizontal((char *)"Lift2",			\
 				 B7x,					\
@@ -233,12 +324,12 @@ namespace EuMax01
 				 2*Bw,				\
 				 &this->theMenuGLiftSettings,Parent);
 
-
-    addEvtTarget(Label_Step);
-    addEvtTarget(Label_ValueName);
-    addEvtTarget(Label_Value);
+    //addEvtTarget(Label_Value);
     theMenu->addToEvtTarget(this);
 
+    theMenuGX->addToEvtTarget(this);
+    theMenuGY->addToEvtTarget(this);
+    theMenuGWalze->addToEvtTarget(this);
     theMenuGLift->addToEvtTarget(this);
 
     this->pTSource = this;//EvtTarget Quelle setzen, damit der EvtListener die Quelle mitteilen kann

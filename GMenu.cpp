@@ -58,14 +58,14 @@ namespace EuMax01
     pLName = new Label(name,\
 		       xPos,yPos,wButton,y_height,Parent->DialogSet);
 
-    pBUp = new Button("PgUp",						\
+    pBUp = new Button(settings->btnUpText,				\
 		      xPos,						\
 		      yPos+y_height*1+y_space*1,			\
-		      wButtonHalbe,						\
+		      wButtonHalbe,					\
 		      y_height,						\
 		      Parent->MenuSet);
 
-    pBDown = new Button("PgDown",					\
+    pBDown = new Button(settings->btnDownText,				\
 			xPos,						\
 			yPos+y_height*2+y_space*2,			\
 			wButtonHalbe,					\
