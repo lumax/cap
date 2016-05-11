@@ -139,12 +139,7 @@ namespace EuMax01
     short MLinks_x;
     unsigned short MSpace_h;
     unsigned short MZeile_h;
-    //unsigned short Rezepte_y;
-    //short Rezepte_w;
     short Zeile1_y,Zeile3_y,Zeile5_y;
-    int wGLift;
-    int xGLift;
-    //int maxWidth;
 
     this->Parent = parent;
 
@@ -161,9 +156,6 @@ namespace EuMax01
       }
 
     MLinks_x = sdlw/2 - 504;//Breite von 1008 und mittig
-    wGLift = 126;//etwa ein Achtel der Gesamten Breite
-    xGLift = MLinks_x + 504*2 - wGLift;
-    //maxWidth = 504*2 - wGLift - MSpace_h;
 
     //vertikal fünf Zeilen
     Zeile1_y = yPos + 1*MSpace_h + 0*MZeile_h;
@@ -175,7 +167,7 @@ namespace EuMax01
 
     //horizontal acht Spalten
     int width = 1008;
-    int x_space = 3;
+    int x_space = 2;
     int Bw = (width -7*x_space)/8;
     int B1x = sdlw/2 - width/2;
     //int B2x = B1x + 1*Bw+1*x_space;
@@ -183,14 +175,14 @@ namespace EuMax01
     int B4x = B1x + 3*Bw+3*x_space;
     int B5x = B1x + 4*Bw+4*x_space;
     //int B6x = B1x + 5*Bw+5*x_space;
-    //int B7x = B1x + 6*Bw+6*x_space;
-    int B8x = B1x + 7*Bw+7*x_space;
+    int B7x = B1x + 6*Bw+6*x_space;
+    //int B8x = B1x + 7*Bw+7*x_space;
 
 
     snprintf(this->StepText,256,\
 	     "Move camera 1 X-Axis in zero position :");
     Label_Step = new Label(this->StepText,			\
-			   B1x,Zeile1_y,7*Bw+x_space,MZeile_h,Parent->MenuSet);
+			   B1x,Zeile1_y,6*Bw,MZeile_h,Parent->MenuSet);
     Label_Step->setFontColor(&Globals::GlobalSDL_Color3);//ein rot
 
     Label_ValueName = new Label(this->ValueName,			\
@@ -201,7 +193,7 @@ namespace EuMax01
     snprintf(this->Value,64,"---");
     Label_Value = new Label(Value,					\
 			    B5x,					\
-			    Zeile3_y,3*Bw,			\
+			    Zeile3_y,2*Bw,			\
 			    MZeile_h,Parent->WerteSet);
     Label_Value->setBorder(true);
 
@@ -233,11 +225,11 @@ namespace EuMax01
     theMenuGLiftSettings.evtFnkDown = GLiftDownListener;
     theMenuGLiftSettings.evtFnkSetSpeed = GLiftSetSpeedListener;
 
-    theMenuGLift = new MenuGLift(B8x,				\
+    theMenuGLift = new MenuGLift(B7x,					\
 				 (int)Zeile1_y,				\
 				 MZeile_h,				\
 				 MSpace_h,				\
-				 Bw,				\
+				 2*Bw,				\
 				 &this->theMenuGLiftSettings,Parent);
 
 
