@@ -532,14 +532,13 @@ namespace EuMax01
   {
     char * BackupPathName;
     char cpBefehl[512];
-    int filecount = 0;
     //char tmp[512];
 
     BackupPathName=Parent->getBackupMenuDialog()->getCompleteBackupPath(DateiNamen[ActiveRecipe]);
 
     //printf("BackupDialog::skipBackup : %s completePath = %s\n",DateiNamen[ActiveRecipe],BackupPathName);
 
-    filecount = Parent->getBackupMenuDialog()->getAmountOfFilesInDir(BackupPathName);
+    Parent->getBackupMenuDialog()->getAmountOfFilesInDir(BackupPathName);
 
     //printf("filecount : %i in %s\n",filecount,BackupPathName);
 
@@ -561,14 +560,13 @@ namespace EuMax01
   {
     char * BackupPathName;
     char cpBefehl[512];
-    int filecount = 0;
     //char tmp[512];
 
     BackupPathName=Parent->getBackupMenuDialog()->getCompleteBackupPath(DateiNamen[ActiveRecipe]);
 
     //printf("BackupDialog::skipBackup : %s completePath = %s\n",DateiNamen[ActiveRecipe],BackupPathName);
 
-    filecount = Parent->getBackupMenuDialog()->getAmountOfFilesInDir(BackupPathName);
+    Parent->getBackupMenuDialog()->getAmountOfFilesInDir(BackupPathName);
 
     //printf("filecount : %i in %s\n",filecount,BackupPathName);
 
