@@ -64,25 +64,26 @@ namespace EuMax01
 		      Parent->MenuSet);
 
     pBDown = new Button("PgDown",					\
-		      xPos,						\
-		      yPos+y_height*2+y_space*2,					\
-		      wButton,						\
-		      y_height,						\
-		      Parent->MenuSet);
-
-    pLSpeed = new Label("50km/h",					\
-		      xPos,						\
-		      yPos+y_height*3+y_space*3,					\
-			wButtonHalbe,					\
-		      y_height,						\
-		      Parent->WerteSet);
+			xPos,						\
+			yPos+y_height*2+y_space*2,			\
+			wButton,					\
+			y_height,					\
+			Parent->MenuSet);
 
     pBSetSpeed = new Button("Speed",					\
-		      xPos+wButtonHalbe,				\
-		      yPos+y_height*3+y_space*3,					\
+			    xPos,					\
+			    yPos+y_height*3+y_space*3,			\
 			    wButtonHalbe,				\
-		      y_height,						\
-		      Parent->MenuSet);
+			    y_height,					\
+			    Parent->MenuSet);
+
+    pLSpeed = new Label("50km/h",					\
+			xPos+wButtonHalbe+x_space,			\
+			yPos+y_height*3+y_space*3,			\
+			wButtonHalbe,					\
+			y_height,					\
+			Parent->WerteSet);
+
 
     pBUp->setLMButtonUpEvtHandler(settings->evtFnkUp);
     pBDown->setLMButtonUpEvtHandler(settings->evtFnkDown);

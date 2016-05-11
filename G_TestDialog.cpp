@@ -105,6 +105,18 @@ namespace EuMax01
 	  {
 	    ad->right_listener(src,evt);
 	  }
+	else if(key->keysym.sym == SDLK_PAGEUP)
+	  {
+	    ad->GLiftUpListener(src,evt);
+	  }
+	else if(key->keysym.sym == SDLK_PAGEUP)
+	  {
+	    ad->GLiftDownListener(src,evt);
+	  }
+	else if(key->keysym.sym == SDLK_s)
+	  {
+	    ad->GLiftSetSpeedListener(src,evt);
+	  }
 	else if(key->keysym.sym == SDLK_p)
 	  {
 	    if((mod & KMOD_CTRL) &&		\
@@ -130,6 +142,9 @@ namespace EuMax01
     //unsigned short Rezepte_y;
     //short Rezepte_w;
     short Zeile1_y,Zeile3_y,Zeile5_y;
+    int wGLift;
+    int xGLift;
+    int maxWidth;
 
     this->Parent = parent;
 
@@ -145,7 +160,10 @@ namespace EuMax01
 	MZeile_h = 28;
       }
 
-    MLinks_x = sdlw/2 - 506;
+    MLinks_x = sdlw/2 - 506;//Breite von 1012 und mittig
+    wGLift = 126;//etwa ein Achtel der Gesamten Breite
+    xGLift = MLinks_x + 506*2 - wGLift;
+    maxWidth = 506*2 - wGLift - MSpace_h;
 
     Zeile1_y = yPos + 1*MSpace_h + 0*MZeile_h;
     //Zeile2_y = yPos + 2*MSpace_h + 1*MZeile_h;
@@ -201,7 +219,7 @@ namespace EuMax01
     theMenuGLiftSettings.evtFnkDown = GLiftDownListener;
     theMenuGLiftSettings.evtFnkSetSpeed = GLiftSetSpeedListener;
 
-    theMenuGLift = new MenuGLift((int)MLinks_x,(int)Zeile1_y,MZeile_h,MSpace_h,506/4,\
+    theMenuGLift = new MenuGLift((int)xGLift,(int)Zeile1_y,MZeile_h,MSpace_h,wGLift,\
 				 &this->theMenuGLiftSettings,Parent);
 
 
