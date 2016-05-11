@@ -36,13 +36,14 @@ Bastian Ruppert
 namespace EuMax01
 {
 
-  MenuGLift::~MenuGLift(){}
-  MenuGLift::MenuGLift(int xPos,				\
+  MenuGHorizontal::~MenuGHorizontal(){}
+  MenuGHorizontal::MenuGHorizontal(char * name,				\
+		       int xPos,				\
 		       int yPos,				\
 		       int y_height,				\
 		       int y_space,				\
 		       int width,				\
-		       struct t_MenuGLiftSettings * settings,	\
+		       struct t_MenuGHorizontalSettings * settings,	\
 		       ArbeitsDialog * Parent)
   {
     //short xPos[MenuBar::LabelBufLen];
@@ -54,19 +55,20 @@ namespace EuMax01
     wButton = width;
     wButtonHalbe = wHalbe-x_space/2;
 
-    pLName = new Label("Lift",xPos,yPos,wButton,y_height,Parent->DialogSet);
+    pLName = new Label(name,\
+		       xPos,yPos,wButton,y_height,Parent->DialogSet);
 
     pBUp = new Button("PgUp",						\
 		      xPos,						\
-		      yPos+y_height*1+y_space*1,					\
-		      wButton,						\
+		      yPos+y_height*1+y_space*1,			\
+		      wButtonHalbe,						\
 		      y_height,						\
 		      Parent->MenuSet);
 
     pBDown = new Button("PgDown",					\
 			xPos,						\
 			yPos+y_height*2+y_space*2,			\
-			wButton,					\
+			wButtonHalbe,					\
 			y_height,					\
 			Parent->MenuSet);
 
@@ -84,6 +86,13 @@ namespace EuMax01
 			y_height,					\
 			Parent->WerteSet);
 
+    pLPosition = new Label("200mm",					\
+			xPos+wButtonHalbe+x_space,			\
+			yPos+y_height*1+y_space*1,			\
+			wButtonHalbe,					\
+			y_height,					\
+			Parent->WerteSet);
+
 
     pBUp->setLMButtonUpEvtHandler(settings->evtFnkUp);
     pBDown->setLMButtonUpEvtHandler(settings->evtFnkDown);
@@ -94,16 +103,17 @@ namespace EuMax01
     pBSetSpeed->pTSource = settings->evtSource;
   }
   
-  void MenuGLift::addToEvtTarget(EvtTarget* theTarget)
+  void MenuGHorizontal::addToEvtTarget(EvtTarget* theTarget)
   {
     theTarget->addEvtTarget(pLName);
     theTarget->addEvtTarget(pLSpeed);
     theTarget->addEvtTarget(pBUp);
     theTarget->addEvtTarget(pBDown);
     theTarget->addEvtTarget(pBSetSpeed);
+    theTarget->addEvtTarget(pLPosition);
   }
 
-  void MenuGLift::setMenuName(char * theName)
+  void MenuGHorizontal::setMenuName(char * theName)
   {
     if(0!=theName)
       {
@@ -111,9 +121,9 @@ namespace EuMax01
       }
   }
 
-  void MenuGLift::updateSettings(struct t_MenuBarSettings * settings)
+  void MenuGHorizontal::updateSettings(struct t_MenuBarSettings * settings)
   {/*
-    for(int i = 0;i<MenuGLift::MenuPunkte;i++)
+    for(int i = 0;i<MenuGHorizontal::MenuPunkte;i++)
       {
 	if(0!=settings->Text[i])
 	  {

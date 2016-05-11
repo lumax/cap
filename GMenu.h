@@ -10,7 +10,7 @@ namespace EuMax01
 
   class ArbeitsDialog;
 
-  struct t_MenuGLiftSettings
+  struct t_MenuGHorizontalSettings
   {
     //Dieser Pointer wird bei den Button Events ausgewertet
     //Die Funktionen in evtFnks nutzen diesen Pointer
@@ -20,17 +20,18 @@ namespace EuMax01
     void (*evtFnkSetSpeed)(void *,SDL_Event * evt);
   };
 
-  class MenuGLift
+  class MenuGHorizontal
   {
   public:
-    MenuGLift(int xPos,					\
+    MenuGHorizontal(char * name,				\
+	      int xPos,					\
 	      int yPos,					\
 	      int y_height,				\
 	      int y_space,				\
 	      int width,				\
-	      struct t_MenuGLiftSettings * settings,	\
+	      struct t_MenuGHorizontalSettings * settings,	\
 	      ArbeitsDialog * Parent);
-    ~MenuGLift();
+    ~MenuGHorizontal();
 
     static const int MenuPunkte = 8;
     void addToEvtTarget(EvtTarget* theTarget);
@@ -39,10 +40,11 @@ namespace EuMax01
 
   protected:
     Label * pLName;
-    Label * pLSpeed;
     Button * pBUp;
     Button * pBDown;
     Button * pBSetSpeed;
+    Label * pLSpeed;
+    Label * pLPosition;
   };
   
 #endif /* __GMENU_H__*/

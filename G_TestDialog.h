@@ -51,8 +51,8 @@ namespace EuMax01
     struct t_MenuBarSettings theMenuBarSettings;
     MenuBar * theMenu;
 
-    struct t_MenuGLiftSettings theMenuGLiftSettings;
-    MenuGLift * theMenuGLift;
+    struct t_MenuGHorizontalSettings theMenuGLiftSettings;
+    MenuGHorizontal * theMenuGLift;
 
   protected:
 
