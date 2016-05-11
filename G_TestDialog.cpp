@@ -144,7 +144,7 @@ namespace EuMax01
     short Zeile1_y,Zeile3_y,Zeile5_y;
     int wGLift;
     int xGLift;
-    int maxWidth;
+    //int maxWidth;
 
     this->Parent = parent;
 
@@ -163,8 +163,9 @@ namespace EuMax01
     MLinks_x = sdlw/2 - 506;//Breite von 1012 und mittig
     wGLift = 126;//etwa ein Achtel der Gesamten Breite
     xGLift = MLinks_x + 506*2 - wGLift;
-    maxWidth = 506*2 - wGLift - MSpace_h;
+    //maxWidth = 506*2 - wGLift - MSpace_h;
 
+    //vertikal fünf Zeilen
     Zeile1_y = yPos + 1*MSpace_h + 0*MZeile_h;
     //Zeile2_y = yPos + 2*MSpace_h + 1*MZeile_h;
     Zeile3_y = yPos + 3*MSpace_h + 2*MZeile_h;
@@ -172,22 +173,35 @@ namespace EuMax01
     Zeile5_y = yPos + 5*MSpace_h + 4*MZeile_h;
     //Rezepte_w = 108;
 
+    //horizontal acht Spalten
+    int width = 1012;
+    int x_space = 3;
+    int Bw = (width -7*x_space)/8;
+    int B1x = sdlw/2 - width/2;
+    //int B2x = B1x + 1*Bw+1*x_space;
+    //int B3x = B1x + 2*Bw+2*x_space;
+    int B4x = B1x + 3*Bw+3*x_space;
+    int B5x = B1x + 4*Bw+4*x_space;
+    //int B6x = B1x + 5*Bw+5*x_space;
+    //int B7x = B1x + 6*Bw+6*x_space;
+    int B8x = B1x + 7*Bw+7*x_space;
+
 
     snprintf(this->StepText,256,\
 	     "Move camera 1 X-Axis in zero position :");
     Label_Step = new Label(this->StepText,			\
-			   MLinks_x,Zeile1_y,506*2,MZeile_h,Parent->MenuSet);
+			   B1x,Zeile1_y,7*Bw+x_space,MZeile_h,Parent->MenuSet);
     Label_Step->setFontColor(&Globals::GlobalSDL_Color3);//ein rot
 
     Label_ValueName = new Label(this->ValueName,			\
-				MLinks_x,Zeile3_y,			\
-				506-MSpace_h,MZeile_h);  
+				B1x,Zeile3_y,			\
+				4*Bw,MZeile_h);
     Label_ValueName->setText(Parent->TextCam1Xaxis);
 
     snprintf(this->Value,64,"---");
     Label_Value = new Label(Value,					\
-			    MLinks_x+506+MSpace_h,			\
-			    Zeile3_y,506-MSpace_h,			\
+			    B5x,					\
+			    Zeile3_y,3*Bw,			\
 			    MZeile_h,Parent->WerteSet);
     Label_Value->setBorder(true);
 
@@ -219,7 +233,11 @@ namespace EuMax01
     theMenuGLiftSettings.evtFnkDown = GLiftDownListener;
     theMenuGLiftSettings.evtFnkSetSpeed = GLiftSetSpeedListener;
 
-    theMenuGLift = new MenuGLift((int)xGLift,(int)Zeile1_y,MZeile_h,MSpace_h,wGLift,\
+    theMenuGLift = new MenuGLift(B8x,				\
+				 (int)Zeile1_y,				\
+				 MZeile_h,				\
+				 MSpace_h,				\
+				 Bw,				\
 				 &this->theMenuGLiftSettings,Parent);
 
 
