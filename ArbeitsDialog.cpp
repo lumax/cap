@@ -1006,17 +1006,15 @@ namespace EuMax01
   }
   void ArbeitsDialog::convertCamPos(int cam,unsigned short dat)
   {
-    int wert,camera;
+    int wert;
     double step =  dat;
     if(cam) //Anzeigebereich von 0-512
       {
-	camera = 1;
 	wert = (int)step;
 	
       }
     else   //Anzeigebereich von 288-800
       {
-	camera = 0;
 	wert = (int)step+CamW_Unsichtbar;
       }
     if(wert%2)  //nur duch 2 teilbar zulassen
