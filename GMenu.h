@@ -48,6 +48,34 @@ namespace EuMax01
     Label * pLSpeed;
     Label * pLPosition;
   };
+
+  class MenuGVertical
+  {
+  public:
+    MenuGVertical(char * name,				\
+	      int xPos,					\
+	      int yPos,					\
+	      int y_height,				\
+	      int y_space,				\
+	      int width,				\
+	      struct t_MenuGHorizontalSettings * settings,	\
+	      ArbeitsDialog * Parent);
+    ~MenuGVertical();
+
+    static const int MenuPunkte = 8;
+    void addToEvtTarget(EvtTarget* theTarget);
+    void setMenuName(char * theName);
+    void updateSettings(struct t_MenuBarSettings * settings);
+
+  protected:
+    Label * pLName;
+    Button * pBUp;
+    Button * pBDown;
+    Button * pBSetSpeed;
+    Label * pLSpeed;
+    Label * pLPosition;
+  };
+
   
 #endif /* __GMENU_H__*/
 }//end namespace

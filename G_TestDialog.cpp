@@ -223,8 +223,8 @@ namespace EuMax01
     //vertikal fünf Zeilen
     Zeile1_y = yPos + 1*MSpace_h + 0*MZeile_h;
     //Zeile2_y = yPos + 2*MSpace_h + 1*MZeile_h;
-    //Zeile3_y = yPos + 3*MSpace_h + 2*MZeile_h;
-    //Zeile4_y = yPos + 4*MSpace_h + 3*MZeile_h;
+    //short Zeile3_y = yPos + 3*MSpace_h + 2*MZeile_h;
+    short Zeile4_y = yPos + 4*MSpace_h + 3*MZeile_h;
     Zeile5_y = yPos + 5*MSpace_h + 4*MZeile_h;
     //Rezepte_w = 108;
 
@@ -233,7 +233,7 @@ namespace EuMax01
     int x_space = 2;
     int Bw = (width -7*x_space)/8;
     int B1x = sdlw/2 - width/2;
-    //int B2x = B1x + 1*Bw+1*x_space;
+    int B2x = B1x + 1*Bw+1*x_space;
     int B3x = B1x + 2*Bw+2*x_space;
     //int B4x = B1x + 3*Bw+3*x_space;
     int B5x = B1x + 4*Bw+4*x_space;
@@ -268,15 +268,15 @@ namespace EuMax01
     theMenuGXSettings.evtFnkUp = GX_LeftListener;
     theMenuGXSettings.evtFnkDown = GX_RightListener;
     theMenuGXSettings.evtFnkSetSpeed = GX_SpeedListener;
-    theMenuGXSettings.btnUpText = (char *)"<--a<--";
-    theMenuGXSettings.btnDownText = (char *)"-->d-->";
+    theMenuGXSettings.btnUpText = (char *)"<--a";
+    theMenuGXSettings.btnDownText = (char *)"d-->";
 
     theMenuGYSettings.evtSource = (void*)this;
     theMenuGYSettings.evtFnkUp = GY_LeftListener;
     theMenuGYSettings.evtFnkDown = GY_RightListener;
     theMenuGYSettings.evtFnkSetSpeed = GY_SpeedListener;
-    theMenuGYSettings.btnUpText = (char *)"<--Left";
-    theMenuGYSettings.btnDownText = (char *)"Right-->";
+    theMenuGYSettings.btnUpText = (char *)"Left";
+    theMenuGYSettings.btnDownText = (char *)"Right";
 
     theMenuGWalzeSettings.evtSource = (void*)this;
     theMenuGWalzeSettings.evtFnkUp = GA_UpListener;
@@ -292,7 +292,7 @@ namespace EuMax01
     theMenuGLiftSettings.btnUpText = (char *)"PgUp";
     theMenuGLiftSettings.btnDownText = (char *)"PgDown";
 
-    theMenuGX = new MenuGHorizontal((char *)"X-Achse",			\
+    theMenuGX = new MenuGVertical((char *)"X-Achse",			\
 				    B1x,				\
 				    (int)Zeile1_y,			\
 				    MZeile_h,				\
@@ -300,7 +300,7 @@ namespace EuMax01
 				    2*Bw,				\
 				    &this->theMenuGXSettings,Parent);
 
-    theMenuGY = new MenuGHorizontal((char *)"Y-Achse",			\
+    theMenuGY = new MenuGVertical((char *)"Y-Achse",			\
 				    B3x,				\
 				    (int)Zeile1_y,			\
 				    MZeile_h,				\
@@ -308,7 +308,7 @@ namespace EuMax01
 				    2*Bw,				\
 				    &this->theMenuGYSettings,Parent);
 
-    theMenuGWalze = new MenuGHorizontal((char *)"Walze",			\
+    theMenuGWalze = new MenuGHorizontal((char *)"Walze",		\
 				 B5x,					\
 				 (int)Zeile1_y,				\
 				 MZeile_h,				\
@@ -324,6 +324,22 @@ namespace EuMax01
 				 2*Bw,				\
 				 &this->theMenuGLiftSettings,Parent);
 
+    pBEingabe = new Button("Enter",					\
+			   B1x,						\
+			   (int)Zeile4_y,				\
+			   Bw,					\
+			   MZeile_h,					\
+			   Parent->MenuSet);
+
+    pTFEingabe = new TextField("BruchIstEinArsch",			\
+			       /*TF_MaxLen*/64,				\
+			       B2x,					\
+			       (int)Zeile4_y,				\
+			       3*Bw,					\
+			       MZeile_h,				\
+			       Parent->WerteSet);
+    pTFEingabe->setActive(true);
+
     //addEvtTarget(Label_Value);
     theMenu->addToEvtTarget(this);
 
@@ -331,6 +347,8 @@ namespace EuMax01
     theMenuGY->addToEvtTarget(this);
     theMenuGWalze->addToEvtTarget(this);
     theMenuGLift->addToEvtTarget(this);
+    this->addEvtTarget(pBEingabe);
+    this->addEvtTarget(pTFEingabe);
 
     this->pTSource = this;//EvtTarget Quelle setzen, damit der EvtListener die Quelle mitteilen kann
     this->setKeyboardUpEvtHandler(G_TestDialogKeyListener);

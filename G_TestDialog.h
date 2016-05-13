@@ -51,10 +51,10 @@ namespace EuMax01
     MenuBar * theMenu;
 
     struct t_MenuGHorizontalSettings theMenuGXSettings;
-    MenuGHorizontal * theMenuGX;
+    MenuGVertical * theMenuGX;
 
     struct t_MenuGHorizontalSettings theMenuGYSettings;
-    MenuGHorizontal * theMenuGY;
+    MenuGVertical * theMenuGY;
 
     struct t_MenuGHorizontalSettings theMenuGWalzeSettings;
     MenuGHorizontal * theMenuGWalze;
@@ -62,6 +62,8 @@ namespace EuMax01
     struct t_MenuGHorizontalSettings theMenuGLiftSettings;
     MenuGHorizontal * theMenuGLift;
 
+    Button * pBEingabe;
+    TextField * pTFEingabe;
 
   };
 

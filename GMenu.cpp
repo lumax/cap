@@ -136,4 +136,88 @@ namespace EuMax01
 	lbuf[i]->setLMButtonUpEvtHandler(settings->evtFnks[i]);//,settings->evtSource);
 	}*/
   }
+
+  MenuGVertical::~MenuGVertical(){}
+  MenuGVertical::MenuGVertical(char * name,			\
+		       int xPos,				\
+		       int yPos,				\
+		       int y_height,				\
+		       int y_space,				\
+		       int width,				\
+		       struct t_MenuGHorizontalSettings * settings,	\
+			       ArbeitsDialog * Parent)
+  {
+    int x_space = 4;
+    int wHalbe = width/2;
+    int wViertel = width/4;
+    int wButton = width;
+    int wButtonHalbe = wHalbe-x_space/2;
+    int wButtonViertel = wViertel-x_space/2;
+
+    pLName = new Label(name,\
+		       xPos,yPos,wButton,y_height,Parent->DialogSet);
+
+    pBUp = new Button(settings->btnUpText,				\
+		      xPos,						\
+		      yPos+y_height*1+y_space*1,			\
+		      wButtonViertel,					\
+		      y_height,						\
+		      Parent->MenuSet);
+
+    pBDown = new Button(settings->btnDownText,				\
+			xPos + wButtonViertel+x_space/2,		\
+			yPos+y_height*1+y_space*1,			\
+			wButtonViertel,					\
+			y_height,					\
+			Parent->MenuSet);
+
+    pLPosition = new Label("200mm",					\
+			xPos+wButtonHalbe+x_space,			\
+			yPos+y_height*1+y_space*1,			\
+			wButtonHalbe,					\
+			y_height,					\
+			Parent->WerteSet);
+
+    pBSetSpeed = new Button("Speed",					\
+			    xPos,					\
+			    yPos+y_height*2+y_space*2,			\
+			    wButtonHalbe,				\
+			    y_height,					\
+			    Parent->MenuSet);
+
+    pLSpeed = new Label("50km/h",					\
+			xPos+wButtonHalbe+x_space,			\
+			yPos+y_height*2+y_space*2,			\
+			wButtonHalbe,					\
+			y_height,					\
+			Parent->WerteSet);
+
+
+    pBUp->setLMButtonUpEvtHandler(settings->evtFnkUp);
+    pBDown->setLMButtonUpEvtHandler(settings->evtFnkDown);
+    pBSetSpeed->setLMButtonUpEvtHandler(settings->evtFnkSetSpeed);
+
+    pBUp->pTSource = settings->evtSource;
+    pBDown->pTSource = settings->evtSource;
+    pBSetSpeed->pTSource = settings->evtSource;
+  }
+
+  void MenuGVertical::addToEvtTarget(EvtTarget* theTarget)
+  {
+    theTarget->addEvtTarget(pLName);
+    theTarget->addEvtTarget(pLSpeed);
+    theTarget->addEvtTarget(pBUp);
+    theTarget->addEvtTarget(pBDown);
+    theTarget->addEvtTarget(pBSetSpeed);
+    theTarget->addEvtTarget(pLPosition);
+  }
+
+  void MenuGVertical::setMenuName(char * theName)
+  {
+    if(0!=theName)
+      {
+	pLName->setText(theName);
+      }
+  }
+
 }//end namespace

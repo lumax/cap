@@ -1150,7 +1150,7 @@ static void oneSecondTimer(void)
     {
       if(theProtocol.initProtocol(theGUI,theArbeitsDialog,tmp,Com_NON_BLOCK))
 	{
-	  printf("Uart communication failed, trying again in one second\n");
+	  //printf("Uart communication failed, trying again in one second\n");
 	}
       else
 	{
