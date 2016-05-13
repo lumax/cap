@@ -119,11 +119,16 @@ namespace EuMax01
     //G_TestDialog* ad = (G_TestDialog*)src;//KeyListener
      printf("G_TestDialog rightListener\n");
   }
-  
+
   void G_TestDialog::return_listener(void * src, SDL_Event * evt)
   {
-    //G_TestDialog* ad = (G_TestDialog*)src;//KeyListener
-    printf("G_TestDialog returnListener\n");
+    G_TestDialog* ad = (G_TestDialog*)src;//KeyListener
+    if(ad->pTFEingabe->getTextLen()>0)
+      {
+	printf("%s\n",ad->pTFEingabe->getText());
+	ad->pTFEingabe->setText((char*)"");
+	ad->pTFEingabe->show(ad->Parent->theGUI->getMainSurface());
+      }
   }
 
   static void G_TestDialogKeyListener(void * src, SDL_Event * evt)
@@ -330,8 +335,10 @@ namespace EuMax01
 			   Bw,					\
 			   MZeile_h,					\
 			   Parent->MenuSet);
+    pBEingabe->setLMButtonUpEvtHandler(return_listener);
+    pBEingabe->pTSource = this;
 
-    pTFEingabe = new TextField("BruchIstEinArsch",			\
+    pTFEingabe = new TextField(0,			\
 			       /*TF_MaxLen*/64,				\
 			       B2x,					\
 			       (int)Zeile4_y,				\
