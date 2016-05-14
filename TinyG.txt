@@ -26,7 +26,10 @@ zu hören, der Motor hat Spannung und blockiert.
 -ein "G-Wert" entspricht in etwa 1,194029851 cm
 
 Status Codes
+https://github.com/synthetos/TinyG/wiki/Status-Reports
+
 https://github.com/synthetos/TinyG/wiki/TinyG-Status-Codes
+
 The following status code are defined. Status codes are returned in the second element of the footer array, e.g.
 "f":[1,0,255,1234]   -- '0' is the OK code
 
