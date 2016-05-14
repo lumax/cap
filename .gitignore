@@ -34,3 +34,11 @@ Version.h
 videodev.h
 PlateExakt.avi
 PlateExakt08.wmv
+
+g_ctrl/jsmn.c
+g_ctrl/jsmn.h
+g_ctrl/main_gctrl.cpp
+g_ctrl/g_commands.txt
+g_ctrl/Makefile
+g_ctrl/.gdbinit
+g_ctrl/.gitignore
