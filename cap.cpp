@@ -959,6 +959,7 @@ Rezept theRezept;
 
 GUI* theGUI;
 char tmp[64];
+char pathTinyG[64];
 bool Com_NON_BLOCK = false;
 bool guiMode = false;
 static bool serialCommClosed = true;
@@ -1355,6 +1356,23 @@ int main(int argc, char *argv[])
     {
       OneCam=1;
     }
+  if(iniParser_getParam(confpath,(char*)"TinyG_USB",pathTinyG,64))
+    {
+      pathTinyG[0]='/';
+      pathTinyG[1]='d';
+      pathTinyG[2]='e';
+      pathTinyG[3]='v';
+      pathTinyG[4]='/';
+      pathTinyG[5]='t';
+      pathTinyG[6]='t';
+      pathTinyG[7]='y';
+      pathTinyG[8]='U';
+      pathTinyG[9]='S';
+      pathTinyG[10]='B';
+      pathTinyG[11]='1';
+      pathTinyG[12]='\0';
+    }
+
   //das Muss der letzte Paramter sein der mit tmp geholt wird, da tmp
   //später noch ausgewertet wird!
   if(iniParser_getParam(confpath,(char*)"usbDevice",tmp,64))
