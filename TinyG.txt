@@ -1,0 +1,48 @@
+TinyG:
+
+G-Codes
+Allgemeines
+Status Codes
+
+G-Codes:
+Nullpunkt setzen:
+G91 - relative Koordinaten aktivieren
+G1 X20,F100 - X-Achse 20 nach rechts fahren
+G28.3 X0.0 - X-Achsen Nullpunkt setzten
+G90 Absolute Koordinaten aktivieren
+G1 X12,F100 - X-Achse nun absolut verfahren!
+
+
+
+Allgemeines:
+-Motor1 läuft irgendwie nach, nachdem er ein G1 X Kommando gesehen hat.
+Die LED Mot1 des TinyG ist nach einem Reset aus, nach dem ersten G1
+Kommando leuchtet die LED dauerhaft und es ist ein Geräusch vom Motor
+zu hören, der Motor hat Spannung und blockiert.
+
+-auf der Y-Achse
+-80cm sind etwa 67 G-Werte
+-ein cm entspricht in etwa 0,8375 "G-Werten"
+-ein "G-Wert" entspricht in etwa 1,194029851 cm
+
+Status Codes
+https://github.com/synthetos/TinyG/wiki/TinyG-Status-Codes
+The following status code are defined. Status codes are returned in the second element of the footer array, e.g.
+"f":[1,0,255,1234]   -- '0' is the OK code
+
+
+JSON responses to commands are in the following general form.
+
+{"xjm":n} returns:
+{"r":{"xjm":5000000000.000},"f":[1,0,11,6649]}
+
+{"2":n} returns:
+{"r":{"2":{"ma":1,"sa":1.800,"tr":36.540,"mi":8,"po":1,"pm":1}},"f":[1,0,9,2423]}
+
+The 'r' is the response envelope. The body of the response is the
+result returned. In the case of a single name it returns the value. In
+the case of a group it returns the entire group as a child object. The
+"f" is the footer which is an array consisting of (1) revision number,
+(2) status code, (3) the number of bytes pulled from RX buffer for
+this command (including the terminating LF), and (4) checksum (more
+details provided later).

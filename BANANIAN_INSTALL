@@ -1,0 +1,11 @@
+BANANIAN distribution from http://www.lemaker.org
+
+user hinzugefuegt: mit adduser
+
+apt-get install emacs
+
+als root#>apt-get install sudo
+als root#>adduser plateexact sudo
+als plateexact#> apt-get install mplayer
+
+#mplayer -vo fbdev -screenw 800 -screenh 600 -geometry 50%:50% -zoom -fs Plate....wmv

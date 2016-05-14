@@ -1,0 +1,4 @@
+KERNEL=="event?" NAME="input/%k", MODE="660", GROUP="mouse"
+KERNEL=="mouse?" NAME="input/%k", MODE="660", GROUP="mouse"
+KERNEL=="mice"   NAME="input/%k", MODE="660", GROUP="mouse"
+
