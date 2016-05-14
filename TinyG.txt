@@ -49,3 +49,24 @@ the case of a group it returns the entire group as a child object. The
 (2) status code, (3) the number of bytes pulled from RX buffer for
 this command (including the terminating LF), and (4) checksum (more
 details provided later).
+
+
+[vel]  velocity           - actual velocity - may be different than programmed feed rate 
+[line] line_number        - either the Gcode line number (N word), or the auto-generated line count if N's are no present 
+[feed] feed_rate          - gcode programmed feed rate (F word) 
+[stat] machine_state      - 0=initializing, 1=ready, 2=shutdown, 3=stop, 4=end, 5=run, 6=hold, 9=homing 
+[unit] units_mode         - 0=inch, 1=mm
+[coor] coordinate_system  - 0=g53, 1=g54, 2=g55, 3=g56, 4=g57, 5=g58, 6=g59
+[momo] motion_mode        - 0=traverse, 1=straight feed, 2=cw arc, 3=ccw arc
+[plan] plane_select       - 0=XY plane, 1=XZ plane, 2=YZ plane
+[path] path_control_mode  - 0=exact stop, 1=exact path, 2=continuous
+[dist] distance_mode      - 0=absolute distance, 1=incremental distance
+[frmo] feed_rate_mode     - 0=units-per-minute-mode, 1=inverse-time-mode
+[hold] hold_state         - 0=off, 1=sync, 2=plan, 3=decel, 4=holding, 5=end-hold
+
+[posx] x work position    - X work position in prevailing units (mm or inch) 
+[posy] y work position        Reports position in current coordinate system
+[posz] z work position        and with any G92 offsets in effect
+[posa] a work position
+[posb] b work position
+[posc] c work position
