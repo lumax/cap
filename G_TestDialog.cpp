@@ -132,6 +132,42 @@ namespace EuMax01
       }
   }
 
+  void G_TestDialog::xPosLis(void * pLis,float pos)
+  {
+  }
+
+  void G_TestDialog::yPosLis(void * pLis,float pos)
+  {
+    char pcTmp[64];
+    G_TestDialog * pGTD;
+    pGTD = (G_TestDialog *)pLis;
+
+    for(int i=0;i<64;i++){
+      pcTmp[i]='\0';
+    }
+
+    snprintf(pcTmp,64,"%.0003f",pos);
+
+    pGTD->theMenuGY->pLPosition->setText(pcTmp);
+    pGTD->theMenuGY->pLPosition->show(pGTD->Parent->theGUI->getMainSurface());
+  }
+
+  void G_TestDialog::zPosLis(void * pLis,float pos)
+  {
+    
+  }
+
+  void G_TestDialog::aPosLis(void * pLis,float pos)
+  {
+    
+  }
+
+  void G_TestDialog::gFLis(void * pLis,int iA,int iB,int iC,int iD)
+  {
+    
+  }
+
+
   static void G_TestDialogKeyListener(void * src, SDL_Event * evt)
   {
     G_TestDialog* ad = (G_TestDialog*)src;//KeyListener
@@ -201,6 +237,13 @@ namespace EuMax01
     this->Parent = parent;
     this->pExaktG = this->Parent->getExaktG();
     this->pGCtrl = this->pExaktG->getG_Ctrl();
+
+    this->tGCodeLis.pTheListener = this;
+    this->tGCodeLis.fnkXPosLis =&this->xPosLis;
+    this->tGCodeLis.fnkYPosLis =&this->yPosLis;
+    this->tGCodeLis.fnkZPosLis =&this->zPosLis;
+    this->tGCodeLis.fnkAPosLis =&this->aPosLis;
+    this->tGCodeLis.fnkGFLis =&this->gFLis;
 
     M_y = sdlh - yPos;
     if(M_y<=84)
@@ -353,4 +396,8 @@ namespace EuMax01
     this->addEvtTarget(this);//den Screen Key Listener bei sich selber anmelden!
   }
 
-}
+  void G_TestDialog::setActive(void)
+  {
+    this->pExaktG->setGCodeResultListener(&this->tGCodeLis);
+  }
+}/* end Namespace */

@@ -7,6 +7,23 @@ namespace EuMax01
 #ifndef __ExaktG_H__
 #define __ExaktG_H__
 
+  enum TinyG_Answers{
+    nG_posX = 1,
+    nG_posY = 2,
+    nG_posZ = 3,
+    nG_posA = 4,
+    nG_G_f = 5
+  };
+
+  struct ExaktG_CodeListener_t{
+    void * pTheListener;
+    void (*fnkXPosLis)(void * pLis,float xPos);
+    void (*fnkYPosLis)(void * pLis,float yPos);
+    void (*fnkZPosLis)(void * pLis,float zPos);
+    void (*fnkAPosLis)(void * pLis,float aPos);
+    void (*fnkGFLis)(void*,int iA,int iB, int iC, int iD);
+  };
+
   class ExaktG:IPollReadListener,IPollTimerListener
   {
   public:
@@ -25,6 +42,8 @@ namespace EuMax01
     void setCoordinatesRelative(void);
     void setCoordinatesAbsolute(void);
     static void streamScanResult(struct StreamScanner_t * ps);
+    void setGCodeResultListener(struct ExaktG_CodeListener_t* pLis);
+    //struct ExaktG_CodeListener_t* getGCodeResultListener(void);
 
   private:
     PollReader * pr_gcodes;
@@ -32,6 +51,7 @@ namespace EuMax01
     int verbose;
     G_Ctrl GCtrl;
     StreamScanner sScan;
+    struct ExaktG_CodeListener_t *ptGCLis;
   };
 
 #endif /* __ExaktG_H__*/

@@ -34,10 +34,10 @@ Bastian Ruppert
 #include "AbfrageDialog.h"
 #include "BackupDialog.h"
 #include "GMenu.h"
-#include "G_TestDialog.h"
 #include "g_ctrl/G_Ctrl.h"
 #include "g_ctrl/StreamScanner.h"
 #include "g_ctrl/ExaktG.h"
+#include "G_TestDialog.h"
 
 #include "ArbeitsDialog.h"
 
@@ -668,6 +668,7 @@ namespace EuMax01
   {
     if(theExaktG){
       this->iActiveDialog = ArbeitsDialog::G_TestDialogIsActive;
+      this->theG_TestDialog->setActive();
       this->blankMenuArea();
       this->theGUI->activateScreen(this->theG_TestDialog);
     }

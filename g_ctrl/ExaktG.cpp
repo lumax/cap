@@ -22,8 +22,63 @@ namespace EuMax01
 
   void ExaktG::streamScanResult(struct StreamScanner_t * ps)
   {
-    printf("StreamScanner Result Int: %i Float: %f\n",	\
-	   ps->scannedInt, ps->scannedFloat);
+    ExaktG * pEG = (ExaktG *)ps->userPnt;
+
+    if(0==pEG){
+      return;
+    }
+
+    if(0==pEG->ptGCLis){
+	return;
+    }
+
+    switch(ps->userID){
+    case nG_posX:{
+      if(0!=pEG->ptGCLis->fnkXPosLis){
+	(pEG->ptGCLis->fnkXPosLis)(pEG->ptGCLis->pTheListener,	\
+				   ps->scannedFloat);
+      }
+      break;
+    }
+    case nG_posY:{
+      if(0!=pEG->ptGCLis->fnkYPosLis){
+	(pEG->ptGCLis->fnkYPosLis)(pEG->ptGCLis->pTheListener,	\
+				   ps->scannedFloat);
+      }
+      break;
+    }
+    case nG_posZ:{
+      if(0!=pEG->ptGCLis->fnkZPosLis){
+	(pEG->ptGCLis->fnkZPosLis)(pEG->ptGCLis->pTheListener,	\
+				   ps->scannedFloat);
+      }
+      break;
+    }
+    case nG_posA:{
+      if(0!=pEG->ptGCLis->fnkAPosLis){
+	(pEG->ptGCLis->fnkAPosLis)(pEG->ptGCLis->pTheListener,	\
+				   ps->scannedFloat);
+      }
+      break;
+    }
+    case nG_G_f:{
+      if(0!=pEG->ptGCLis->fnkGFLis){
+	(pEG->ptGCLis->fnkGFLis)(pEG->ptGCLis->pTheListener,	\
+				 ps->scannedG_F[0],		\
+				 ps->scannedG_F[1],	\
+				 ps->scannedG_F[2],	\
+				 ps->scannedG_F[3]);
+      }
+      break;
+    }
+    default:{
+      if(0!=pEG->verbose){
+	printf("ExaktG::stremScanResult: unknown userID\n");
+      }
+      break;
+    }
+    }
+
   }
 
   ExaktG::ExaktG(int verbExakt,int verbG):GCtrl(verbG)
@@ -35,7 +90,7 @@ namespace EuMax01
     /*"posx":0.000} oder "posx":0.000,*/
     sScan.addScanner(nStreamScannerType_float,		\
 		     (void*)this,			\
-		     nTinyG_X,				\
+		     nG_posX,				\
 		     (char*)"\"posx\":",		\
 		     (char*)"}",(char*)",",		\
 		     streamScanResult);
@@ -43,7 +98,7 @@ namespace EuMax01
     /*"posy":0.000} oder "posy":0.000,*/
     sScan.addScanner(nStreamScannerType_float,				\
 		     (void*)this,					\
-		     nTinyG_Y,						\
+		     nG_posY,						\
 		     (char*)"\"posy\":",				\
 		     (char*)"}",(char*)",",				\
 		     streamScanResult);
@@ -51,7 +106,7 @@ namespace EuMax01
     /*"posz":0.000} oder "posz":0.000,*/
     sScan.addScanner(nStreamScannerType_float,				\
 		     (void*)this,					\
-		     nTinyG_Y,						\
+		     nG_posZ,						\
 		     (char*)"\"posz\":",				\
 		     (char*)"}",(char*)",",				\
 		     streamScanResult);
@@ -59,10 +114,19 @@ namespace EuMax01
     /*"posa":0.000} oder "posa":0.000,*/
     sScan.addScanner(nStreamScannerType_float,				\
 		     (void*)this,					\
-		     nTinyG_Y,						\
+		     nG_posA,						\
 		     (char*)"\"posa\":",				\
 		     (char*)"}",(char*)",",				\
 		     streamScanResult);
+    /*"f":[1,0,4,4397]*/
+    sScan.addScanner(nStreamScannerType_G_fReturn,	\
+		     (void*)this,			\
+		     nG_G_f,				\
+		     (char*)"\"f\":[",			\
+		     (char*)"]",			\
+		     (char*)"]",			\
+		     streamScanResult);
+
   }
 
   void ExaktG::setFD(int fd)
@@ -135,5 +199,10 @@ namespace EuMax01
 	printf("%s",buf);
       }
     }
+  }
+
+  void ExaktG::setGCodeResultListener(struct ExaktG_CodeListener_t *pGCLis)
+  {
+    this->ptGCLis = pGCLis;
   }
 }

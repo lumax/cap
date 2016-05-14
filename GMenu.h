@@ -40,7 +40,6 @@ namespace EuMax01
     void setMenuName(char * theName);
     void updateSettings(struct t_MenuBarSettings * settings);
 
-  protected:
     Label * pLName;
     Button * pBUp;
     Button * pBDown;
@@ -67,7 +66,6 @@ namespace EuMax01
     void setMenuName(char * theName);
     void updateSettings(struct t_MenuBarSettings * settings);
 
-  protected:
     Label * pLName;
     Button * pBUp;
     Button * pBDown;

@@ -12,6 +12,7 @@ namespace EuMax01
   struct t_MenuGLiftSettings;
   class ExaktG;
   class G_Ctrl;
+  struct ExaktG_CodeListener_t;
 
   class G_TestDialog : public Screen
   {
@@ -45,9 +46,14 @@ namespace EuMax01
     static void GA_DownListener(void*,SDL_Event * evt);
     static void GA_SpeedListener(void*,SDL_Event * evt);
 
+    void setActive(void);
   private:
-    //void setXXData(unsigned int dat,int MyStep,char * suffix);
-    //void setXXData(unsigned int dat,int MyStep,char * suffix,unsigned int zFaktor);
+    struct ExaktG_CodeListener_t tGCodeLis;
+    static void xPosLis(void * pLis,float pos);
+    static void yPosLis(void * pLis,float pos);
+    static void zPosLis(void * pLis,float pos);
+    static void aPosLis(void * pLis,float pos);
+    static void gFLis(void * pLis,int iA,int iB,int iC,int iD);
 
     struct t_MenuBarSettings theMenuBarSettings;
     MenuBar * theMenu;
