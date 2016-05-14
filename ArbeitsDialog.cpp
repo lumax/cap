@@ -35,6 +35,9 @@ Bastian Ruppert
 #include "BackupDialog.h"
 #include "GMenu.h"
 #include "G_TestDialog.h"
+#include "g_ctrl/G_Ctrl.h"
+#include "g_ctrl/StreamScanner.h"
+#include "g_ctrl/ExaktG.h"
 
 #include "ArbeitsDialog.h"
 
@@ -189,7 +192,8 @@ namespace EuMax01
 			       int (*getDiameterFnk)(void),
 			       void (*setFKBreite)(int val),	\
 			       void (*saveFKBreite)(void),\
-			       int (*getFKBreite)(void))//:Screen()
+			       int (*getFKBreite)(void),\
+			       ExaktG * pExaktG)//:Screen()
   {
     short M_y;
     short MLinks_x;
@@ -241,6 +245,8 @@ namespace EuMax01
     this->TextZaxis = (char*)"Z-Axis";
 
     this->iFaktorZAchse = Rezept::DefaultWalze;
+
+    this->theExaktG = pExaktG;
 
     //wird in convertCamPos benötigt
     if(sdlw/2>camw)
@@ -660,11 +666,11 @@ namespace EuMax01
 
   void ArbeitsDialog::showG_TestDialog()
   {
-    //if(!useGUI)//TODO errors im BlindMode evtl. zulassen
-      //return;
-    this->iActiveDialog = ArbeitsDialog::G_TestDialogIsActive;
-    this->blankMenuArea();
-    this->theGUI->activateScreen(this->theG_TestDialog);
+    if(theExaktG){
+      this->iActiveDialog = ArbeitsDialog::G_TestDialogIsActive;
+      this->blankMenuArea();
+      this->theGUI->activateScreen(this->theG_TestDialog);
+    }
   }
 
   SplashScreen * ArbeitsDialog::getSplashScreen()
@@ -1085,6 +1091,11 @@ namespace EuMax01
   void ArbeitsDialog::clearFilter(void)
   {
     theLoadDialog->clearFilter();
+  }
+
+  ExaktG * ArbeitsDialog::getExaktG(void)
+  {
+    return this->theExaktG;
   }
 
   BackupMenuDialog * ArbeitsDialog::getBackupMenuDialog(void)

@@ -33,10 +33,10 @@ Bastian Ruppert
 #include "NewDirectDialog.h"
 #include "InfoDialog.h"
 #include "GMenu.h"
+#include "g_ctrl/G_Ctrl.h"
+#include "g_ctrl/StreamScanner.h"
+#include "g_ctrl/ExaktG.h"
 
-//#include "videodev.h"
-//#include "V4L2_utils.h"
-//#include "CamCtrl.h"
 #include "G_TestDialog.h"
 
 namespace EuMax01
@@ -125,9 +125,10 @@ namespace EuMax01
     G_TestDialog* ad = (G_TestDialog*)src;//KeyListener
     if(ad->pTFEingabe->getTextLen()>0)
       {
-	printf("%s\n",ad->pTFEingabe->getText());
+	ad->pGCtrl->cmdG(ad->pTFEingabe->getText());
 	ad->pTFEingabe->setText((char*)"");
 	ad->pTFEingabe->show(ad->Parent->theGUI->getMainSurface());
+	
       }
   }
 
@@ -135,7 +136,7 @@ namespace EuMax01
   {
     G_TestDialog* ad = (G_TestDialog*)src;//KeyListener
     SDL_KeyboardEvent * key = (SDL_KeyboardEvent *)&evt->key;
-    SDLMod mod = key->keysym.mod;
+    //    SDLMod mod = key->keysym.mod;
 
     if( key->type == SDL_KEYUP )
       {
@@ -163,18 +164,6 @@ namespace EuMax01
 	  {
 	    ad->GLiftDownListener(src,evt);
 	  }
-	else if(key->keysym.sym == SDLK_s)
-	  {
-	    ad->GLiftSetSpeedListener(src,evt);
-	  }
-	else if(key->keysym.sym == SDLK_a)
-	  {
-	    ad->GX_LeftListener(src,evt);
-	  }
-	else if(key->keysym.sym == SDLK_d)
-	  {
-	    ad->GX_RightListener(src,evt);
-	  }
 	else if(key->keysym.sym == SDLK_LEFT)
 	  {
 	    ad->GY_LeftListener(src,evt);
@@ -183,7 +172,7 @@ namespace EuMax01
 	  {
 	    ad->GY_RightListener(src,evt);
 	  }
-	else if(key->keysym.sym == SDLK_p)
+	/*	else if(key->keysym.sym == SDLK_p)
 	  {
 	    if((mod & KMOD_CTRL) &&		\
 	       (mod & KMOD_SHIFT)&&             \
@@ -191,7 +180,7 @@ namespace EuMax01
 	      {
 		printf("G_TestDialog Str Shift Alt p\n");
 	      }
-	  }
+	      }*/
       }
   }
 
@@ -210,6 +199,8 @@ namespace EuMax01
     short Zeile5_y;
 
     this->Parent = parent;
+    this->pExaktG = this->Parent->getExaktG();
+    this->pGCtrl = this->pExaktG->getG_Ctrl();
 
     M_y = sdlh - yPos;
     if(M_y<=84)

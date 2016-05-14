@@ -1523,7 +1523,8 @@ int main(int argc, char *argv[])
 				       getOverlayCircle,\
 				       setFadenkreuzBreite,\
 				       saveFadenkreuzBreite,\
-				       getFadenkreuzBreite);
+				       getFadenkreuzBreite,\
+				       pExaktG);
   //theArbeitsDialog->setFaktorZAchse((float)FaktorZ1);
 
   theGUI->eventLoop();

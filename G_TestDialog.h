@@ -10,6 +10,8 @@ namespace EuMax01
 
   class ArbeitsDialog;
   struct t_MenuGLiftSettings;
+  class ExaktG;
+  class G_Ctrl;
 
   class G_TestDialog : public Screen
   {
@@ -65,6 +67,8 @@ namespace EuMax01
     Button * pBEingabe;
     TextField * pTFEingabe;
 
+    ExaktG * pExaktG;
+    G_Ctrl * pGCtrl;
   };
 
 #endif /* __G_TESTDIALOG_H__*/

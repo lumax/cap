@@ -27,6 +27,7 @@ namespace EuMax01
   class FlexibleInfoDialog;
   class OkCancelDialog;
   class G_TestDialog;
+  class ExaktG;
 
   //class IMBProtListener;
   class MenuBar;
@@ -55,7 +56,8 @@ namespace EuMax01
 		  int (*getDiameterFnk)(void),\
 		  void (*setFKBreite)(int val),		\
 		  void (*saveFKBreite)(void),\
-		  int (*getFKBreite)(void));
+		  int (*getFKBreite)(void),\
+		  ExaktG *pExaktG);
     ~ArbeitsDialog();
 
     /*! \brief füllt den einen char Puffer mit data als string
@@ -183,6 +185,8 @@ namespace EuMax01
     void convertCamPos(int cam,unsigned short dat);
     void clearFilter(void);
 
+    ExaktG * getExaktG(void);
+
   private:
     int CamW_Sichtbar;
     int CamW_Unsichtbar;
@@ -228,6 +232,7 @@ namespace EuMax01
     FlexibleInfoDialog * theFlexibleInfoDialog;
     OkCancelDialog * theBackupOkCancelDialog;
     G_TestDialog * theG_TestDialog;
+    ExaktG * theExaktG;
 
     PosDialog * thePosDialog;
     
