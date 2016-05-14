@@ -48,6 +48,22 @@ namespace EuMax01
       };
   }
 
+  void G_Ctrl::sendCmd(char * cmd)
+  {
+    int ret;
+    ret = snprintf(this->cmdBuf,this->cmdLen,"%s\r",cmd);
+    if(0<this->fd)
+      {
+	write(this->fd,this->cmdBuf,ret);
+      }   
+  }
+
+  void G_Ctrl::cmdGetStatus(void)
+  {
+    char * getStatus = (char*)"{\"sr\":\"\"}";
+    sendCmd(getStatus);
+  }
+
   void G_Ctrl::cmdFlowControl(void)
   {
     int ret = 0;

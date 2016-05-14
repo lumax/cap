@@ -45,6 +45,11 @@ namespace EuMax01
     void setGCodeResultListener(struct ExaktG_CodeListener_t* pLis);
     //struct ExaktG_CodeListener_t* getGCodeResultListener(void);
 
+    static char* toString(float f,char* pcTarget,int len);
+
+    float xPos,yPos,zPos,aPos;
+    int lastG_F[4];
+
   private:
     PollReader * pr_gcodes;
     PollTimer * pt_gcodes;

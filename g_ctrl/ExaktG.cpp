@@ -20,6 +20,15 @@ Bastian Ruppert
 namespace EuMax01
 {
 
+  char* ExaktG::toString(float f,char * pcTarget, int len)
+  {
+    for(int i=0;i<len;i++){
+      pcTarget[i]='\0';
+    }
+    snprintf(pcTarget,len,"%.0003f",f);
+    return pcTarget;
+  }
+
   void ExaktG::streamScanResult(struct StreamScanner_t * ps)
   {
     ExaktG * pEG = (ExaktG *)ps->userPnt;
@@ -34,6 +43,7 @@ namespace EuMax01
 
     switch(ps->userID){
     case nG_posX:{
+      pEG->xPos = ps->scannedFloat;
       if(0!=pEG->ptGCLis->fnkXPosLis){
 	(pEG->ptGCLis->fnkXPosLis)(pEG->ptGCLis->pTheListener,	\
 				   ps->scannedFloat);
@@ -41,6 +51,7 @@ namespace EuMax01
       break;
     }
     case nG_posY:{
+      pEG->yPos = ps->scannedFloat;
       if(0!=pEG->ptGCLis->fnkYPosLis){
 	(pEG->ptGCLis->fnkYPosLis)(pEG->ptGCLis->pTheListener,	\
 				   ps->scannedFloat);
@@ -48,6 +59,7 @@ namespace EuMax01
       break;
     }
     case nG_posZ:{
+      pEG->zPos = ps->scannedFloat;
       if(0!=pEG->ptGCLis->fnkZPosLis){
 	(pEG->ptGCLis->fnkZPosLis)(pEG->ptGCLis->pTheListener,	\
 				   ps->scannedFloat);
@@ -55,6 +67,7 @@ namespace EuMax01
       break;
     }
     case nG_posA:{
+      pEG->aPos = ps->scannedFloat;
       if(0!=pEG->ptGCLis->fnkAPosLis){
 	(pEG->ptGCLis->fnkAPosLis)(pEG->ptGCLis->pTheListener,	\
 				   ps->scannedFloat);
@@ -62,6 +75,10 @@ namespace EuMax01
       break;
     }
     case nG_G_f:{
+      pEG->lastG_F[0] = ps->scannedG_F[0];
+      pEG->lastG_F[1] = ps->scannedG_F[1];
+      pEG->lastG_F[2] = ps->scannedG_F[2];
+      pEG->lastG_F[3] = ps->scannedG_F[3];
       if(0!=pEG->ptGCLis->fnkGFLis){
 	(pEG->ptGCLis->fnkGFLis)(pEG->ptGCLis->pTheListener,	\
 				 ps->scannedG_F[0],		\
@@ -86,6 +103,16 @@ namespace EuMax01
     this->setVerbose(verbExakt);
     pr_gcodes = new PollReader(this);
     pt_gcodes = new PollTimer(-1,this);
+
+    xPos=0.0;
+    yPos=0.0;
+    zPos=0.0;
+    aPos=0.0;
+    lastG_F[0] = 0;
+    lastG_F[1] = 0;
+    lastG_F[2] = 0;
+    lastG_F[3] = 0;
+    
 
     /*"posx":0.000} oder "posx":0.000,*/
     sScan.addScanner(nStreamScannerType_float,		\

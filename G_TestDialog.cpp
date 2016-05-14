@@ -42,62 +42,65 @@ Bastian Ruppert
 namespace EuMax01
 {
 
-  void G_TestDialog::GX_LeftListener(void*,SDL_Event * evt)
+  void G_TestDialog::GX_LeftListener(void* src,SDL_Event * evt)
   {
     
   }
 
-  void G_TestDialog::GX_RightListener(void*,SDL_Event * evt)
+  void G_TestDialog::GX_RightListener(void* src,SDL_Event * evt)
   {
     
   }
 
-  void G_TestDialog::GX_SpeedListener(void*,SDL_Event * evt)
+  void G_TestDialog::GX_SpeedListener(void* src,SDL_Event * evt)
+  {
+    G_TestDialog* ad = (G_TestDialog*)src;//KeyListener
+    ad->pGCtrl->cmdGetStatus();
+    printf("GX_SpeedListener\n");
+    
+  }
+
+  void G_TestDialog::GY_LeftListener(void* src,SDL_Event * evt)
   {
     
   }
 
-  void G_TestDialog::GY_LeftListener(void*,SDL_Event * evt)
+  void G_TestDialog::GY_RightListener(void* src,SDL_Event * evt)
   {
     
   }
 
-  void G_TestDialog::GY_RightListener(void*,SDL_Event * evt)
+  void G_TestDialog::GY_SpeedListener(void* src,SDL_Event * evt)
   {
     
   }
 
-  void G_TestDialog::GY_SpeedListener(void*,SDL_Event * evt)
+  void G_TestDialog::GA_UpListener(void* src,SDL_Event * evt)
   {
     
   }
 
-  void G_TestDialog::GA_UpListener(void*,SDL_Event * evt)
+  void G_TestDialog::GA_DownListener(void* src,SDL_Event * evt)
   {
     
   }
 
-  void G_TestDialog::GA_DownListener(void*,SDL_Event * evt)
+  void G_TestDialog::GA_SpeedListener(void* src,SDL_Event * evt)
   {
     
   }
 
-  void G_TestDialog::GA_SpeedListener(void*,SDL_Event * evt)
-  {
-    
-  }
-
-  void G_TestDialog::GLiftUpListener(void*,SDL_Event * evt)
+  void G_TestDialog::GLiftUpListener(void* src,SDL_Event * evt)
   {
     printf("G_TestDialog MenuGLiftUpListener\n");
   }
 
-  void G_TestDialog::GLiftDownListener(void*,SDL_Event * evt)
+  void G_TestDialog::GLiftDownListener(void* src,SDL_Event * evt)
   {
     printf("G_TestDialog MenuGLiftDownListener\n");
   }
 
-  void G_TestDialog::GLiftSetSpeedListener(void*,SDL_Event * evt)
+  void G_TestDialog::GLiftSetSpeedListener(void* src,SDL_Event * evt)
   {
     printf("G_TestDialog MenuGLiftSetSpeedListener\n");
   }
@@ -134,32 +137,38 @@ namespace EuMax01
 
   void G_TestDialog::xPosLis(void * pLis,float pos)
   {
+    static char pcTmp[16];
+    G_TestDialog * pGTD;
+    pGTD = (G_TestDialog *)pLis;
+    pGTD->theMenuGX->pLPosition->setText(ExaktG::toString(pos,pcTmp,16));
+    pGTD->theMenuGX->pLPosition->show(pGTD->Parent->theGUI->getMainSurface());
   }
 
   void G_TestDialog::yPosLis(void * pLis,float pos)
   {
-    char pcTmp[64];
+    static char pcTmp[16];
     G_TestDialog * pGTD;
     pGTD = (G_TestDialog *)pLis;
-
-    for(int i=0;i<64;i++){
-      pcTmp[i]='\0';
-    }
-
-    snprintf(pcTmp,64,"%.0003f",pos);
-
-    pGTD->theMenuGY->pLPosition->setText(pcTmp);
+    pGTD->theMenuGY->pLPosition->setText(ExaktG::toString(pos,pcTmp,16));
     pGTD->theMenuGY->pLPosition->show(pGTD->Parent->theGUI->getMainSurface());
   }
 
   void G_TestDialog::zPosLis(void * pLis,float pos)
   {
-    
+    static char pcTmp[16];
+    G_TestDialog * pGTD;
+    pGTD = (G_TestDialog *)pLis;
+    pGTD->theMenuGLift->pLPosition->setText(ExaktG::toString(pos,pcTmp,16));
+    pGTD->theMenuGLift->pLPosition->show(pGTD->Parent->theGUI->getMainSurface());
   }
 
   void G_TestDialog::aPosLis(void * pLis,float pos)
   {
-    
+    static char pcTmp[16];
+    G_TestDialog * pGTD;
+    pGTD = (G_TestDialog *)pLis;
+    pGTD->theMenuGWalze->pLPosition->setText(ExaktG::toString(pos,pcTmp,16));
+    pGTD->theMenuGWalze->pLPosition->show(pGTD->Parent->theGUI->getMainSurface());
   }
 
   void G_TestDialog::gFLis(void * pLis,int iA,int iB,int iC,int iD)
@@ -399,5 +408,6 @@ namespace EuMax01
   void G_TestDialog::setActive(void)
   {
     this->pExaktG->setGCodeResultListener(&this->tGCodeLis);
+    this->pGCtrl->cmdGetStatus();
   }
 }/* end Namespace */

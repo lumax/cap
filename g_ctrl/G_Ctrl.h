@@ -27,7 +27,9 @@ namespace EuMax01
     int openUart(char * path,int baud);
     void closeUart(void);
     int getFd(void);
+    void cmdGetStatus(void);
   private:
+    void sendCmd(char * cmd);
     int verbose;
     int cmdLen;
     char cmdBuf[64];
