@@ -34,6 +34,10 @@
 #include "V4L2_utils.h"
 #include "iniParser.h"
 
+#include "g_ctrl/G_Ctrl.h"
+#include "g_ctrl/StreamScanner.h"
+#include "g_ctrl/ExaktG.h"
+
 //#include "dsp_color.h"
 
 using namespace std;
@@ -956,6 +960,7 @@ void CamControl::pollReadEvent(PollSource * s)
 ArbeitsDialog * theArbeitsDialog;
 MBProtocol theProtocol;
 Rezept theRezept;
+ExaktG * pExaktG = 0;
 
 GUI* theGUI;
 char tmp[64];
@@ -1134,6 +1139,10 @@ static void onExit(int i,void* pv)
       fd=cap_cam_getFd(1);
       close(fd);
     }
+  if(0!=pExaktG)
+    {
+      pExaktG->getG_Ctrl()->closeUart();
+    }
   printf("Version_A: %s\n",CAP_VERSION);
   printf("Version_B: %s\n",FSGPP_VERSION);
   printf("Version_C: %s\n",CAPTURE_VERSION);
@@ -1146,6 +1155,7 @@ static void oneSecondTimer(void)
 {
   static int SplashScreenTimer = 0;
   static int LightIsOnCounter = 0;
+  static int ExaktG_com = 0;
 
   if(serialCommClosed)
     {
@@ -1200,6 +1210,22 @@ static void oneSecondTimer(void)
 	}
     }
 
+  if(0==ExaktG_com)
+    {
+      printf("searching for ExaktG Komm Port\n");
+
+      int ret = pExaktG->getG_Ctrl()->openUart(pathTinyG,115200);
+      if(ret>0)
+	{
+	  pExaktG->setFD(ret);
+	  theGUI->addPollTimer(pExaktG->getPollTimer());
+	  if(0!=theGUI->addPollReader(pExaktG->getPollReader()))
+	    {
+	      printf("ExaktG addPollReader failed\n");
+	    }
+	  ExaktG_com = 1;
+	}
+    }
 }
 
 int main(int argc, char *argv[])
@@ -1456,6 +1482,13 @@ int main(int argc, char *argv[])
     printf("GUI::getInstance failed\n");
     return -1;
   }
+
+  pExaktG = new ExaktG(1,0);//verboseExakt, verboseG
+  if(0==pExaktG)
+    {
+      printf("create ExaktG instance failed\n");
+      return -1;
+    }
 
   /* GUI::getInstance verändert props.height und props.width im FullScreenMode.
    * In der GUI-Klasse heißt das UseCurWandH.
