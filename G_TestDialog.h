@@ -54,6 +54,7 @@ namespace EuMax01
     void setActive(void);
 
     void incSpeedLevel(int axis);
+    void moveButtonAction(SDL_Event * evt, int Axis,int direction);
   private:
     struct ExaktG_CodeListener_t tGCodeLis;
     static void xPosLis(void * pLis,float pos);

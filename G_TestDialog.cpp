@@ -43,12 +43,14 @@ namespace EuMax01
 {
   void G_TestDialog::GX_LeftListener(void* src,SDL_Event * evt)
   {
-    
+    G_TestDialog* td = (G_TestDialog*)src;
+    td->moveButtonAction(evt,ExaktG::AxisX,ExaktG::DirectionLeft);
   }
 
   void G_TestDialog::GX_RightListener(void* src,SDL_Event * evt)
   {
-    
+     G_TestDialog* td = (G_TestDialog*)src;
+     td->moveButtonAction(evt,ExaktG::AxisX,ExaktG::DirectionRight);
   }
 
   void G_TestDialog::GX_SpeedListener(void* src,SDL_Event * evt)
@@ -60,37 +62,13 @@ namespace EuMax01
   void G_TestDialog::GY_LeftListener(void* src,SDL_Event * evt)
   {
     G_TestDialog* td = (G_TestDialog*)src;
-    SDL_KeyboardEvent * key = (SDL_KeyboardEvent *)&evt->key;
-
-    if(evt->type==SDL_MOUSEBUTTONDOWN)
-      {
-	td->pExaktG->move(ExaktG::AxisY,ExaktG::DirectionLeft);
-	td->pExaktG->holdMoving(true);
-      }
-    if((evt->type==SDL_MOUSEBUTTONUP))
-      {
-	td->pExaktG->holdMoving(false);
-      }
-    if(key->keysym.sym == SDLK_LEFT)
-      {
-	td->pExaktG->move(ExaktG::AxisY,ExaktG::DirectionLeft);
-	td->pExaktG->holdMoving(false);
-      }
+    td->moveButtonAction(evt,ExaktG::AxisY,ExaktG::DirectionLeft);
   }
 
   void G_TestDialog::GY_RightListener(void* src,SDL_Event * evt)
   {
     G_TestDialog* td = (G_TestDialog*)src;
-    SDL_KeyboardEvent * key = (SDL_KeyboardEvent *)&evt->key;
-
-    if(evt->type==SDL_MOUSEBUTTONDOWN)
-      {
-	//printf("SDL_MOUSEBUTTONDOWN\n");
-      }
-    if((evt->type==SDL_MOUSEBUTTONUP)||(key->keysym.sym == SDLK_RIGHT))
-      {
-	td->pExaktG->move(ExaktG::AxisY,ExaktG::DirectionRight);
-      }
+    td->moveButtonAction(evt,ExaktG::AxisY,ExaktG::DirectionRight);
   }
 
   void G_TestDialog::GY_SpeedListener(void* src,SDL_Event * evt)
@@ -101,12 +79,14 @@ namespace EuMax01
 
   void G_TestDialog::GA_UpListener(void* src,SDL_Event * evt)
   {
-    printf("GA_UpListener\n");
+    G_TestDialog* td = (G_TestDialog*)src;
+    td->moveButtonAction(evt,ExaktG::AxisA,ExaktG::DirectionUp);
   }
 
   void G_TestDialog::GA_DownListener(void* src,SDL_Event * evt)
   {
-    
+    G_TestDialog* td = (G_TestDialog*)src;
+    td->moveButtonAction(evt,ExaktG::AxisA,ExaktG::DirectionDown);
   }
 
   void G_TestDialog::GA_SpeedListener(void* src,SDL_Event * evt)
@@ -117,12 +97,14 @@ namespace EuMax01
 
   void G_TestDialog::GLiftUpListener(void* src,SDL_Event * evt)
   {
-    printf("G_TestDialog MenuGLiftUpListener\n");
+    G_TestDialog* td = (G_TestDialog*)src;
+    td->moveButtonAction(evt,ExaktG::AxisZ,ExaktG::DirectionUp);
   }
 
   void G_TestDialog::GLiftDownListener(void* src,SDL_Event * evt)
   {
-    printf("G_TestDialog MenuGLiftDownListener\n");
+    G_TestDialog* td = (G_TestDialog*)src;
+    td->moveButtonAction(evt,ExaktG::AxisZ,ExaktG::DirectionDown);
   }
 
   void G_TestDialog::GLiftSetSpeedListener(void* src,SDL_Event * evt)
@@ -260,6 +242,32 @@ namespace EuMax01
       }*/
   }
 
+  void G_TestDialog::moveButtonAction(SDL_Event * evt,int axis,int direction)
+  {
+    SDL_KeyboardEvent * key = (SDL_KeyboardEvent *)&evt->key;
+
+    if(evt->type==SDL_MOUSEBUTTONDOWN)
+      {
+	this->pExaktG->move(axis,direction);
+	this->pExaktG->holdMoving(true);
+      }
+    if((evt->type==SDL_MOUSEBUTTONUP))
+      {
+	this->pExaktG->holdMoving(false);
+      }
+    if(key->type == SDL_KEYUP)
+      {
+	if((key->keysym.sym == SDLK_LEFT)	\
+	   ||(key->keysym.sym == SDLK_RIGHT)	\
+	   ||(key->keysym.sym == SDLK_PAGEUP)	\
+	   ||(key->keysym.sym == SDLK_PAGEDOWN))
+	  {
+	    this->pExaktG->move(axis,direction);
+	    this->pExaktG->holdMoving(false);
+	  }
+      }
+  }
+
   void G_TestDialog::incSpeedLevel(int axis)
   {
     MenuGBase * gMenu;
@@ -371,11 +379,11 @@ namespace EuMax01
     pGMset = &theMenuGXSettings;
     pGMset->evtSource = this;
     pGMset->evtFnkBtn1Up = GX_LeftListener;
-    pGMset->evtFnkBtn1Down = 0;//GX_LeftListener;
+    pGMset->evtFnkBtn1Down = GX_LeftListener;
     pGMset->evtFnkBtn1MouseOver = G_MoveBtnMouseOverListener;
     pGMset->evtFnkBtn2MouseOver = G_MoveBtnMouseOverListener;
     pGMset->evtFnkBtn2Up = GX_RightListener;
-    pGMset->evtFnkBtn2Down =0;//GX_RightListener;
+    pGMset->evtFnkBtn2Down = GX_RightListener;
     pGMset->evtFnkSetSpeed = GX_SpeedListener;
     pGMset->btn1Text = (char *)"<--a";
     pGMset->btn2Text = (char *)"d-->";
@@ -386,7 +394,7 @@ namespace EuMax01
     pGMset->evtFnkBtn1Up = GY_LeftListener;
     pGMset->evtFnkBtn1Down = GY_LeftListener;
     pGMset->evtFnkBtn2Up = GY_RightListener;
-    pGMset->evtFnkBtn2Down = 0;//GX_LeftListener;
+    pGMset->evtFnkBtn2Down = GY_RightListener;
     pGMset->evtFnkBtn1MouseOver = G_MoveBtnMouseOverListener;
     pGMset->evtFnkBtn2MouseOver = G_MoveBtnMouseOverListener;
     pGMset->evtFnkSetSpeed = GY_SpeedListener;
@@ -397,9 +405,9 @@ namespace EuMax01
     pGMset = &theMenuGASettings;
     pGMset->evtSource = this;
     pGMset->evtFnkBtn1Up = GA_UpListener;
-    pGMset->evtFnkBtn1Down = 0;//GA_LeftListener;
+    pGMset->evtFnkBtn1Down = GA_UpListener;
     pGMset->evtFnkBtn2Up = GA_DownListener;
-    pGMset->evtFnkBtn2Down = 0;//GA_LeftListener;
+    pGMset->evtFnkBtn2Down = GA_DownListener;
     pGMset->evtFnkBtn1MouseOver = G_MoveBtnMouseOverListener;
     pGMset->evtFnkBtn2MouseOver = G_MoveBtnMouseOverListener;
     pGMset->evtFnkSetSpeed = GA_SpeedListener;
@@ -410,9 +418,9 @@ namespace EuMax01
     pGMset = &theMenuGZSettings;
     pGMset->evtSource = this;
     pGMset->evtFnkBtn1Up = GLiftUpListener;
-    pGMset->evtFnkBtn1Down = 0;//GLiftUpListener;
+    pGMset->evtFnkBtn1Down = GLiftUpListener;
     pGMset->evtFnkBtn2Up = GLiftDownListener;
-    pGMset->evtFnkBtn2Down = 0;//
+    pGMset->evtFnkBtn2Down = GLiftDownListener;
     pGMset->evtFnkBtn1MouseOver = G_MoveBtnMouseOverListener;
     pGMset->evtFnkBtn2MouseOver = G_MoveBtnMouseOverListener;
     pGMset->evtFnkSetSpeed = GLiftSetSpeedListener;
