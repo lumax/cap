@@ -35,6 +35,47 @@ Bastian Ruppert
 
 namespace EuMax01
 {
+  MenuGBase::~MenuGBase(){}
+  MenuGBase::MenuGBase(char * name,				\
+		       int xPos,				\
+		       int yPos,				\
+		       int y_height,				\
+		       int y_space,				\
+		       int width,				\
+		       struct t_MenuGSettings * settings,	\
+		       ArbeitsDialog * Parent)
+  {
+    this->theArbeitsDialog = Parent;
+  }
+
+  ArbeitsDialog * MenuGBase::getArbeitsDialog(){
+    return this->theArbeitsDialog;
+  }
+
+  void MenuGBase::setMenuName(char * theName)
+  {
+    if(0!=theName)
+      {
+	pLName->setText(theName);
+      }
+  }
+
+  void MenuGBase::updateSettings(struct t_MenuBarSettings * settings)
+  {/*
+    for(int i = 0;i<MenuGHorizontal::MenuPunkte;i++)
+      {
+	if(0!=settings->Text[i])
+	  {
+	    lbuf[i]->setText(settings->Text[i]);
+	  }
+	else
+	  {
+	    lbuf[i]->setText(" ");
+	  }
+	lbuf[i]->setLMButtonUpEvtHandler(settings->evtFnks[i]);//,settings->evtSource);
+	}*/
+  }
+
 
   MenuGHorizontal::~MenuGHorizontal(){}
   MenuGHorizontal::MenuGHorizontal(char * name,			\
@@ -54,19 +95,6 @@ namespace EuMax01
 	      settings,							\
 	      Parent)
 {
-  printf("####################Konstruktor MenuGHorizontal\n");
-}
-
-    MenuGBase::~MenuGBase(){}
-  MenuGBase::MenuGBase(char * name,				\
-		       int xPos,				\
-		       int yPos,				\
-		       int y_height,				\
-		       int y_space,				\
-		       int width,				\
-		       struct t_MenuGSettings * settings,	\
-		       ArbeitsDialog * Parent)
-  {
     //short xPos[MenuBar::LabelBufLen];
     short x_space;
     int wHalbe,wButton,wButtonHalbe;
@@ -79,14 +107,14 @@ namespace EuMax01
     pLName = new Label(name,\
 		       xPos,yPos,wButton,y_height,Parent->DialogSet);
 
-    pBUp = new Button(settings->btnUpText,				\
+    pB1 = new Button(settings->btnUpText,				\
 		      xPos,						\
 		      yPos+y_height*1+y_space*1,			\
 		      wButtonHalbe,					\
 		      y_height,						\
 		      Parent->MenuSet);
 
-    pBDown = new Button(settings->btnDownText,				\
+    pB2 = new Button(settings->btnDownText,				\
 			xPos,						\
 			yPos+y_height*2+y_space*2,			\
 			wButtonHalbe,					\
@@ -115,48 +143,27 @@ namespace EuMax01
 			Parent->WerteSet);
 
 
-    pBUp->setLMButtonUpEvtHandler(settings->evtFnkBtn1);
-    pBDown->setLMButtonUpEvtHandler(settings->evtFnkBtn2);
+    pB1->setLMButtonUpEvtHandler(settings->evtFnkBtn1);
+    pB2->setLMButtonUpEvtHandler(settings->evtFnkBtn2);
     pBSetSpeed->setLMButtonUpEvtHandler(settings->evtFnkSetSpeed);
 
-    pBUp->pTSource = settings->evtSource;
-    pBDown->pTSource = settings->evtSource;
+    pB1->pTSource = settings->evtSource;
+    pB2->pTSource = settings->evtSource;
     pBSetSpeed->pTSource = settings->evtSource;
-  }
+  printf("####################Konstruktor MenuGHorizontal\n");
+}
+
   
-  void MenuGBase::addToEvtTarget(EvtTarget* theTarget)
+  void MenuGHorizontal::addToEvtTarget(EvtTarget* theTarget)
   {
     theTarget->addEvtTarget(pLName);
     theTarget->addEvtTarget(pLSpeed);
-    theTarget->addEvtTarget(pBUp);
-    theTarget->addEvtTarget(pBDown);
+    theTarget->addEvtTarget(pB1);
+    theTarget->addEvtTarget(pB2);
     theTarget->addEvtTarget(pBSetSpeed);
     theTarget->addEvtTarget(pLPosition);
   }
 
-  void MenuGBase::setMenuName(char * theName)
-  {
-    if(0!=theName)
-      {
-	pLName->setText(theName);
-      }
-  }
-
-  void MenuGBase::updateSettings(struct t_MenuBarSettings * settings)
-  {/*
-    for(int i = 0;i<MenuGHorizontal::MenuPunkte;i++)
-      {
-	if(0!=settings->Text[i])
-	  {
-	    lbuf[i]->setText(settings->Text[i]);
-	  }
-	else
-	  {
-	    lbuf[i]->setText(" ");	    
-	  }
-	lbuf[i]->setLMButtonUpEvtHandler(settings->evtFnks[i]);//,settings->evtSource);
-	}*/
-  }
 
 static void privateMouseOverListener(void * src,bool selected)
 {

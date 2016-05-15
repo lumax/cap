@@ -36,16 +36,19 @@ namespace EuMax01
     ~MenuGBase();
 
     static const int MenuPunkte = 8;
-    void addToEvtTarget(EvtTarget* theTarget);
     void setMenuName(char * theName);
     void updateSettings(struct t_MenuBarSettings * settings);
 
     Label * pLName;
-    Button * pBUp;
-    Button * pBDown;
+    Button * pB1;
+    Button * pB2;
     Button * pBSetSpeed;
     Label * pLSpeed;
     Label * pLPosition;
+
+  protected:
+    ArbeitsDialog * getArbeitsDialog();
+    ArbeitsDialog * theArbeitsDialog;
   };
 
   class MenuGHorizontal:public MenuGBase
@@ -60,6 +63,7 @@ namespace EuMax01
 	      struct t_MenuGSettings * settings,	\
 	      ArbeitsDialog * Parent);
     ~MenuGHorizontal();
+    void addToEvtTarget(EvtTarget* theTarget);
   };
 
   class MenuGVertical
