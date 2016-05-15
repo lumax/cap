@@ -51,15 +51,6 @@ namespace EuMax01
     
   }
 
-  void G_TestDialog::GX_Btn1MouseOverListener(void*,bool selected)
-  {
-    printf("GX_Btn1MouseOverListener :%i\n",selected);
-  }
-  void G_TestDialog::GX_Btn2MouseOverListener(void*,bool selected)
-  {
-    printf("GX_Btn2MouseOverListener :%i\n",selected);
-  }
-
   void G_TestDialog::GX_SpeedListener(void* src,SDL_Event * evt)
   {
     G_TestDialog* td = (G_TestDialog*)src;
@@ -102,16 +93,6 @@ namespace EuMax01
       }
   }
 
-  void G_TestDialog::GY_Btn1MouseOverListener(void* src,bool selected)
-  {
-    G_TestDialog* td = (G_TestDialog*)src;
-    td->G_MoveBtnMouseOverListener(src,selected);
-  }
-  void G_TestDialog::GY_Btn2MouseOverListener(void*,bool selected)
-  {
-    printf("GZ_Btn2MouseOverListener :%i\n",selected);
-  }
-
   void G_TestDialog::GY_SpeedListener(void* src,SDL_Event * evt)
   {
     G_TestDialog* td = (G_TestDialog*)src;//KeyListener
@@ -128,15 +109,6 @@ namespace EuMax01
     
   }
 
-  void G_TestDialog::GA_Btn1MouseOverListener(void*,bool selected)
-  {
-    printf("GA_Btn1MouseOverListener :%i\n",selected);
-  }
-  void G_TestDialog::GA_Btn2MouseOverListener(void*,bool selected)
-  {
-    printf("GA_Btn2MouseOverListener :%i\n",selected);
-  }
-
   void G_TestDialog::GA_SpeedListener(void* src,SDL_Event * evt)
   {
     G_TestDialog* td = (G_TestDialog*)src;//KeyListener
@@ -146,15 +118,6 @@ namespace EuMax01
   void G_TestDialog::GLiftUpListener(void* src,SDL_Event * evt)
   {
     printf("G_TestDialog MenuGLiftUpListener\n");
-  }
-
-  void G_TestDialog::GZ_Btn1MouseOverListener(void*,bool selected)
-  {
-    printf("GZ_Btn1MouseOverListener :%i\n",selected);
-  }
-  void G_TestDialog::GZ_Btn2MouseOverListener(void*,bool selected)
-  {
-    printf("GZ_Btn2MouseOverListener :%i\n",selected);
   }
 
   void G_TestDialog::GLiftDownListener(void* src,SDL_Event * evt)
@@ -409,8 +372,8 @@ namespace EuMax01
     pGMset->evtSource = this;
     pGMset->evtFnkBtn1Up = GX_LeftListener;
     pGMset->evtFnkBtn1Down = 0;//GX_LeftListener;
-    pGMset->evtFnkBtn1MouseOver = GX_Btn1MouseOverListener;
-    pGMset->evtFnkBtn2MouseOver = GX_Btn2MouseOverListener;
+    pGMset->evtFnkBtn1MouseOver = G_MoveBtnMouseOverListener;
+    pGMset->evtFnkBtn2MouseOver = G_MoveBtnMouseOverListener;
     pGMset->evtFnkBtn2Up = GX_RightListener;
     pGMset->evtFnkBtn2Down =0;//GX_RightListener;
     pGMset->evtFnkSetSpeed = GX_SpeedListener;
@@ -424,8 +387,8 @@ namespace EuMax01
     pGMset->evtFnkBtn1Down = GY_LeftListener;
     pGMset->evtFnkBtn2Up = GY_RightListener;
     pGMset->evtFnkBtn2Down = 0;//GX_LeftListener;
-    pGMset->evtFnkBtn1MouseOver = GY_Btn1MouseOverListener;
-    pGMset->evtFnkBtn2MouseOver = GY_Btn2MouseOverListener;
+    pGMset->evtFnkBtn1MouseOver = G_MoveBtnMouseOverListener;
+    pGMset->evtFnkBtn2MouseOver = G_MoveBtnMouseOverListener;
     pGMset->evtFnkSetSpeed = GY_SpeedListener;
     pGMset->btn1Text = (char *)"Left";
     pGMset->btn2Text = (char *)"Right";
@@ -437,8 +400,8 @@ namespace EuMax01
     pGMset->evtFnkBtn1Down = 0;//GA_LeftListener;
     pGMset->evtFnkBtn2Up = GA_DownListener;
     pGMset->evtFnkBtn2Down = 0;//GA_LeftListener;
-    pGMset->evtFnkBtn1MouseOver = GA_Btn1MouseOverListener;
-    pGMset->evtFnkBtn2MouseOver = GA_Btn2MouseOverListener;
+    pGMset->evtFnkBtn1MouseOver = G_MoveBtnMouseOverListener;
+    pGMset->evtFnkBtn2MouseOver = G_MoveBtnMouseOverListener;
     pGMset->evtFnkSetSpeed = GA_SpeedListener;
     pGMset->btn1Text = (char *)"Up";
     pGMset->btn2Text = (char *)"Down";
@@ -450,8 +413,8 @@ namespace EuMax01
     pGMset->evtFnkBtn1Down = 0;//GLiftUpListener;
     pGMset->evtFnkBtn2Up = GLiftDownListener;
     pGMset->evtFnkBtn2Down = 0;//
-    pGMset->evtFnkBtn1MouseOver = GZ_Btn1MouseOverListener;
-    pGMset->evtFnkBtn2MouseOver = GZ_Btn2MouseOverListener;
+    pGMset->evtFnkBtn1MouseOver = G_MoveBtnMouseOverListener;
+    pGMset->evtFnkBtn2MouseOver = G_MoveBtnMouseOverListener;
     pGMset->evtFnkSetSpeed = GLiftSetSpeedListener;
     pGMset->btn1Text = (char *)"PgUp";
     pGMset->btn2Text = (char *)"PgDown";
