@@ -355,28 +355,24 @@ namespace EuMax01
 				 &this->theMenuGLiftSettings,Parent);
 
 
-    theMenuGXSettings.evtSource = (void*)this;
     theMenuGXSettings.evtFnkBtn1 = GX_LeftListener;
     theMenuGXSettings.evtFnkBtn2 = GX_RightListener;
     theMenuGXSettings.evtFnkSetSpeed = GX_SpeedListener;
     theMenuGXSettings.btn1Text = (char *)"<--a";
     theMenuGXSettings.btn2Text = (char *)"d-->";
 
-    theMenuGYSettings.evtSource = (void*)this;
     theMenuGYSettings.evtFnkBtn1 = GY_LeftListener;
     theMenuGYSettings.evtFnkBtn2 = GY_RightListener;
     theMenuGYSettings.evtFnkSetSpeed = GY_SpeedListener;
     theMenuGYSettings.btn1Text = (char *)"Left";
     theMenuGYSettings.btn2Text = (char *)"Right";
 
-    theMenuGWalzeSettings.evtSource = (void*)this;
     theMenuGWalzeSettings.evtFnkBtn1 = GA_UpListener;
     theMenuGWalzeSettings.evtFnkBtn2 = GA_DownListener;
     theMenuGWalzeSettings.evtFnkSetSpeed = GA_SpeedListener;
     theMenuGWalzeSettings.btn1Text = (char *)"Up";
     theMenuGWalzeSettings.btn2Text = (char *)"Down";
 
-    theMenuGLiftSettings.evtSource = (void*)this;
     theMenuGLiftSettings.evtFnkBtn1 = GLiftUpListener;
     theMenuGLiftSettings.evtFnkBtn2 = GLiftDownListener;
     theMenuGLiftSettings.evtFnkSetSpeed = GLiftSetSpeedListener;
