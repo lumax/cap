@@ -46,19 +46,24 @@ namespace EuMax01
 
     static char* toString(float f,char* pcTarget,int len);
 
-    float xPos,yPos,zPos,aPos;
+    float Position[4];
     int lastG_F[4];
+
+    static const int DirectionLeft = -1;
+    static const int DirectionRight = 1;
+    static const int DirectionUp = -1;
+    static const int DirectionDown = 1;
 
     static const int AxisX = nTinyG_X;
     static const int AxisY = nTinyG_Y;
     static const int AxisZ = nTinyG_Z;
     static const int AxisA = nTinyG_A;
     static const int MaxAxis = 4;
-    static const float G_pro_mm = 0.08375;
+    static const float G_pro_mm = 0.1;//0.0837500000;
 
-    static const float SpeedDistance0in_mm = 1.0;//0.01;
-    static const float SpeedDistance1in_mm = 3.0;//0.10;
-    static const float SpeedDistance2in_mm = 5.0;//1.00;
+    static const float SpeedDistance0in_mm =  0.01;//0.01;
+    static const float SpeedDistance1in_mm =  0.10;//0.10;
+    static const float SpeedDistance2in_mm =  1.0;//1.00;
     static const float SpeedDistance3in_mm = 10.0;//10.00;
 
     static const int MaxSpeedLevels = 4;
@@ -76,6 +81,8 @@ namespace EuMax01
     G_Ctrl GCtrl;
     StreamScanner sScan;
     struct ExaktG_CodeListener_t *ptGCLis;
+
+    bool DistanceModeAbsolut;
 
     /*
       G1 Y-50.00,F100

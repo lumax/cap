@@ -68,13 +68,28 @@ namespace EuMax01
 
   void G_TestDialog::GY_LeftListener(void* src,SDL_Event * evt)
   {
+    G_TestDialog* td = (G_TestDialog*)src;
     if(evt->type==SDL_MOUSEBUTTONDOWN)
       {
-	printf("SDL_MOUSEBUTTONDOWN\n");
+	//printf("SDL_MOUSEBUTTONDOWN\n");
       }
     if(evt->type==SDL_MOUSEBUTTONUP)
       {
-	printf("SDL_MOUSEBUTTONUP\n");
+	td->pExaktG->move(ExaktG::AxisY,ExaktG::DirectionLeft);
+      }
+  }
+
+
+  void G_TestDialog::GY_RightListener(void* src,SDL_Event * evt)
+  {
+    G_TestDialog* td = (G_TestDialog*)src;
+    if(evt->type==SDL_MOUSEBUTTONDOWN)
+      {
+	//printf("SDL_MOUSEBUTTONDOWN\n");
+      }
+    if(evt->type==SDL_MOUSEBUTTONUP)
+      {
+	td->pExaktG->move(ExaktG::AxisY,ExaktG::DirectionRight);
       }
   }
 
@@ -85,11 +100,6 @@ namespace EuMax01
   void G_TestDialog::GY_Btn2MouseOverListener(void*,bool selected)
   {
     printf("GZ_Btn2MouseOverListener :%i\n",selected);
-  }
-
-  void G_TestDialog::GY_RightListener(void* src,SDL_Event * evt)
-  {
-    
   }
 
   void G_TestDialog::GY_SpeedListener(void* src,SDL_Event * evt)

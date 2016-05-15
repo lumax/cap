@@ -43,7 +43,7 @@ namespace EuMax01
 
     switch(ps->userID){
     case nG_posX:{
-      pEG->xPos = ps->scannedFloat;
+      pEG->Position[ExaktG::AxisX] = ps->scannedFloat;
       if(0!=pEG->ptGCLis->fnkXPosLis){
 	(pEG->ptGCLis->fnkXPosLis)(pEG->ptGCLis->pTheListener,	\
 				   ps->scannedFloat);
@@ -51,7 +51,7 @@ namespace EuMax01
       break;
     }
     case nG_posY:{
-      pEG->yPos = ps->scannedFloat;
+      pEG->Position[ExaktG::AxisY] = ps->scannedFloat;
       if(0!=pEG->ptGCLis->fnkYPosLis){
 	(pEG->ptGCLis->fnkYPosLis)(pEG->ptGCLis->pTheListener,	\
 				   ps->scannedFloat);
@@ -59,7 +59,7 @@ namespace EuMax01
       break;
     }
     case nG_posZ:{
-      pEG->zPos = ps->scannedFloat;
+      pEG->Position[ExaktG::AxisZ] = ps->scannedFloat;
       if(0!=pEG->ptGCLis->fnkZPosLis){
 	(pEG->ptGCLis->fnkZPosLis)(pEG->ptGCLis->pTheListener,	\
 				   ps->scannedFloat);
@@ -67,7 +67,7 @@ namespace EuMax01
       break;
     }
     case nG_posA:{
-      pEG->aPos = ps->scannedFloat;
+      pEG->Position[ExaktG::AxisA] = ps->scannedFloat;
       if(0!=pEG->ptGCLis->fnkAPosLis){
 	(pEG->ptGCLis->fnkAPosLis)(pEG->ptGCLis->pTheListener,	\
 				   ps->scannedFloat);
@@ -104,16 +104,17 @@ namespace EuMax01
     pr_gcodes = new PollReader(this);
     pt_gcodes = new PollTimer(-1,this);
 
-    xPos=0.0;
-    yPos=0.0;
-    zPos=0.0;
-    aPos=0.0;
     lastG_F[0] = 0;
     lastG_F[1] = 0;
     lastG_F[2] = 0;
     lastG_F[3] = 0;
 
+    //G-Code Status dist: 0 = absolute
+    //G-Code Status dist: 1 = incremental
+    DistanceModeAbsolut = true;
+
     for(int i = 0;i<ExaktG::MaxAxis;i++){
+      Position[i]=0.0;
       AxisVelocity[i] = 100;
       setSpeedLevel(i,0);
     }
@@ -295,6 +296,10 @@ namespace EuMax01
     if(0>direction){
       range *=-1.0;
     }
+    if(this->DistanceModeAbsolut)
+      {
+	range += Position[axis];
+      }
     this->GCtrl.cmdG1(axis,range,AxisVelocity[axis]);
   }
 }
