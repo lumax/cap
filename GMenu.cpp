@@ -37,7 +37,28 @@ namespace EuMax01
 {
 
   MenuGHorizontal::~MenuGHorizontal(){}
-  MenuGHorizontal::MenuGHorizontal(char * name,				\
+  MenuGHorizontal::MenuGHorizontal(char * name,			\
+				   int xPos,			\
+				   int yPos,			\
+				   int y_height,		\
+				   int y_space,			\
+				   int width,			\
+				   struct t_MenuGSettings * settings,	\
+				   ArbeitsDialog * Parent):		\
+    MenuGBase(name,							\
+	      xPos,							\
+	      yPos,							\
+	      y_height,							\
+	      y_space,							\
+	      width,							\
+	      settings,							\
+	      Parent)
+{
+  printf("####################Konstruktor MenuGHorizontal\n");
+}
+
+    MenuGBase::~MenuGBase(){}
+  MenuGBase::MenuGBase(char * name,				\
 		       int xPos,				\
 		       int yPos,				\
 		       int y_height,				\
@@ -103,7 +124,7 @@ namespace EuMax01
     pBSetSpeed->pTSource = settings->evtSource;
   }
   
-  void MenuGHorizontal::addToEvtTarget(EvtTarget* theTarget)
+  void MenuGBase::addToEvtTarget(EvtTarget* theTarget)
   {
     theTarget->addEvtTarget(pLName);
     theTarget->addEvtTarget(pLSpeed);
@@ -113,7 +134,7 @@ namespace EuMax01
     theTarget->addEvtTarget(pLPosition);
   }
 
-  void MenuGHorizontal::setMenuName(char * theName)
+  void MenuGBase::setMenuName(char * theName)
   {
     if(0!=theName)
       {
@@ -121,7 +142,7 @@ namespace EuMax01
       }
   }
 
-  void MenuGHorizontal::updateSettings(struct t_MenuBarSettings * settings)
+  void MenuGBase::updateSettings(struct t_MenuBarSettings * settings)
   {/*
     for(int i = 0;i<MenuGHorizontal::MenuPunkte;i++)
       {

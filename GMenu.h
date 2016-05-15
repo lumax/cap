@@ -22,10 +22,10 @@ namespace EuMax01
     char * btnDownText;
   };
 
-  class MenuGHorizontal
+  class MenuGBase
   {
   public:
-    MenuGHorizontal(char * name,				\
+    MenuGBase(char * name,				\
 	      int xPos,					\
 	      int yPos,					\
 	      int y_height,				\
@@ -33,7 +33,7 @@ namespace EuMax01
 	      int width,				\
 	      struct t_MenuGSettings * settings,	\
 	      ArbeitsDialog * Parent);
-    ~MenuGHorizontal();
+    ~MenuGBase();
 
     static const int MenuPunkte = 8;
     void addToEvtTarget(EvtTarget* theTarget);
@@ -46,6 +46,20 @@ namespace EuMax01
     Button * pBSetSpeed;
     Label * pLSpeed;
     Label * pLPosition;
+  };
+
+  class MenuGHorizontal:public MenuGBase
+  {
+  public:
+    MenuGHorizontal(char * name,			\
+	      int xPos,					\
+	      int yPos,					\
+	      int y_height,				\
+	      int y_space,				\
+	      int width,				\
+	      struct t_MenuGSettings * settings,	\
+	      ArbeitsDialog * Parent);
+    ~MenuGHorizontal();
   };
 
   class MenuGVertical

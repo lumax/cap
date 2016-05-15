@@ -84,7 +84,7 @@ namespace EuMax01
 
   void G_TestDialog::GA_UpListener(void* src,SDL_Event * evt)
   {
-    
+    printf("GA_UpListener\n");
   }
 
   void G_TestDialog::GA_DownListener(void* src,SDL_Event * evt)
