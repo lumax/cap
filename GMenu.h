@@ -24,6 +24,7 @@ namespace EuMax01
     void (*evtFnkSetSpeed)(void *,SDL_Event * evt);
     char * btn1Text;
     char * btn2Text;
+    char * SpeedLabelText;
   };
 
   class MenuGBase

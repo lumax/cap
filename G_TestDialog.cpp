@@ -398,49 +398,59 @@ namespace EuMax01
     theMenu = new MenuBar((int)MLinks_x,(int)Zeile5_y,(int)MZeile_h,(char*)"G-Test", \
 			  &this->theMenuBarSettings,Parent);
 
-    theMenuGXSettings.evtSource = this;
-    theMenuGXSettings.evtFnkBtn1Up = GX_LeftListener;
-    theMenuGXSettings.evtFnkBtn1Down = 0;//GX_LeftListener;
-    theMenuGXSettings.evtFnkBtn1MouseOver = GX_Btn1MouseOverListener;
-    theMenuGXSettings.evtFnkBtn2MouseOver = GX_Btn2MouseOverListener;
-    theMenuGXSettings.evtFnkBtn2Up = GX_RightListener;
-    theMenuGXSettings.evtFnkBtn2Down =0;//GX_RightListener;
-    theMenuGXSettings.evtFnkSetSpeed = GX_SpeedListener;
-    theMenuGXSettings.btn1Text = (char *)"<--a";
-    theMenuGXSettings.btn2Text = (char *)"d-->";
+    struct t_MenuGSettings * pGMset;
 
-    theMenuGYSettings.evtSource = this;
-    theMenuGYSettings.evtFnkBtn1Up = GY_LeftListener;
-    theMenuGYSettings.evtFnkBtn1Down = GY_LeftListener;
-    theMenuGYSettings.evtFnkBtn2Up = GY_RightListener;
-    theMenuGYSettings.evtFnkBtn2Down = 0;//GX_LeftListener;
-    theMenuGYSettings.evtFnkBtn1MouseOver = GY_Btn1MouseOverListener;
-    theMenuGYSettings.evtFnkBtn2MouseOver = GY_Btn2MouseOverListener;
-    theMenuGYSettings.evtFnkSetSpeed = GY_SpeedListener;
-    theMenuGYSettings.btn1Text = (char *)"Left";
-    theMenuGYSettings.btn2Text = (char *)"Right";
+    pGMset = &theMenuGXSettings;
+    pGMset->evtSource = this;
+    pGMset->evtFnkBtn1Up = GX_LeftListener;
+    pGMset->evtFnkBtn1Down = 0;//GX_LeftListener;
+    pGMset->evtFnkBtn1MouseOver = GX_Btn1MouseOverListener;
+    pGMset->evtFnkBtn2MouseOver = GX_Btn2MouseOverListener;
+    pGMset->evtFnkBtn2Up = GX_RightListener;
+    pGMset->evtFnkBtn2Down =0;//GX_RightListener;
+    pGMset->evtFnkSetSpeed = GX_SpeedListener;
+    pGMset->btn1Text = (char *)"<--a";
+    pGMset->btn2Text = (char *)"d-->";
+    pGMset->SpeedLabelText = getSpeedText(0);
+    
+    pGMset = &theMenuGYSettings;
+    pGMset->evtSource = this;
+    pGMset->evtFnkBtn1Up = GY_LeftListener;
+    pGMset->evtFnkBtn1Down = GY_LeftListener;
+    pGMset->evtFnkBtn2Up = GY_RightListener;
+    pGMset->evtFnkBtn2Down = 0;//GX_LeftListener;
+    pGMset->evtFnkBtn1MouseOver = GY_Btn1MouseOverListener;
+    pGMset->evtFnkBtn2MouseOver = GY_Btn2MouseOverListener;
+    pGMset->evtFnkSetSpeed = GY_SpeedListener;
+    pGMset->btn1Text = (char *)"Left";
+    pGMset->btn2Text = (char *)"Right";
+    pGMset->SpeedLabelText = getSpeedText(0);
 
-    theMenuGASettings.evtSource = this;
-    theMenuGASettings.evtFnkBtn1Up = GA_UpListener;
-    theMenuGASettings.evtFnkBtn1Down = 0;//GA_LeftListener;
-    theMenuGASettings.evtFnkBtn2Up = GA_DownListener;
-    theMenuGASettings.evtFnkBtn2Down = 0;//GA_LeftListener;
-    theMenuGASettings.evtFnkBtn1MouseOver = GA_Btn1MouseOverListener;
-    theMenuGASettings.evtFnkBtn2MouseOver = GA_Btn2MouseOverListener;
-    theMenuGASettings.evtFnkSetSpeed = GA_SpeedListener;
-    theMenuGASettings.btn1Text = (char *)"Up";
-    theMenuGASettings.btn2Text = (char *)"Down";
+    pGMset = &theMenuGASettings;
+    pGMset->evtSource = this;
+    pGMset->evtFnkBtn1Up = GA_UpListener;
+    pGMset->evtFnkBtn1Down = 0;//GA_LeftListener;
+    pGMset->evtFnkBtn2Up = GA_DownListener;
+    pGMset->evtFnkBtn2Down = 0;//GA_LeftListener;
+    pGMset->evtFnkBtn1MouseOver = GA_Btn1MouseOverListener;
+    pGMset->evtFnkBtn2MouseOver = GA_Btn2MouseOverListener;
+    pGMset->evtFnkSetSpeed = GA_SpeedListener;
+    pGMset->btn1Text = (char *)"Up";
+    pGMset->btn2Text = (char *)"Down";
+    pGMset->SpeedLabelText = getSpeedText(0);
 
-    theMenuGZSettings.evtSource = this;
-    theMenuGZSettings.evtFnkBtn1Up = GLiftUpListener;
-    theMenuGZSettings.evtFnkBtn1Down = 0;//GLiftUpListener;
-    theMenuGZSettings.evtFnkBtn2Up = GLiftDownListener;
-    theMenuGZSettings.evtFnkBtn2Down = 0;//
-    theMenuGZSettings.evtFnkBtn1MouseOver = GZ_Btn1MouseOverListener;
-    theMenuGZSettings.evtFnkBtn2MouseOver = GZ_Btn2MouseOverListener;
-    theMenuGZSettings.evtFnkSetSpeed = GLiftSetSpeedListener;
-    theMenuGZSettings.btn1Text = (char *)"PgUp";
-    theMenuGZSettings.btn2Text = (char *)"PgDown";
+    pGMset = &theMenuGZSettings;
+    pGMset->evtSource = this;
+    pGMset->evtFnkBtn1Up = GLiftUpListener;
+    pGMset->evtFnkBtn1Down = 0;//GLiftUpListener;
+    pGMset->evtFnkBtn2Up = GLiftDownListener;
+    pGMset->evtFnkBtn2Down = 0;//
+    pGMset->evtFnkBtn1MouseOver = GZ_Btn1MouseOverListener;
+    pGMset->evtFnkBtn2MouseOver = GZ_Btn2MouseOverListener;
+    pGMset->evtFnkSetSpeed = GLiftSetSpeedListener;
+    pGMset->btn1Text = (char *)"PgUp";
+    pGMset->btn2Text = (char *)"PgDown";
+    pGMset->SpeedLabelText = getSpeedText(0);
 
     theMenuGX = new MenuGVertical((char *)"X-Achse",			\
 				    B1x,				\
