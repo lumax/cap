@@ -69,11 +69,13 @@ namespace EuMax01
   void G_TestDialog::GY_LeftListener(void* src,SDL_Event * evt)
   {
     G_TestDialog* td = (G_TestDialog*)src;
+    SDL_KeyboardEvent * key = (SDL_KeyboardEvent *)&evt->key;
+
     if(evt->type==SDL_MOUSEBUTTONDOWN)
       {
 	//printf("SDL_MOUSEBUTTONDOWN\n");
       }
-    if(evt->type==SDL_MOUSEBUTTONUP)
+    if((evt->type==SDL_MOUSEBUTTONUP)||(key->keysym.sym == SDLK_LEFT))
       {
 	td->pExaktG->move(ExaktG::AxisY,ExaktG::DirectionLeft);
       }
@@ -82,11 +84,13 @@ namespace EuMax01
   void G_TestDialog::GY_RightListener(void* src,SDL_Event * evt)
   {
     G_TestDialog* td = (G_TestDialog*)src;
+    SDL_KeyboardEvent * key = (SDL_KeyboardEvent *)&evt->key;
+
     if(evt->type==SDL_MOUSEBUTTONDOWN)
       {
 	//printf("SDL_MOUSEBUTTONDOWN\n");
       }
-    if(evt->type==SDL_MOUSEBUTTONUP)
+    if((evt->type==SDL_MOUSEBUTTONUP)||(key->keysym.sym == SDLK_RIGHT))
       {
 	td->pExaktG->move(ExaktG::AxisY,ExaktG::DirectionRight);
       }
@@ -161,18 +165,6 @@ namespace EuMax01
   {
     G_TestDialog* ad = (G_TestDialog*)src;//KeyListener
     ad->Parent->showArbeitsDialog();
-  }
-
-  void G_TestDialog::left_listener(void * src, SDL_Event * evt)
-  {
-    //G_TestDialog* ad = (G_TestDialog*)src;//KeyListener
-    printf("G_TestDialog leftListener\n");
-  }
-
-  void G_TestDialog::right_listener(void * src, SDL_Event * evt)
-  {
-    //G_TestDialog* ad = (G_TestDialog*)src;//KeyListener
-     printf("G_TestDialog rightListener\n");
   }
 
   void G_TestDialog::return_listener(void * src, SDL_Event * evt)
@@ -250,13 +242,13 @@ namespace EuMax01
 	  {
 	    ad->return_listener(src,evt);
 	  }
-	else if(key->keysym.sym == SDLK_LEFT || key->keysym.sym == SDLK_F4)
+	else if(key->keysym.sym == SDLK_F4)
 	  {
-	    ad->left_listener(src,evt);
+
 	  }
-	else if(key->keysym.sym == SDLK_RIGHT || key->keysym.sym == SDLK_F5)
+	else if(key->keysym.sym == SDLK_F5)
 	  {
-	    ad->right_listener(src,evt);
+	    ad->getstatus_listener(src,evt);
 	  }
 	else if(key->keysym.sym == SDLK_PAGEUP)
 	  {
@@ -374,10 +366,10 @@ namespace EuMax01
     //int B8x = B1x + 7*Bw+7*x_space;
 
     theMenuBarSettings.Text[0]=0;
-    theMenuBarSettings.Text[1]=(char *)"F2 status";
+    theMenuBarSettings.Text[1]=0;
     theMenuBarSettings.Text[2]=0;
-    theMenuBarSettings.Text[3]=(char *)"F4 prev";
-    theMenuBarSettings.Text[4]=(char *)"F5 next";
+    theMenuBarSettings.Text[3]=0;
+    theMenuBarSettings.Text[4]=(char *)"F5 status";
     theMenuBarSettings.Text[5]=0;
     theMenuBarSettings.Text[6]=(char *)"ESC";
     theMenuBarSettings.Text[7]=(char *)"ENTER";
@@ -385,10 +377,10 @@ namespace EuMax01
     theMenuBarSettings.evtSource = (void*)this;
 
     theMenuBarSettings.evtFnks[0]=0;
-    theMenuBarSettings.evtFnks[1]=getstatus_listener;
+    theMenuBarSettings.evtFnks[1]=0;
     theMenuBarSettings.evtFnks[2]=0;
-    theMenuBarSettings.evtFnks[3]=left_listener;
-    theMenuBarSettings.evtFnks[4]=right_listener;
+    theMenuBarSettings.evtFnks[3]=0;
+    theMenuBarSettings.evtFnks[4]=getstatus_listener;
     theMenuBarSettings.evtFnks[5]=0;
     theMenuBarSettings.evtFnks[6]=escape_listener;
     theMenuBarSettings.evtFnks[7]=return_listener;

@@ -38,8 +38,6 @@ namespace EuMax01
     static void GZ_Btn1MouseOverListener(void*,bool selected);
     static void GZ_Btn2MouseOverListener(void*,bool selected);
     static void escape_listener(void * src, SDL_Event * evt);
-    static void left_listener(void * src, SDL_Event * evt);
-    static void right_listener(void * src, SDL_Event * evt);
     static void return_listener(void * src, SDL_Event * evt);
     static void GX_LeftListener(void*,SDL_Event * evt);
     static void GX_RightListener(void*,SDL_Event * evt);
