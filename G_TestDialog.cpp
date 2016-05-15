@@ -41,40 +41,6 @@ Bastian Ruppert
 
 namespace EuMax01
 {
-
-  void G_TestDialog::GX_Btn1MouseOverListener(void*,bool selected)
-  {
-    printf("GX_Btn1MouseOverListener :%i\n",selected);
-  }
-  void G_TestDialog::GX_Btn2MouseOverListener(void*,bool selected)
-  {
-    printf("GX_Btn2MouseOverListener :%i\n",selected);
-  }
-  void G_TestDialog::GY_Btn1MouseOverListener(void*,bool selected)
-  {
-    printf("GY_Btn1MouseOverListener :%i\n",selected);
-  }
-  void G_TestDialog::GY_Btn2MouseOverListener(void*,bool selected)
-  {
-    printf("GZ_Btn2MouseOverListener :%i\n",selected);
-  }
-  void G_TestDialog::GZ_Btn1MouseOverListener(void*,bool selected)
-  {
-    printf("GZ_Btn1MouseOverListener :%i\n",selected);
-  }
-  void G_TestDialog::GZ_Btn2MouseOverListener(void*,bool selected)
-  {
-    printf("GZ_Btn2MouseOverListener :%i\n",selected);
-  }
-  void G_TestDialog::GA_Btn1MouseOverListener(void*,bool selected)
-  {
-    printf("GA_Btn1MouseOverListener :%i\n",selected);
-  }
-  void G_TestDialog::GA_Btn2MouseOverListener(void*,bool selected)
-  {
-    printf("GA_Btn2MouseOverListener :%i\n",selected);
-  }
-
   void G_TestDialog::GX_LeftListener(void* src,SDL_Event * evt)
   {
     
@@ -83,6 +49,15 @@ namespace EuMax01
   void G_TestDialog::GX_RightListener(void* src,SDL_Event * evt)
   {
     
+  }
+
+  void G_TestDialog::GX_Btn1MouseOverListener(void*,bool selected)
+  {
+    printf("GX_Btn1MouseOverListener :%i\n",selected);
+  }
+  void G_TestDialog::GX_Btn2MouseOverListener(void*,bool selected)
+  {
+    printf("GX_Btn2MouseOverListener :%i\n",selected);
   }
 
   void G_TestDialog::GX_SpeedListener(void* src,SDL_Event * evt)
@@ -101,6 +76,15 @@ namespace EuMax01
       {
 	printf("SDL_MOUSEBUTTONUP\n");
       }
+  }
+
+  void G_TestDialog::GY_Btn1MouseOverListener(void*,bool selected)
+  {
+    printf("GY_Btn1MouseOverListener :%i\n",selected);
+  }
+  void G_TestDialog::GY_Btn2MouseOverListener(void*,bool selected)
+  {
+    printf("GZ_Btn2MouseOverListener :%i\n",selected);
   }
 
   void G_TestDialog::GY_RightListener(void* src,SDL_Event * evt)
@@ -124,6 +108,15 @@ namespace EuMax01
     
   }
 
+  void G_TestDialog::GA_Btn1MouseOverListener(void*,bool selected)
+  {
+    printf("GA_Btn1MouseOverListener :%i\n",selected);
+  }
+  void G_TestDialog::GA_Btn2MouseOverListener(void*,bool selected)
+  {
+    printf("GA_Btn2MouseOverListener :%i\n",selected);
+  }
+
   void G_TestDialog::GA_SpeedListener(void* src,SDL_Event * evt)
   {
     G_TestDialog* td = (G_TestDialog*)src;//KeyListener
@@ -133,6 +126,15 @@ namespace EuMax01
   void G_TestDialog::GLiftUpListener(void* src,SDL_Event * evt)
   {
     printf("G_TestDialog MenuGLiftUpListener\n");
+  }
+
+  void G_TestDialog::GZ_Btn1MouseOverListener(void*,bool selected)
+  {
+    printf("GZ_Btn1MouseOverListener :%i\n",selected);
+  }
+  void G_TestDialog::GZ_Btn2MouseOverListener(void*,bool selected)
+  {
+    printf("GZ_Btn2MouseOverListener :%i\n",selected);
   }
 
   void G_TestDialog::GLiftDownListener(void* src,SDL_Event * evt)
@@ -179,7 +181,6 @@ namespace EuMax01
   {
     G_TestDialog* ad = (G_TestDialog*)src;
     ad->pGCtrl->cmdGetStatus();
-    printf("getstatus_listener\n");
   }
 
   void G_TestDialog::xPosLis(void * pLis,float pos)
