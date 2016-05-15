@@ -291,24 +291,6 @@ namespace EuMax01
       }*/
   }
 
-  char * G_TestDialog::getSpeedText(int SpeedLevel)
-  {
-    switch(SpeedLevel){
-    case 1:{
-      return (char *)"-1-";
-    }
-    case 2:{
-      return (char *)"-2-";
-    }
-    case 3:{
-      return (char *)"-3-";
-    }
-    default:{
-      return (char *)"-0-";
-    }
-    }
-  }
-
   void G_TestDialog::incSpeedLevel(int axis)
   {
     MenuGBase * gMenu;
@@ -328,7 +310,7 @@ namespace EuMax01
     }
     this->pExaktG->incSpeedLevel(axis);
     speedLevel = this->pExaktG->getSpeedLevel(axis);
-    gMenu->pLSpeed->setText(getSpeedText(speedLevel));
+    gMenu->pLSpeed->setText(this->pExaktG->getSpeedText(axis,speedLevel));
     gMenu->pLSpeed->show(Parent->theGUI->getMainSurface());
   }
 
@@ -428,7 +410,7 @@ namespace EuMax01
     pGMset->evtFnkSetSpeed = GX_SpeedListener;
     pGMset->btn1Text = (char *)"<--a";
     pGMset->btn2Text = (char *)"d-->";
-    pGMset->SpeedLabelText = getSpeedText(0);
+    pGMset->SpeedLabelText = pExaktG->getSpeedText(ExaktG::AxisX,0);
     
     pGMset = &theMenuGYSettings;
     pGMset->evtSource = this;
@@ -441,7 +423,7 @@ namespace EuMax01
     pGMset->evtFnkSetSpeed = GY_SpeedListener;
     pGMset->btn1Text = (char *)"Left";
     pGMset->btn2Text = (char *)"Right";
-    pGMset->SpeedLabelText = getSpeedText(0);
+    pGMset->SpeedLabelText = pExaktG->getSpeedText(ExaktG::AxisY,0);
 
     pGMset = &theMenuGASettings;
     pGMset->evtSource = this;
@@ -454,7 +436,7 @@ namespace EuMax01
     pGMset->evtFnkSetSpeed = GA_SpeedListener;
     pGMset->btn1Text = (char *)"Up";
     pGMset->btn2Text = (char *)"Down";
-    pGMset->SpeedLabelText = getSpeedText(0);
+    pGMset->SpeedLabelText = pExaktG->getSpeedText(ExaktG::AxisA,0);
 
     pGMset = &theMenuGZSettings;
     pGMset->evtSource = this;
@@ -467,7 +449,7 @@ namespace EuMax01
     pGMset->evtFnkSetSpeed = GLiftSetSpeedListener;
     pGMset->btn1Text = (char *)"PgUp";
     pGMset->btn2Text = (char *)"PgDown";
-    pGMset->SpeedLabelText = getSpeedText(0);
+    pGMset->SpeedLabelText = pExaktG->getSpeedText(ExaktG::AxisZ,0);
 
     theMenuGX = new MenuGVertical((char *)"X-Achse",			\
 				    B1x,				\

@@ -62,7 +62,6 @@ namespace EuMax01
     void setActive(void);
 
     void incSpeedLevel(int axis);
-    char * getSpeedText(int SpeedLevel);
   private:
     struct ExaktG_CodeListener_t tGCodeLis;
     static void xPosLis(void * pLis,float pos);

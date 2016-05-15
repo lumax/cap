@@ -68,7 +68,7 @@ namespace EuMax01
 
     static const int MaxSpeedLevels = 4;
 
-    //static const char* VelocityDefault = "F100";
+    char * getSpeedText(int axis,int SpeedLevel);
     void setSpeedLevel(int axis,int speed);
     void incSpeedLevel(int axis);
     int getSpeedLevel(int axis);
@@ -81,6 +81,7 @@ namespace EuMax01
     G_Ctrl GCtrl;
     StreamScanner sScan;
     struct ExaktG_CodeListener_t *ptGCLis;
+
 
     bool DistanceModeAbsolut;
 

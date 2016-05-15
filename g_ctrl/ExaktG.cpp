@@ -246,6 +246,30 @@ namespace EuMax01
     this->ptGCLis = pGCLis;
   }
 
+  char * ExaktG::getSpeedText(int axis,int SpeedLevel)
+  {
+    static char SpeedTexte[ExaktG::MaxSpeedLevels][16];
+
+    if(SpeedLevel<0){
+      SpeedLevel = 0;
+    }
+    if(SpeedLevel>=ExaktG::MaxSpeedLevels){
+      SpeedLevel = ExaktG::MaxSpeedLevels-1;
+    }
+
+    if(axis<0){
+      axis = 0;
+    }
+    if(axis>=ExaktG::MaxAxis){
+      SpeedLevel = ExaktG::MaxAxis-1;
+    }
+
+    snprintf(&SpeedTexte[SpeedLevel][0],		\
+	     16,"%.003fmm",getAxisDistance(axis));
+
+    return &SpeedTexte[SpeedLevel][0];
+  }
+
   void ExaktG::setSpeedLevel(int axis,int speed)
   {
     if(axis<0 || axis>=ExaktG::MaxAxis){
