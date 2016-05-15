@@ -46,6 +46,11 @@ namespace EuMax01
     static void GA_DownListener(void*,SDL_Event * evt);
     static void GA_SpeedListener(void*,SDL_Event * evt);
 
+    static void UniBtn1Listener(void * src,SDL_Event * evt);
+    static void UniBtn2Listener(void * src,SDL_Event * evt);
+    static void UniSpeedListener(void * src,SDL_Event * evt);
+    static void UniMouseOverListener(void * src,bool selected);
+
     void setActive(void);
   private:
     struct ExaktG_CodeListener_t tGCodeLis;
@@ -58,16 +63,16 @@ namespace EuMax01
     struct t_MenuBarSettings theMenuBarSettings;
     MenuBar * theMenu;
 
-    struct t_MenuGHorizontalSettings theMenuGXSettings;
+    struct t_MenuGSettings theMenuGXSettings;
     MenuGVertical * theMenuGX;
 
-    struct t_MenuGHorizontalSettings theMenuGYSettings;
+    struct t_MenuGSettings theMenuGYSettings;
     MenuGVertical * theMenuGY;
 
-    struct t_MenuGHorizontalSettings theMenuGWalzeSettings;
+    struct t_MenuGSettings theMenuGWalzeSettings;
     MenuGHorizontal * theMenuGWalze;
 
-    struct t_MenuGHorizontalSettings theMenuGLiftSettings;
+    struct t_MenuGSettings theMenuGLiftSettings;
     MenuGHorizontal * theMenuGLift;
 
     Button * pBEingabe;

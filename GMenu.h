@@ -10,13 +10,13 @@ namespace EuMax01
 
   class ArbeitsDialog;
 
-  struct t_MenuGHorizontalSettings
+  struct t_MenuGSettings
   {
     //Dieser Pointer wird bei den Button Events ausgewertet
     //Die Funktionen in evtFnks nutzen diesen Pointer
     void * evtSource;
-    void (*evtFnkUp)(void *,SDL_Event * evt);
-    void (*evtFnkDown)(void *,SDL_Event * evt);
+    void (*evtFnkBtn1)(void *,SDL_Event * evt);
+    void (*evtFnkBtn2)(void *,SDL_Event * evt);
     void (*evtFnkSetSpeed)(void *,SDL_Event * evt);
     char * btnUpText;
     char * btnDownText;
@@ -31,7 +31,7 @@ namespace EuMax01
 	      int y_height,				\
 	      int y_space,				\
 	      int width,				\
-	      struct t_MenuGHorizontalSettings * settings,	\
+	      struct t_MenuGSettings * settings,	\
 	      ArbeitsDialog * Parent);
     ~MenuGHorizontal();
 
@@ -57,7 +57,7 @@ namespace EuMax01
 	      int y_height,				\
 	      int y_space,				\
 	      int width,				\
-	      struct t_MenuGHorizontalSettings * settings,	\
+	      struct t_MenuGSettings * settings,	\
 	      ArbeitsDialog * Parent);
     ~MenuGVertical();
 

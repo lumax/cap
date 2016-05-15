@@ -62,7 +62,14 @@ namespace EuMax01
 
   void G_TestDialog::GY_LeftListener(void* src,SDL_Event * evt)
   {
-    
+    if(evt->type==SDL_MOUSEBUTTONDOWN)
+      {
+	printf("SDL_MOUSEBUTTONDOWN\n");
+      }
+    if(evt->type==SDL_MOUSEBUTTONUP)
+      {
+	printf("SDL_MOUSEBUTTONUP\n");
+      }
   }
 
   void G_TestDialog::GY_RightListener(void* src,SDL_Event * evt)
@@ -227,6 +234,10 @@ namespace EuMax01
 	      }
 	      }*/
       }
+    /*    if( key->type == SDL_KEYUP )
+      {
+	
+      }*/
   }
 
   G_TestDialog::G_TestDialog(int sdlw,		\
@@ -313,29 +324,29 @@ namespace EuMax01
 			  &this->theMenuBarSettings,Parent);
 
     theMenuGXSettings.evtSource = (void*)this;
-    theMenuGXSettings.evtFnkUp = GX_LeftListener;
-    theMenuGXSettings.evtFnkDown = GX_RightListener;
+    theMenuGXSettings.evtFnkBtn1 = GX_LeftListener;
+    theMenuGXSettings.evtFnkBtn2 = GX_RightListener;
     theMenuGXSettings.evtFnkSetSpeed = GX_SpeedListener;
     theMenuGXSettings.btnUpText = (char *)"<--a";
     theMenuGXSettings.btnDownText = (char *)"d-->";
 
     theMenuGYSettings.evtSource = (void*)this;
-    theMenuGYSettings.evtFnkUp = GY_LeftListener;
-    theMenuGYSettings.evtFnkDown = GY_RightListener;
+    theMenuGYSettings.evtFnkBtn1 = GY_LeftListener;
+    theMenuGYSettings.evtFnkBtn2 = GY_RightListener;
     theMenuGYSettings.evtFnkSetSpeed = GY_SpeedListener;
     theMenuGYSettings.btnUpText = (char *)"Left";
     theMenuGYSettings.btnDownText = (char *)"Right";
 
     theMenuGWalzeSettings.evtSource = (void*)this;
-    theMenuGWalzeSettings.evtFnkUp = GA_UpListener;
-    theMenuGWalzeSettings.evtFnkDown = GA_DownListener;
+    theMenuGWalzeSettings.evtFnkBtn1 = GA_UpListener;
+    theMenuGWalzeSettings.evtFnkBtn2 = GA_DownListener;
     theMenuGWalzeSettings.evtFnkSetSpeed = GA_SpeedListener;
     theMenuGWalzeSettings.btnUpText = (char *)"Up";
     theMenuGWalzeSettings.btnDownText = (char *)"Down";
 
     theMenuGLiftSettings.evtSource = (void*)this;
-    theMenuGLiftSettings.evtFnkUp = GLiftUpListener;
-    theMenuGLiftSettings.evtFnkDown = GLiftDownListener;
+    theMenuGLiftSettings.evtFnkBtn1 = GLiftUpListener;
+    theMenuGLiftSettings.evtFnkBtn2 = GLiftDownListener;
     theMenuGLiftSettings.evtFnkSetSpeed = GLiftSetSpeedListener;
     theMenuGLiftSettings.btnUpText = (char *)"PgUp";
     theMenuGLiftSettings.btnDownText = (char *)"PgDown";

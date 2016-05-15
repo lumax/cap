@@ -43,7 +43,7 @@ namespace EuMax01
 		       int y_height,				\
 		       int y_space,				\
 		       int width,				\
-		       struct t_MenuGHorizontalSettings * settings,	\
+		       struct t_MenuGSettings * settings,	\
 		       ArbeitsDialog * Parent)
   {
     //short xPos[MenuBar::LabelBufLen];
@@ -94,8 +94,8 @@ namespace EuMax01
 			Parent->WerteSet);
 
 
-    pBUp->setLMButtonUpEvtHandler(settings->evtFnkUp);
-    pBDown->setLMButtonUpEvtHandler(settings->evtFnkDown);
+    pBUp->setLMButtonUpEvtHandler(settings->evtFnkBtn1);
+    pBDown->setLMButtonUpEvtHandler(settings->evtFnkBtn2);
     pBSetSpeed->setLMButtonUpEvtHandler(settings->evtFnkSetSpeed);
 
     pBUp->pTSource = settings->evtSource;
@@ -137,6 +137,11 @@ namespace EuMax01
 	}*/
   }
 
+static void privateMouseOverListener(void * src,bool selected)
+{
+  printf("privateMouseOverListener selected : %i\n",selected);
+}
+
   MenuGVertical::~MenuGVertical(){}
   MenuGVertical::MenuGVertical(char * name,			\
 		       int xPos,				\
@@ -144,7 +149,7 @@ namespace EuMax01
 		       int y_height,				\
 		       int y_space,				\
 		       int width,				\
-		       struct t_MenuGHorizontalSettings * settings,	\
+		       struct t_MenuGSettings * settings,	\
 			       ArbeitsDialog * Parent)
   {
     int x_space = 4;
@@ -193,8 +198,10 @@ namespace EuMax01
 			Parent->WerteSet);
 
 
-    pBUp->setLMButtonUpEvtHandler(settings->evtFnkUp);
-    pBDown->setLMButtonUpEvtHandler(settings->evtFnkDown);
+    pBUp->setLMButtonUpEvtHandler(settings->evtFnkBtn1);
+    pBUp->setLMButtonDownEvtHandler(settings->evtFnkBtn1);
+    pBUp->setPrivateMouseOver(privateMouseOverListener);
+    pBDown->setLMButtonUpEvtHandler(settings->evtFnkBtn2);
     pBSetSpeed->setLMButtonUpEvtHandler(settings->evtFnkSetSpeed);
 
     pBUp->pTSource = settings->evtSource;
