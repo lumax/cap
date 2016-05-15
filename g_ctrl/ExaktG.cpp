@@ -344,26 +344,24 @@ namespace EuMax01
   {
     float range;
 
-    //machine state 3 = stop
-    if(3!=this->MachineState)
+    //machine state 3 = stop; 1 = ready
+    if(3==this->MachineState||1==MachineState)
       {
-	return;
-      }
+	LastMovedAxis = axis;
+	AxisMoveDirection[axis] = direction;
 
-    LastMovedAxis = axis;
-    AxisMoveDirection[axis] = direction;
-
-    if(axis<0 || axis>=ExaktG::MaxAxis){
-      return;
-    }
-    range = getAxisDistance(axis);
-    if(0>direction){
-      range *=-1.0;
-    }
-    if(this->DistanceModeAbsolut)
-      {
-	range += Position[axis];
+	if(axis<0 || axis>=ExaktG::MaxAxis){
+	  return;
+	}
+	range = getAxisDistance(axis);
+	if(0>direction){
+	  range *=-1.0;
+	}
+	if(this->DistanceModeAbsolut)
+	  {
+	    range += Position[axis];
+	  }
+	this->GCtrl.cmdG1(axis,range,AxisVelocity[axis]);
       }
-    this->GCtrl.cmdG1(axis,range,AxisVelocity[axis]);
   }
 }
