@@ -12,7 +12,8 @@ namespace EuMax01
     nG_posY = 2,
     nG_posZ = 3,
     nG_posA = 4,
-    nG_G_f = 5
+    nG_G_f = 5,
+    nG_stat = 6
   };
 
   struct ExaktG_CodeListener_t{
@@ -45,6 +46,14 @@ namespace EuMax01
     void setGCodeResultListener(struct ExaktG_CodeListener_t* pLis);
 
     static char* toString(float f,char* pcTarget,int len);
+
+    //G-Code Status dist: 0 = absolute
+    //G-Code Status dist: 1 = incremental
+    bool DistanceModeAbsolut;
+
+    //stat machine_state:  1=reset, 2=alarm, 3=stop,
+    //4=end, 5=run, 6=hold, 7=probe, 9=homing
+    int MachineState;
 
     float Position[4];
     int lastG_F[4];
@@ -81,9 +90,6 @@ namespace EuMax01
     G_Ctrl GCtrl;
     StreamScanner sScan;
     struct ExaktG_CodeListener_t *ptGCLis;
-
-
-    bool DistanceModeAbsolut;
 
     /*
       G1 Y-50.00,F100

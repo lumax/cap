@@ -87,6 +87,10 @@ namespace EuMax01
 				 ps->scannedG_F[3]);
       }
       break;
+    case nG_stat:{
+      pEG->MachineState = ps->scannedInt;
+      break;
+    }
     }
     default:{
       if(0!=pEG->verbose){
@@ -109,9 +113,9 @@ namespace EuMax01
     lastG_F[2] = 0;
     lastG_F[3] = 0;
 
-    //G-Code Status dist: 0 = absolute
-    //G-Code Status dist: 1 = incremental
+
     DistanceModeAbsolut = true;
+    MachineState = 0;
 
     for(int i = 0;i<ExaktG::MaxAxis;i++){
       Position[i]=0.0;
@@ -123,9 +127,6 @@ namespace EuMax01
     SpeedLevelDistance[1] = ExaktG::G_pro_mm * ExaktG::SpeedDistance1in_mm;
     SpeedLevelDistance[2] = ExaktG::G_pro_mm * ExaktG::SpeedDistance2in_mm;
     SpeedLevelDistance[3] = ExaktG::G_pro_mm * ExaktG::SpeedDistance3in_mm;
-
-    //SpeedLevels
-    //moveDistance[ExaktG::AxisX] = (char*)""
 
     /*"posx":0.000} oder "posx":0.000,*/
     sScan.addScanner(nStreamScannerType_float,		\
@@ -165,6 +166,13 @@ namespace EuMax01
 		     (char*)"\"f\":[",			\
 		     (char*)"]",			\
 		     (char*)"]",			\
+		     streamScanResult);
+    /*"stat":x} */
+    sScan.addScanner(nStreamScannerType_int,				\
+		     (void*)this,					\
+		     nG_stat,						\
+		     (char*)"\"stat\":",				\
+		     (char*)"}",(char*)"}",				\
 		     streamScanResult);
 
   }
@@ -313,6 +321,13 @@ namespace EuMax01
   void ExaktG::move(int axis,int direction)
   {
     float range;
+
+    //machine state 3 = stop
+    if(3!=this->MachineState)
+      {
+	return;
+      }
+
     if(axis<0 || axis>=ExaktG::MaxAxis){
       return;
     }

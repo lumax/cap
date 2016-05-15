@@ -79,7 +79,6 @@ namespace EuMax01
       }
   }
 
-
   void G_TestDialog::GY_RightListener(void* src,SDL_Event * evt)
   {
     G_TestDialog* td = (G_TestDialog*)src;
