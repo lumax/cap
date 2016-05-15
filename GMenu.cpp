@@ -143,8 +143,12 @@ namespace EuMax01
 			Parent->WerteSet);
 
 
-    pB1->setLMButtonUpEvtHandler(settings->evtFnkBtn1);
-    pB2->setLMButtonUpEvtHandler(settings->evtFnkBtn2);
+    pB1->setLMButtonUpEvtHandler(settings->evtFnkBtn1Up);
+    pB1->setLMButtonDownEvtHandler(settings->evtFnkBtn1Down);
+    pB1->setPrivateMouseOver(settings->evtFnkBtn1MouseOver);
+    pB2->setLMButtonUpEvtHandler(settings->evtFnkBtn2Up);
+    pB2->setLMButtonDownEvtHandler(settings->evtFnkBtn2Down);
+    pB2->setPrivateMouseOver(settings->evtFnkBtn2MouseOver);
     pBSetSpeed->setLMButtonUpEvtHandler(settings->evtFnkSetSpeed);
 
     pB1->pTSource = settings->evtSource;
@@ -162,12 +166,6 @@ namespace EuMax01
     theTarget->addEvtTarget(pBSetSpeed);
     theTarget->addEvtTarget(pLPosition);
   }
-
-
-static void privateMouseOverListener(void * src,bool selected)
-{
-  printf("privateMouseOverListener selected : %i\n",selected);
-}
 
   MenuGVertical::~MenuGVertical(){}
   MenuGVertical::MenuGVertical(char * name,			\
@@ -233,10 +231,12 @@ static void privateMouseOverListener(void * src,bool selected)
 			Parent->WerteSet);
 
 
-    pB1->setLMButtonUpEvtHandler(settings->evtFnkBtn1);
-    pB1->setLMButtonDownEvtHandler(settings->evtFnkBtn1);
-    pB1->setPrivateMouseOver(privateMouseOverListener);
-    pB2->setLMButtonUpEvtHandler(settings->evtFnkBtn2);
+    pB1->setLMButtonUpEvtHandler(settings->evtFnkBtn1Up);
+    pB1->setLMButtonDownEvtHandler(settings->evtFnkBtn1Down);
+    pB1->setPrivateMouseOver(settings->evtFnkBtn1MouseOver);
+    pB2->setLMButtonUpEvtHandler(settings->evtFnkBtn2Up);
+    pB2->setLMButtonDownEvtHandler(settings->evtFnkBtn2Down);
+    pB2->setPrivateMouseOver(settings->evtFnkBtn2MouseOver);
     pBSetSpeed->setLMButtonUpEvtHandler(settings->evtFnkSetSpeed);
 
     pB1->pTSource = settings->evtSource;

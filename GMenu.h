@@ -15,8 +15,12 @@ namespace EuMax01
     //Dieser Pointer wird bei den Button Events ausgewertet
     //Die Funktionen in evtFnks nutzen diesen Pointer
     void * evtSource;
-    void (*evtFnkBtn1)(void *,SDL_Event * evt);
-    void (*evtFnkBtn2)(void *,SDL_Event * evt);
+    void (*evtFnkBtn1Up)(void *,SDL_Event * evt);
+    void (*evtFnkBtn1Down)(void *,SDL_Event * evt);
+    void (*evtFnkBtn1MouseOver)(void *,bool sel);
+    void (*evtFnkBtn2Up)(void *,SDL_Event * evt);
+    void (*evtFnkBtn2Down)(void *,SDL_Event * evt);
+    void (*evtFnkBtn2MouseOver)(void *,bool sel);
     void (*evtFnkSetSpeed)(void *,SDL_Event * evt);
     char * btn1Text;
     char * btn2Text;

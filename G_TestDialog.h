@@ -32,6 +32,8 @@ namespace EuMax01
     static void GLiftUpListener(void*,SDL_Event * evt);
     static void GLiftDownListener(void*,SDL_Event * evt);
     static void GLiftSetSpeedListener(void*,SDL_Event * evt);
+    static void GZ_Btn1MouseOverListener(void*,bool selected);
+    static void GZ_Btn2MouseOverListener(void*,bool selected);
     static void escape_listener(void * src, SDL_Event * evt);
     static void left_listener(void * src, SDL_Event * evt);
     static void right_listener(void * src, SDL_Event * evt);
@@ -39,17 +41,18 @@ namespace EuMax01
     static void GX_LeftListener(void*,SDL_Event * evt);
     static void GX_RightListener(void*,SDL_Event * evt);
     static void GX_SpeedListener(void*,SDL_Event * evt);
+    static void GX_Btn1MouseOverListener(void*,bool selected);
+    static void GX_Btn2MouseOverListener(void*,bool selected);
     static void GY_LeftListener(void*,SDL_Event * evt);
     static void GY_RightListener(void*,SDL_Event * evt);
     static void GY_SpeedListener(void*,SDL_Event * evt);
+    static void GY_Btn1MouseOverListener(void*,bool selected);
+    static void GY_Btn2MouseOverListener(void*,bool selected);
     static void GA_UpListener(void*,SDL_Event * evt);
     static void GA_DownListener(void*,SDL_Event * evt);
     static void GA_SpeedListener(void*,SDL_Event * evt);
-
-    static void UniBtn1Listener(void * src,SDL_Event * evt);
-    static void UniBtn2Listener(void * src,SDL_Event * evt);
-    static void UniSpeedListener(void * src,SDL_Event * evt);
-    static void UniMouseOverListener(void * src,bool selected);
+    static void GA_Btn1MouseOverListener(void*,bool selected);
+    static void GA_Btn2MouseOverListener(void*,bool selected);
 
     void setActive(void);
   private:

@@ -42,6 +42,39 @@ Bastian Ruppert
 namespace EuMax01
 {
 
+  void G_TestDialog::GX_Btn1MouseOverListener(void*,bool selected)
+  {
+    printf("GX_Btn1MouseOverListener :%i\n",selected);
+  }
+  void G_TestDialog::GX_Btn2MouseOverListener(void*,bool selected)
+  {
+    printf("GX_Btn2MouseOverListener :%i\n",selected);
+  }
+  void G_TestDialog::GY_Btn1MouseOverListener(void*,bool selected)
+  {
+    printf("GY_Btn1MouseOverListener :%i\n",selected);
+  }
+  void G_TestDialog::GY_Btn2MouseOverListener(void*,bool selected)
+  {
+    printf("GZ_Btn2MouseOverListener :%i\n",selected);
+  }
+  void G_TestDialog::GZ_Btn1MouseOverListener(void*,bool selected)
+  {
+    printf("GZ_Btn1MouseOverListener :%i\n",selected);
+  }
+  void G_TestDialog::GZ_Btn2MouseOverListener(void*,bool selected)
+  {
+    printf("GZ_Btn2MouseOverListener :%i\n",selected);
+  }
+  void G_TestDialog::GA_Btn1MouseOverListener(void*,bool selected)
+  {
+    printf("GA_Btn1MouseOverListener :%i\n",selected);
+  }
+  void G_TestDialog::GA_Btn2MouseOverListener(void*,bool selected)
+  {
+    printf("GA_Btn2MouseOverListener :%i\n",selected);
+  }
+
   void G_TestDialog::GX_LeftListener(void* src,SDL_Event * evt)
   {
     
@@ -323,29 +356,45 @@ namespace EuMax01
 			  &this->theMenuBarSettings,Parent);
 
     theMenuGXSettings.evtSource = this;
-    theMenuGXSettings.evtFnkBtn1 = GX_LeftListener;
-    theMenuGXSettings.evtFnkBtn2 = GX_RightListener;
+    theMenuGXSettings.evtFnkBtn1Up = GX_LeftListener;
+    theMenuGXSettings.evtFnkBtn1Down = 0;//GX_LeftListener;
+    theMenuGXSettings.evtFnkBtn1MouseOver = GX_Btn1MouseOverListener;
+    theMenuGXSettings.evtFnkBtn2MouseOver = GX_Btn2MouseOverListener;
+    theMenuGXSettings.evtFnkBtn2Up = GX_RightListener;
+    theMenuGXSettings.evtFnkBtn2Down =0;//GX_RightListener;
     theMenuGXSettings.evtFnkSetSpeed = GX_SpeedListener;
     theMenuGXSettings.btn1Text = (char *)"<--a";
     theMenuGXSettings.btn2Text = (char *)"d-->";
 
     theMenuGYSettings.evtSource = this;
-    theMenuGYSettings.evtFnkBtn1 = GY_LeftListener;
-    theMenuGYSettings.evtFnkBtn2 = GY_RightListener;
+    theMenuGYSettings.evtFnkBtn1Up = GY_LeftListener;
+    theMenuGYSettings.evtFnkBtn1Down = GY_LeftListener;
+    theMenuGYSettings.evtFnkBtn2Up = GY_RightListener;
+    theMenuGYSettings.evtFnkBtn2Down = 0;//GX_LeftListener;
+    theMenuGYSettings.evtFnkBtn1MouseOver = GY_Btn1MouseOverListener;
+    theMenuGYSettings.evtFnkBtn2MouseOver = GY_Btn2MouseOverListener;
     theMenuGYSettings.evtFnkSetSpeed = GY_SpeedListener;
     theMenuGYSettings.btn1Text = (char *)"Left";
     theMenuGYSettings.btn2Text = (char *)"Right";
 
     theMenuGWalzeSettings.evtSource = this;
-    theMenuGWalzeSettings.evtFnkBtn1 = GA_UpListener;
-    theMenuGWalzeSettings.evtFnkBtn2 = GA_DownListener;
+    theMenuGWalzeSettings.evtFnkBtn1Up = GA_UpListener;
+    theMenuGWalzeSettings.evtFnkBtn1Down = 0;//GA_LeftListener;
+    theMenuGWalzeSettings.evtFnkBtn2Up = GA_DownListener;
+    theMenuGWalzeSettings.evtFnkBtn2Down = 0;//GA_LeftListener;
+    theMenuGWalzeSettings.evtFnkBtn1MouseOver = GA_Btn1MouseOverListener;
+    theMenuGWalzeSettings.evtFnkBtn2MouseOver = GA_Btn2MouseOverListener;
     theMenuGWalzeSettings.evtFnkSetSpeed = GA_SpeedListener;
     theMenuGWalzeSettings.btn1Text = (char *)"Up";
     theMenuGWalzeSettings.btn2Text = (char *)"Down";
 
     theMenuGLiftSettings.evtSource = this;
-    theMenuGLiftSettings.evtFnkBtn1 = GLiftUpListener;
-    theMenuGLiftSettings.evtFnkBtn2 = GLiftDownListener;
+    theMenuGLiftSettings.evtFnkBtn1Up = GLiftUpListener;
+    theMenuGLiftSettings.evtFnkBtn1Down = 0;//GLiftUpListener;
+    theMenuGLiftSettings.evtFnkBtn2Up = GLiftDownListener;
+    theMenuGLiftSettings.evtFnkBtn2Down = 0;//
+    theMenuGLiftSettings.evtFnkBtn1MouseOver = GZ_Btn1MouseOverListener;
+    theMenuGLiftSettings.evtFnkBtn2MouseOver = GZ_Btn2MouseOverListener;
     theMenuGLiftSettings.evtFnkSetSpeed = GLiftSetSpeedListener;
     theMenuGLiftSettings.btn1Text = (char *)"PgUp";
     theMenuGLiftSettings.btn2Text = (char *)"PgDown";
