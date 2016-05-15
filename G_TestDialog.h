@@ -20,6 +20,9 @@ namespace EuMax01
     G_TestDialog(int sdlw,int sdlh, int camw,int camh,int yPos,\
 		      ArbeitsDialog * parent);
     ArbeitsDialog * Parent;
+
+    ExaktG * pExaktG;
+    G_Ctrl * pGCtrl;
     //void setQ1(unsigned int dat);
     //void setQ2(unsigned int dat);
     //void setZ1(unsigned int dat,char*suffix,unsigned int zFaktor);
@@ -54,6 +57,8 @@ namespace EuMax01
     static void GA_Btn1MouseOverListener(void*,bool selected);
     static void GA_Btn2MouseOverListener(void*,bool selected);
 
+    static void getstatus_listener(void* src,SDL_Event * evt);
+
     void setActive(void);
 
     void incSpeedLevel(int axis);
@@ -84,8 +89,6 @@ namespace EuMax01
     Button * pBEingabe;
     TextField * pTFEingabe;
 
-    ExaktG * pExaktG;
-    G_Ctrl * pGCtrl;
   };
 
 #endif /* __G_TESTDIALOG_H__*/

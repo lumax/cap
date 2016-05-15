@@ -44,8 +44,6 @@ namespace EuMax01
     static void streamScanResult(struct StreamScanner_t * ps);
     void setGCodeResultListener(struct ExaktG_CodeListener_t* pLis);
 
-    void move(int axis, int direction);
-
     static char* toString(float f,char* pcTarget,int len);
 
     float xPos,yPos,zPos,aPos;
@@ -69,6 +67,7 @@ namespace EuMax01
     void setSpeedLevel(int axis,int speed);
     void incSpeedLevel(int axis);
     int getSpeedLevel(int axis);
+    void move(int axis, int direction);
 
   private:
     PollReader * pr_gcodes;
@@ -77,7 +76,6 @@ namespace EuMax01
     G_Ctrl GCtrl;
     StreamScanner sScan;
     struct ExaktG_CodeListener_t *ptGCLis;
-    void setVelocity(int axis,char * velocity);
 
     /*
       G1 Y-50.00,F100
@@ -87,9 +85,10 @@ namespace EuMax01
 
       SpeedLevels = 0,1,2 oder 3
      */
-    char * AxisVelocity[ExaktG::MaxAxis];
+    int AxisVelocity[ExaktG::MaxAxis];
     int AxisSpeedLevel[ExaktG::MaxAxis];
     float SpeedLevelDistance[ExaktG::MaxSpeedLevels];
+    float getAxisDistance(int axis);
   };
 
 #endif /* __ExaktG_H__*/

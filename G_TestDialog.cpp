@@ -87,9 +87,8 @@ namespace EuMax01
 
   void G_TestDialog::GX_SpeedListener(void* src,SDL_Event * evt)
   {
-    //G_TestDialog* ad = (G_TestDialog*)src;//KeyListener
-    //ad->pGCtrl->cmdGetStatus();
-    //printf("GX_SpeedListener\n");
+    G_TestDialog* td = (G_TestDialog*)src;
+    td->incSpeedLevel(ExaktG::AxisX);
   }
 
   void G_TestDialog::GY_LeftListener(void* src,SDL_Event * evt)
@@ -113,7 +112,6 @@ namespace EuMax01
   {
     G_TestDialog* td = (G_TestDialog*)src;//KeyListener
     td->incSpeedLevel(ExaktG::AxisY);
-    //printf("GX_SpeedListener\n");
   }
 
   void G_TestDialog::GA_UpListener(void* src,SDL_Event * evt)
@@ -128,7 +126,8 @@ namespace EuMax01
 
   void G_TestDialog::GA_SpeedListener(void* src,SDL_Event * evt)
   {
-    
+    G_TestDialog* td = (G_TestDialog*)src;//KeyListener
+    td->incSpeedLevel(ExaktG::AxisA);
   }
 
   void G_TestDialog::GLiftUpListener(void* src,SDL_Event * evt)
@@ -143,7 +142,8 @@ namespace EuMax01
 
   void G_TestDialog::GLiftSetSpeedListener(void* src,SDL_Event * evt)
   {
-    printf("G_TestDialog MenuGLiftSetSpeedListener\n");
+    G_TestDialog* td = (G_TestDialog*)src;//KeyListener
+    td->incSpeedLevel(ExaktG::AxisZ);
   }
 
   void G_TestDialog::escape_listener(void * src, SDL_Event * evt)
@@ -172,8 +172,14 @@ namespace EuMax01
 	ad->pGCtrl->cmdG(ad->pTFEingabe->getText());
 	ad->pTFEingabe->setText((char*)"");
 	ad->pTFEingabe->show(ad->Parent->theGUI->getMainSurface());
-	
       }
+  }
+
+  void G_TestDialog::getstatus_listener(void * src,SDL_Event * evt)
+  {
+    G_TestDialog* ad = (G_TestDialog*)src;
+    ad->pGCtrl->cmdGetStatus();
+    printf("getstatus_listener\n");
   }
 
   void G_TestDialog::xPosLis(void * pLis,float pos)
@@ -376,7 +382,7 @@ namespace EuMax01
     //int B8x = B1x + 7*Bw+7*x_space;
 
     theMenuBarSettings.Text[0]=0;
-    theMenuBarSettings.Text[1]=0;
+    theMenuBarSettings.Text[1]=(char *)"F2 status";
     theMenuBarSettings.Text[2]=0;
     theMenuBarSettings.Text[3]=(char *)"F4 prev";
     theMenuBarSettings.Text[4]=(char *)"F5 next";
@@ -387,7 +393,7 @@ namespace EuMax01
     theMenuBarSettings.evtSource = (void*)this;
 
     theMenuBarSettings.evtFnks[0]=0;
-    theMenuBarSettings.evtFnks[1]=0;
+    theMenuBarSettings.evtFnks[1]=getstatus_listener;
     theMenuBarSettings.evtFnks[2]=0;
     theMenuBarSettings.evtFnks[3]=left_listener;
     theMenuBarSettings.evtFnks[4]=right_listener;

@@ -98,12 +98,17 @@ namespace EuMax01
 
   void G_Ctrl::cmdG1(int axis,int range, int velocity)
   {
+    cmdG1(axis,(float)range,velocity);
+  }
+
+  void G_Ctrl::cmdG1(int axis,float range, int velocity)
+  {
     int ret = 0;
     char * Axis = 0;
 
     Axis = getAxis(axis);
 
-    ret = snprintf(this->cmdBuf,cmdLen,"G1 %s%i,F%i\r",\
+    ret = snprintf(this->cmdBuf,cmdLen,"G1 %s%.0003f,F%i\r",\
 		   Axis,range,velocity);
     if(0!=this->verbose)
       {

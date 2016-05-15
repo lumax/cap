@@ -114,7 +114,7 @@ namespace EuMax01
     lastG_F[3] = 0;
 
     for(int i = 0;i<ExaktG::MaxAxis;i++){
-      AxisVelocity[i] = (char*)"F100";
+      AxisVelocity[i] = 100;
       setSpeedLevel(i,0);
     }
 
@@ -245,14 +245,6 @@ namespace EuMax01
     this->ptGCLis = pGCLis;
   }
 
-  void ExaktG::setVelocity(int axis,char * velocity)
-  {
-    if(axis<0 || axis>=ExaktG::MaxAxis){
-      return;
-    }
-    AxisVelocity[axis] = velocity;
-  }
-
   void ExaktG::setSpeedLevel(int axis,int speed)
   {
     if(axis<0 || axis>=ExaktG::MaxAxis){
@@ -283,5 +275,26 @@ namespace EuMax01
       return 0;
     }
     return AxisSpeedLevel[axis];
+  }
+
+  float ExaktG::getAxisDistance(int axis)
+  {
+     if(axis<0 || axis>=ExaktG::MaxAxis){
+       return 0.0;
+     }
+     return SpeedLevelDistance[AxisSpeedLevel[axis]];
+  }
+
+  void ExaktG::move(int axis,int direction)
+  {
+    float range;
+    if(axis<0 || axis>=ExaktG::MaxAxis){
+      return;
+    }
+    range = getAxisDistance(axis);
+    if(0>direction){
+      range *=-1.0;
+    }
+    this->GCtrl.cmdG1(axis,range,AxisVelocity[axis]);
   }
 }

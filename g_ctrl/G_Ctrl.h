@@ -24,6 +24,7 @@ namespace EuMax01
     void cmdFlowControl(void);
     void cmdG(char * gCode);
     void cmdG1(int axis,int range,int velocity);
+    void cmdG1(int axis,float range,int velocity);
     int openUart(char * path,int baud);
     void closeUart(void);
     int getFd(void);
