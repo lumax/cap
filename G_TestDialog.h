@@ -75,11 +75,11 @@ namespace EuMax01
     struct t_MenuGSettings theMenuGYSettings;
     MenuGVertical * theMenuGY;
 
-    struct t_MenuGSettings theMenuGWalzeSettings;
-    MenuGHorizontal * theMenuGWalze;
+    struct t_MenuGSettings theMenuGASettings;
+    MenuGHorizontal * theMenuGA;
 
-    struct t_MenuGSettings theMenuGLiftSettings;
-    MenuGHorizontal * theMenuGLift;
+    struct t_MenuGSettings theMenuGZSettings;
+    MenuGHorizontal * theMenuGZ;
 
     Button * pBEingabe;
     TextField * pTFEingabe;

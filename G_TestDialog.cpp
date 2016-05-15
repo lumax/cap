@@ -199,8 +199,8 @@ namespace EuMax01
     static char pcTmp[16];
     G_TestDialog * pGTD;
     pGTD = (G_TestDialog *)pLis;
-    pGTD->theMenuGLift->pLPosition->setText(ExaktG::toString(pos,pcTmp,16));
-    pGTD->theMenuGLift->pLPosition->show(pGTD->Parent->theGUI->getMainSurface());
+    pGTD->theMenuGZ->pLPosition->setText(ExaktG::toString(pos,pcTmp,16));
+    pGTD->theMenuGZ->pLPosition->show(pGTD->Parent->theGUI->getMainSurface());
   }
 
   void G_TestDialog::aPosLis(void * pLis,float pos)
@@ -208,8 +208,8 @@ namespace EuMax01
     static char pcTmp[16];
     G_TestDialog * pGTD;
     pGTD = (G_TestDialog *)pLis;
-    pGTD->theMenuGWalze->pLPosition->setText(ExaktG::toString(pos,pcTmp,16));
-    pGTD->theMenuGWalze->pLPosition->show(pGTD->Parent->theGUI->getMainSurface());
+    pGTD->theMenuGA->pLPosition->setText(ExaktG::toString(pos,pcTmp,16));
+    pGTD->theMenuGA->pLPosition->show(pGTD->Parent->theGUI->getMainSurface());
   }
 
   void G_TestDialog::gFLis(void * pLis,int iA,int iB,int iC,int iD)
@@ -304,10 +304,10 @@ namespace EuMax01
       gMenu = theMenuGY;
     }
     else if(ExaktG::AxisZ==axis){
-      gMenu = theMenuGLift;
+      gMenu = theMenuGZ;
     }
     else if(ExaktG::AxisA==axis){
-      gMenu = theMenuGWalze;
+      gMenu = theMenuGA;
     }
     this->pExaktG->incSpeedLevel(axis);
     speedLevel = this->pExaktG->getSpeedLevel(axis);
@@ -420,27 +420,27 @@ namespace EuMax01
     theMenuGYSettings.btn1Text = (char *)"Left";
     theMenuGYSettings.btn2Text = (char *)"Right";
 
-    theMenuGWalzeSettings.evtSource = this;
-    theMenuGWalzeSettings.evtFnkBtn1Up = GA_UpListener;
-    theMenuGWalzeSettings.evtFnkBtn1Down = 0;//GA_LeftListener;
-    theMenuGWalzeSettings.evtFnkBtn2Up = GA_DownListener;
-    theMenuGWalzeSettings.evtFnkBtn2Down = 0;//GA_LeftListener;
-    theMenuGWalzeSettings.evtFnkBtn1MouseOver = GA_Btn1MouseOverListener;
-    theMenuGWalzeSettings.evtFnkBtn2MouseOver = GA_Btn2MouseOverListener;
-    theMenuGWalzeSettings.evtFnkSetSpeed = GA_SpeedListener;
-    theMenuGWalzeSettings.btn1Text = (char *)"Up";
-    theMenuGWalzeSettings.btn2Text = (char *)"Down";
+    theMenuGASettings.evtSource = this;
+    theMenuGASettings.evtFnkBtn1Up = GA_UpListener;
+    theMenuGASettings.evtFnkBtn1Down = 0;//GA_LeftListener;
+    theMenuGASettings.evtFnkBtn2Up = GA_DownListener;
+    theMenuGASettings.evtFnkBtn2Down = 0;//GA_LeftListener;
+    theMenuGASettings.evtFnkBtn1MouseOver = GA_Btn1MouseOverListener;
+    theMenuGASettings.evtFnkBtn2MouseOver = GA_Btn2MouseOverListener;
+    theMenuGASettings.evtFnkSetSpeed = GA_SpeedListener;
+    theMenuGASettings.btn1Text = (char *)"Up";
+    theMenuGASettings.btn2Text = (char *)"Down";
 
-    theMenuGLiftSettings.evtSource = this;
-    theMenuGLiftSettings.evtFnkBtn1Up = GLiftUpListener;
-    theMenuGLiftSettings.evtFnkBtn1Down = 0;//GLiftUpListener;
-    theMenuGLiftSettings.evtFnkBtn2Up = GLiftDownListener;
-    theMenuGLiftSettings.evtFnkBtn2Down = 0;//
-    theMenuGLiftSettings.evtFnkBtn1MouseOver = GZ_Btn1MouseOverListener;
-    theMenuGLiftSettings.evtFnkBtn2MouseOver = GZ_Btn2MouseOverListener;
-    theMenuGLiftSettings.evtFnkSetSpeed = GLiftSetSpeedListener;
-    theMenuGLiftSettings.btn1Text = (char *)"PgUp";
-    theMenuGLiftSettings.btn2Text = (char *)"PgDown";
+    theMenuGZSettings.evtSource = this;
+    theMenuGZSettings.evtFnkBtn1Up = GLiftUpListener;
+    theMenuGZSettings.evtFnkBtn1Down = 0;//GLiftUpListener;
+    theMenuGZSettings.evtFnkBtn2Up = GLiftDownListener;
+    theMenuGZSettings.evtFnkBtn2Down = 0;//
+    theMenuGZSettings.evtFnkBtn1MouseOver = GZ_Btn1MouseOverListener;
+    theMenuGZSettings.evtFnkBtn2MouseOver = GZ_Btn2MouseOverListener;
+    theMenuGZSettings.evtFnkSetSpeed = GLiftSetSpeedListener;
+    theMenuGZSettings.btn1Text = (char *)"PgUp";
+    theMenuGZSettings.btn2Text = (char *)"PgDown";
 
     theMenuGX = new MenuGVertical((char *)"X-Achse",			\
 				    B1x,				\
@@ -458,21 +458,21 @@ namespace EuMax01
 				    2*Bw,				\
 				    &this->theMenuGYSettings,Parent);
 
-    theMenuGWalze = new MenuGHorizontal((char *)"Walze",		\
+    theMenuGA = new MenuGHorizontal((char *)"Walze",		\
 				 B5x,					\
 				 (int)Zeile1_y,				\
 				 MZeile_h,				\
 				 MSpace_h,				\
 				 2*Bw,				\
-				 &this->theMenuGWalzeSettings,Parent);
+				 &this->theMenuGASettings,Parent);
 
-    theMenuGLift = new MenuGHorizontal((char *)"Lift2",			\
+    theMenuGZ = new MenuGHorizontal((char *)"Lift",			\
 				 B7x,					\
 				 (int)Zeile1_y,				\
 				 MZeile_h,				\
 				 MSpace_h,				\
 				 2*Bw,				\
-				 &this->theMenuGLiftSettings,Parent);
+				 &this->theMenuGZSettings,Parent);
 
     pBEingabe = new Button("Enter",					\
 			   B1x,						\
@@ -497,8 +497,8 @@ namespace EuMax01
 
     theMenuGX->addToEvtTarget(this);
     theMenuGY->addToEvtTarget(this);
-    theMenuGWalze->addToEvtTarget(this);
-    theMenuGLift->addToEvtTarget(this);
+    theMenuGA->addToEvtTarget(this);
+    theMenuGZ->addToEvtTarget(this);
     this->addEvtTarget(pBEingabe);
     this->addEvtTarget(pTFEingabe);
 
