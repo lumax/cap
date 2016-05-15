@@ -147,9 +147,9 @@ namespace EuMax01
     pB2->setLMButtonUpEvtHandler(settings->evtFnkBtn2);
     pBSetSpeed->setLMButtonUpEvtHandler(settings->evtFnkSetSpeed);
 
-    pB1->pTSource = pB1;
-    pB2->pTSource = pB2;
-    pBSetSpeed->pTSource = pBSetSpeed;
+    pB1->pTSource = settings->evtSource;
+    pB2->pTSource = settings->evtSource;
+    pBSetSpeed->pTSource = settings->evtSource;
 }
 
   
@@ -239,9 +239,9 @@ static void privateMouseOverListener(void * src,bool selected)
     pB2->setLMButtonUpEvtHandler(settings->evtFnkBtn2);
     pBSetSpeed->setLMButtonUpEvtHandler(settings->evtFnkSetSpeed);
 
-    pB1->pTSource = pB1;
-    pB2->pTSource = pB2;
-    pBSetSpeed->pTSource = pBSetSpeed;
+    pB1->pTSource = settings->evtSource;
+    pB2->pTSource = settings->evtSource;
+    pBSetSpeed->pTSource = settings->evtSource;
   }
 
   void MenuGVertical::addToEvtTarget(EvtTarget* theTarget)

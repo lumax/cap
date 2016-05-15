@@ -322,25 +322,28 @@ namespace EuMax01
     theMenu = new MenuBar((int)MLinks_x,(int)Zeile5_y,(int)MZeile_h,(char*)"G-Test", \
 			  &this->theMenuBarSettings,Parent);
 
-
+    theMenuGXSettings.evtSource = this;
     theMenuGXSettings.evtFnkBtn1 = GX_LeftListener;
     theMenuGXSettings.evtFnkBtn2 = GX_RightListener;
     theMenuGXSettings.evtFnkSetSpeed = GX_SpeedListener;
     theMenuGXSettings.btn1Text = (char *)"<--a";
     theMenuGXSettings.btn2Text = (char *)"d-->";
 
+    theMenuGYSettings.evtSource = this;
     theMenuGYSettings.evtFnkBtn1 = GY_LeftListener;
     theMenuGYSettings.evtFnkBtn2 = GY_RightListener;
     theMenuGYSettings.evtFnkSetSpeed = GY_SpeedListener;
     theMenuGYSettings.btn1Text = (char *)"Left";
     theMenuGYSettings.btn2Text = (char *)"Right";
 
+    theMenuGWalzeSettings.evtSource = this;
     theMenuGWalzeSettings.evtFnkBtn1 = GA_UpListener;
     theMenuGWalzeSettings.evtFnkBtn2 = GA_DownListener;
     theMenuGWalzeSettings.evtFnkSetSpeed = GA_SpeedListener;
     theMenuGWalzeSettings.btn1Text = (char *)"Up";
     theMenuGWalzeSettings.btn2Text = (char *)"Down";
 
+    theMenuGLiftSettings.evtSource = this;
     theMenuGLiftSettings.evtFnkBtn1 = GLiftUpListener;
     theMenuGLiftSettings.evtFnkBtn2 = GLiftDownListener;
     theMenuGLiftSettings.evtFnkSetSpeed = GLiftSetSpeedListener;
