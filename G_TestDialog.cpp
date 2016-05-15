@@ -54,10 +54,9 @@ namespace EuMax01
 
   void G_TestDialog::GX_SpeedListener(void* src,SDL_Event * evt)
   {
-    G_TestDialog* ad = (G_TestDialog*)src;//KeyListener
-    ad->pGCtrl->cmdGetStatus();
-    printf("GX_SpeedListener\n");
-    
+    //G_TestDialog* ad = (G_TestDialog*)src;//KeyListener
+    //ad->pGCtrl->cmdGetStatus();
+    //printf("GX_SpeedListener\n");
   }
 
   void G_TestDialog::GY_LeftListener(void* src,SDL_Event * evt)
@@ -323,34 +322,6 @@ namespace EuMax01
     theMenu = new MenuBar((int)MLinks_x,(int)Zeile5_y,(int)MZeile_h,(char*)"G-Test", \
 			  &this->theMenuBarSettings,Parent);
 
-    theMenuGXSettings.evtSource = (void*)this;
-    theMenuGXSettings.evtFnkBtn1 = GX_LeftListener;
-    theMenuGXSettings.evtFnkBtn2 = GX_RightListener;
-    theMenuGXSettings.evtFnkSetSpeed = GX_SpeedListener;
-    theMenuGXSettings.btnUpText = (char *)"<--a";
-    theMenuGXSettings.btnDownText = (char *)"d-->";
-
-    theMenuGYSettings.evtSource = (void*)this;
-    theMenuGYSettings.evtFnkBtn1 = GY_LeftListener;
-    theMenuGYSettings.evtFnkBtn2 = GY_RightListener;
-    theMenuGYSettings.evtFnkSetSpeed = GY_SpeedListener;
-    theMenuGYSettings.btnUpText = (char *)"Left";
-    theMenuGYSettings.btnDownText = (char *)"Right";
-
-    theMenuGWalzeSettings.evtSource = (void*)this;
-    theMenuGWalzeSettings.evtFnkBtn1 = GA_UpListener;
-    theMenuGWalzeSettings.evtFnkBtn2 = GA_DownListener;
-    theMenuGWalzeSettings.evtFnkSetSpeed = GA_SpeedListener;
-    theMenuGWalzeSettings.btnUpText = (char *)"Up";
-    theMenuGWalzeSettings.btnDownText = (char *)"Down";
-
-    theMenuGLiftSettings.evtSource = (void*)this;
-    theMenuGLiftSettings.evtFnkBtn1 = GLiftUpListener;
-    theMenuGLiftSettings.evtFnkBtn2 = GLiftDownListener;
-    theMenuGLiftSettings.evtFnkSetSpeed = GLiftSetSpeedListener;
-    theMenuGLiftSettings.btnUpText = (char *)"PgUp";
-    theMenuGLiftSettings.btnDownText = (char *)"PgDown";
-
     theMenuGX = new MenuGVertical((char *)"X-Achse",			\
 				    B1x,				\
 				    (int)Zeile1_y,			\
@@ -382,6 +353,35 @@ namespace EuMax01
 				 MSpace_h,				\
 				 2*Bw,				\
 				 &this->theMenuGLiftSettings,Parent);
+
+
+    theMenuGXSettings.evtSource = (void*)this;
+    theMenuGXSettings.evtFnkBtn1 = GX_LeftListener;
+    theMenuGXSettings.evtFnkBtn2 = GX_RightListener;
+    theMenuGXSettings.evtFnkSetSpeed = GX_SpeedListener;
+    theMenuGXSettings.btn1Text = (char *)"<--a";
+    theMenuGXSettings.btn2Text = (char *)"d-->";
+
+    theMenuGYSettings.evtSource = (void*)this;
+    theMenuGYSettings.evtFnkBtn1 = GY_LeftListener;
+    theMenuGYSettings.evtFnkBtn2 = GY_RightListener;
+    theMenuGYSettings.evtFnkSetSpeed = GY_SpeedListener;
+    theMenuGYSettings.btn1Text = (char *)"Left";
+    theMenuGYSettings.btn2Text = (char *)"Right";
+
+    theMenuGWalzeSettings.evtSource = (void*)this;
+    theMenuGWalzeSettings.evtFnkBtn1 = GA_UpListener;
+    theMenuGWalzeSettings.evtFnkBtn2 = GA_DownListener;
+    theMenuGWalzeSettings.evtFnkSetSpeed = GA_SpeedListener;
+    theMenuGWalzeSettings.btn1Text = (char *)"Up";
+    theMenuGWalzeSettings.btn2Text = (char *)"Down";
+
+    theMenuGLiftSettings.evtSource = (void*)this;
+    theMenuGLiftSettings.evtFnkBtn1 = GLiftUpListener;
+    theMenuGLiftSettings.evtFnkBtn2 = GLiftDownListener;
+    theMenuGLiftSettings.evtFnkSetSpeed = GLiftSetSpeedListener;
+    theMenuGLiftSettings.btn1Text = (char *)"PgUp";
+    theMenuGLiftSettings.btn2Text = (char *)"PgDown";
 
     pBEingabe = new Button("Enter",					\
 			   B1x,						\

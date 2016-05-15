@@ -107,14 +107,14 @@ namespace EuMax01
     pLName = new Label(name,\
 		       xPos,yPos,wButton,y_height,Parent->DialogSet);
 
-    pB1 = new Button(settings->btnUpText,				\
+    pB1 = new Button(settings->btn1Text,				\
 		      xPos,						\
 		      yPos+y_height*1+y_space*1,			\
 		      wButtonHalbe,					\
 		      y_height,						\
 		      Parent->MenuSet);
 
-    pB2 = new Button(settings->btnDownText,				\
+    pB2 = new Button(settings->btn2Text,				\
 			xPos,						\
 			yPos+y_height*2+y_space*2,			\
 			wButtonHalbe,					\
@@ -197,14 +197,14 @@ static void privateMouseOverListener(void * src,bool selected)
     pLName = new Label(name,\
 		       xPos,yPos,wButton,y_height,Parent->DialogSet);
 
-    pB1 = new Button(settings->btnUpText,				\
+    pB1 = new Button(settings->btn1Text,				\
 		      xPos,						\
 		      yPos+y_height*1+y_space*1,			\
 		      wButtonViertel,					\
 		      y_height,						\
 		      Parent->MenuSet);
 
-    pB2 = new Button(settings->btnDownText,				\
+    pB2 = new Button(settings->btn2Text,				\
 			xPos + wButtonViertel+x_space/2,		\
 			yPos+y_height*1+y_space*1,			\
 			wButtonViertel,					\

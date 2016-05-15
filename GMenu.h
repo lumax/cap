@@ -18,8 +18,8 @@ namespace EuMax01
     void (*evtFnkBtn1)(void *,SDL_Event * evt);
     void (*evtFnkBtn2)(void *,SDL_Event * evt);
     void (*evtFnkSetSpeed)(void *,SDL_Event * evt);
-    char * btnUpText;
-    char * btnDownText;
+    char * btn1Text;
+    char * btn2Text;
   };
 
   class MenuGBase
