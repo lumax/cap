@@ -89,6 +89,7 @@ namespace EuMax01
       break;
     case nG_stat:{
       pEG->MachineState = ps->scannedInt;
+      pEG->machineStateChangedEvent();
       break;
     }
     }
@@ -112,6 +113,13 @@ namespace EuMax01
     lastG_F[1] = 0;
     lastG_F[2] = 0;
     lastG_F[3] = 0;
+
+    AxisMoveDirection[ExaktG::AxisX] = ExaktG::DirectionLeft;
+    AxisMoveDirection[ExaktG::AxisY] = ExaktG::DirectionRight;
+    AxisMoveDirection[ExaktG::AxisZ] = ExaktG::DirectionUp;
+    AxisMoveDirection[ExaktG::AxisA] = ExaktG::DirectionUp;
+    LastMovedAxis = ExaktG::AxisX;
+    isMovingHolded = false;
 
 
     DistanceModeAbsolut = true;
@@ -318,6 +326,20 @@ namespace EuMax01
      return SpeedLevelDistance[AxisSpeedLevel[axis]];
   }
 
+  void ExaktG::holdMoving(bool holdIt)
+  {
+    this->isMovingHolded = holdIt;
+  }
+
+  void ExaktG::machineStateChangedEvent()
+  {
+    //machine state 3 = stop
+    if((3 == this->MachineState)&&(this->isMovingHolded))
+      {
+	this->move(this->LastMovedAxis,AxisMoveDirection[LastMovedAxis]);
+      }
+  }
+
   void ExaktG::move(int axis,int direction)
   {
     float range;
@@ -327,6 +349,9 @@ namespace EuMax01
       {
 	return;
       }
+
+    LastMovedAxis = axis;
+    AxisMoveDirection[axis] = direction;
 
     if(axis<0 || axis>=ExaktG::MaxAxis){
       return;

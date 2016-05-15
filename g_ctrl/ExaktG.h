@@ -44,6 +44,7 @@ namespace EuMax01
     void setCoordinatesAbsolute(void);
     static void streamScanResult(struct StreamScanner_t * ps);
     void setGCodeResultListener(struct ExaktG_CodeListener_t* pLis);
+    void machineStateChangedEvent();
 
     static char* toString(float f,char* pcTarget,int len);
 
@@ -82,6 +83,7 @@ namespace EuMax01
     void incSpeedLevel(int axis);
     int getSpeedLevel(int axis);
     void move(int axis, int direction);
+    void holdMoving(bool holdMoving);
 
   private:
     PollReader * pr_gcodes;
@@ -103,6 +105,10 @@ namespace EuMax01
     int AxisSpeedLevel[ExaktG::MaxAxis];
     float SpeedLevelDistance[ExaktG::MaxSpeedLevels];
     float getAxisDistance(int axis);
+
+    bool isMovingHolded;
+    int LastMovedAxis;
+    int AxisMoveDirection[ExaktG::MaxAxis];
   };
 
 #endif /* __ExaktG_H__*/

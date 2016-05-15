@@ -73,11 +73,17 @@ namespace EuMax01
 
     if(evt->type==SDL_MOUSEBUTTONDOWN)
       {
-	//printf("SDL_MOUSEBUTTONDOWN\n");
+	td->pExaktG->move(ExaktG::AxisY,ExaktG::DirectionLeft);
+	td->pExaktG->holdMoving(true);
       }
-    if((evt->type==SDL_MOUSEBUTTONUP)||(key->keysym.sym == SDLK_LEFT))
+    if((evt->type==SDL_MOUSEBUTTONUP))
+      {
+	td->pExaktG->holdMoving(false);
+      }
+    if(key->keysym.sym == SDLK_LEFT)
       {
 	td->pExaktG->move(ExaktG::AxisY,ExaktG::DirectionLeft);
+	td->pExaktG->holdMoving(false);
       }
   }
 
@@ -96,9 +102,10 @@ namespace EuMax01
       }
   }
 
-  void G_TestDialog::GY_Btn1MouseOverListener(void*,bool selected)
+  void G_TestDialog::GY_Btn1MouseOverListener(void* src,bool selected)
   {
-    printf("GY_Btn1MouseOverListener :%i\n",selected);
+    G_TestDialog* td = (G_TestDialog*)src;
+    td->G_MoveBtnMouseOverListener(src,selected);
   }
   void G_TestDialog::GY_Btn2MouseOverListener(void*,bool selected)
   {
@@ -157,8 +164,16 @@ namespace EuMax01
 
   void G_TestDialog::GLiftSetSpeedListener(void* src,SDL_Event * evt)
   {
-    G_TestDialog* td = (G_TestDialog*)src;//KeyListener
+    G_TestDialog* td = (G_TestDialog*)src;
     td->incSpeedLevel(ExaktG::AxisZ);
+  }
+
+  void G_TestDialog::G_MoveBtnMouseOverListener(void * src,bool selected)
+  {
+    G_TestDialog* td = (G_TestDialog*)src;
+    if(!selected){
+      td->pExaktG->holdMoving(false);
+    }
   }
 
   void G_TestDialog::escape_listener(void * src, SDL_Event * evt)

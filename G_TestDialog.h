@@ -55,6 +55,8 @@ namespace EuMax01
     static void GA_Btn1MouseOverListener(void*,bool selected);
     static void GA_Btn2MouseOverListener(void*,bool selected);
 
+    static void G_MoveBtnMouseOverListener(void* src,bool selected);
+
     static void getstatus_listener(void* src,SDL_Event * evt);
 
     void setActive(void);
