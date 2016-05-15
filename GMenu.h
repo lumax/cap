@@ -35,7 +35,6 @@ namespace EuMax01
 	      ArbeitsDialog * Parent);
     ~MenuGBase();
 
-    static const int MenuPunkte = 8;
     void setMenuName(char * theName);
     void updateSettings(struct t_MenuBarSettings * settings);
 
@@ -66,7 +65,7 @@ namespace EuMax01
     void addToEvtTarget(EvtTarget* theTarget);
   };
 
-  class MenuGVertical
+  class MenuGVertical:public MenuGBase
   {
   public:
     MenuGVertical(char * name,				\
@@ -79,17 +78,7 @@ namespace EuMax01
 	      ArbeitsDialog * Parent);
     ~MenuGVertical();
 
-    static const int MenuPunkte = 8;
     void addToEvtTarget(EvtTarget* theTarget);
-    void setMenuName(char * theName);
-    void updateSettings(struct t_MenuBarSettings * settings);
-
-    Label * pLName;
-    Button * pBUp;
-    Button * pBDown;
-    Button * pBSetSpeed;
-    Label * pLSpeed;
-    Label * pLPosition;
   };
 
   

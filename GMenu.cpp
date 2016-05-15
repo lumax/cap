@@ -150,7 +150,6 @@ namespace EuMax01
     pB1->pTSource = settings->evtSource;
     pB2->pTSource = settings->evtSource;
     pBSetSpeed->pTSource = settings->evtSource;
-  printf("####################Konstruktor MenuGHorizontal\n");
 }
 
   
@@ -178,7 +177,15 @@ static void privateMouseOverListener(void * src,bool selected)
 		       int y_space,				\
 		       int width,				\
 		       struct t_MenuGSettings * settings,	\
-			       ArbeitsDialog * Parent)
+			       ArbeitsDialog * Parent):		\
+    MenuGBase(name,							\
+	      xPos,							\
+	      yPos,							\
+	      y_height,							\
+	      y_space,							\
+	      width,							\
+	      settings,							\
+	      Parent)
   {
     int x_space = 4;
     int wHalbe = width/2;
@@ -190,14 +197,14 @@ static void privateMouseOverListener(void * src,bool selected)
     pLName = new Label(name,\
 		       xPos,yPos,wButton,y_height,Parent->DialogSet);
 
-    pBUp = new Button(settings->btnUpText,				\
+    pB1 = new Button(settings->btnUpText,				\
 		      xPos,						\
 		      yPos+y_height*1+y_space*1,			\
 		      wButtonViertel,					\
 		      y_height,						\
 		      Parent->MenuSet);
 
-    pBDown = new Button(settings->btnDownText,				\
+    pB2 = new Button(settings->btnDownText,				\
 			xPos + wButtonViertel+x_space/2,		\
 			yPos+y_height*1+y_space*1,			\
 			wButtonViertel,					\
@@ -226,14 +233,14 @@ static void privateMouseOverListener(void * src,bool selected)
 			Parent->WerteSet);
 
 
-    pBUp->setLMButtonUpEvtHandler(settings->evtFnkBtn1);
-    pBUp->setLMButtonDownEvtHandler(settings->evtFnkBtn1);
-    pBUp->setPrivateMouseOver(privateMouseOverListener);
-    pBDown->setLMButtonUpEvtHandler(settings->evtFnkBtn2);
+    pB1->setLMButtonUpEvtHandler(settings->evtFnkBtn1);
+    pB1->setLMButtonDownEvtHandler(settings->evtFnkBtn1);
+    pB1->setPrivateMouseOver(privateMouseOverListener);
+    pB2->setLMButtonUpEvtHandler(settings->evtFnkBtn2);
     pBSetSpeed->setLMButtonUpEvtHandler(settings->evtFnkSetSpeed);
 
-    pBUp->pTSource = settings->evtSource;
-    pBDown->pTSource = settings->evtSource;
+    pB1->pTSource = settings->evtSource;
+    pB1->pTSource = settings->evtSource;
     pBSetSpeed->pTSource = settings->evtSource;
   }
 
@@ -241,18 +248,10 @@ static void privateMouseOverListener(void * src,bool selected)
   {
     theTarget->addEvtTarget(pLName);
     theTarget->addEvtTarget(pLSpeed);
-    theTarget->addEvtTarget(pBUp);
-    theTarget->addEvtTarget(pBDown);
+    theTarget->addEvtTarget(pB1);
+    theTarget->addEvtTarget(pB2);
     theTarget->addEvtTarget(pBSetSpeed);
     theTarget->addEvtTarget(pLPosition);
-  }
-
-  void MenuGVertical::setMenuName(char * theName)
-  {
-    if(0!=theName)
-      {
-	pLName->setText(theName);
-      }
   }
 
 }//end namespace
