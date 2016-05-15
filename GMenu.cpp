@@ -128,7 +128,7 @@ namespace EuMax01
 			    y_height,					\
 			    Parent->MenuSet);
 
-    pLSpeed = new Label("50km/h",					\
+    pLSpeed = new Label(settings->SpeedLabelText,			\
 			xPos+wButtonHalbe+x_space,			\
 			yPos+y_height*3+y_space*3,			\
 			wButtonHalbe,					\
@@ -223,7 +223,7 @@ namespace EuMax01
 			    y_height,					\
 			    Parent->MenuSet);
 
-    pLSpeed = new Label("50km/h",					\
+    pLSpeed = new Label(settings->SpeedLabelText,			\
 			xPos+wButtonHalbe+x_space,			\
 			yPos+y_height*2+y_space*2,			\
 			wButtonHalbe,					\
