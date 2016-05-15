@@ -112,7 +112,19 @@ namespace EuMax01
     lastG_F[1] = 0;
     lastG_F[2] = 0;
     lastG_F[3] = 0;
-    
+
+    for(int i = 0;i<ExaktG::MaxAxis;i++){
+      AxisVelocity[i] = (char*)"F100";
+      setSpeedLevel(i,0);
+    }
+
+    SpeedLevelDistance[0] = ExaktG::G_pro_mm * ExaktG::SpeedDistance0in_mm;
+    SpeedLevelDistance[1] = ExaktG::G_pro_mm * ExaktG::SpeedDistance1in_mm;
+    SpeedLevelDistance[2] = ExaktG::G_pro_mm * ExaktG::SpeedDistance2in_mm;
+    SpeedLevelDistance[3] = ExaktG::G_pro_mm * ExaktG::SpeedDistance3in_mm;
+
+    //SpeedLevels
+    //moveDistance[ExaktG::AxisX] = (char*)""
 
     /*"posx":0.000} oder "posx":0.000,*/
     sScan.addScanner(nStreamScannerType_float,		\
@@ -231,5 +243,45 @@ namespace EuMax01
   void ExaktG::setGCodeResultListener(struct ExaktG_CodeListener_t *pGCLis)
   {
     this->ptGCLis = pGCLis;
+  }
+
+  void ExaktG::setVelocity(int axis,char * velocity)
+  {
+    if(axis<0 || axis>=ExaktG::MaxAxis){
+      return;
+    }
+    AxisVelocity[axis] = velocity;
+  }
+
+  void ExaktG::setSpeedLevel(int axis,int speed)
+  {
+    if(axis<0 || axis>=ExaktG::MaxAxis){
+      return;
+    }
+    if(speed<0){
+      speed = 0;
+    }
+    if(speed>=ExaktG::MaxSpeedLevels){
+      speed = 0;
+    }
+    AxisSpeedLevel[axis] = speed;
+  }
+
+  void ExaktG::incSpeedLevel(int axis)
+  {
+    if(axis<0 || axis>=ExaktG::MaxAxis){
+      return;
+    }
+    int speed = AxisSpeedLevel[axis];
+    speed++;
+    setSpeedLevel(axis,speed);
+  }
+
+  int ExaktG::getSpeedLevel(int axis)
+  {
+    if(axis<0 || axis>=ExaktG::MaxAxis){
+      return 0;
+    }
+    return AxisSpeedLevel[axis];
   }
 }

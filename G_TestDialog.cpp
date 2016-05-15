@@ -111,7 +111,9 @@ namespace EuMax01
 
   void G_TestDialog::GY_SpeedListener(void* src,SDL_Event * evt)
   {
-    
+    G_TestDialog* td = (G_TestDialog*)src;//KeyListener
+    td->incSpeedLevel(ExaktG::AxisY);
+    //printf("GX_SpeedListener\n");
   }
 
   void G_TestDialog::GA_UpListener(void* src,SDL_Event * evt)
@@ -270,6 +272,47 @@ namespace EuMax01
       {
 	
       }*/
+  }
+
+  char * G_TestDialog::getSpeedText(int SpeedLevel)
+  {
+    switch(SpeedLevel){
+    case 1:{
+      return (char *)"-1-";
+    }
+    case 2:{
+      return (char *)"-2-";
+    }
+    case 3:{
+      return (char *)"-3-";
+    }
+    default:{
+      return (char *)"-0-";
+    }
+    }
+  }
+
+  void G_TestDialog::incSpeedLevel(int axis)
+  {
+    MenuGBase * gMenu;
+    int speedLevel;
+
+    if(ExaktG::AxisX==axis){
+      gMenu = theMenuGX;
+    }
+    else if(ExaktG::AxisY==axis){
+      gMenu = theMenuGY;
+    }
+    else if(ExaktG::AxisZ==axis){
+      gMenu = theMenuGLift;
+    }
+    else if(ExaktG::AxisA==axis){
+      gMenu = theMenuGWalze;
+    }
+    this->pExaktG->incSpeedLevel(axis);
+    speedLevel = this->pExaktG->getSpeedLevel(axis);
+    gMenu->pLSpeed->setText(getSpeedText(speedLevel));
+    gMenu->pLSpeed->show(Parent->theGUI->getMainSurface());
   }
 
   G_TestDialog::G_TestDialog(int sdlw,		\
