@@ -1995,7 +1995,7 @@ namespace EuMax01
 
     theMenuBarSettings.evtFnks[0]=Options1;
     theMenuBarSettings.evtFnks[1]=0;
-    theMenuBarSettings.evtFnks[2]=0;
+    theMenuBarSettings.evtFnks[2]=Options3;
     theMenuBarSettings.evtFnks[3]=0;
     theMenuBarSettings.evtFnks[4]=Options5;
     theMenuBarSettings.evtFnks[5]=0;
