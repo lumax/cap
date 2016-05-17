@@ -338,6 +338,35 @@ namespace EuMax01
     return AxisSpeedLevel[axis];
   }
 
+  float ExaktG::getXPos(void)
+  {
+    return Position[ExaktG::AxisX];
+  }
+
+  float ExaktG::getYPos(void)
+  {
+    return Position[ExaktG::AxisY];
+  }
+
+  float ExaktG::getZPos(void)
+  {
+    return Position[ExaktG::AxisZ];
+  }
+
+  float ExaktG::getAPos(void)
+  {
+    return Position[ExaktG::AxisA];
+  }
+
+  float ExaktG::getPos(int axis)
+  {
+    if(0>axis || axis<=ExaktG::MaxAxis){
+      return 0.0;
+    }else{
+      return Position[axis];
+    }
+  }
+
   float ExaktG::getAxisDistance(int axis)
   {
      if(axis<0 || axis>=ExaktG::MaxAxis){

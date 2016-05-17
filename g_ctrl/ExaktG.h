@@ -57,9 +57,6 @@ namespace EuMax01
     //4=end, 5=run, 6=hold, 7=probe, 9=homing
     int MachineState;
 
-    float Position[4];
-    int lastG_F[4];
-
     static const int DirectionLeft = -1;
     static const int DirectionRight = 1;
     static const int DirectionUp = -1;
@@ -79,6 +76,12 @@ namespace EuMax01
 
     static const int MaxSpeedLevels = 4;
 
+    float getXPos(void);
+    float getYPos(void);
+    float getZPos(void);
+    float getAPos(void);
+    float getPos(int axis);
+
     char * getSpeedText(int axis,int SpeedLevel);
     void setSpeedLevel(int axis,int speed);
     void incSpeedLevel(int axis);
@@ -93,6 +96,9 @@ namespace EuMax01
     G_Ctrl GCtrl;
     StreamScanner sScan;
     struct ExaktG_CodeListener_t *ptGCLis;
+
+    float Position[4];
+    int lastG_F[4];
 
     /*
       G1 Y-50.00,F100
