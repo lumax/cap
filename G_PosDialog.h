@@ -17,9 +17,9 @@ namespace EuMax01
 		      ArbeitsDialog * parent);
     ArbeitsDialog * Parent;
 
-    //    static void GX_LeftListener(void*,SDL_Event * evt);
-    //static void GX_RightListener(void*,SDL_Event * evt);
-    //static void GX_SpeedListener(void*,SDL_Event * evt);
+    //static void G_LeftListener(void*,SDL_Event * evt);
+    //static void G_RightListener(void*,SDL_Event * evt);
+    //static void G_SpeedListener(void*,SDL_Event * evt);
     //static void G_MoveBtnMouseOverListener(void* src,bool selected);
     void setActive(void);
 

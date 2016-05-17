@@ -174,21 +174,22 @@ namespace EuMax01
 							     camw,\
 							     yPos,parent)
   {
-    short M_y;
+    //short M_y;
     //unsigned short MSpace_h;
-    unsigned short MZeile_h;
+    //unsigned short MZeile_h;
 
-    M_y = sdlh - yPos;
+    /*    M_y = sdlh - yPos;
     if(M_y<=84)
       {
-	//	MSpace_h = 2;
+	MSpace_h = 2;
 	MZeile_h = 18;
       }
     else
       {
-	//	MSpace_h = 5;
+	MSpace_h = 5;
 	MZeile_h = 28;
       }
+    */
 
     //short MLinks_x = sdlw/2 - 504;//Breite von 1008 und mittig
 
