@@ -44,7 +44,8 @@ namespace EuMax01
     void setCoordinatesAbsolute(void);
     static void streamScanResult(struct StreamScanner_t * ps);
     void setGCodeResultListener(struct ExaktG_CodeListener_t* pLis);
-    void machineStateChangedEvent();
+    void machineStateChangedEvent(void);
+    void setNullpunkt(int axis);
 
     static char* toString(float f,char* pcTarget,int len);
 

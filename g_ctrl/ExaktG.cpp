@@ -220,6 +220,26 @@ namespace EuMax01
     GCtrl.cmdG((char*)"G90");
   }
 
+  void ExaktG::setNullpunkt(int axis)
+  {
+    if(ExaktG::AxisX==axis)
+      {
+	GCtrl.cmdG((char*)"G28.3 X0.0");
+      }
+    if(ExaktG::AxisY==axis)
+      {
+	GCtrl.cmdG((char*)"G28.3 Y0.0");
+      }
+    if(ExaktG::AxisZ==axis)
+      {
+	GCtrl.cmdG((char*)"G28.3 Z0.0");
+      }
+    if(ExaktG::AxisA==axis)
+      {
+	GCtrl.cmdG((char*)"G28.3 A0.0");
+      }
+  }
+
   void ExaktG::pollTimerExpired(long time)
   {
     static int counter = 0;

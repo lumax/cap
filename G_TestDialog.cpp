@@ -140,23 +140,20 @@ namespace EuMax01
 
   void G_TestDialog::zeroX_listener(void * src, SDL_Event * evt)
   {
-    //G_TestDialog* ad = (G_TestDialog*)src;//KeyListener
-    //ad->pExaktG->setNullpunkt(ExaktG::AxisX);
-    printf("zeroX_listener\n");
+    G_TestDialog* ad = (G_TestDialog*)src;//KeyListener
+    ad->pExaktG->setNullpunkt(ExaktG::AxisX);
   }
 
   void G_TestDialog::zeroY_listener(void * src, SDL_Event * evt)
   {
-    //G_TestDialog* ad = (G_TestDialog*)src;//KeyListener
-    //ad->pExaktG->setNullpunkt(ExaktG::AxisY);
-    printf("zeroY_listener\n");
+    G_TestDialog* ad = (G_TestDialog*)src;//KeyListener
+    ad->pExaktG->setNullpunkt(ExaktG::AxisY);
   }
 
   void G_TestDialog::zeroA_listener(void * src, SDL_Event * evt)
   {
-    //G_TestDialog* ad = (G_TestDialog*)src;//KeyListener
-    //ad->pExaktG->setNullpunkt(ExaktG::AxisA);
-    printf("zeroA_listener\n");
+    G_TestDialog* ad = (G_TestDialog*)src;//KeyListener
+    ad->pExaktG->setNullpunkt(ExaktG::AxisA);
   }
 
   void G_TestDialog::getstatus_listener(void * src,SDL_Event * evt)
