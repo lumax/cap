@@ -174,8 +174,69 @@ namespace EuMax01
 							     camw,\
 							     yPos,parent)
   {
+    short M_y;
+    //unsigned short MSpace_h;
+    unsigned short MZeile_h;
 
-    this->LabelActual->setText((char*)"GCurrent Position");
+    M_y = sdlh - yPos;
+    if(M_y<=84)
+      {
+	//	MSpace_h = 2;
+	MZeile_h = 18;
+      }
+    else
+      {
+	//	MSpace_h = 5;
+	MZeile_h = 28;
+      }
+
+    //short MLinks_x = sdlw/2 - 504;//Breite von 1008 und mittig
+
+    //vertikal fünf Zeilen
+    //short Zeile1_y = yPos + 1*MSpace_h + 0*MZeile_h;
+    //short Zeile2_y = yPos + 2*MSpace_h + 1*MZeile_h;
+    //short Zeile3_y = yPos + 3*MSpace_h + 2*MZeile_h;
+    //short Zeile4_y = yPos + 4*MSpace_h + 3*MZeile_h;
+    //short Zeile5_y = yPos + 5*MSpace_h + 4*MZeile_h;
+    //Rezepte_w = 108;
+
+    //horizontal acht Spalten
+    int width = 1008;
+    int x_space = 2;
+    int Bw = (width -7*x_space)/8;
+    int B1x = sdlw/2 - width/2;
+    //int B2x = B1x + 1*Bw+1*x_space;
+    //int B3x = B1x + 2*Bw+2*x_space;
+    int B4x = B1x + 3*Bw+3*x_space;
+    //int B5x = B1x + 4*Bw+4*x_space;
+    int B6x = B1x + 5*Bw+5*x_space;
+    //int B7x = B1x + 6*Bw+6*x_space;
+    //int B8x = B1x + 7*Bw+7*x_space;
+
+    this->LabelActual->setText((char*)"Position");
+    LabelActual->setWidth(Bw);
+    pLabelCam1[PosDialog::iCurr]->setWidth(Bw);
+    pLabelCam2[PosDialog::iCurr]->setWidth(Bw);
+    pLabelZ[PosDialog::iCurr]->setWidth(Bw);
+
+    pLabelCam1[PosDialog::iDiff]->setPosX(B4x+x_space);
+    pLabelCam2[PosDialog::iDiff]->setPosX(B4x+x_space);
+    pLabelZ[PosDialog::iDiff]->setPosX(B4x+x_space);
+
+    LabelStep->setPosX(B6x+x_space);
+    pLabelCam1[PosDialog::iStep]->setPosX(B6x+x_space);
+    pLabelCam2[PosDialog::iStep]->setPosX(B6x+x_space);
+    pLabelZ[PosDialog::iStep]->setPosX(B6x+x_space);
+
+    LabelStep->setWidth(Bw);
+    pLabelCam1[PosDialog::iStep]->setWidth(Bw);
+    pLabelCam2[PosDialog::iStep]->setWidth(Bw);
+    pLabelZ[PosDialog::iStep]->setWidth(Bw);
+
+
+
+
+
     /*    short M_y;
     short MLinks_x;
     unsigned short MSpace_h;
