@@ -138,6 +138,27 @@ namespace EuMax01
       }
   }
 
+  void G_TestDialog::zeroX_listener(void * src, SDL_Event * evt)
+  {
+    //G_TestDialog* ad = (G_TestDialog*)src;//KeyListener
+    //ad->pExaktG->setNullpunkt(ExaktG::AxisX);
+    printf("zeroX_listener\n");
+  }
+
+  void G_TestDialog::zeroY_listener(void * src, SDL_Event * evt)
+  {
+    //G_TestDialog* ad = (G_TestDialog*)src;//KeyListener
+    //ad->pExaktG->setNullpunkt(ExaktG::AxisY);
+    printf("zeroY_listener\n");
+  }
+
+  void G_TestDialog::zeroA_listener(void * src, SDL_Event * evt)
+  {
+    //G_TestDialog* ad = (G_TestDialog*)src;//KeyListener
+    //ad->pExaktG->setNullpunkt(ExaktG::AxisA);
+    printf("zeroA_listener\n");
+  }
+
   void G_TestDialog::getstatus_listener(void * src,SDL_Event * evt)
   {
     G_TestDialog* ad = (G_TestDialog*)src;
@@ -347,7 +368,7 @@ namespace EuMax01
     int B3x = B1x + 2*Bw+2*x_space;
     //int B4x = B1x + 3*Bw+3*x_space;
     int B5x = B1x + 4*Bw+4*x_space;
-    //int B6x = B1x + 5*Bw+5*x_space;
+    int B6x = B1x + 5*Bw+5*x_space;
     int B7x = B1x + 6*Bw+6*x_space;
     //int B8x = B1x + 7*Bw+7*x_space;
 
@@ -478,6 +499,33 @@ namespace EuMax01
 			       Parent->WerteSet);
     pTFEingabe->setActive(true);
 
+    pBZeroX = new Button("ZeroX",					\
+			B5x,						\
+			(int)Zeile4_y,					\
+			Bw,						\
+			MZeile_h,					\
+			Parent->MenuSet);
+    pBZeroX->setLMButtonUpEvtHandler(zeroX_listener);
+    pBZeroX->pTSource = this;
+
+    pBZeroY = new Button("ZeroY",					\
+			B6x,						\
+			(int)Zeile4_y,					\
+			Bw,						\
+			MZeile_h,					\
+			Parent->MenuSet);
+    pBZeroY->setLMButtonUpEvtHandler(zeroY_listener);
+    pBZeroY->pTSource = this;
+
+    pBZeroA = new Button("ZeroA",					\
+			B7x,						\
+			(int)Zeile4_y,					\
+			Bw,						\
+			MZeile_h,					\
+			Parent->MenuSet);
+    pBZeroA->setLMButtonUpEvtHandler(zeroA_listener);
+    pBZeroA->pTSource = this;
+
     //addEvtTarget(Label_Value);
     theMenu->addToEvtTarget(this);
 
@@ -487,6 +535,9 @@ namespace EuMax01
     theMenuGZ->addToEvtTarget(this);
     this->addEvtTarget(pBEingabe);
     this->addEvtTarget(pTFEingabe);
+    this->addEvtTarget(pBZeroX);
+    this->addEvtTarget(pBZeroY);
+    this->addEvtTarget(pBZeroA);
 
     this->pTSource = this;//EvtTarget Quelle setzen, damit der EvtListener die Quelle mitteilen kann
     this->setKeyboardUpEvtHandler(G_TestDialogKeyListener);

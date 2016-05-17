@@ -37,6 +37,9 @@ namespace EuMax01
     static void GLiftSetSpeedListener(void*,SDL_Event * evt);
     static void escape_listener(void * src, SDL_Event * evt);
     static void return_listener(void * src, SDL_Event * evt);
+    static void zeroX_listener(void * src, SDL_Event * evt);
+    static void zeroY_listener(void * src, SDL_Event * evt);
+    static void zeroA_listener(void * src, SDL_Event * evt);
     static void GX_LeftListener(void*,SDL_Event * evt);
     static void GX_RightListener(void*,SDL_Event * evt);
     static void GX_SpeedListener(void*,SDL_Event * evt);
@@ -80,6 +83,9 @@ namespace EuMax01
 
     Button * pBEingabe;
     TextField * pTFEingabe;
+    Button * pBZeroX;
+    Button * pBZeroY;
+    Button * pBZeroA;
 
   };
 
