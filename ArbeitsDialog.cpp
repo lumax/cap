@@ -38,6 +38,7 @@ Bastian Ruppert
 #include "g_ctrl/StreamScanner.h"
 #include "g_ctrl/ExaktG.h"
 #include "G_TestDialog.h"
+#include "G_PosDialog.h"
 
 #include "ArbeitsDialog.h"
 
@@ -384,7 +385,8 @@ namespace EuMax01
     MInfoF8_x  = MLinks_x + 6*MInfo_w + 6*MInfoSpace_w;
     MInfoF12_x = MLinks_x + 7*MInfo_w + 7*MInfoSpace_w;
     */
-    thePosDialog = new PosDialog(theRezept->Name,sdlw,sdlh,camw,camh,yPos,this);
+    //thePosDialog = new PosDialog(theRezept->Name,sdlw,sdlh,camw,camh,yPos,this);
+    thePosDialog = new G_PosDialog(theRezept->Name,sdlw,sdlh,camw,camh,yPos,this);
 
     theMenuBarSettings.Text[0]=(char *)"F1 load";
     theMenuBarSettings.Text[1]=(char *)"F2 edit";
