@@ -425,7 +425,7 @@ namespace EuMax01
     pGMset->evtFnkBtn2MouseOver = G_MoveBtnMouseOverListener;
     pGMset->evtFnkSetSpeed = GLiftSetSpeedListener;
     pGMset->btn1Text = (char *)"PgUp";
-    pGMset->btn2Text = (char *)"PgDown";
+    pGMset->btn2Text = (char *)"PgDo";
     pGMset->SpeedLabelText = pExaktG->getSpeedText(ExaktG::AxisZ,0);
 
     theMenuGX = new MenuGVertical((char *)"X-Achse",			\
@@ -444,7 +444,7 @@ namespace EuMax01
 				    2*Bw,				\
 				    &this->theMenuGYSettings,Parent);
 
-    theMenuGA = new MenuGHorizontal((char *)"Walze",		\
+    theMenuGA = new MenuGVertical((char *)"Walze",		\
 				 B5x,					\
 				 (int)Zeile1_y,				\
 				 MZeile_h,				\
@@ -452,7 +452,7 @@ namespace EuMax01
 				 2*Bw,				\
 				 &this->theMenuGASettings,Parent);
 
-    theMenuGZ = new MenuGHorizontal((char *)"Lift",			\
+    theMenuGZ = new MenuGVertical((char *)"Lift",			\
 				 B7x,					\
 				 (int)Zeile1_y,				\
 				 MZeile_h,				\
