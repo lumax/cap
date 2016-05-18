@@ -42,33 +42,98 @@ Bastian Ruppert
 
 namespace EuMax01
 {
-  /*  void G_TestDialog::GX_LeftListener(void* src,SDL_Event * evt)
+  void G_PosDialog::G_LeftListener(void* src,SDL_Event * evt)
   {
-    G_TestDialog* td = (G_TestDialog*)src;
-    td->moveButtonAction(evt,ExaktG::AxisX,ExaktG::DirectionLeft);
+    G_PosDialog* pd = (G_PosDialog*)src;
+    int activeAxis = pd->getActiveAxis();
+    if(activeAxis==ExaktG::AxisA)
+      {
+	pd->moveButtonAction(evt,activeAxis,ExaktG::DirectionUp);
+	printf("G_PosDialog::G_LeftListener DirectionUp\n");
+      }
+    else
+      {
+	pd->moveButtonAction(evt,activeAxis,ExaktG::DirectionLeft);
+	printf("G_PosDialog::G_LeftListener DirectionLeft\n");
+      }
   }
 
-  void G_TestDialog::GX_RightListener(void* src,SDL_Event * evt)
+  void G_PosDialog::G_RightListener(void* src,SDL_Event * evt)
   {
-     G_TestDialog* td = (G_TestDialog*)src;
-     td->moveButtonAction(evt,ExaktG::AxisX,ExaktG::DirectionRight);
+    G_PosDialog* pd = (G_PosDialog*)src;
+    int activeAxis = pd->getActiveAxis();
+    if(activeAxis==ExaktG::AxisA)
+      {
+	pd->moveButtonAction(evt,activeAxis,ExaktG::DirectionDown);
+	printf("G_PosDialog::G_LeftListener DirectionDowm\n");
+      }
+    else
+      {
+	pd->moveButtonAction(evt,activeAxis,ExaktG::DirectionRight);
+	printf("G_PosDialog::G_LeftListener DirectionRight\n");
+      }
   }
 
-  void G_TestDialog::GX_SpeedListener(void* src,SDL_Event * evt)
+  void G_PosDialog::G_SpeedListener(void* src,SDL_Event * evt)
   {
-    G_TestDialog* td = (G_TestDialog*)src;
-    td->incSpeedLevel(ExaktG::AxisX);
+    G_PosDialog* pd = (G_PosDialog*)src;
+    pd->incSpeedLevel();
   }
 
-  void G_TestDialog::G_MoveBtnMouseOverListener(void * src,bool selected)
+  void G_PosDialog::G_MoveBtnMouseOverListener(void * src,bool selected)
   {
-    G_TestDialog* td = (G_TestDialog*)src;
+    G_PosDialog* pd = (G_PosDialog*)src;
+    ExaktG * pExaktG = pd->Parent->getExaktG();
     if(!selected){
-      td->pExaktG->holdMoving(false);
+      pExaktG->holdMoving(false);
     }
   }
-  */
 
+  void G_PosDialog::incSpeedLevel(void)
+  {
+    MenuGBase * gMenu;
+    int speedLevel;
+    ExaktG * pExaktG = this->Parent->getExaktG();
+
+    gMenu = theMenuG;
+
+    pExaktG->incSpeedLevel(ExaktG::AxisX);
+    pExaktG->incSpeedLevel(ExaktG::AxisY);
+    pExaktG->incSpeedLevel(ExaktG::AxisA);
+    pExaktG->incSpeedLevel(ExaktG::AxisZ);
+    speedLevel = pExaktG->getSpeedLevel(ExaktG::AxisX);
+    gMenu->pLSpeed->setText(pExaktG->getSpeedText(ExaktG::AxisX		\
+							,speedLevel));
+    gMenu->pLSpeed->show(Parent->theGUI->getMainSurface());
+  }
+
+
+  void G_PosDialog::moveButtonAction(SDL_Event * evt,int axis,int direction)
+  {
+    SDL_KeyboardEvent * key = (SDL_KeyboardEvent *)&evt->key;
+    ExaktG * pExaktG = Parent->getExaktG();
+
+    if(evt->type==SDL_MOUSEBUTTONDOWN)
+      {
+	pExaktG->move(axis,direction);
+	pExaktG->holdMoving(true);
+      }
+    if((evt->type==SDL_MOUSEBUTTONUP))
+      {
+	pExaktG->holdMoving(false);
+      }
+    if(key->type == SDL_KEYUP)
+      {
+	if((key->keysym.sym == SDLK_LEFT)	\
+	   ||(key->keysym.sym == SDLK_RIGHT)	\
+	   ||(key->keysym.sym == SDLK_PAGEUP)	\
+	   ||(key->keysym.sym == SDLK_PAGEDOWN))
+	  {
+	    pExaktG->move(axis,direction);
+	    pExaktG->holdMoving(false);
+	  }
+      }
+  }
   /*  static void G_TestDialogKeyListener(void * src, SDL_Event * evt)
   {
     G_TestDialog* ad = (G_TestDialog*)src;//KeyListener
@@ -161,6 +226,11 @@ namespace EuMax01
     gMenu->pLSpeed->show(Parent->theGUI->getMainSurface());
     }*/
 
+  int G_PosDialog::getActiveAxis(void)
+  {
+    return this->activeAxis;
+  }
+
   G_PosDialog::G_PosDialog(char* text,		\
 		       int sdlw,		\
 		       int sdlh,		\
@@ -174,11 +244,11 @@ namespace EuMax01
 							     camw,\
 							     yPos,parent)
   {
-    //short M_y;
-    //unsigned short MSpace_h;
-    //unsigned short MZeile_h;
+    this->Parent = parent;
+    this->activeAxis = ExaktG::AxisX;
 
-    /*    M_y = sdlh - yPos;
+    unsigned short MSpace_h, MZeile_h;
+    short M_y = sdlh - yPos;
     if(M_y<=84)
       {
 	MSpace_h = 2;
@@ -189,13 +259,12 @@ namespace EuMax01
 	MSpace_h = 5;
 	MZeile_h = 28;
       }
-    */
 
     //short MLinks_x = sdlw/2 - 504;//Breite von 1008 und mittig
 
     //vertikal fünf Zeilen
-    //short Zeile1_y = yPos + 1*MSpace_h + 0*MZeile_h;
-    //short Zeile2_y = yPos + 2*MSpace_h + 1*MZeile_h;
+    short Zeile1_y = yPos + 1*MSpace_h + 0*MZeile_h;
+    //Zeile2_y = yPos + 2*MSpace_h + 1*MZeile_h;
     //short Zeile3_y = yPos + 3*MSpace_h + 2*MZeile_h;
     //short Zeile4_y = yPos + 4*MSpace_h + 3*MZeile_h;
     //short Zeile5_y = yPos + 5*MSpace_h + 4*MZeile_h;
@@ -211,7 +280,7 @@ namespace EuMax01
     int B4x = B1x + 3*Bw+3*x_space;
     //int B5x = B1x + 4*Bw+4*x_space;
     int B6x = B1x + 5*Bw+5*x_space;
-    //int B7x = B1x + 6*Bw+6*x_space;
+    int B7x = B1x + 6*Bw+6*x_space;
     //int B8x = B1x + 7*Bw+7*x_space;
 
     this->LabelActual->setText((char*)"Position");
@@ -234,128 +303,33 @@ namespace EuMax01
     pLabelCam2[PosDialog::iStep]->setWidth(Bw);
     pLabelZ[PosDialog::iStep]->setWidth(Bw);
 
-
-
-
-
-    /*    short M_y;
-    short MLinks_x;
-    unsigned short MSpace_h;
-    unsigned short MZeile_h;
-    short Zeile1_y;
-    //short Zeile3_y;
-    short Zeile5_y;
-
-    this->Parent = parent;
-    this->pExaktG = this->Parent->getExaktG();
-    this->pGCtrl = this->pExaktG->getG_Ctrl();
-
-    this->tGCodeLis.pTheListener = this;
-    this->tGCodeLis.fnkXPosLis =&this->xPosLis;
-    this->tGCodeLis.fnkYPosLis =&this->yPosLis;
-    this->tGCodeLis.fnkZPosLis =&this->zPosLis;
-    this->tGCodeLis.fnkAPosLis =&this->aPosLis;
-    this->tGCodeLis.fnkGFLis =&this->gFLis;
-
-    M_y = sdlh - yPos;
-    if(M_y<=84)
-      {
-	MSpace_h = 2;
-	MZeile_h = 18;
-      }
-    else
-      {
-	MSpace_h = 5;
-	MZeile_h = 28;
-      }
-
-    MLinks_x = sdlw/2 - 504;//Breite von 1008 und mittig
-
-    //vertikal fünf Zeilen
-    Zeile1_y = yPos + 1*MSpace_h + 0*MZeile_h;
-    //Zeile2_y = yPos + 2*MSpace_h + 1*MZeile_h;
-    //short Zeile3_y = yPos + 3*MSpace_h + 2*MZeile_h;
-    short Zeile4_y = yPos + 4*MSpace_h + 3*MZeile_h;
-    Zeile5_y = yPos + 5*MSpace_h + 4*MZeile_h;
-    //Rezepte_w = 108;
-
-    //horizontal acht Spalten
-    int width = 1008;
-    int x_space = 2;
-    int Bw = (width -7*x_space)/8;
-    int B1x = sdlw/2 - width/2;
-    int B2x = B1x + 1*Bw+1*x_space;
-    int B3x = B1x + 2*Bw+2*x_space;
-    //int B4x = B1x + 3*Bw+3*x_space;
-    int B5x = B1x + 4*Bw+4*x_space;
-    int B6x = B1x + 5*Bw+5*x_space;
-    int B7x = B1x + 6*Bw+6*x_space;
-    //int B8x = B1x + 7*Bw+7*x_space;
-
-    theMenuBarSettings.Text[0]=0;
-    theMenuBarSettings.Text[1]=0;
-    theMenuBarSettings.Text[2]=0;
-    theMenuBarSettings.Text[3]=0;
-    theMenuBarSettings.Text[4]=(char *)"F5 status";
-    theMenuBarSettings.Text[5]=0;
-    theMenuBarSettings.Text[6]=(char *)"ESC";
-    theMenuBarSettings.Text[7]=(char *)"ENTER";
-
-    theMenuBarSettings.evtSource = (void*)this;
-
-    theMenuBarSettings.evtFnks[0]=0;
-    theMenuBarSettings.evtFnks[1]=0;
-    theMenuBarSettings.evtFnks[2]=0;
-    theMenuBarSettings.evtFnks[3]=0;
-    theMenuBarSettings.evtFnks[4]=getstatus_listener;
-    theMenuBarSettings.evtFnks[5]=0;
-    theMenuBarSettings.evtFnks[6]=escape_listener;
-    theMenuBarSettings.evtFnks[7]=return_listener;
-
-    theMenu = new MenuBar((int)MLinks_x,(int)Zeile5_y,(int)MZeile_h,(char*)"G-Test", \
-			  &this->theMenuBarSettings,Parent);
-
     struct t_MenuGSettings * pGMset;
 
-    pGMset = &theMenuGXSettings;
+    pGMset = &theMenuGSettings;
     pGMset->evtSource = this;
-    pGMset->evtFnkBtn1Up = GX_LeftListener;
-    pGMset->evtFnkBtn1Down = GX_LeftListener;
+    pGMset->evtFnkBtn1Up = G_LeftListener;
+    pGMset->evtFnkBtn1Down = G_LeftListener;
     pGMset->evtFnkBtn1MouseOver = G_MoveBtnMouseOverListener;
     pGMset->evtFnkBtn2MouseOver = G_MoveBtnMouseOverListener;
-    pGMset->evtFnkBtn2Up = GX_RightListener;
-    pGMset->evtFnkBtn2Down = GX_RightListener;
-    pGMset->evtFnkSetSpeed = GX_SpeedListener;
-    pGMset->btn1Text = (char *)"<--a";
-    pGMset->btn2Text = (char *)"d-->";
-    pGMset->SpeedLabelText = pExaktG->getSpeedText(ExaktG::AxisX,0);
-    
-    pGMset = &theMenuGYSettings;
-    pGMset->evtSource = this;
-    pGMset->evtFnkBtn1Up = GY_LeftListener;
-    pGMset->evtFnkBtn1Down = GY_LeftListener;
-    pGMset->evtFnkBtn2Up = GY_RightListener;
-    pGMset->evtFnkBtn2Down = GY_RightListener;
-    pGMset->evtFnkBtn1MouseOver = G_MoveBtnMouseOverListener;
-    pGMset->evtFnkBtn2MouseOver = G_MoveBtnMouseOverListener;
-    pGMset->evtFnkSetSpeed = GY_SpeedListener;
-    pGMset->btn1Text = (char *)"Left";
-    pGMset->btn2Text = (char *)"Right";
-    pGMset->SpeedLabelText = pExaktG->getSpeedText(ExaktG::AxisY,0);
+    pGMset->evtFnkBtn2Up = G_RightListener;
+    pGMset->evtFnkBtn2Down = G_RightListener;
+    pGMset->evtFnkSetSpeed = G_SpeedListener;
+    pGMset->btn1Text = (char *)"<-";
+    pGMset->btn2Text = (char *)"->";
+    pGMset->SpeedLabelText = (char *)"xxx";//pExaktG->getSpeedText(ExaktG::AxisX,0);
 
-    pGMset = &theMenuGASettings;
-    pGMset->evtSource = this;
-    pGMset->evtFnkBtn1Up = GA_UpListener;
-    pGMset->evtFnkBtn1Down = GA_UpListener;
-    pGMset->evtFnkBtn2Up = GA_DownListener;
-    pGMset->evtFnkBtn2Down = GA_DownListener;
-    pGMset->evtFnkBtn1MouseOver = G_MoveBtnMouseOverListener;
-    pGMset->evtFnkBtn2MouseOver = G_MoveBtnMouseOverListener;
-    pGMset->evtFnkSetSpeed = GA_SpeedListener;
-    pGMset->btn1Text = (char *)"Up";
-    pGMset->btn2Text = (char *)"Down";
-    pGMset->SpeedLabelText = pExaktG->getSpeedText(ExaktG::AxisA,0);
 
+    theMenuG = new MenuGVertical((char *)"X-Achse",			\
+				 B7x+x_space,				\
+				 (int)Zeile1_y,				\
+				 MZeile_h,				\
+				 MSpace_h,				\
+				 Bw,					\
+				 &this->theMenuGSettings,Parent);
+
+    theMenuG->addToEvtTarget(Parent);
+
+    /*
     pGMset = &theMenuGZSettings;
     pGMset->evtSource = this;
     pGMset->evtFnkBtn1Up = GLiftUpListener;
@@ -368,14 +342,6 @@ namespace EuMax01
     pGMset->btn1Text = (char *)"PgUp";
     pGMset->btn2Text = (char *)"PgDo";
     pGMset->SpeedLabelText = pExaktG->getSpeedText(ExaktG::AxisZ,0);
-
-    theMenuGX = new MenuGVertical((char *)"X-Achse",			\
-				    B1x,				\
-				    (int)Zeile1_y,			\
-				    MZeile_h,				\
-				    MSpace_h,				\
-				    2*Bw,				\
-				    &this->theMenuGXSettings,Parent);
 
     theMenuGY = new MenuGVertical((char *)"Y-Achse",			\
 				    B3x,				\

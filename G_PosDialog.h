@@ -17,11 +17,17 @@ namespace EuMax01
 		      ArbeitsDialog * parent);
     ArbeitsDialog * Parent;
 
-    //static void G_LeftListener(void*,SDL_Event * evt);
-    //static void G_RightListener(void*,SDL_Event * evt);
-    //static void G_SpeedListener(void*,SDL_Event * evt);
-    //static void G_MoveBtnMouseOverListener(void* src,bool selected);
+    static void G_LeftListener(void*,SDL_Event * evt);
+    static void G_RightListener(void*,SDL_Event * evt);
+    static void G_SpeedListener(void*,SDL_Event * evt);
+    static void G_MoveBtnMouseOverListener(void* src,bool selected);
+
+    static void G_NextAxisButtonListener(void* src,SDL_Event * evt);
+
+    void moveButtonAction(SDL_Event * evt,int axis,int direction);
     void setActive(void);
+    void incSpeedLevel(void);
+    int getActiveAxis(void);
 
   private:
     //struct ExaktG_CodeListener_t tGCodeLis;
@@ -31,8 +37,9 @@ namespace EuMax01
     static void aPosLis(void * pLis,float pos);
     //static void gFLis(void * pLis,int iA,int iB,int iC,int iD);
 
-    //    struct t_MenuGSettings theMenuGXSettings;
-    //MenuGVertical * theMenuGX;
+    struct t_MenuGSettings theMenuGSettings;
+    MenuGVertical * theMenuG;
+    int activeAxis;
 
   };
 
