@@ -42,6 +42,25 @@ Bastian Ruppert
 
 namespace EuMax01
 {
+
+  void G_PosDialog::GLiftUpListener(void* src,SDL_Event * evt)
+  {
+    G_PosDialog* pd = (G_PosDialog*)src;
+    pd->moveButtonAction(evt,ExaktG::AxisZ,ExaktG::DirectionUp);
+  }
+
+  void G_PosDialog::GLiftDownListener(void* src,SDL_Event * evt)
+  {
+    G_PosDialog* pd = (G_PosDialog*)src;
+    pd->moveButtonAction(evt,ExaktG::AxisZ,ExaktG::DirectionDown);
+  }
+
+  void G_PosDialog::GLiftSetSpeedListener(void* src,SDL_Event * evt)
+  {
+    G_PosDialog* pd = (G_PosDialog*)src;
+    pd->incSpeedLevel();
+  }
+
   void G_PosDialog::G_LeftListener(void* src,SDL_Event * evt)
   {
     G_PosDialog* pd = (G_PosDialog*)src;
@@ -281,7 +300,7 @@ namespace EuMax01
     //int B5x = B1x + 4*Bw+4*x_space;
     int B6x = B1x + 5*Bw+5*x_space;
     int B7x = B1x + 6*Bw+6*x_space;
-    //int B8x = B1x + 7*Bw+7*x_space;
+    int B8x = B1x + 7*Bw+7*x_space;
 
     this->LabelActual->setText((char*)"Position");
     LabelActual->setWidth(Bw);
@@ -318,18 +337,6 @@ namespace EuMax01
     pGMset->btn2Text = (char *)"->";
     pGMset->SpeedLabelText = (char *)"xxx";//pExaktG->getSpeedText(ExaktG::AxisX,0);
 
-
-    theMenuG = new MenuGVertical((char *)"X-Achse",			\
-				 B7x+x_space,				\
-				 (int)Zeile1_y,				\
-				 MZeile_h,				\
-				 MSpace_h,				\
-				 Bw,					\
-				 &this->theMenuGSettings,Parent);
-
-    theMenuG->addToEvtTarget(Parent);
-
-    /*
     pGMset = &theMenuGZSettings;
     pGMset->evtSource = this;
     pGMset->evtFnkBtn1Up = GLiftUpListener;
@@ -341,7 +348,30 @@ namespace EuMax01
     pGMset->evtFnkSetSpeed = GLiftSetSpeedListener;
     pGMset->btn1Text = (char *)"PgUp";
     pGMset->btn2Text = (char *)"PgDo";
-    pGMset->SpeedLabelText = pExaktG->getSpeedText(ExaktG::AxisZ,0);
+    pGMset->SpeedLabelText = (char*)("zzz");//pExaktG->getSpeedText(ExaktG::AxisZ,0);
+
+    theMenuG = new MenuGVertical((char *)"X-Achse",			\
+				 B7x+x_space,				\
+				 (int)Zeile1_y,				\
+				 MZeile_h,				\
+				 MSpace_h,				\
+				 Bw,					\
+				 &this->theMenuGSettings,Parent);
+
+    theMenuG->addToEvtTarget(Parent);
+
+    theMenuGZ = new MenuGVertical((char *)"Lift",			\
+				  B8x+x_space,				\
+				 (int)Zeile1_y,				\
+				 MZeile_h,				\
+				 MSpace_h,				\
+				 Bw,				\
+				 &this->theMenuGZSettings,Parent);
+
+    theMenuGZ->addToEvtTarget(Parent);
+
+    /*
+
 
     theMenuGY = new MenuGVertical((char *)"Y-Achse",			\
 				    B3x,				\

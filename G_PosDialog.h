@@ -17,6 +17,10 @@ namespace EuMax01
 		      ArbeitsDialog * parent);
     ArbeitsDialog * Parent;
 
+    static void GLiftUpListener(void*,SDL_Event * evt);
+    static void GLiftDownListener(void*,SDL_Event * evt);
+    static void GLiftSetSpeedListener(void*,SDL_Event * evt);
+
     static void G_LeftListener(void*,SDL_Event * evt);
     static void G_RightListener(void*,SDL_Event * evt);
     static void G_SpeedListener(void*,SDL_Event * evt);
@@ -39,6 +43,9 @@ namespace EuMax01
 
     struct t_MenuGSettings theMenuGSettings;
     MenuGVertical * theMenuG;
+
+    struct t_MenuGSettings theMenuGZSettings;
+    MenuGVertical * theMenuGZ;
     int activeAxis;
 
   };
