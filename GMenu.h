@@ -43,6 +43,8 @@ namespace EuMax01
     void setMenuName(char * theName);
     void updateSettings(struct t_MenuBarSettings * settings);
 
+    static void dummyMouseOver(void *,bool sel);
+
     Label * pLName;
     Button * pB1;
     Button * pB2;

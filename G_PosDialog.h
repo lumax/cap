@@ -9,6 +9,7 @@ namespace EuMax01
 #define __G_POSDIALOG_H__
 
   class PosDialog;
+  class G_GUI;
   struct ExaktG_CodeListener_t;
 
   class G_PosDialog : public PosDialog
@@ -18,37 +19,10 @@ namespace EuMax01
 		      ArbeitsDialog * parent);
     ArbeitsDialog * Parent;
 
-    static void GLiftUpListener(void*,SDL_Event * evt);
-    static void GLiftDownListener(void*,SDL_Event * evt);
-    static void GLiftSetSpeedListener(void*,SDL_Event * evt);
-
-    static void G_LeftListener(void*,SDL_Event * evt);
-    static void G_RightListener(void*,SDL_Event * evt);
-    static void G_SpeedListener(void*,SDL_Event * evt);
-    static void G_MoveBtnMouseOverListener(void* src,bool selected);
-
-    static void G_NextAxisButtonListener(void* src,SDL_Event * evt);
-
-    void moveButtonAction(SDL_Event * evt,int axis,int direction);
     void setActive(void);
-    void incSpeedLevel(void);
-    int getActiveAxis(void);
 
   private:
-    struct ExaktG_CodeListener_t tGCodeLis;
-    static void xPosLis(void * pLis,float pos);
-    static void yPosLis(void * pLis,float pos);
-    static void zPosLis(void * pLis,float pos);
-    static void aPosLis(void * pLis,float pos);
-    static void gFLis(void * pLis,int iA,int iB,int iC,int iD);
-
-    struct t_MenuGSettings theMenuGSettings;
-    MenuGVertical * theMenuG;
-
-    struct t_MenuGSettings theMenuGZSettings;
-    MenuGVertical * theMenuGZ;
-    int activeAxis;
-
+    G_GUI * pG_GUI;
   };
 
 #endif /* __G_TESTDIALOG_H__*/

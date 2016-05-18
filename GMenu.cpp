@@ -35,6 +35,12 @@ Bastian Ruppert
 
 namespace EuMax01
 {
+
+  void MenuGBase::dummyMouseOver(void *,bool sel)
+  {
+    //printf("MenuGBase::dummySpeedMouseOver(void*,SDL_Event * evt)\n");
+  }
+
   MenuGBase::~MenuGBase(){}
   MenuGBase::MenuGBase(char * name,				\
 		       int xPos,				\
@@ -150,6 +156,7 @@ namespace EuMax01
     pB2->setLMButtonDownEvtHandler(settings->evtFnkBtn2Down);
     pB2->setPrivateMouseOver(settings->evtFnkBtn2MouseOver);
     pBSetSpeed->setLMButtonUpEvtHandler(settings->evtFnkSetSpeed);
+    pBSetSpeed->setPrivateMouseOver(dummySpeedMouseOver);
 
     pB1->pTSource = settings->evtSource;
     pB2->pTSource = settings->evtSource;
@@ -238,6 +245,7 @@ namespace EuMax01
     pB2->setLMButtonDownEvtHandler(settings->evtFnkBtn2Down);
     pB2->setPrivateMouseOver(settings->evtFnkBtn2MouseOver);
     pBSetSpeed->setLMButtonUpEvtHandler(settings->evtFnkSetSpeed);
+    pBSetSpeed->setPrivateMouseOver(dummySpeedMouseOver);
 
     pB1->pTSource = settings->evtSource;
     pB2->pTSource = settings->evtSource;

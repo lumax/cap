@@ -32,7 +32,8 @@ OBJS+= Version.h cap.o v4l_capture.o LL.o Screen.o Main.o Tools.o Globals.o \
 	Dialoge.o Rezept.o MBProt.o Protocol.o ArbeitsDialog.o NewDirectDialog.o \
 	ErrorDialog.o CamCtrl.o V4L2_utils.o InfoDialog.o MenuBar.o FadenkreuzDialog.o \
 	WalzeDurchmesser.o AbfrageDialog.o BackupDialog.o G_TestDialog.o \
-	GMenu.o g_ctrl/StreamScanner.o g_ctrl/ExaktG.o g_ctrl/G_Ctrl.o G_PosDialog.o
+	GMenu.o g_ctrl/StreamScanner.o g_ctrl/ExaktG.o g_ctrl/G_Ctrl.o \
+	G_PosDialog.o G_GUI.o
 #dsp_jpeg.o
 #utils.o color.o
 
