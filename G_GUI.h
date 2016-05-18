@@ -32,6 +32,7 @@ namespace EuMax01
     void setActive(void);
     void incSpeedLevel(void);
     int getActiveAxis(void);
+    void activateNextAxis(void);
 
   private:
     struct ExaktG_CodeListener_t tGCodeLis;

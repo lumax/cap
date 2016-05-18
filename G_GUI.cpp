@@ -42,12 +42,6 @@ Bastian Ruppert
 
 namespace EuMax01
 {
-
-  void G_GUI::NextAxisButtonListener(void* src,SDL_Event * evt)
-  {
-    printf("NextAxis\n");
-  }
-
   void G_GUI::GLiftUpListener(void* src,SDL_Event * evt)
   {
     G_GUI* pd = (G_GUI*)src;
@@ -204,6 +198,32 @@ namespace EuMax01
   void G_GUI::gFLis(void * pLis,int iA,int iB,int iC,int iD)
   {
 
+  }
+
+
+  void G_GUI::NextAxisButtonListener(void* src,SDL_Event * evt)
+  {
+    G_GUI * pG = (G_GUI*)src;
+    pG->activateNextAxis();
+  }
+
+  void G_GUI::activateNextAxis(void)
+  {
+    int i = this->getActiveAxis();
+    if(ExaktG::AxisA==i){
+      this->activeAxis = ExaktG::AxisX;
+      char * XText = (char*)"X-axis";
+      theMenuG->pLName->setText((char*)XText);
+    }else if(ExaktG::AxisX==i){
+      this->activeAxis = ExaktG::AxisY;
+      char * YText = (char*)"Y-axis";
+      theMenuG->pLName->setText((char*)YText);
+    }else{//if(ExaktG::AxisY==i)
+      char * AText = (char*)"A-axis";
+      theMenuG->pLName->setText((char*)AText);
+      this->activeAxis = ExaktG::AxisA;
+    }
+    theMenuG->pLName->show(Parent->theGUI->getMainSurface());
   }
 
   int G_GUI::getActiveAxis(void)

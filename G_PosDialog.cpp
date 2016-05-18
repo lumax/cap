@@ -57,7 +57,7 @@ namespace EuMax01
 							     camw,\
 							     yPos,parent)
   {
-    unsigned short MSpace_h, MZeile_h;
+    /*    unsigned short MSpace_h, MZeile_h;
     short M_y = sdlh - yPos;
     if(M_y<=84)
       {
@@ -68,12 +68,12 @@ namespace EuMax01
       {
 	MSpace_h = 5;
 	MZeile_h = 28;
-      }
+	}*/
 
     //short MLinks_x = sdlw/2 - 504;//Breite von 1008 und mittig
 
     //vertikal fünf Zeilen
-    short Zeile1_y = yPos + 1*MSpace_h + 0*MZeile_h;
+    //short Zeile1_y = yPos + 1*MSpace_h + 0*MZeile_h;
     //Zeile2_y = yPos + 2*MSpace_h + 1*MZeile_h;
     //short Zeile3_y = yPos + 3*MSpace_h + 2*MZeile_h;
     //short Zeile4_y = yPos + 4*MSpace_h + 3*MZeile_h;
@@ -90,8 +90,8 @@ namespace EuMax01
     int B4x = B1x + 3*Bw+3*x_space;
     //int B5x = B1x + 4*Bw+4*x_space;
     int B6x = B1x + 5*Bw+5*x_space;
-    int B7x = B1x + 6*Bw+6*x_space;
-    int B8x = B1x + 7*Bw+7*x_space;
+    //int B7x = B1x + 6*Bw+6*x_space;
+    //int B8x = B1x + 7*Bw+7*x_space;
 
     this->LabelActual->setText((char*)"Position");
     LabelActual->setWidth(Bw);
