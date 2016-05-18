@@ -237,9 +237,11 @@ namespace EuMax01
 		       int camw,		\
 		       int camh,		\
 		       int yPos,\
-			   ArbeitsDialog * parent)
+	       ArbeitsDialog * parent,\
+	       Screen * parentScreen)
   {
     this->Parent = parent;
+    this->ParentScreen = parentScreen;
     this->activeAxis = ExaktG::AxisX;
 
     this->tGCodeLis.pTheListener = this;
@@ -321,7 +323,7 @@ namespace EuMax01
 				 Bw,					\
 				 &this->theMenuGSettings,Parent);
 
-    theMenuG->addToEvtTarget(Parent);
+    theMenuG->addToEvtTarget(ParentScreen);
 
     theMenuGZ = new MenuGVertical((char *)"Lift",			\
 				  B8x+x_space,				\
@@ -329,9 +331,9 @@ namespace EuMax01
 				 MZeile_h,				\
 				 MSpace_h,				\
 				 Bw,				\
-				 &this->theMenuGZSettings,Parent);
+				  &this->theMenuGZSettings,Parent);
 
-    theMenuGZ->addToEvtTarget(Parent);
+    theMenuGZ->addToEvtTarget(ParentScreen);
 
     pBNextAxis = new Button((char *)"NextAxis",
 			    B7x+x_space,				\
@@ -344,7 +346,7 @@ namespace EuMax01
     pBNextAxis->setPrivateMouseOver(0);
     pBNextAxis->pTSource = this;
 
-    Parent->addEvtTarget(pBNextAxis);
+    ParentScreen->addEvtTarget(pBNextAxis);
 
   }
 

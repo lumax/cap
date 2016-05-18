@@ -14,8 +14,9 @@ namespace EuMax01
   {
   public:
     G_GUI(char * text,int sdlw,int sdlh, int camw,int camh,int yPos, \
-		      ArbeitsDialog * parent);
+	  ArbeitsDialog * pAD,Screen * ParentScreen);
     ArbeitsDialog * Parent;
+    Screen * ParentScreen;
 
     static void GLiftUpListener(void*,SDL_Event * evt);
     static void GLiftDownListener(void*,SDL_Event * evt);
