@@ -532,6 +532,8 @@ namespace EuMax01
     this->sendProtocolMsg(nPEC_GET_Q1_32);
     this->sendProtocolMsg(nPEC_GET_Q2_32);
     this->sendProtocolMsg(nPEC_GET_Z1_32);
+    G_PosDialog * pGPD = (G_PosDialog*)this->thePosDialog;
+    pGPD->setActive();
     //prt_sendmsg_uint(nPEC_GET_Z2,0x00);
   }
 

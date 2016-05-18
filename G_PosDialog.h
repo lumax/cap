@@ -9,6 +9,7 @@ namespace EuMax01
 #define __G_POSDIALOG_H__
 
   class PosDialog;
+  struct ExaktG_CodeListener_t;
 
   class G_PosDialog : public PosDialog
   {
@@ -34,12 +35,12 @@ namespace EuMax01
     int getActiveAxis(void);
 
   private:
-    //struct ExaktG_CodeListener_t tGCodeLis;
+    struct ExaktG_CodeListener_t tGCodeLis;
     static void xPosLis(void * pLis,float pos);
     static void yPosLis(void * pLis,float pos);
     static void zPosLis(void * pLis,float pos);
     static void aPosLis(void * pLis,float pos);
-    //static void gFLis(void * pLis,int iA,int iB,int iC,int iD);
+    static void gFLis(void * pLis,int iA,int iB,int iC,int iD);
 
     struct t_MenuGSettings theMenuGSettings;
     MenuGVertical * theMenuG;

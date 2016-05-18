@@ -245,6 +245,53 @@ namespace EuMax01
     gMenu->pLSpeed->show(Parent->theGUI->getMainSurface());
     }*/
 
+  void G_PosDialog::xPosLis(void * pLis,float pos)
+  {
+    static char pcTmp[16];
+    G_PosDialog * pGTD;
+    pGTD = (G_PosDialog *)pLis;
+    if(ExaktG::AxisX==pGTD->getActiveAxis()){
+      pGTD->theMenuG->pLPosition->setText(ExaktG::toString(pos,pcTmp,16));
+      pGTD->theMenuG->pLPosition->show(pGTD->Parent->theGUI->getMainSurface());
+    }
+  }
+
+  void G_PosDialog::yPosLis(void * pLis,float pos)
+  {
+    static char pcTmp[16];
+    G_PosDialog * pGTD;
+    pGTD = (G_PosDialog *)pLis;
+    if(ExaktG::AxisY==pGTD->getActiveAxis()){
+      pGTD->theMenuG->pLPosition->setText(ExaktG::toString(pos,pcTmp,16));
+      pGTD->theMenuG->pLPosition->show(pGTD->Parent->theGUI->getMainSurface());
+    }
+  }
+
+  void G_PosDialog::zPosLis(void * pLis,float pos)
+  {
+    static char pcTmp[16];
+    G_PosDialog * pGTD;
+    pGTD = (G_PosDialog *)pLis;
+    pGTD->theMenuGZ->pLPosition->setText(ExaktG::toString(pos,pcTmp,16));
+    pGTD->theMenuGZ->pLPosition->show(pGTD->Parent->theGUI->getMainSurface());
+  }
+
+  void G_PosDialog::aPosLis(void * pLis,float pos)
+  {
+    static char pcTmp[16];
+    G_PosDialog * pGTD;
+    pGTD = (G_PosDialog *)pLis;
+    if(ExaktG::AxisA==pGTD->getActiveAxis()){
+      pGTD->theMenuG->pLPosition->setText(ExaktG::toString(pos,pcTmp,16));
+      pGTD->theMenuG->pLPosition->show(pGTD->Parent->theGUI->getMainSurface());
+    }
+  }
+
+  void G_PosDialog::gFLis(void * pLis,int iA,int iB,int iC,int iD)
+  {
+
+  }
+
   int G_PosDialog::getActiveAxis(void)
   {
     return this->activeAxis;
@@ -265,6 +312,13 @@ namespace EuMax01
   {
     this->Parent = parent;
     this->activeAxis = ExaktG::AxisX;
+
+    this->tGCodeLis.pTheListener = this;
+    this->tGCodeLis.fnkXPosLis =&this->xPosLis;
+    this->tGCodeLis.fnkYPosLis =&this->yPosLis;
+    this->tGCodeLis.fnkZPosLis =&this->zPosLis;
+    this->tGCodeLis.fnkAPosLis =&this->aPosLis;
+    this->tGCodeLis.fnkGFLis =&this->gFLis;
 
     unsigned short MSpace_h, MZeile_h;
     short M_y = sdlh - yPos;
@@ -369,101 +423,11 @@ namespace EuMax01
 				 &this->theMenuGZSettings,Parent);
 
     theMenuGZ->addToEvtTarget(Parent);
-
-    /*
-
-
-    theMenuGY = new MenuGVertical((char *)"Y-Achse",			\
-				    B3x,				\
-				    (int)Zeile1_y,			\
-				    MZeile_h,				\
-				    MSpace_h,				\
-				    2*Bw,				\
-				    &this->theMenuGYSettings,Parent);
-
-    theMenuGA = new MenuGVertical((char *)"Walze",		\
-				 B5x,					\
-				 (int)Zeile1_y,				\
-				 MZeile_h,				\
-				 MSpace_h,				\
-				 2*Bw,				\
-				 &this->theMenuGASettings,Parent);
-
-    theMenuGZ = new MenuGVertical((char *)"Lift",			\
-				 B7x,					\
-				 (int)Zeile1_y,				\
-				 MZeile_h,				\
-				 MSpace_h,				\
-				 2*Bw,				\
-				 &this->theMenuGZSettings,Parent);
-
-    pBEingabe = new Button("Enter",					\
-			   B1x,						\
-			   (int)Zeile4_y,				\
-			   Bw,					\
-			   MZeile_h,					\
-			   Parent->MenuSet);
-    pBEingabe->setLMButtonUpEvtHandler(return_listener);
-    pBEingabe->pTSource = this;
-
-    pTFEingabe = new TextField(0,			\
-			       64,				\
-			       B2x,					\
-			       (int)Zeile4_y,				\
-			       3*Bw,					\
-			       MZeile_h,				\
-			       Parent->WerteSet);
-    pTFEingabe->setActive(true);
-
-    pBZeroX = new Button("ZeroX",					\
-			B5x,						\
-			(int)Zeile4_y,					\
-			Bw,						\
-			MZeile_h,					\
-			Parent->MenuSet);
-    pBZeroX->setLMButtonUpEvtHandler(zeroX_listener);
-    pBZeroX->pTSource = this;
-
-    pBZeroY = new Button("ZeroY",					\
-			B6x,						\
-			(int)Zeile4_y,					\
-			Bw,						\
-			MZeile_h,					\
-			Parent->MenuSet);
-    pBZeroY->setLMButtonUpEvtHandler(zeroY_listener);
-    pBZeroY->pTSource = this;
-
-    pBZeroA = new Button("ZeroA",					\
-			B7x,						\
-			(int)Zeile4_y,					\
-			Bw,						\
-			MZeile_h,					\
-			Parent->MenuSet);
-    pBZeroA->setLMButtonUpEvtHandler(zeroA_listener);
-    pBZeroA->pTSource = this;
-
-    //addEvtTarget(Label_Value);
-    theMenu->addToEvtTarget(this);
-
-    theMenuGX->addToEvtTarget(this);
-    theMenuGY->addToEvtTarget(this);
-    theMenuGA->addToEvtTarget(this);
-    theMenuGZ->addToEvtTarget(this);
-    this->addEvtTarget(pBEingabe);
-    this->addEvtTarget(pTFEingabe);
-    this->addEvtTarget(pBZeroX);
-    this->addEvtTarget(pBZeroY);
-    this->addEvtTarget(pBZeroA);
-
-    this->pTSource = this;//EvtTarget Quelle setzen, damit der EvtListener die Quelle mitteilen kann
-    this->setKeyboardUpEvtHandler(G_TestDialogKeyListener);
-    this->addEvtTarget(this);//den Screen Key Listener bei sich selber anmelden!
-*/
   }
 
-  /*void G_PosDialog::setActive(void)
+  void G_PosDialog::setActive(void)
   {
-    this->pExaktG->setGCodeResultListener(&this->tGCodeLis);
-    this->pGCtrl->cmdGetStatus();
-  }*/
+    this->Parent->getExaktG()->setGCodeResultListener(&this->tGCodeLis);
+    //this->pGCtrl->cmdGetStatus();
+  }
 }/* end Namespace */
