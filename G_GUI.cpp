@@ -43,6 +43,11 @@ Bastian Ruppert
 namespace EuMax01
 {
 
+  void G_GUI::NextAxisButtonListener(void* src,SDL_Event * evt)
+  {
+    printf("NextAxis\n");
+  }
+
   void G_GUI::GLiftUpListener(void* src,SDL_Event * evt)
   {
     G_GUI* pd = (G_GUI*)src;
@@ -153,97 +158,6 @@ namespace EuMax01
 	  }
       }
   }
-  /*  static void G_TestDialogKeyListener(void * src, SDL_Event * evt)
-  {
-    G_TestDialog* ad = (G_TestDialog*)src;//KeyListener
-    SDL_KeyboardEvent * key = (SDL_KeyboardEvent *)&evt->key;
-    //    SDLMod mod = key->keysym.mod;
-
-    if( key->type == SDL_KEYUP )
-      {
-	if(key->keysym.sym == SDLK_ESCAPE)
-	  {
-	    ad->escape_listener(src,evt);
-	  }
-	else if(key->keysym.sym == SDLK_RETURN || key->keysym.sym == SDLK_KP_ENTER)
-	  {
-	    ad->return_listener(src,evt);
-	  }
-	else if(key->keysym.sym == SDLK_F4)
-	  {
-
-	  }
-	else if(key->keysym.sym == SDLK_F5)
-	  {
-	    ad->getstatus_listener(src,evt);
-	  }
-	else if(key->keysym.sym == SDLK_PAGEUP)
-	  {
-	    ad->GLiftUpListener(src,evt);
-	  }
-	else if(key->keysym.sym == SDLK_PAGEDOWN)
-	  {
-	    ad->GLiftDownListener(src,evt);
-	  }
-	else if(key->keysym.sym == SDLK_LEFT)
-	  {
-	    ad->GY_LeftListener(src,evt);
-	  }
-	else if(key->keysym.sym == SDLK_RIGHT)
-	  {
-	    ad->GY_RightListener(src,evt);
-	  }
-      }
-  }*/
-
-  /*  void G_TestDialog::moveButtonAction(SDL_Event * evt,int axis,int direction)
-  {
-    SDL_KeyboardEvent * key = (SDL_KeyboardEvent *)&evt->key;
-
-    if(evt->type==SDL_MOUSEBUTTONDOWN)
-      {
-	this->pExaktG->move(axis,direction);
-	this->pExaktG->holdMoving(true);
-      }
-    if((evt->type==SDL_MOUSEBUTTONUP))
-      {
-	this->pExaktG->holdMoving(false);
-      }
-    if(key->type == SDL_KEYUP)
-      {
-	if((key->keysym.sym == SDLK_LEFT)	\
-	   ||(key->keysym.sym == SDLK_RIGHT)	\
-	   ||(key->keysym.sym == SDLK_PAGEUP)	\
-	   ||(key->keysym.sym == SDLK_PAGEDOWN))
-	  {
-	    this->pExaktG->move(axis,direction);
-	    this->pExaktG->holdMoving(false);
-	  }
-      }
-      }*/
-
-  /*  void G_TestDialog::incSpeedLevel(int axis)
-  {
-    MenuGBase * gMenu;
-    int speedLevel;
-
-    if(ExaktG::AxisX==axis){
-      gMenu = theMenuGX;
-    }
-    else if(ExaktG::AxisY==axis){
-      gMenu = theMenuGY;
-    }
-    else if(ExaktG::AxisZ==axis){
-      gMenu = theMenuGZ;
-    }
-    else if(ExaktG::AxisA==axis){
-      gMenu = theMenuGA;
-    }
-    this->pExaktG->incSpeedLevel(axis);
-    speedLevel = this->pExaktG->getSpeedLevel(axis);
-    gMenu->pLSpeed->setText(this->pExaktG->getSpeedText(axis,speedLevel));
-    gMenu->pLSpeed->show(Parent->theGUI->getMainSurface());
-    }*/
 
   void G_GUI::xPosLis(void * pLis,float pos)
   {
@@ -334,7 +248,7 @@ namespace EuMax01
     short Zeile1_y = yPos + 1*MSpace_h + 0*MZeile_h;
     //Zeile2_y = yPos + 2*MSpace_h + 1*MZeile_h;
     //short Zeile3_y = yPos + 3*MSpace_h + 2*MZeile_h;
-    //short Zeile4_y = yPos + 4*MSpace_h + 3*MZeile_h;
+    short Zeile4_y = yPos + 4*MSpace_h + 3*MZeile_h;
     //short Zeile5_y = yPos + 5*MSpace_h + 4*MZeile_h;
     //Rezepte_w = 108;
 
@@ -398,11 +312,25 @@ namespace EuMax01
 				 &this->theMenuGZSettings,Parent);
 
     theMenuGZ->addToEvtTarget(Parent);
+
+    pBNextAxis = new Button((char *)"NextAxis",
+			    B7x+x_space,				\
+			    (int)Zeile4_y,				\
+			    Bw,						\
+			    MZeile_h,					\
+			    Parent->MenuSet);
+
+    pBNextAxis->setLMButtonUpEvtHandler(NextAxisButtonListener);
+    pBNextAxis->setPrivateMouseOver(0);
+    pBNextAxis->pTSource = this;
+
+    Parent->addEvtTarget(pBNextAxis);
+
   }
 
   void G_GUI::setActive(void)
   {
     this->Parent->getExaktG()->setGCodeResultListener(&this->tGCodeLis);
-    //this->pGCtrl->cmdGetStatus();
+    this->Parent->getExaktG()->getG_Ctrl()->cmdGetStatus();
   }
 }/* end Namespace */

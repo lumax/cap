@@ -156,7 +156,7 @@ namespace EuMax01
     pB2->setLMButtonDownEvtHandler(settings->evtFnkBtn2Down);
     pB2->setPrivateMouseOver(settings->evtFnkBtn2MouseOver);
     pBSetSpeed->setLMButtonUpEvtHandler(settings->evtFnkSetSpeed);
-    pBSetSpeed->setPrivateMouseOver(dummySpeedMouseOver);
+    pBSetSpeed->setPrivateMouseOver(dummyMouseOver);
 
     pB1->pTSource = settings->evtSource;
     pB2->pTSource = settings->evtSource;
@@ -245,7 +245,7 @@ namespace EuMax01
     pB2->setLMButtonDownEvtHandler(settings->evtFnkBtn2Down);
     pB2->setPrivateMouseOver(settings->evtFnkBtn2MouseOver);
     pBSetSpeed->setLMButtonUpEvtHandler(settings->evtFnkSetSpeed);
-    pBSetSpeed->setPrivateMouseOver(dummySpeedMouseOver);
+    pBSetSpeed->setPrivateMouseOver(dummyMouseOver);
 
     pB1->pTSource = settings->evtSource;
     pB2->pTSource = settings->evtSource;

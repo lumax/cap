@@ -26,7 +26,7 @@ namespace EuMax01
     static void G_SpeedListener(void*,SDL_Event * evt);
     static void G_MoveBtnMouseOverListener(void* src,bool selected);
 
-    static void G_NextAxisButtonListener(void* src,SDL_Event * evt);
+    static void NextAxisButtonListener(void* src,SDL_Event * evt);
 
     void moveButtonAction(SDL_Event * evt,int axis,int direction);
     void setActive(void);
@@ -47,6 +47,7 @@ namespace EuMax01
     struct t_MenuGSettings theMenuGZSettings;
     MenuGVertical * theMenuGZ;
     int activeAxis;
+    Button * pBNextAxis;
 
   };
 
