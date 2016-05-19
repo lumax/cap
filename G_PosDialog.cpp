@@ -114,7 +114,7 @@ namespace EuMax01
     pLabelZ[PosDialog::iStep]->setWidth(Bw);
 
 
-    pG_GUI = new G_GUI(text,sdlw,sdlh,camw,camw,yPos,parent,parent);
+    pG_GUI = new G_GUI(sdlw,sdlh,camw,camw,yPos,parent,parent);
 
     //theMenuG->addToEvtTarget(Parent);
     //theMenuGZ->addToEvtTarget(Parent);

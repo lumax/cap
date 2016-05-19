@@ -231,13 +231,12 @@ namespace EuMax01
     return this->activeAxis;
   }
 
-  G_GUI::G_GUI(char* text,		\
-		       int sdlw,		\
-		       int sdlh,		\
-		       int camw,		\
-		       int camh,		\
-		       int yPos,\
-	       ArbeitsDialog * parent,\
+  G_GUI::G_GUI(int sdlw,			\
+	       int sdlh,			\
+	       int camw,			\
+	       int camh,			\
+	       int yPos,			\
+	       ArbeitsDialog * parent,		\
 	       Screen * parentScreen)
   {
     this->Parent = parent;

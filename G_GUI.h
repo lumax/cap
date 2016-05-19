@@ -13,7 +13,7 @@ namespace EuMax01
   class G_GUI
   {
   public:
-    G_GUI(char * text,int sdlw,int sdlh, int camw,int camh,int yPos, \
+    G_GUI(int sdlw,int sdlh, int camw,int camh,int yPos,	\
 	  ArbeitsDialog * pAD,Screen * ParentScreen);
     ArbeitsDialog * Parent;
     Screen * ParentScreen;
