@@ -207,6 +207,7 @@ namespace EuMax01
     int camw;
 
     unsigned int usWerte[6];
+    float fGWerte[4];
 
     void setNewPositionValue(int pos, unsigned int value,char * suffix);
     void setNewPositionValue(int pos, unsigned int value,char * suffix,unsigned int zfaktor);

@@ -1495,6 +1495,10 @@ namespace EuMax01
       {
     	usWerte[i]=0;
       }
+    for(int i=0;i<4;i++)
+      {
+	fGWerte[i]=0.0;
+      }
 
     LabelWerte[NewDialog::iPosX1] = new Label(pcWerte[NewDialog::iPosX1],\
 					      Spalte2_x,Zeile2_y,Button_w,MZeile_h,\
@@ -1695,6 +1699,11 @@ namespace EuMax01
 							      suffix));
     //Label::showLabel((void*)this->LabelWerte[pos],this->Parent->theGUI->getMainSurface());
     this->show(Parent->theGUI->getMainSurface());
+    ExaktG * pEG = this->Parent->getExaktG();
+    this->fGWerte[ExaktG::AxisX]=pEG->getXPos();
+    this->fGWerte[ExaktG::AxisY]=pEG->getYPos();
+    this->fGWerte[ExaktG::AxisZ]=pEG->getZPos();
+    this->fGWerte[ExaktG::AxisA]=pEG->getAPos();
   }
 
   void NewDialog::setNewPositionValue(int pos, unsigned int value,char* suffix,unsigned int zfaktor)
@@ -1708,6 +1717,11 @@ namespace EuMax01
 							    suffix,zfaktor));
     //Label::showLabel((void*)this->LabelWerte[pos],this->Parent->theGUI->getMainSurface());
     this->show(Parent->theGUI->getMainSurface());
+    ExaktG * pEG = this->Parent->getExaktG();
+    this->fGWerte[ExaktG::AxisX]=pEG->getXPos();
+    this->fGWerte[ExaktG::AxisY]=pEG->getYPos();
+    this->fGWerte[ExaktG::AxisZ]=pEG->getZPos();
+    this->fGWerte[ExaktG::AxisA]=pEG->getAPos();
   }
 
   void NewDialog::updateRezeptData()
@@ -1768,6 +1782,12 @@ namespace EuMax01
 	tmpRezept->Rezepte[rzpStep].cams[0].x_cross = usWerte[NewDialog::iPosFP1];
 	tmpRezept->Rezepte[rzpStep].cams[1].z_pos = usWerte[NewDialog::iPosZ2];
 	tmpRezept->Rezepte[rzpStep].cams[1].x_cross = usWerte[NewDialog::iPosFP2];
+
+	tmpRezept->Rezepte[rzpStep].GPosition.PosGAxisX = fGWerte[ExaktG::AxisX];
+	tmpRezept->Rezepte[rzpStep].GPosition.PosGAxisY = fGWerte[ExaktG::AxisY];
+	tmpRezept->Rezepte[rzpStep].GPosition.PosGAxisA = fGWerte[ExaktG::AxisA];
+	tmpRezept->Rezepte[rzpStep].GPosition.PosGAxisZ = fGWerte[ExaktG::AxisZ];
+
 	updateRezeptData();
       } 
   }

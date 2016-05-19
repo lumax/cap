@@ -21,9 +21,18 @@ struct Position
   int walze;
 };
 
+struct GPosition_t
+{
+  float PosGAxisX;
+  float PosGAxisY;
+  float PosGAxisA;
+  float PosGAxisZ;
+};
+
 struct PositionSet
 {
   struct Position cams[2];
+  struct GPosition_t GPosition;
 };
 /*#ifdef __cplusplus
 }
@@ -38,6 +47,7 @@ struct PositionSet
     unsigned int getZPosition(int rezept);
     int getDiameter(int rezept);
     int getWalze(int rezept);
+    struct GPosition_t getGPositions(int rezept);
     
     static void copy(Rezept * source,Rezept * target);
 
@@ -51,7 +61,7 @@ struct PositionSet
     int readFromFile(char * FilePath,char * FileName);
   private:
     char buf[1024];
-    static const int version = 2000;
+    static const int version = 3000;
   };
 
 #endif /* __REZEPT_H__*/

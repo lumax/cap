@@ -48,6 +48,11 @@ static void evtExit(void * src,SDL_Event * evt){
 	this->Rezepte[i].cams[1].x_cross = 0;
 	this->Rezepte[i].cams[1].diameter = Rezept::DefaultDiameter;
 	this->Rezepte[i].cams[1].walze = Rezept::DefaultWalze;
+
+	this->Rezepte[i].GPosition.PosGAxisX = 0.0;
+	this->Rezepte[i].GPosition.PosGAxisY = 0.0;
+	this->Rezepte[i].GPosition.PosGAxisA = 0.0;
+	this->Rezepte[i].GPosition.PosGAxisZ = 0.0;
       }
 
     for(i=0;i<Rezept::NameLength;i++)
@@ -73,6 +78,11 @@ static void evtExit(void * src,SDL_Event * evt){
 	target->Rezepte[i].cams[1].x_cross = source->Rezepte[i].cams[1].x_cross;
 	target->Rezepte[i].cams[1].diameter = source->Rezepte[i].cams[1].diameter;
 	target->Rezepte[i].cams[1].walze = source->Rezepte[i].cams[1].walze;
+
+	target->Rezepte[i].GPosition.PosGAxisX = source->Rezepte[i].GPosition.PosGAxisX;
+	target->Rezepte[i].GPosition.PosGAxisY = source->Rezepte[i].GPosition.PosGAxisY;
+	target->Rezepte[i].GPosition.PosGAxisA = source->Rezepte[i].GPosition.PosGAxisA;
+	target->Rezepte[i].GPosition.PosGAxisZ = source->Rezepte[i].GPosition.PosGAxisZ;
       }
 
     for(i=0;i<Rezept::NameLength;i++)
@@ -84,6 +94,20 @@ static void evtExit(void * src,SDL_Event * evt){
   Rezept::~Rezept()
   {
 
+  }
+
+  struct GPosition_t Rezept::getGPositions(int rezept)
+  {
+    int pos;
+
+    if(rezept<0)
+      pos = 0;
+    else if(rezept>=Rezept::AnzahlRezepte)
+      pos = Rezept::AnzahlRezepte-1;
+    else
+      pos = rezept;
+
+    return this->Rezepte[pos].GPosition;
   }
 
   unsigned int Rezept::getXPosition(int cam,int rezept)
@@ -203,6 +227,23 @@ static void evtExit(void * src,SDL_Event * evt){
 	  goto error_out;
 	sprintf(this->buf,"r%i_cam2_walze = %i\n",i,this->Rezepte[i].cams[1].walze);
 	if(write(fd,buf,strlen(buf))==-1)
+	  goto error_out;
+
+	sprintf(this->buf,"r%i_GPositionX = %.0003f\n",i,	\
+		this->Rezepte[i].GPosition.PosGAxisX);
+	if(write(fd,buf,strlen(buf))==-1)
+	  goto error_out;
+	sprintf(this->buf,"r%i_GPositionY = %.0003f\n",i,	\
+		this->Rezepte[i].GPosition.PosGAxisY);
+	if(write(fd,buf,strlen(buf))==-1)
+	  goto error_out;
+	sprintf(this->buf,"r%i_GPositionZ = %.0003f\n",i,	\
+		this->Rezepte[i].GPosition.PosGAxisZ);
+	if(write(fd,buf,strlen(buf))==-1)
+	  goto error_out;
+	sprintf(this->buf,"r%i_GPositionA = %.0003f\n",i,	\
+		this->Rezepte[i].GPosition.PosGAxisA);
+	if(write(fd,buf,strlen(buf))==-1)
 	  goto error_out;	
       }
 
@@ -320,6 +361,46 @@ static void evtExit(void * src,SDL_Event * evt){
 	else
 	  {
 	    this->Rezepte[i].cams[1].walze = atoi(tmp);
+	  }
+
+	sprintf(this->buf,"r%i_GPositionX",i);
+	if(iniParser_getParam(tmpBuf,this->buf,tmp,64))
+	  {
+	    this->Rezepte[i].GPosition.PosGAxisX = 0.0;
+	  }
+	else
+	  {
+	    this->Rezepte[i].GPosition.PosGAxisX = (float)atof(tmp);
+	  }
+
+	sprintf(this->buf,"r%i_GPositionY",i);
+	if(iniParser_getParam(tmpBuf,this->buf,tmp,64))
+	  {
+	    this->Rezepte[i].GPosition.PosGAxisY = 0.0;
+	  }
+	else
+	  {
+	    this->Rezepte[i].GPosition.PosGAxisY = (float)atof(tmp);
+	  }
+
+	sprintf(this->buf,"r%i_GPositionZ",i);
+	if(iniParser_getParam(tmpBuf,this->buf,tmp,64))
+	  {
+	    this->Rezepte[i].GPosition.PosGAxisZ = 0.0;
+	  }
+	else
+	  {
+	    this->Rezepte[i].GPosition.PosGAxisZ = (float)atof(tmp);
+	  }
+
+	sprintf(this->buf,"r%i_GPositionA",i);
+	if(iniParser_getParam(tmpBuf,this->buf,tmp,64))
+	  {
+	    this->Rezepte[i].GPosition.PosGAxisA = 0.0;
+	  }
+	else
+	  {
+	    this->Rezepte[i].GPosition.PosGAxisA = (float)atof(tmp);
 	  }
       }
 
