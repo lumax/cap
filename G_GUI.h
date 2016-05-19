@@ -15,6 +15,9 @@ namespace EuMax01
   public:
     G_GUI(int sdlw,int sdlh, int camw,int camh,int yPos,	\
 	  ArbeitsDialog * pAD,Screen * ParentScreen);
+
+    G_GUI(ArbeitsDialog * pAD,Screen * ParentScreen,\
+	  int xpos,int yPos,int width, int yZeile_h);
     ArbeitsDialog * Parent;
     Screen * ParentScreen;
 

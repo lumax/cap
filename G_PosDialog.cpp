@@ -57,7 +57,7 @@ namespace EuMax01
 							     camw,\
 							     yPos,parent)
   {
-    /*    unsigned short MSpace_h, MZeile_h;
+    unsigned short MSpace_h, MZeile_h;
     short M_y = sdlh - yPos;
     if(M_y<=84)
       {
@@ -68,7 +68,7 @@ namespace EuMax01
       {
 	MSpace_h = 5;
 	MZeile_h = 28;
-	}*/
+      }
 
     //short MLinks_x = sdlw/2 - 504;//Breite von 1008 und mittig
 
@@ -90,7 +90,7 @@ namespace EuMax01
     int B4x = B1x + 3*Bw+3*x_space;
     //int B5x = B1x + 4*Bw+4*x_space;
     int B6x = B1x + 5*Bw+5*x_space;
-    //int B7x = B1x + 6*Bw+6*x_space;
+    int B7x = B1x + 6*Bw+6*x_space;
     //int B8x = B1x + 7*Bw+7*x_space;
 
     this->LabelActual->setText((char*)"Position");
@@ -114,7 +114,7 @@ namespace EuMax01
     pLabelZ[PosDialog::iStep]->setWidth(Bw);
 
 
-    pG_GUI = new G_GUI(sdlw,sdlh,camw,camw,yPos,parent,parent);
+    pG_GUI = new G_GUI(parent,parent,B7x+x_space,yPos+MSpace_h,Bw,MZeile_h);
 
     //theMenuG->addToEvtTarget(Parent);
     //theMenuGZ->addToEvtTarget(Parent);

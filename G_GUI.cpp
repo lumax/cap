@@ -349,6 +349,102 @@ namespace EuMax01
 
   }
 
+  G_GUI::G_GUI(ArbeitsDialog * parent,		\
+	       Screen * parentScreen,		\
+	       int xPos,			\
+	       int yPos,			\
+	       int width,			\
+	       int yZeile_h)
+
+  {
+    this->Parent = parent;
+    this->ParentScreen = parentScreen;
+    this->activeAxis = ExaktG::AxisX;
+
+    this->tGCodeLis.pTheListener = this;
+    this->tGCodeLis.fnkXPosLis =&this->xPosLis;
+    this->tGCodeLis.fnkYPosLis =&this->yPosLis;
+    this->tGCodeLis.fnkZPosLis =&this->zPosLis;
+    this->tGCodeLis.fnkAPosLis =&this->aPosLis;
+    this->tGCodeLis.fnkGFLis =&this->gFLis;
+
+    int x_space = 4;
+    int Bw = width -x_space;
+    int B1x = xPos;//sdlw/2 - width/2;
+    int B2x = xPos + Bw + x_space;
+    int ySpace_h = 2;
+    short Zeile4_y = yPos + 4*ySpace_h + 3*yZeile_h;
+    //int B2x = B1x + 1*Bw+1*x_space;
+    //int B3x = B1x + 2*Bw+2*x_space;
+    //int B4x = B1x + 3*Bw+3*x_space;
+    //int B5x = B1x + 4*Bw+4*x_space;
+    //int B6x = B1x + 5*Bw+5*x_space;
+    //int B7x = B1x + 6*Bw+6*x_space;
+    //int B8x = B1x + 7*Bw+7*x_space;
+
+    struct t_MenuGSettings * pGMset;
+
+    pGMset = &theMenuGSettings;
+    pGMset->evtSource = this;
+    pGMset->evtFnkBtn1Up = G_LeftListener;
+    pGMset->evtFnkBtn1Down = G_LeftListener;
+    pGMset->evtFnkBtn1MouseOver = G_MoveBtnMouseOverListener;
+    pGMset->evtFnkBtn2MouseOver = G_MoveBtnMouseOverListener;
+    pGMset->evtFnkBtn2Up = G_RightListener;
+    pGMset->evtFnkBtn2Down = G_RightListener;
+    pGMset->evtFnkSetSpeed = G_SpeedListener;
+    pGMset->btn1Text = (char *)"<-";
+    pGMset->btn2Text = (char *)"->";
+    pGMset->SpeedLabelText = (char *)"xxx";//pExaktG->getSpeedText(ExaktG::AxisX,0);
+
+    pGMset = &theMenuGZSettings;
+    pGMset->evtSource = this;
+    pGMset->evtFnkBtn1Up = GLiftUpListener;
+    pGMset->evtFnkBtn1Down = GLiftUpListener;
+    pGMset->evtFnkBtn2Up = GLiftDownListener;
+    pGMset->evtFnkBtn2Down = GLiftDownListener;
+    pGMset->evtFnkBtn1MouseOver = G_MoveBtnMouseOverListener;
+    pGMset->evtFnkBtn2MouseOver = G_MoveBtnMouseOverListener;
+    pGMset->evtFnkSetSpeed = GLiftSetSpeedListener;
+    pGMset->btn1Text = (char *)"PgUp";
+    pGMset->btn2Text = (char *)"PgDo";
+    pGMset->SpeedLabelText = (char*)("zzz");//pExaktG->getSpeedText(ExaktG::AxisZ,0);
+
+    theMenuG = new MenuGVertical((char *)"X-Achse",			\
+				 B1x+x_space,				\
+				 yPos,					\
+				 yZeile_h,				\
+				 ySpace_h,				\
+				 Bw,					\
+				 &this->theMenuGSettings,Parent);
+
+    theMenuG->addToEvtTarget(ParentScreen);
+
+    theMenuGZ = new MenuGVertical((char *)"Lift",			\
+				  B2x+x_space,				\
+				  yPos,					\
+				  yZeile_h,				\
+				  ySpace_h,				\
+				  Bw,					\
+				  &this->theMenuGZSettings,Parent);
+
+    theMenuGZ->addToEvtTarget(ParentScreen);
+
+    pBNextAxis = new Button((char *)"NextAxis",
+			    B1x+x_space,				\
+			    (int)Zeile4_y,				\
+			    Bw,						\
+			    yZeile_h,					\
+			    Parent->MenuSet);
+
+    pBNextAxis->setLMButtonUpEvtHandler(NextAxisButtonListener);
+    pBNextAxis->setPrivateMouseOver(0);
+    pBNextAxis->pTSource = this;
+
+    ParentScreen->addEvtTarget(pBNextAxis);
+
+  }
+
   void G_GUI::setActive(void)
   {
     this->Parent->getExaktG()->setGCodeResultListener(&this->tGCodeLis);
