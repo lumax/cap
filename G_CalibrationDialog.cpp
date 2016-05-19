@@ -86,10 +86,10 @@ namespace EuMax01
     int B1x = sdlw/2 - width/2;
     //int B2x = B1x + 1*Bw+1*x_space;
     int B3x = B1x + 2*Bw+2*x_space;
-    int B4x = B1x + 3*Bw+3*x_space;
+    //int B4x = B1x + 3*Bw+3*x_space;
     int B5x = B1x + 4*Bw+4*x_space;
-    int B6x = B1x + 5*Bw+5*x_space;
-    int B7x = B1x + 6*Bw+6*x_space;
+    //int B6x = B1x + 5*Bw+5*x_space;
+    //int B7x = B1x + 6*Bw+6*x_space;
     //int B8x = B1x + 7*Bw+7*x_space;
 
 
