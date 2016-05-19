@@ -56,7 +56,7 @@ namespace EuMax01
 		      camw,						\
 		      yPos,parent)
   {
-    /*    unsigned short MSpace_h, MZeile_h;
+    unsigned short MSpace_h, MZeile_h;
     short M_y = sdlh - yPos;
     if(M_y<=84)
       {
@@ -67,7 +67,7 @@ namespace EuMax01
       {
 	MSpace_h = 5;
 	MZeile_h = 28;
-	}*/
+      }
 
     //short MLinks_x = sdlw/2 - 504;//Breite von 1008 und mittig
 
@@ -87,9 +87,9 @@ namespace EuMax01
     //int B2x = B1x + 1*Bw+1*x_space;
     int B3x = B1x + 2*Bw+2*x_space;
     int B4x = B1x + 3*Bw+3*x_space;
-    //int B5x = B1x + 4*Bw+4*x_space;
+    int B5x = B1x + 4*Bw+4*x_space;
     int B6x = B1x + 5*Bw+5*x_space;
-    //int B7x = B1x + 6*Bw+6*x_space;
+    int B7x = B1x + 6*Bw+6*x_space;
     //int B8x = B1x + 7*Bw+7*x_space;
 
 
@@ -98,7 +98,7 @@ namespace EuMax01
     Label_Value->setWidth(2*Bw+x_space);
     Label_Value->setPosX(B3x+x_space);
 
-    pG_GUI = new G_GUI(sdlw,sdlh,camw,camw,yPos,parent,this);
+    pG_GUI = new G_GUI(parent,this,B5x+x_space,yPos+MSpace_h,Bw*2,MZeile_h);
 
     //theMenuG->addToEvtTarget(Parent);
     //theMenuGZ->addToEvtTarget(Parent);
