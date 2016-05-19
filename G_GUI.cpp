@@ -209,21 +209,28 @@ namespace EuMax01
 
   void G_GUI::activateNextAxis(void)
   {
+    static char pcTmp[16];
+    float pos;
     int i = this->getActiveAxis();
     if(ExaktG::AxisA==i){
       this->activeAxis = ExaktG::AxisX;
       char * XText = (char*)"X-axis";
       theMenuG->pLName->setText((char*)XText);
+      pos = this->Parent->getExaktG()->getXPos();
     }else if(ExaktG::AxisX==i){
       this->activeAxis = ExaktG::AxisY;
       char * YText = (char*)"Y-axis";
       theMenuG->pLName->setText((char*)YText);
+      pos = this->Parent->getExaktG()->getYPos();
     }else{//if(ExaktG::AxisY==i)
+      this->activeAxis = ExaktG::AxisA;
       char * AText = (char*)"A-axis";
       theMenuG->pLName->setText((char*)AText);
-      this->activeAxis = ExaktG::AxisA;
+      pos = this->Parent->getExaktG()->getAPos();
     }
     theMenuG->pLName->show(Parent->theGUI->getMainSurface());
+    theMenuG->pLPosition->setText(ExaktG::toString(pos,pcTmp,16));
+    theMenuG->pLPosition->show(Parent->theGUI->getMainSurface());
   }
 
   int G_GUI::getActiveAxis(void)
