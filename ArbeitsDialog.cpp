@@ -39,6 +39,7 @@ Bastian Ruppert
 #include "g_ctrl/ExaktG.h"
 #include "G_TestDialog.h"
 #include "G_PosDialog.h"
+#include "G_CalibrationDialog.h"
 
 #include "ArbeitsDialog.h"
 
@@ -310,7 +311,8 @@ namespace EuMax01
     theConfirmDialog = new ConfirmDialog(sdlw,sdlh,camw,camh,yPos,this);
     theSplashScreen = new SplashScreen(sdlw,sdlh,camw,camh,yPos,this);
     theNewDialog = new NewDialog(sdlw,sdlh,camw,camh,yPos,this);
-    theCalDialog = new CalibrationDialog(sdlw,sdlh,camw,camh,yPos,this);
+    //    theCalDialog = new CalibrationDialog(sdlw,sdlh,camw,camh,yPos,this);
+    theCalDialog = new G_CalibrationDialog(sdlw,sdlh,camw,camh,yPos,this);
     theInfoDialog = new InfoDialog(sdlw,sdlh,camw,camh,yPos,this);
     theOptionsDialog = new OptionsDialog(sdlw,sdlh,camw,camh,yPos,this);
     theFadenkreuzDialog = new FadenkreuzDialog(sdlw,sdlh,camw,camh,yPos,this);
@@ -607,6 +609,8 @@ namespace EuMax01
     this->sendProtocolMsg(nPEC_GET_Q1);
     this->blankMenuArea();
     this->theGUI->activateScreen(theCalDialog);
+    G_CalibrationDialog* pC = (G_CalibrationDialog*)this->theCalDialog;
+    pC->setActive();
   }
 
   void ArbeitsDialog::showOptionsDialog()

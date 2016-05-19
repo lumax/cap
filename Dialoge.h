@@ -31,6 +31,8 @@ namespace EuMax01
     static void return_listener(void * src, SDL_Event * evt);
 
   private:
+
+  protected:
     Label * Label_Step;
     char StepText[256];
 
@@ -47,7 +49,6 @@ namespace EuMax01
     struct t_MenuBarSettings theMenuBarSettings;
     MenuBar * theMenu;
 
-  protected:
     static const int iQ1 = 0;
     static const int iQ2 = 1;
     static const int iZ1 = 2;
