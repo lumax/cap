@@ -277,7 +277,7 @@ namespace EuMax01
     pGMset->evtFnkSetSpeed = G_SpeedListener;
     pGMset->btn1Text = (char *)"<-";
     pGMset->btn2Text = (char *)"->";
-    pGMset->SpeedLabelText = (char *)"xxx";//pExaktG->getSpeedText(ExaktG::AxisX,0);
+    pGMset->SpeedLabelText = Parent->getExaktG()->getSpeedText(ExaktG::AxisX,0);
 
     pGMset = &theMenuGZSettings;
     pGMset->evtSource = this;
@@ -309,7 +309,8 @@ namespace EuMax01
 				  ySpace_h,				\
 				  Bw,					\
 				  &this->theMenuGZSettings,Parent);
-
+    theMenuGZ->pBSetSpeed->hide(true);
+    theMenuGZ->pLSpeed->hide(true);
     theMenuGZ->addToEvtTarget(ParentScreen);
 
     pBNextAxis = new Button((char *)"NextAxis",
