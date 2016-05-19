@@ -22,8 +22,8 @@ namespace EuMax01
 
     void setActive(void);
 
-  private:
     G_GUI * pG_GUI;
+  private:
   };
 
 #endif /* __G_CALIBRATIONDIALOG_H__*/

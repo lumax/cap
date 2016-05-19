@@ -33,7 +33,14 @@ Bastian Ruppert
 #include "NewDirectDialog.h"
 #include "WalzeDurchmesser.h"
 #include "ErrorDialog.h"
+#include "GMenu.h"
+#include "g_ctrl/G_Ctrl.h"
+#include "g_ctrl/StreamScanner.h"
+#include "g_ctrl/ExaktG.h"
+#include "G_GUI.h"
+
 #include "Dialoge.h"
+#include "G_CalibrationDialog.h"
 
 namespace EuMax01
 {
@@ -193,24 +200,31 @@ namespace EuMax01
 
   void CalibrationDialog::resetStepValue()
   {
+    G_CalibrationDialog * pCD = (G_CalibrationDialog*)this;
     switch(this->ActualStep)
       {
       case CalibrationDialog::iQ1:
 	{
 	  this->Parent->sendProtocolMsg(nPEC_RESET_Q1);
 	  this->Parent->sendProtocolMsg(nPEC_GET_Q1_32);
+	  this->Parent->getExaktG()->setNullpunkt(ExaktG::AxisX);
+	  pCD->pG_GUI->activateNextAxis();
 	  break;
 	}
       case CalibrationDialog::iQ2:
 	{
 	  this->Parent->sendProtocolMsg(nPEC_RESET_Q2);
 	  this->Parent->sendProtocolMsg(nPEC_GET_Q2_32);
+	  this->Parent->getExaktG()->setNullpunkt(ExaktG::AxisY);
+	  pCD->pG_GUI->activateNextAxis();
 	  break;
 	}
       case CalibrationDialog::iZ1:
 	{
 	  this->Parent->sendProtocolMsg(nPEC_RESET_Z1);
 	  this->Parent->sendProtocolMsg(nPEC_GET_Z1_32);
+	  this->Parent->getExaktG()->setNullpunkt(ExaktG::AxisA);
+	  pCD->pG_GUI->activateNextAxis();
 	  break;
 	}
       case CalibrationDialog::iZ2:

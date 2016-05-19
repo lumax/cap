@@ -110,4 +110,5 @@ namespace EuMax01
     //this->Parent->getExaktG()->setGCodeResultListener(&this->tGCodeLis);
     //this->pGCtrl->cmdGetStatus();
   }
+
 }/* end Namespace */
