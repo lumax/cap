@@ -40,6 +40,7 @@ Bastian Ruppert
 #include "G_TestDialog.h"
 #include "G_PosDialog.h"
 #include "G_CalibrationDialog.h"
+#include "G_NewDialog.h"
 
 #include "ArbeitsDialog.h"
 
@@ -310,7 +311,8 @@ namespace EuMax01
     theErrorDialog = new ErrorDialog(sdlw,sdlh,camw,camh,yPos,this);
     theConfirmDialog = new ConfirmDialog(sdlw,sdlh,camw,camh,yPos,this);
     theSplashScreen = new SplashScreen(sdlw,sdlh,camw,camh,yPos,this);
-    theNewDialog = new NewDialog(sdlw,sdlh,camw,camh,yPos,this);
+    //theNewDialog = new NewDialog(sdlw,sdlh,camw,camh,yPos,this);
+    theNewDialog = new G_NewDialog(sdlw,sdlh,camw,camh,yPos,this);
     //    theCalDialog = new CalibrationDialog(sdlw,sdlh,camw,camh,yPos,this);
     theCalDialog = new G_CalibrationDialog(sdlw,sdlh,camw,camh,yPos,this);
     theInfoDialog = new InfoDialog(sdlw,sdlh,camw,camh,yPos,this);
@@ -599,6 +601,8 @@ namespace EuMax01
 	//step zurückspulen
 	this->theNewDialog->decStep();
       }
+    G_NewDialog * pN = (G_NewDialog*)this->theNewDialog;
+    pN->setActive();
   }
 
   void ArbeitsDialog::showCalibrationDialog()

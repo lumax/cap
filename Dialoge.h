@@ -240,7 +240,7 @@ namespace EuMax01
     void setMenuBarForNewCross();
     MenuBar * theMenu;
     EvtTarget * MouseCrossaire;
-  private:
+  protected:
     Label * Label_Name;
 
     Label * Label_Info;
