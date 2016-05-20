@@ -109,6 +109,7 @@ namespace EuMax01
     void incSpeedLevel(int axis);
     int getSpeedLevel(int axis);
     void move(int axis, int direction);
+    void move(int axis, int direction,int axisVelocity); 
     void holdMoving(bool holdMoving);
 
     void fastAndSaveMove(float tarPosX,float tarPosY,float tarPosA);

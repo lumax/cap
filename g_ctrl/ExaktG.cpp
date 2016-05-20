@@ -396,7 +396,15 @@ namespace EuMax01
 
   void ExaktG::move(int axis,int direction)
   {
-    float range;
+    if(axis<0 || axis>=ExaktG::MaxAxis){
+      return;
+    }
+    move(axis,direction,AxisVelocity[axis]);
+  }
+
+  void ExaktG::move(int axis, int direction,int axisVelocity)
+  {
+     float range;
 
     //machine state 3 = stop; 1 = ready
     if(3==this->MachineState||1==MachineState)
@@ -415,7 +423,8 @@ namespace EuMax01
 	  {
 	    range += Position[axis];
 	  }
-	this->GCtrl.cmdG1(axis,range,AxisVelocity[axis]);
+	checkForCollision(axis,&range);//hier wird range evtl. begrenzt
+	this->GCtrl.cmdG1(axis,range,axisVelocity);
       }
   }
 
@@ -429,18 +438,26 @@ namespace EuMax01
     //Auch die X und die Y-Achse auf der selben Skala laufen lassen!!!
     //Schlitten X sitzt auf Null und Schlitten Y sitzt auf MaxPos!
     //Somit ist eine Kollision leichter zu berechnen
-    /*    if(ExaktG::AxisX==axis)
+    if(ExaktG::AxisX==axis)
       {
 	float YPos = this->getYPos();
-	if(YPos >= 0.0)//alles OK!
+	YPos -= this->SicherheitsAbstand;
+
+	if(*pTargetPos>YPos)
 	  {
-	    return;
+	    *pTargetPos = YPos;
 	  }
-	if(*pTargetPos >= YPos*=-1.0)
+      }
+    if(ExaktG::AxisY==axis)
+      {
+	float XPos = this->getXPos();
+	XPos += this->SicherheitsAbstand;
+
+	if(*pTargetPos<XPos)
 	  {
-	    *pTargetPos = YPos*=-1.0
+	    *pTargetPos = XPos;
 	  }
-	  }*/
+      }
   }
 
   void ExaktG::fastAndSaveMove(float tarPosX,float tarPosY,float tarPosA)
