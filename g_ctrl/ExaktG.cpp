@@ -474,9 +474,28 @@ namespace EuMax01
     
     targetPos[ExaktG::AxisX] = tarPosX;
     targetPos[ExaktG::AxisY] = tarPosY;
-    targetPos[ExaktG::AxisZ] = tarPosA;
+    targetPos[ExaktG::AxisA] = tarPosA;
 
-    //move(, int direction,int axisVelocity,bool checkState)
+    //A-Achse kann loslegen
+    move(ExaktG::AxisZ,targetPos[ExaktG::AxisA],300,false);
 
+    //Kollisionskontrolle muss hier sein, die in move funktioniert
+    //nicht, wenn beide Achsen in Bewegung sind
+    if(targetPos[ExaktG::AxisX]>targetPos[ExaktG::AxisY]-SicherheitsAbstand){
+      targetPos[ExaktG::AxisX] = targetPos[ExaktG::AxisY]-SicherheitsAbstand;
+    }
+
+    if(targetPos[ExaktG::AxisY]<targetPos[ExaktG::AxisX]+SicherheitsAbstand){
+      targetPos[ExaktG::AxisY] = targetPos[ExaktG::AxisX]+SicherheitsAbstand;
+    }
+
+    move(ExaktG::AxisX,targetPos[ExaktG::AxisX],300,false);
+    move(ExaktG::AxisY,targetPos[ExaktG::AxisY],300,false);
+  }
+
+  void ExaktG::homeXandY(void)
+  {
+    this->GCtrl.cmdG1(ExaktG::AxisX,0.0,500,			\
+		      ExaktG::AxisY,this->MaxXYDistance);
   }
 }

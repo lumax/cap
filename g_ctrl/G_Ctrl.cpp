@@ -20,7 +20,7 @@ namespace EuMax01
   G_Ctrl::G_Ctrl(int verb)
   {
     this->setVerbose(verb);
-    cmdLen = 64;
+    cmdLen = 128;
     fd = -1;
   }
 
@@ -103,6 +103,29 @@ namespace EuMax01
   void G_Ctrl::cmdG1(int axis,int range, int velocity)
   {
     cmdG1(axis,(float)range,velocity);
+  }
+
+  void G_Ctrl::cmdG1(int axis,float range, int velocity,\
+		     int axis2,float range2)
+  {
+    int ret = 0;
+    char * pcAxis = 0;
+    char * pcAxis2 = 0;
+
+    pcAxis = getAxis(axis);
+    pcAxis2 = getAxis(axis2);
+
+    ret = snprintf(this->cmdBuf,cmdLen,"G1 %s%.0003f,%s%.0003f,F%i\r",\
+		   pcAxis,range,pcAxis2,range2,velocity);
+    if(0!=this->verbose)
+      {
+	printf("cmdG1: %s\n",this->cmdBuf);
+      }
+
+      if(0<this->fd)
+      {
+	write(this->fd,this->cmdBuf,ret);
+      }
   }
 
   void G_Ctrl::cmdG1(int axis,float range, int velocity)

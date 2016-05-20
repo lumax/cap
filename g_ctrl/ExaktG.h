@@ -116,6 +116,7 @@ namespace EuMax01
     void fastRecipeMove(float tarPosX,float tarPosY,float tarPosA);
     void setCollisionProtektion(bool cp);
     bool getCollisionProtection(void);
+    void homeXandY(void);
 
   private:
     PollReader * pr_gcodes;

@@ -34,6 +34,9 @@ Bastian Ruppert
 #include "NewDirectDialog.h"
 #include "Version.h"
 
+#include "g_ctrl/G_Ctrl.h"
+#include "g_ctrl/StreamScanner.h"
+#include "g_ctrl/ExaktG.h"
 #include "ErrorDialog.h"
 
 namespace EuMax01
@@ -200,6 +203,12 @@ namespace EuMax01
     exit(12);
   }
 
+  static void HomingListener(void * src, SDL_Event * evt)
+  {
+    ConfirmDialog* ad = (ConfirmDialog*)src;
+    ad->Parent->getExaktG()->homeXandY();
+  }
+
   static void ConfirmService(void * src, SDL_Event * evt)
   {
     exit(42);
@@ -238,6 +247,10 @@ namespace EuMax01
 	else if(key->keysym.sym == SDLK_F2)
 	  {
 	    ConfirmF2(src,evt);
+	  }
+	else if(key->keysym.sym == SDLK_F3)
+	  {
+	    HomingListener(src,evt);
 	  }
       }
   }
@@ -294,7 +307,7 @@ namespace EuMax01
 
     theMenuBarSettings.Text[0]=(char *)"F1service";
     theMenuBarSettings.Text[1]=(char *)"F2 info";
-    theMenuBarSettings.Text[2]=0;
+    theMenuBarSettings.Text[2]=(char *)"F3Ghoming";
     theMenuBarSettings.Text[3]=0;
     theMenuBarSettings.Text[4]=0;
     theMenuBarSettings.Text[5]=0;
@@ -305,7 +318,7 @@ namespace EuMax01
 
     theMenuBarSettings.evtFnks[0]=ConfirmService;
     theMenuBarSettings.evtFnks[1]=ConfirmF2;
-    theMenuBarSettings.evtFnks[2]=0;
+    theMenuBarSettings.evtFnks[2]=HomingListener;
     theMenuBarSettings.evtFnks[3]=0;
     theMenuBarSettings.evtFnks[4]=0;
     theMenuBarSettings.evtFnks[5]=0;
