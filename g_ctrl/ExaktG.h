@@ -89,6 +89,10 @@ namespace EuMax01
     void move(int axis, int direction);
     void holdMoving(bool holdMoving);
 
+    void fastAndSaveMove(float tarPosX,float tarPosY,float tarPosA);
+    void setCollisionProtektion(bool cp);
+    bool getCollisionProtection(void);
+
   private:
     PollReader * pr_gcodes;
     PollTimer * pt_gcodes;
@@ -96,6 +100,7 @@ namespace EuMax01
     G_Ctrl GCtrl;
     StreamScanner sScan;
     struct ExaktG_CodeListener_t *ptGCLis;
+    bool collisionProtection;
 
     float Position[4];
     int lastG_F[4];
@@ -116,6 +121,9 @@ namespace EuMax01
     bool isMovingHolded;
     int LastMovedAxis;
     int AxisMoveDirection[ExaktG::MaxAxis];
+    void checkForCollision(int axis,float * targetPos);
+    float SicherheitsAbstand;
+    float MaxXYDistance;
   };
 
 #endif /* __ExaktG_H__*/

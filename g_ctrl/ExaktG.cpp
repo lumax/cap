@@ -121,9 +121,11 @@ namespace EuMax01
     LastMovedAxis = ExaktG::AxisX;
     isMovingHolded = false;
 
-
+    collisionProtection = true;
     DistanceModeAbsolut = true;
     MachineState = 0;
+    SicherheitsAbstand = 10.0;
+    MaxXYDistance = 68.0;
 
     for(int i = 0;i<ExaktG::MaxAxis;i++){
       Position[i]=0.0;
@@ -411,6 +413,59 @@ namespace EuMax01
 	    range += Position[axis];
 	  }
 	this->GCtrl.cmdG1(axis,range,AxisVelocity[axis]);
+      }
+  }
+
+  void ExaktG::setCollisionProtektion(bool cp)
+  {
+    this->collisionProtection = cp;
+  }
+
+  void ExaktG::checkForCollision(int axis,float * pTargetPos)
+  {
+    //Auch die X und die Y-Achse auf der selben Skala laufen lassen!!!
+    //Schlitten X sitzt auf Null und Schlitten Y sitzt auf MaxPos!
+    //Somit ist eine Kollision leichter zu berechnen
+    /*    if(ExaktG::AxisX==axis)
+      {
+	float YPos = this->getYPos();
+	if(YPos >= 0.0)//alles OK!
+	  {
+	    return;
+	  }
+	if(*pTargetPos >= YPos*=-1.0)
+	  {
+	    *pTargetPos = YPos*=-1.0
+	  }
+	  }*/
+  }
+
+  void ExaktG::fastAndSaveMove(float tarPosX,float tarPosY,float tarPosA)
+  {
+    float targetPos[4];
+    
+    targetPos[ExaktG::AxisX] = tarPosX;
+    targetPos[ExaktG::AxisY] = tarPosY;
+    targetPos[ExaktG::AxisZ] = tarPosA;
+
+    //machine state 3 = stop; 1 = ready
+    if(3==this->MachineState||1==MachineState)
+      {
+	/*	LastMovedAxis = axis;
+	AxisMoveDirection[axis] = direction;
+
+	if(axis<0 || axis>=ExaktG::MaxAxis){
+	  return;
+	}
+	range = getAxisDistance(axis);
+	if(0>direction){
+	  range *=-1.0;
+	}
+	if(this->DistanceModeAbsolut)
+	  {
+	    range += Position[axis];
+	  }
+	  this->GCtrl.cmdG1(axis,range,AxisVelocity[axis]);*/
       }
   }
 }

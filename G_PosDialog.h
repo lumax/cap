@@ -19,9 +19,12 @@ namespace EuMax01
 		      ArbeitsDialog * parent);
     ArbeitsDialog * Parent;
 
+    static void RezeptAnfahrenListener(void * src, SDL_Event * evt);
     void setActive(void);
 
+    void driveCurrentRecipe(void);
   private:
+    Button * pBRezeptAnfahren;
     G_GUI * pG_GUI;
   };
 

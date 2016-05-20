@@ -70,13 +70,14 @@ namespace EuMax01
 	MZeile_h = 28;
       }
 
+    this->Parent = parent;
     //short MLinks_x = sdlw/2 - 504;//Breite von 1008 und mittig
 
     //vertikal fünf Zeilen
     //short Zeile1_y = yPos + 1*MSpace_h + 0*MZeile_h;
     //Zeile2_y = yPos + 2*MSpace_h + 1*MZeile_h;
     //short Zeile3_y = yPos + 3*MSpace_h + 2*MZeile_h;
-    //short Zeile4_y = yPos + 4*MSpace_h + 3*MZeile_h;
+    short Zeile4_y = yPos + 4*MSpace_h + 3*MZeile_h;
     //short Zeile5_y = yPos + 5*MSpace_h + 4*MZeile_h;
     //Rezepte_w = 108;
 
@@ -91,7 +92,7 @@ namespace EuMax01
     //int B5x = B1x + 4*Bw+4*x_space;
     int B6x = B1x + 5*Bw+5*x_space;
     int B7x = B1x + 6*Bw+6*x_space;
-    //int B8x = B1x + 7*Bw+7*x_space;
+    int B8x = B1x + 7*Bw+7*x_space;
 
     this->LabelActual->setText((char*)"Position");
     LabelActual->setWidth(Bw);
@@ -116,6 +117,13 @@ namespace EuMax01
 
     pG_GUI = new G_GUI(parent,parent,B7x+x_space,yPos+MSpace_h,Bw,MZeile_h);
 
+    pBRezeptAnfahren = new Button("drive",\
+				  B8x+x_space,Zeile4_y,Bw,MZeile_h,parent->MenuSet);
+
+    pBRezeptAnfahren->setLMButtonUpEvtHandler(this->RezeptAnfahrenListener);
+
+    pBRezeptAnfahren->pTSource = this;
+    addEvtTarget(pBRezeptAnfahren);
     //theMenuG->addToEvtTarget(Parent);
     //theMenuGZ->addToEvtTarget(Parent);
   }
@@ -125,5 +133,27 @@ namespace EuMax01
     pG_GUI->setActive();
     //this->Parent->getExaktG()->setGCodeResultListener(&this->tGCodeLis);
     //this->pGCtrl->cmdGetStatus();
+  }
+
+  void G_PosDialog::RezeptAnfahrenListener(void * src, SDL_Event * evt)
+  {
+    G_PosDialog * pPG = (G_PosDialog*)src;
+
+    pPG->driveCurrentRecipe();
+  }
+
+  void G_PosDialog::driveCurrentRecipe(void)
+  {
+    Rezept * pR = this->Parent->theRezept;
+    struct GPosition_t theGP = pR->getGPositions(Parent->getRezeptNummer());
+    printf("Parent->getRezeptNummer()):%i\n",this->Parent->getRezeptNummer());
+    printf("Rezept X:%.0003f Y:%.0003f Z:%.0003f A:%.0003f\n",	\
+	   theGP.PosGAxisX,			      \
+	   theGP.PosGAxisY,			      \
+	   theGP.PosGAxisZ,			      \
+	   theGP.PosGAxisA);
+    this->Parent->getExaktG()->fastAndSaveMove(theGP.PosGAxisX,	\
+					       theGP.PosGAxisY,	\
+					       theGP.PosGAxisA);
   }
 }/* end Namespace */
