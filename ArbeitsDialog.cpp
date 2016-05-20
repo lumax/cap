@@ -836,7 +836,7 @@ namespace EuMax01
 	ftmp /= 100.0;
 	printf("wert = %f\n",ftmp);
 	sprintf(thePosDialog->pcLabelCam2[PosDialog::iStep],	\
-		"%7.2f aam",ftmp);
+		"%7.2f mm",ftmp);
 	thePosDialog->pLabelCam2[PosDialog::iStep]->	\
 	  setText(thePosDialog->pcLabelCam2[PosDialog::iStep]);
 

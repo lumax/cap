@@ -489,13 +489,13 @@ namespace EuMax01
       targetPos[ExaktG::AxisY] = targetPos[ExaktG::AxisX]+SicherheitsAbstand;
     }
 
-    move(ExaktG::AxisX,targetPos[ExaktG::AxisX],300,false);
-    move(ExaktG::AxisY,targetPos[ExaktG::AxisY],300,false);
+    this->GCtrl.cmdG1(ExaktG::AxisX,targetPos[ExaktG::AxisX],800,	\
+		      ExaktG::AxisY,targetPos[ExaktG::AxisY]);
   }
 
   void ExaktG::homeXandY(void)
   {
-    this->GCtrl.cmdG1(ExaktG::AxisX,0.0,500,			\
+    this->GCtrl.cmdG1(ExaktG::AxisX,0.0,800,			\
 		      ExaktG::AxisY,this->MaxXYDistance);
   }
 }
