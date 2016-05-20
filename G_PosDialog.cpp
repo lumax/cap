@@ -152,7 +152,7 @@ namespace EuMax01
 	   theGP.PosGAxisY,			      \
 	   theGP.PosGAxisZ,			      \
 	   theGP.PosGAxisA);
-    this->Parent->getExaktG()->fastAndSaveMove(theGP.PosGAxisX,	\
+    this->Parent->getExaktG()->fastRecipeMove(theGP.PosGAxisX,	\
 					       theGP.PosGAxisY,	\
 					       theGP.PosGAxisA);
   }

@@ -129,7 +129,7 @@ namespace EuMax01
 
     for(int i = 0;i<ExaktG::MaxAxis;i++){
       Position[i]=0.0;
-      AxisVelocity[i] = 100;
+      AxisVelocity[i] = 200;
       setSpeedLevel(i,0);
     }
 
@@ -137,6 +137,7 @@ namespace EuMax01
     SpeedLevelDistance[1] = ExaktG::G_pro_mm * ExaktG::SpeedDistance1in_mm;
     SpeedLevelDistance[2] = ExaktG::G_pro_mm * ExaktG::SpeedDistance2in_mm;
     SpeedLevelDistance[3] = ExaktG::G_pro_mm * ExaktG::SpeedDistance3in_mm;
+    SpeedLevelDistance[4] = ExaktG::G_pro_mm * ExaktG::SpeedDistance4in_mm;
 
     /*"posx":0.000} oder "posx":0.000,*/
     sScan.addScanner(nStreamScannerType_float,		\
@@ -399,15 +400,24 @@ namespace EuMax01
     if(axis<0 || axis>=ExaktG::MaxAxis){
       return;
     }
-    move(axis,direction,AxisVelocity[axis]);
+    move(axis,direction,AxisVelocity[axis],true);
   }
 
-  void ExaktG::move(int axis, int direction,int axisVelocity)
+  void ExaktG::move(int axis, int direction,int axisVelocity,bool checkState)
   {
      float range;
+     bool doIt = true;
 
-    //machine state 3 = stop; 1 = ready
-    if(3==this->MachineState||1==MachineState)
+     if(checkState){
+       //machine state 3 = stop; 1 = ready
+       if(3==this->MachineState||1==MachineState){
+	 doIt = true;
+       }else{
+	 doIt = false;
+       }
+     }
+
+    if(doIt)
       {
 	LastMovedAxis = axis;
 	AxisMoveDirection[axis] = direction;
@@ -460,7 +470,7 @@ namespace EuMax01
       }
   }
 
-  void ExaktG::fastAndSaveMove(float tarPosX,float tarPosY,float tarPosA)
+  void ExaktG::fastRecipeMove(float tarPosX,float tarPosY,float tarPosA)
   {
     float targetPos[4];
     
@@ -468,24 +478,7 @@ namespace EuMax01
     targetPos[ExaktG::AxisY] = tarPosY;
     targetPos[ExaktG::AxisZ] = tarPosA;
 
-    //machine state 3 = stop; 1 = ready
-    if(3==this->MachineState||1==MachineState)
-      {
-	/*	LastMovedAxis = axis;
-	AxisMoveDirection[axis] = direction;
+    //move(, int direction,int axisVelocity,bool checkState)
 
-	if(axis<0 || axis>=ExaktG::MaxAxis){
-	  return;
-	}
-	range = getAxisDistance(axis);
-	if(0>direction){
-	  range *=-1.0;
-	}
-	if(this->DistanceModeAbsolut)
-	  {
-	    range += Position[axis];
-	  }
-	  this->GCtrl.cmdG1(axis,range,AxisVelocity[axis]);*/
-      }
   }
 }

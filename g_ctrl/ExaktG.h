@@ -95,8 +95,9 @@ namespace EuMax01
     static const float SpeedDistance1in_mm =  0.10;//0.10;
     static const float SpeedDistance2in_mm =  1.0;//1.00;
     static const float SpeedDistance3in_mm = 10.0;//10.00;
+    static const float SpeedDistance4in_mm = 100.0;//10.00;
 
-    static const int MaxSpeedLevels = 4;
+    static const int MaxSpeedLevels = 5;
 
     float getXPos(void);
     float getYPos(void);
@@ -109,10 +110,10 @@ namespace EuMax01
     void incSpeedLevel(int axis);
     int getSpeedLevel(int axis);
     void move(int axis, int direction);
-    void move(int axis, int direction,int axisVelocity); 
+    void move(int axis, int direction,int axisVelocity,bool checkState);
     void holdMoving(bool holdMoving);
 
-    void fastAndSaveMove(float tarPosX,float tarPosY,float tarPosA);
+    void fastRecipeMove(float tarPosX,float tarPosY,float tarPosA);
     void setCollisionProtektion(bool cp);
     bool getCollisionProtection(void);
 
