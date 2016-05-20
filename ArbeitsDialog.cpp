@@ -815,23 +815,38 @@ namespace EuMax01
 	//walze ist nur in Rezepte[0].cams[0].walze aktuell!!!
 	this->iFaktorZAchse = theRezept->Rezepte[0].cams[0].walze;
 
+	int wert;
+	float ftmp;
+
 	cap_cam_setCrossX(0,theRezept->Rezepte[RezeptNummer].cams[0].x_cross);
 	cap_cam_setCrossX(1,theRezept->Rezepte[RezeptNummer].cams[1].x_cross);
 
 	thePosDialog->showRecipeName(theRezept->Name);
 
+	wert = (int)theRezept->getXPosition(0,nummer);
+	ftmp = (float)wert;
+	ftmp /=100;
 	sprintf(thePosDialog->pcLabelCam1[PosDialog::iStep],	\
-		"%7.2f mm",(float)theRezept->getXPosition(0,nummer)/100);
+		"%7.2f mm",ftmp);
 	thePosDialog->pLabelCam1[PosDialog::iStep]->		\
 	  setText(thePosDialog->pcLabelCam1[PosDialog::iStep]);
 
+	wert = (int)theRezept->getXPosition(1,nummer);
+	ftmp = (float)wert;
+	ftmp /= 100.0;
+	printf("wert = %f\n",ftmp);
 	sprintf(thePosDialog->pcLabelCam2[PosDialog::iStep],	\
-		"%7.2f mm",(float)theRezept->getXPosition(1,nummer)/100);
+		"%7.2f aam",ftmp);
 	thePosDialog->pLabelCam2[PosDialog::iStep]->	\
 	  setText(thePosDialog->pcLabelCam2[PosDialog::iStep]);
 
-	sprintf(thePosDialog->pcLabelZ[PosDialog::iStep],		\
-		"%7.2f mm",(float)theRezept->getZPosition(nummer)/100/**this->getFaktorZAchse()*/);
+	wert = (int)theRezept->getZPosition(nummer);
+	ftmp = (float)wert;
+	ftmp /= 100.0;
+	printf("wert = %f\n",ftmp);
+	sprintf(thePosDialog->pcLabelZ[PosDialog::iStep],	\
+		"%7.2f mm",ftmp
+);
 
 	thePosDialog->pLabelZ[PosDialog::iStep]->	\
 	  setText(thePosDialog->pcLabelZ[PosDialog::iStep]);

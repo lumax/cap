@@ -14,9 +14,9 @@ extern "C" {
 #endif*/
 struct Position
 {
-  unsigned int x_pos;
-  unsigned int z_pos;
-  unsigned int x_cross;
+  int x_pos;
+  int z_pos;
+  int x_cross;
   int diameter;
   int walze;
 };
