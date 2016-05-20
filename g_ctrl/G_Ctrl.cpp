@@ -63,9 +63,11 @@ namespace EuMax01
     char * getStatus = (char*)"{\"sr\":\"\"}";
     char * TravelPerRevolution1 = (char*)"{\"1tr\":1.5000\"}";
     char * TravelPerRevolution2 = (char*)"{\"2tr\":1.5000\"}";
+    char * TravelPerRevolution4 = (char*)"{\"4tr\":4\"}";
     sendCmd(getStatus);
     sendCmd(TravelPerRevolution1);
     sendCmd(TravelPerRevolution2);
+    sendCmd(TravelPerRevolution4);
   }
 
   void G_Ctrl::cmdFlowControl(void)
