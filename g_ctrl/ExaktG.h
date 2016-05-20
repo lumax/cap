@@ -67,7 +67,29 @@ namespace EuMax01
     static const int AxisZ = nTinyG_Z;
     static const int AxisA = nTinyG_A;
     static const int MaxAxis = 4;
-    static const float G_pro_mm = 0.1;//0.0837500000;
+    //?tr von 1.25 = G_pro_mm von ca. 0.08375
+    //?tr von 1.00 = G_pro_mm von ca. 0.0672333
+    //?tr von 1.50 = G_pro_mm von ca. 0.1000
+    static const float G_pro_mm = 0.1000;//0.06723333;//0.08333;//0.08375;
+    static const float GSicherheitsabstand = 10.00;//10cm
+    static const float GMaxStrecke = 89.000;//89cm
+
+/*
+  60cm auf der Schiene entsprechen etwa 40,34 G-Werten
+  1cm entspricht etwa 0.672333 G-Werten
+  Die Schiene hat für einen einzelnen Schlitten einen Verfahrweg von
+  etwa 89cm.
+  Sicherheitsabstand eines Schlittens zum anderen 10cm
+  Maximaler Verfahrweg jedes Schlittens 79cm
+
+  |<---------------------- 89 cm ---------------------------->|
+  |-----------------------------------------------------------|
+   _X_                                                     _Y_
+
+  Der Nullpunkt für Schlitten X ist auch der Nullpunkt für
+  Schlitten Y!!!
+
+*/
 
     static const float SpeedDistance0in_mm =  0.01;//0.01;
     static const float SpeedDistance1in_mm =  0.10;//0.10;

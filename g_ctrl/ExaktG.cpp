@@ -124,8 +124,8 @@ namespace EuMax01
     collisionProtection = true;
     DistanceModeAbsolut = true;
     MachineState = 0;
-    SicherheitsAbstand = 10.0;
-    MaxXYDistance = 68.0;
+    SicherheitsAbstand = ExaktG::GSicherheitsabstand;
+    MaxXYDistance = ExaktG::GMaxStrecke;
 
     for(int i = 0;i<ExaktG::MaxAxis;i++){
       Position[i]=0.0;
@@ -224,13 +224,16 @@ namespace EuMax01
 
   void ExaktG::setNullpunkt(int axis)
   {
+    static char buf[128];
     if(ExaktG::AxisX==axis)
       {
 	GCtrl.cmdG((char*)"G28.3 X0.0");
       }
     if(ExaktG::AxisY==axis)
       {
-	GCtrl.cmdG((char*)"G28.3 Y0.0");
+	snprintf(buf,128,"G28.3 Y%.0003f",MaxXYDistance);
+	GCtrl.cmdG((char*)buf);
+	//GCtrl.cmdG((char*)"G28.3 Y0.0");
       }
     if(ExaktG::AxisZ==axis)
       {
@@ -303,7 +306,7 @@ namespace EuMax01
     }
 
     snprintf(&SpeedTexte[SpeedLevel][0],		\
-	     16,"%.003fmm",getAxisDistance(axis));
+	     16,"%.003fmm",getAxisDistance(axis)/ExaktG::G_pro_mm);
 
     return &SpeedTexte[SpeedLevel][0];
   }
