@@ -397,15 +397,27 @@ namespace EuMax01
 
   void ExaktG::move(int axis,int direction)
   {
+    float range;
+
+    LastMovedAxis = axis;
+    AxisMoveDirection[axis] = direction;
+
     if(axis<0 || axis>=ExaktG::MaxAxis){
       return;
     }
-    move(axis,direction,AxisVelocity[axis],true);
+    range = getAxisDistance(axis);
+    if(0>direction){
+      range *=-1.0;
+    }
+    if(this->DistanceModeAbsolut)
+      {
+	range += Position[axis];
+      }
+    move(axis,range,AxisVelocity[axis],true);
   }
 
-  void ExaktG::move(int axis, int direction,int axisVelocity,bool checkState)
+  void ExaktG::move(int axis,float targetPos,int axisVelocity,bool checkState)
   {
-     float range;
      bool doIt = true;
 
      if(checkState){
@@ -419,22 +431,8 @@ namespace EuMax01
 
     if(doIt)
       {
-	LastMovedAxis = axis;
-	AxisMoveDirection[axis] = direction;
-
-	if(axis<0 || axis>=ExaktG::MaxAxis){
-	  return;
-	}
-	range = getAxisDistance(axis);
-	if(0>direction){
-	  range *=-1.0;
-	}
-	if(this->DistanceModeAbsolut)
-	  {
-	    range += Position[axis];
-	  }
-	checkForCollision(axis,&range);//hier wird range evtl. begrenzt
-	this->GCtrl.cmdG1(axis,range,axisVelocity);
+	checkForCollision(axis,&targetPos);//hier wird range evtl. begrenzt
+	this->GCtrl.cmdG1(axis,targetPos,axisVelocity);
       }
   }
 
