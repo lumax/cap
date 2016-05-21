@@ -1223,6 +1223,7 @@ static void oneSecondTimer(void)
 	    {
 	      printf("ExaktG addPollReader failed\n");
 	    }
+	  pExaktG->getG_Ctrl()->cmdFlowControl();
 	  ExaktG_com = 1;
 	}
     }
