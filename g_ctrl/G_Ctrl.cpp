@@ -60,14 +60,18 @@ namespace EuMax01
 
   void G_Ctrl::cmdGetStatus(void)
   {
+    //[1pm] m1 power management 1 [0=disabled,1=always on,2=in cycle,3=when moving]
+    //X-Achse steht auf 1, alle anderen Achsen stehen auf 2!!!
     char * getStatus = (char*)"{\"sr\":\"\"}";
     char * TravelPerRevolution1 = (char*)"{\"1tr\":1.5000\"}";
     char * TravelPerRevolution2 = (char*)"{\"2tr\":1.5000\"}";
-    char * TravelPerRevolution4 = (char*)"{\"4tr\":4\"}";
+    char * XAchsePowerInCylce = (char*)"{\"1pm\":2\"}";
+    //char * TravelPerRevolution4 = (char*)"{\"4tr\":4\"}";
     sendCmd(getStatus);
     sendCmd(TravelPerRevolution1);
     sendCmd(TravelPerRevolution2);
-    sendCmd(TravelPerRevolution4);
+    sendCmd(XAchsePowerInCylce);
+    //sendCmd(TravelPerRevolution4);
   }
 
   void G_Ctrl::cmdFlowControl(void)
