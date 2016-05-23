@@ -476,9 +476,6 @@ namespace EuMax01
     targetPos[ExaktG::AxisY] = tarPosY;
     targetPos[ExaktG::AxisA] = tarPosA;
 
-    //A-Achse kann loslegen
-    move(ExaktG::AxisZ,targetPos[ExaktG::AxisA],300,false);
-
     //Kollisionskontrolle muss hier sein, die in move funktioniert
     //nicht, wenn beide Achsen in Bewegung sind
     if(targetPos[ExaktG::AxisX]>targetPos[ExaktG::AxisY]-SicherheitsAbstand){
@@ -489,13 +486,22 @@ namespace EuMax01
       targetPos[ExaktG::AxisY] = targetPos[ExaktG::AxisX]+SicherheitsAbstand;
     }
 
+    //A-Achse kann loslegen, X und Y danach
+    //move(ExaktG::AxisA,targetPos[ExaktG::AxisA],300,false);
+    /*this->GCtrl.cmdG1(ExaktG::AxisX,targetPos[ExaktG::AxisX],800,	\
+      ExaktG::AxisY,targetPos[ExaktG::AxisY]);
+    */
+    //Alle drei Achsen zugleich
     this->GCtrl.cmdG1(ExaktG::AxisX,targetPos[ExaktG::AxisX],800,	\
-		      ExaktG::AxisY,targetPos[ExaktG::AxisY]);
+		      ExaktG::AxisY,targetPos[ExaktG::AxisY],		\
+		      ExaktG::AxisA,targetPos[ExaktG::AxisA]);
   }
 
   void ExaktG::homeXandY(void)
   {
-    this->GCtrl.cmdG1(ExaktG::AxisX,0.0,800,			\
-		      ExaktG::AxisY,this->MaxXYDistance);
+    //this->GCtrl.cmdG1(ExaktG::AxisX,0.0,800,ExaktG::AxisY,this->MaxXYDistance);
+    this->GCtrl.cmdG1(ExaktG::AxisX,0.0,800,	\
+		      ExaktG::AxisY,this->MaxXYDistance,	\
+		      ExaktG::AxisA,0.0);
   }
 }

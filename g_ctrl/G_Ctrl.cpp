@@ -58,6 +58,10 @@ namespace EuMax01
       }   
   }
 
+  //Die Einstellungen für die Achsen müssten anscheinend nicht
+  //immer erneut erfolgen.
+  //Im G_TestDialog mit $$ alle Infos vom TinyG holen.
+  //Im G_TestDilaog eine geschweifte Klammer mit alt+altgr+7
   void G_Ctrl::cmdGetStatus(void)
   {
     //[1pm] m1 power management 1 [0=disabled,1=always on,2=in cycle,3=when moving]
@@ -66,12 +70,15 @@ namespace EuMax01
     char * TravelPerRevolution1 = (char*)"{\"1tr\":1.5000\"}";
     char * TravelPerRevolution2 = (char*)"{\"2tr\":1.5000\"}";
     char * XAchsePowerInCylce = (char*)"{\"1pm\":2\"}";
+    char * AAchseMoveInDegrees = (char*)"{\"aam\":1\"}";
     //char * TravelPerRevolution4 = (char*)"{\"4tr\":4\"}";
     sendCmd(getStatus);
     sendCmd(TravelPerRevolution1);
     sendCmd(TravelPerRevolution2);
     sendCmd(XAchsePowerInCylce);
+    sendCmd(AAchseMoveInDegrees);
     //sendCmd(TravelPerRevolution4);
+    sendCmd(getStatus);
   }
 
   void G_Ctrl::cmdFlowControl(void)
@@ -123,6 +130,32 @@ namespace EuMax01
 
     ret = snprintf(this->cmdBuf,cmdLen,"G1 %s%.0003f,%s%.0003f,F%i\r",\
 		   pcAxis,range,pcAxis2,range2,velocity);
+    if(0!=this->verbose)
+      {
+	printf("cmdG1: %s\n",this->cmdBuf);
+      }
+
+      if(0<this->fd)
+      {
+	write(this->fd,this->cmdBuf,ret);
+      }
+  }
+
+  void G_Ctrl::cmdG1(int axis,float range, int velocity,\
+		     int axis2,float range2,int axis3, float range3)
+  {
+    int ret = 0;
+    char * pcAxis = 0;
+    char * pcAxis2 = 0;
+    char * pcAxis3 = 0;
+
+    pcAxis = getAxis(axis);
+    pcAxis2 = getAxis(axis2);
+    pcAxis3 = getAxis(axis3);
+
+    ret = snprintf(this->cmdBuf,cmdLen,				\
+		   "G1 %s%.0003f,%s%.0003f,,%s%.0003fF%i\r",	\
+		   pcAxis,range,pcAxis2,range2,pcAxis3,range3,velocity);
     if(0!=this->verbose)
       {
 	printf("cmdG1: %s\n",this->cmdBuf);

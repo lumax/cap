@@ -27,6 +27,8 @@ namespace EuMax01
     void cmdG1(int axis,float range,int velocity);
     void cmdG1(int axis,float range, int velocity,	\
 	       int axis2,float range2);
+    void cmdG1(int axis,float range, int velocity,	\
+	       int axis2,float range2,int axis3,float range3);
     int openUart(char * path,int baud);
     void closeUart(void);
     int getFd(void);
