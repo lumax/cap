@@ -1,3 +1,27 @@
+System für die Messe, erzeugen der cap - Anwendung:
+
+-->die Path-Variablen zum compilieren setzen und in den cap 
+-->Ordner wechseln:
+cd /opt
+cd xenvlumax
+source ppenv.sh
+cd src
+cd cap
+
+-->den aktuellen Sourcecode von github holen (Internetverbindung
+-->notwendig):
+git remote update
+git pull origin master
+
+-->den Sourcecode compilieren:
+make clean
+make
+
+-->Applikation starten:
+./cap
+
+
+
 Erscheinungsbild, Anordnung ESC ENTER
 
 Tasten werden durchgehend groß geschrieben,
