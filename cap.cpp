@@ -970,6 +970,8 @@ bool guiMode = false;
 static bool serialCommClosed = true;
 static bool IGNORE_MISSING_TERMINAL = false;
 static bool lightIsOn = false;
+static float ExaktGSAbstand = ExaktG::defaultGSicherheitsabstand;
+static float ExaktGMaxS = ExaktG::defaultGMaxStrecke;
 
 void CamControl::pollTimerExpired(long us)
 {
@@ -1383,6 +1385,14 @@ int main(int argc, char *argv[])
     {
       OneCam=1;
     }
+  if(!iniParser_getParam(confpath,(char*)"G_SaveDistance",tmp,64))
+    {
+      ExaktGSAbstand = atof(tmp);
+    }
+  if(!iniParser_getParam(confpath,(char*)"G_MaxDistance",tmp,64))
+    {
+      ExaktGMaxS = atof(tmp);
+    }
   if(iniParser_getParam(confpath,(char*)"TinyG_USB",pathTinyG,64))
     {
       pathTinyG[0]='/';
@@ -1484,7 +1494,7 @@ int main(int argc, char *argv[])
     return -1;
   }
 
-  pExaktG = new ExaktG(1,1);//verboseExakt, verboseG
+  pExaktG = new ExaktG(1,1,ExaktGSAbstand,ExaktGMaxS);//verboseExakt, verboseG
   if(0==pExaktG)
     {
       printf("create ExaktG instance failed\n");

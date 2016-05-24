@@ -103,7 +103,7 @@ namespace EuMax01
 
   }
 
-  ExaktG::ExaktG(int verbExakt,int verbG):GCtrl(verbG)
+  ExaktG::ExaktG(int verbExakt,int verbG,float SAbstand,float MaxS):GCtrl(verbG)
   {
     this->setVerbose(verbExakt);
     pr_gcodes = new PollReader(this);
@@ -124,8 +124,8 @@ namespace EuMax01
     collisionProtection = true;
     DistanceModeAbsolut = true;
     MachineState = 0;
-    SicherheitsAbstand = ExaktG::GSicherheitsabstand;
-    MaxXYDistance = ExaktG::GMaxStrecke;
+    SicherheitsAbstand = SAbstand;
+    MaxXYDistance = MaxS;
 
     for(int i = 0;i<ExaktG::MaxAxis;i++){
       Position[i]=0.0;

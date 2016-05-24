@@ -28,7 +28,7 @@ namespace EuMax01
   class ExaktG:IPollReadListener,IPollTimerListener
   {
   public:
-    ExaktG(int verbExakt,int verbGCtrl);
+    ExaktG(int verbExakt,int verbGCtrl,float SAbstand,float MaxS);
     ~ExaktG(){
       delete(pr_gcodes);
     }
@@ -71,8 +71,8 @@ namespace EuMax01
     //?tr von 1.00 = G_pro_mm von ca. 0.0672333
     //?tr von 1.50 = G_pro_mm von ca. 0.1000
     static const float G_pro_mm = 0.1000;//0.06723333;//0.08333;//0.08375;
-    static const float GSicherheitsabstand = 10.00;//10cm
-    static const float GMaxStrecke = 89.000;//89cm
+    static const float defaultGSicherheitsabstand = 10.00;//10cm
+    static const float defaultGMaxStrecke = 89.000;//89cm
 
 /*
   60cm auf der Schiene entsprechen etwa 40,34 G-Werten
