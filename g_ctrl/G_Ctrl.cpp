@@ -61,11 +61,12 @@ namespace EuMax01
   //Die Einstellungen für die Achsen müssten anscheinend nicht
   //immer erneut erfolgen.
   //Im G_TestDialog mit $$ alle Infos vom TinyG holen.
-  //Im G_TestDilaog eine geschweifte Klammer mit alt+altgr+7
+  //Im G_TestDialog eine geschweifte Klammer mit alt+altgr+7
   void G_Ctrl::cmdGetStatus(void)
   {
     //[1pm] m1 power management 1 [0=disabled,1=always on,2=in cycle,3=when moving]
     //X-Achse steht auf 1, alle anderen Achsen stehen auf 2!!!
+    //{"1tr":1.500}
     char * getStatus = (char*)"{\"sr\":\"\"}";
     char * TravelPerRevolution1 = (char*)"{\"1tr\":1.5000\"}";
     char * TravelPerRevolution2 = (char*)"{\"2tr\":1.5000\"}";
