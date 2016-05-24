@@ -1,5 +1,10 @@
 System für die Messe, erzeugen der cap - Anwendung:
 
+Internet des Messerechnsers aktivieren:
+-->Passwort ist: exactsystem
+sudo dhclient eth0
+
+Quellcode holen und Programm erzeugen:
 -->die Path-Variablen zum compilieren setzen und in den cap 
 -->Ordner wechseln:
 cd /opt
