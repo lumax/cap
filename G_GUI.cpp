@@ -214,12 +214,12 @@ namespace EuMax01
     int i = this->getActiveAxis();
     if(ExaktG::AxisA==i){
       this->activeAxis = ExaktG::AxisX;
-      char * XText = (char*)"X-axis";
+      char * XText = (char*)"X1-axis";
       theMenuG->pLName->setText((char*)XText);
       pos = this->Parent->getExaktG()->getXPos();
     }else if(ExaktG::AxisX==i){
       this->activeAxis = ExaktG::AxisY;
-      char * YText = (char*)"Y-axis";
+      char * YText = (char*)"X2-axis";
       theMenuG->pLName->setText((char*)YText);
       pos = this->Parent->getExaktG()->getYPos();
     }else{//if(ExaktG::AxisY==i)
@@ -299,7 +299,7 @@ namespace EuMax01
     pGMset->btn2Text = (char *)"PgDo";
     pGMset->SpeedLabelText = (char*)("zzz");//pExaktG->getSpeedText(ExaktG::AxisZ,0);
 
-    theMenuG = new MenuGVertical((char *)"X-Achse",			\
+    theMenuG = new MenuGVertical((char *)"X1-axis",			\
 				 B1x+x_space,				\
 				 yPos,					\
 				 yZeile_h,				\

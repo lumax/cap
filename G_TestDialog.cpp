@@ -446,7 +446,7 @@ namespace EuMax01
     pGMset->btn2Text = (char *)"PgDo";
     pGMset->SpeedLabelText = pExaktG->getSpeedText(ExaktG::AxisZ,0);
 
-    theMenuGX = new MenuGVertical((char *)"X-Achse",			\
+    theMenuGX = new MenuGVertical((char *)"X1-axis",			\
 				    B1x,				\
 				    (int)Zeile1_y,			\
 				    MZeile_h,				\
@@ -454,7 +454,7 @@ namespace EuMax01
 				    2*Bw,				\
 				    &this->theMenuGXSettings,Parent);
 
-    theMenuGY = new MenuGVertical((char *)"Y-Achse",			\
+    theMenuGY = new MenuGVertical((char *)"X2-axis",			\
 				    B3x,				\
 				    (int)Zeile1_y,			\
 				    MZeile_h,				\
