@@ -1494,7 +1494,7 @@ int main(int argc, char *argv[])
     return -1;
   }
 
-  pExaktG = new ExaktG(1,1,ExaktGSAbstand,ExaktGMaxS);//verboseExakt, verboseG
+  pExaktG = new ExaktG(0,0,ExaktGSAbstand,ExaktGMaxS);//verboseExakt, verboseG
   if(0==pExaktG)
     {
       printf("create ExaktG instance failed\n");
