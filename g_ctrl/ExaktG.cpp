@@ -263,11 +263,13 @@ namespace EuMax01
       }
   }
 
+  static char buf[1024];
+  static int buflen = 1024;
+  static int len = 0;
+
   void ExaktG::pollReadEvent(PollSource * s)
   {
-    char buf[1024];
-    int buflen = 1024;
-    int len = 0;
+
 
     memset(buf, 0, 1024);
     buf[1023] = '\n';
@@ -277,7 +279,7 @@ namespace EuMax01
       for(int i = 0;i<len;i++){
 	this->sScan.scan(buf[i]);
       }
-      if(verbose){
+       if(verbose){
 	printf("%s",buf);
       }
     }
@@ -467,7 +469,7 @@ namespace EuMax01
 	  }
       }
   }
-
+#define AUTOSPEED 400
   void ExaktG::fastRecipeMove(float tarPosX,float tarPosY,float tarPosA)
   {
     float targetPos[4];
@@ -492,7 +494,7 @@ namespace EuMax01
       ExaktG::AxisY,targetPos[ExaktG::AxisY]);
     */
     //Alle drei Achsen zugleich
-    this->GCtrl.cmdG1(ExaktG::AxisX,targetPos[ExaktG::AxisX],800,	\
+    this->GCtrl.cmdG1(ExaktG::AxisX,targetPos[ExaktG::AxisX],AUTOSPEED,	\
 		      ExaktG::AxisY,targetPos[ExaktG::AxisY],		\
 		      ExaktG::AxisA,targetPos[ExaktG::AxisA]);
   }
@@ -500,7 +502,7 @@ namespace EuMax01
   void ExaktG::homeXandY(void)
   {
     //this->GCtrl.cmdG1(ExaktG::AxisX,0.0,800,ExaktG::AxisY,this->MaxXYDistance);
-    this->GCtrl.cmdG1(ExaktG::AxisX,0.0,800,	\
+    this->GCtrl.cmdG1(ExaktG::AxisX,0.0,AUTOSPEED,	\
 		      ExaktG::AxisY,this->MaxXYDistance,	\
 		      ExaktG::AxisA,0.0);
   }
