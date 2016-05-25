@@ -68,16 +68,24 @@ namespace EuMax01
     //X-Achse steht auf 1, alle anderen Achsen stehen auf 2!!!
     //{"1tr":1.500}
     char * getStatus = (char*)"{\"sr\":\"\"}";
-    char * TravelPerRevolution1 = (char*)"{\"1tr\":1.5000\"}";
-    char * TravelPerRevolution2 = (char*)"{\"2tr\":1.5000\"}";
-    char * XAchsePowerInCylce = (char*)"{\"1pm\":2\"}";
+    char * motorEnable = (char*)"{\"me\":\"\"}";
+    char * TravelPerRevolution1 = (char*)"{\"1tr\":1.4994\"}";
+    char * TravelPerRevolution2 = (char*)"{\"2tr\":1.4994\"}";
+    char * XAchsePowerInCylce = (char*)"{\"1pm\":1\"}";
+    char * YAchsePowerInCylce = (char*)"{\"2pm\":1\"}";
+    char * AAchsePowerInCylce = (char*)"{\"4pm\":1\"}";
+    char * ZAchsePowerInCylce = (char*)"{\"3pm\":1\"}";
     char * AAchseMoveInDegrees = (char*)"{\"aam\":1\"}";
     //char * TravelPerRevolution4 = (char*)"{\"4tr\":4\"}";
     sendCmd(getStatus);
+    sendCmd(motorEnable);
     sendCmd(TravelPerRevolution1);
     sendCmd(TravelPerRevolution2);
-    sendCmd(XAchsePowerInCylce);
-    sendCmd(AAchseMoveInDegrees);
+    //   sendCmd(XAchsePowerInCylce);
+    //sendCmd(YAchsePowerInCylce);
+    //sendCmd(AAchsePowerInCylce);
+    //sendCmd(ZAchsePowerInCylce);
+    //sendCmd(AAchseMoveInDegrees);
     //sendCmd(TravelPerRevolution4);
     sendCmd(getStatus);
   }
