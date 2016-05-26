@@ -169,6 +169,18 @@ namespace EuMax01
 	    //exit(12);
 	    F12_ListenerArbeitsDialog(src,evt);
 	  }
+	else if(key->keysym.sym == SDLK_UP)
+	  {
+	    ArbeitsDialog* ad = (ArbeitsDialog*)src;
+	    ad->getExaktG()->move(ExaktG::AxisA,ExaktG::DirectionUp);
+	    ad->getExaktG()->holdMoving(false);
+	  }
+	else if(key->keysym.sym == SDLK_DOWN)
+	  {
+	    ArbeitsDialog* ad = (ArbeitsDialog*)src;
+	    ad->getExaktG()->move(ExaktG::AxisA,ExaktG::DirectionDown);
+	    ad->getExaktG()->holdMoving(false);
+	  }
 	else if(key->keysym.sym == SDLK_q)
 	  {
 	    if((mod & KMOD_CTRL) &&		\
