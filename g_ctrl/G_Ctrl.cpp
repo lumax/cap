@@ -79,8 +79,8 @@ namespace EuMax01
     //char * TravelPerRevolution4 = (char*)"{\"4tr\":4\"}";
     sendCmd(getStatus);
     sendCmd(motorEnable);
-    sendCmd(TravelPerRevolution1);
-    sendCmd(TravelPerRevolution2);
+    //sendCmd(TravelPerRevolution1);
+    //sendCmd(TravelPerRevolution2);
     //   sendCmd(XAchsePowerInCylce);
     //sendCmd(YAchsePowerInCylce);
     //sendCmd(AAchsePowerInCylce);
