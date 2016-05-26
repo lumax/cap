@@ -323,8 +323,8 @@ namespace EuMax01
   {
     int ret;
     int i;
-    char buf[32];
-    ret = read(fd,buf,32);
+    char buf[512];
+    ret = read(fd,buf,512);
     //printf("MBProtocol::pollReadEvent returned : %i\n",ret);
     for(i=0;i<ret;i++)
       {
