@@ -488,15 +488,19 @@ namespace EuMax01
       targetPos[ExaktG::AxisY] = targetPos[ExaktG::AxisX]+SicherheitsAbstand;
     }
 
-    //A-Achse kann loslegen, X und Y danach
-    //move(ExaktG::AxisA,targetPos[ExaktG::AxisA],300,false);
-    /*this->GCtrl.cmdG1(ExaktG::AxisX,targetPos[ExaktG::AxisX],800,	\
-      ExaktG::AxisY,targetPos[ExaktG::AxisY]);
-    */
+    //A-Achse und Z-Achse gleichzeitig und danach X und Y
+    //move(ExaktG::AxisA,targetPos[ExaktG::AxisA],800,false);
+    this->GCtrl.cmdG1(ExaktG::AxisA,targetPos[ExaktG::AxisA],800,	\
+		      ExaktG::AxisZ,targetPos[ExaktG::AxisZ]);
+
+    this->GCtrl.cmdG1(ExaktG::AxisX,targetPos[ExaktG::AxisX],AUTOSPEED,	\
+		      ExaktG::AxisY,targetPos[ExaktG::AxisY]);
+    /*
     //Alle drei Achsen zugleich
     this->GCtrl.cmdG1(ExaktG::AxisX,targetPos[ExaktG::AxisX],AUTOSPEED,	\
 		      ExaktG::AxisY,targetPos[ExaktG::AxisY],		\
 		      ExaktG::AxisA,targetPos[ExaktG::AxisA]);
+    */
   }
 
   void ExaktG::homeXandY(void)
