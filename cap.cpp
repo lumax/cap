@@ -1013,7 +1013,9 @@ void CamControl::pollTimerExpired(long us)
 	    {
 	      printf("set V4L2_CID_BACKLIGHT_COMPENSATION 2 failed for cam0\n");
 	    }
-	  theArbeitsDialog->FP1_evt((unsigned short)theProtocol.getLastPositionFP1());
+	  //Für die Version mit dem TinyG und der Achsensteuerung, das Fadenkreuz
+	  //in der Mitte
+	  //theArbeitsDialog->FP1_evt((unsigned short)theProtocol.getLastPositionFP1());
 	}
     }
 
